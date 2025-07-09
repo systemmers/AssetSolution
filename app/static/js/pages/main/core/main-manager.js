@@ -15,7 +15,7 @@ class MainManager {
         this.modules = new Map();
         this.events = new Map();
         this.config = {
-            moduleLoadTimeout: 5000,
+            moduleLoadTimeout: (window.TIMEOUTS && window.TIMEOUTS.MODULE_LOAD_TIMEOUT) || 5000,
             eventDebounceTime: 100,
             performanceMonitoringEnabled: true
         };

@@ -5,8 +5,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
 
-# extensions.py에서 정의한 하드코딩된 데이터와 MockUser 클래스 사용
-from ..extensions import SAMPLE_USERS, MockUser
+# user_repository를 통한 사용자 데이터 관리
+from ..repositories.user import user_repository
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -23,11 +23,10 @@ def login():
         password = request.form.get('password')
         remember = request.form.get('remember') == 'on'
         
-        # 하드코딩된 사용자 데이터에서 사용자 찾기
-        user_dict = next((u for u in SAMPLE_USERS if u['username'] == username), None)
+        # user_repository를 통해 사용자 인증
+        user = user_repository.authenticate_user(username, password)
         
-        if user_dict and password == 'password':  # 간편화를 위해 모든 사용자의 비밀번호가 'password'
-            user = MockUser(user_dict)
+        if user:
             login_user(user, remember=remember)
             flash('로그인되었습니다.', 'success')
             
@@ -55,20 +54,17 @@ def profile():
     """
     내 프로필 정보 보기
     """
-    # 하드코딩된 부서 및 역할 데이터 (users.py에서 가져옴)
-    from ..routes.users import SAMPLE_DEPARTMENTS, SAMPLE_ROLES
-    
-    # 현재 로그인한 사용자의 정보
+    # user_repository를 통해 사용자 정보 조회
     user_id = current_user.id
-    user_dict = next((u for u in SAMPLE_USERS if u['id'] == user_id), None)
+    user_dict = user_repository.get_user_dict_by_id(user_id)
     
     if not user_dict:
         flash('사용자 정보를 찾을 수 없습니다.', 'danger')
         return redirect(url_for('main.dashboard'))
     
     # 사용자 부서 및 역할 정보 추가
-    department = next((d for d in SAMPLE_DEPARTMENTS if d['id'] == user_dict['department_id']), None)
-    role = next((r for r in SAMPLE_ROLES if r['id'] == user_dict['role_id']), None)
+    department = user_repository.get_department_by_id(user_dict['department_id'])
+    role = user_repository.get_role_by_id(user_dict['role_id'])
     
     # 샘플 로그인 이력 데이터 (실제로는 DB에서 가져와야 함)
     login_history = [
@@ -89,9 +85,9 @@ def edit_profile():
     """
     내 프로필 정보 수정
     """
-    # 하드코딩된 데이터
+    # user_repository를 통해 사용자 정보 조회
     user_id = current_user.id
-    user_dict = next((u for u in SAMPLE_USERS if u['id'] == user_id), None)
+    user_dict = user_repository.get_user_dict_by_id(user_id)
     
     if not user_dict:
         flash('사용자 정보를 찾을 수 없습니다.', 'danger')

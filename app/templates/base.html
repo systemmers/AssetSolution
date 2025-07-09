@@ -237,6 +237,9 @@
     <!-- SheetJS - Excel 내보내기 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     
+    <!-- 상수 정의 파일 먼저 로드 -->
+    <script src="{{ url_for('static', filename='js/shared/constants.js') }}"></script>
+    
     <!-- 공통 유틸리티 모듈들 먼저 로드 -->
     <script src="{{ url_for('static', filename='js/common/ui-utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/common/api-utils.js') }}"></script>

@@ -34,6 +34,9 @@ const ApiUtils = (function() {
     // 진행 중인 요청 목록 (취소 기능 지원용)
     const pendingRequests = new Map();
     
+    // constants.js에서 설정값 가져오기
+    const TIMEOUTS = window.TIMEOUTS || { API_TIMEOUT: 30000 };
+    
     // 전역 설정
     const defaultSettings = {
         // 기본 헤더
@@ -42,7 +45,7 @@ const ApiUtils = (function() {
             'X-Requested-With': 'XMLHttpRequest'
         },
         // 타임아웃 (밀리초)
-        timeout: 30000,
+        timeout: TIMEOUTS.API_TIMEOUT,
         // 로딩 표시 여부
         showLoader: true,
         // 로딩 표시기 선택자
@@ -186,7 +189,8 @@ const ApiUtils = (function() {
                 }
             }
             
-            UIUtils.showAlert(errorMessage, 'danger', 5000);
+            const ALERT_DURATION = window.ALERT_DURATION || { LONG: 5000 };
+            UIUtils.showAlert(errorMessage, 'danger', ALERT_DURATION.LONG);
         }
         
         throw error;

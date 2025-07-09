@@ -24,8 +24,8 @@ class MainWidgets {
         this.config = {
             progressAnimationDuration: 1000,
             progressAnimationDelay: 100,
-            notificationAutoMarkRead: 5000, // 5초 후 자동으로 읽음 처리
-            chartUpdateInterval: 30000 // 30초
+            notificationAutoMarkRead: (window.TIMEOUTS && window.TIMEOUTS.NOTIFICATION_AUTO_MARK_READ) || 5000, // constants.js에서 가져오기
+            chartUpdateInterval: (window.TIMEOUTS && window.TIMEOUTS.CHART_UPDATE_INTERVAL) || 30000 // constants.js에서 가져오기
         };
         
         // 바인딩

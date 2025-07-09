@@ -17,7 +17,12 @@
 
 // 임시 UIUtils 객체 (기본 기능만 제공)
 const UIUtils = {
-    showAlert: function(message, type = 'info', duration = 5000) {
+    showAlert: function(message, type = 'info', duration = null) {
+        // constants.js에서 기본 알림 지속시간 가져오기
+        const ALERT_DURATION = window.ALERT_DURATION || { LONG: 5000 };
+        if (duration === null) {
+            duration = ALERT_DURATION.LONG;
+        }
         console.log(`[${type.toUpperCase()}] ${message}`);
         alert(message);
     },

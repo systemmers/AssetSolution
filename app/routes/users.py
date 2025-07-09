@@ -5,42 +5,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 import copy
 
-# extensions.py에서 정의한 하드코딩된 데이터 가져오기
-from ..extensions import SAMPLE_USERS, MockUser
-
-# 부서 및 역할 관련 샘플 데이터
-SAMPLE_ROLES = [
-    {"id": 1, "name": "관리자", "description": "시스템 관리자 권한"},
-    {"id": 2, "name": "일반사용자", "description": "일반 사용자 권한"},
-    {"id": 3, "name": "조회전용", "description": "읽기 전용 권한"}
-]
-
-SAMPLE_DEPARTMENTS = [
-    {"id": 1, "code": "DEV", "name": "개발팀", "description": "소프트웨어 개발", "parent_id": None, "is_active": True},
-    {"id": 2, "code": "HR", "name": "인사팀", "description": "인사 관리", "parent_id": None, "is_active": True},
-    {"id": 3, "code": "MKT", "name": "마케팅팀", "description": "제품 마케팅", "parent_id": None, "is_active": True},
-]
-
-# SAMPLE_USERS 데이터 확장
-enhanced_user_data = []
-for user in SAMPLE_USERS:
-    # 깊은 복사로 원본 데이터 보존
-    enhanced_user = copy.deepcopy(user)
-    # 부서 정보 추가
-    dept_id = user['department_id']
-    department = next((d for d in SAMPLE_DEPARTMENTS if d['id'] == dept_id), None)
-    enhanced_user['department'] = department
-    # 역할 정보 추가
-    role_id = user['role_id']
-    role = next((r for r in SAMPLE_ROLES if r['id'] == role_id), None)
-    enhanced_user['role'] = role
-    # 직위 정보 추가 (관리자 또는 일반 직원)
-    if role_id == 1:
-        enhanced_user['position'] = '총괄 관리자'
-    else:
-        enhanced_user['position'] = '일반 직원'
-    
-    enhanced_user_data.append(enhanced_user)
+# user_repository를 통한 사용자 데이터 관리
+from ..repositories.user import user_repository
 
 users_bp = Blueprint('users', __name__)
 
@@ -50,8 +16,8 @@ def index():
     """
     사용자 목록 페이지
     """
-    # 확장된 하드코딩 데이터 사용
-    users = enhanced_user_data
+    # user_repository를 통해 사용자 목록 조회
+    users = user_repository.get_all_users()
     return render_template('users/index.html', users=users)
 
 @users_bp.route('/create', methods=['GET', 'POST'])
@@ -66,12 +32,12 @@ def create():
         name = request.form.get('name')
         email = request.form.get('email')
         
-        # 중복 확인 (하드코딩된 데이터에서 검사)
-        if any(u['username'] == username for u in SAMPLE_USERS):
+        # user_repository를 통해 중복 확인
+        if user_repository.get_user_by_username(username):
             flash('이미 존재하는 사용자 아이디입니다.', 'danger')
             return redirect(url_for('users.create'))
             
-        if any(u['email'] == email for u in SAMPLE_USERS):
+        if user_repository.get_user_by_email(email):
             flash('이미 존재하는 이메일입니다.', 'danger')
             return redirect(url_for('users.create'))
         
@@ -79,9 +45,9 @@ def create():
         flash('사용자가 생성되었습니다.', 'success')
         return redirect(url_for('users.index'))
     
-    # GET 요청인 경우 폼 표시 (하드코딩된 데이터 사용)
-    roles = SAMPLE_ROLES
-    departments = SAMPLE_DEPARTMENTS
+    # GET 요청인 경우 폼 표시 (user_repository 데이터 사용)
+    roles = user_repository.get_all_roles()
+    departments = user_repository.get_all_departments()
     
     return render_template('users/create.html', roles=roles, departments=departments)
 
@@ -91,8 +57,8 @@ def detail(user_id):
     """
     사용자 상세 정보 페이지
     """
-    # 하드코딩된 데이터에서 사용자 검색
-    user = next((u for u in enhanced_user_data if u['id'] == user_id), None)
+    # user_repository를 통해 사용자 검색
+    user = user_repository.get_user_by_id(user_id)
     if not user:
         flash('해당 사용자를 찾을 수 없습니다.', 'danger')
         return redirect(url_for('users.index'))
@@ -105,8 +71,8 @@ def edit(user_id):
     """
     사용자 수정 페이지
     """
-    # 하드코딩된 데이터에서 사용자 검색
-    user = next((u for u in enhanced_user_data if u['id'] == user_id), None)
+    # user_repository를 통해 사용자 검색
+    user = user_repository.get_user_by_id(user_id)
     if not user:
         flash('해당 사용자를 찾을 수 없습니다.', 'danger')
         return redirect(url_for('users.index'))
@@ -121,9 +87,9 @@ def edit(user_id):
         flash('사용자 정보가 수정되었습니다.', 'success')
         return redirect(url_for('users.detail', user_id=user_id))
     
-    # GET 요청인 경우 폼 표시 (하드코딩된 데이터 사용)
-    roles = SAMPLE_ROLES
-    departments = SAMPLE_DEPARTMENTS
+    # GET 요청인 경우 폼 표시 (user_repository 데이터 사용)
+    roles = user_repository.get_all_roles()
+    departments = user_repository.get_all_departments()
     
     return render_template('users/edit.html', user=user, roles=roles, departments=departments)
 

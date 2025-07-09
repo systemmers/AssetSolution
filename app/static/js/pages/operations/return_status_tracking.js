@@ -19,7 +19,7 @@ class ReturnStatusTracker {
         this.statusData = [];
         this.isLoading = false;
         this.autoRefreshTimer = null;
-        this.autoRefreshInterval = 30000; // 30초
+        this.autoRefreshInterval = (window.TIMEOUTS && window.TIMEOUTS.AUTO_REFRESH_INTERVAL) || 30000; // constants.js에서 가져오기
         
         this.init();
     }

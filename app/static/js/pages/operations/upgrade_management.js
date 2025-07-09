@@ -15,7 +15,7 @@ class UpgradeManagement {
             search: ''
         };
         this.currentPage = 1;
-        this.itemsPerPage = 10;
+        this.itemsPerPage = (window.PAGINATION_SETTINGS && window.PAGINATION_SETTINGS.DEFAULT_PER_PAGE) || 10;
     }
 
     /**

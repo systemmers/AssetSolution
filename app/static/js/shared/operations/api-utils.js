@@ -5,9 +5,12 @@
 
 const ApiUtils = (function() {
     
+    // constants.js에서 설정값 가져오기
+    const TIMEOUTS = window.TIMEOUTS || { API_TIMEOUT: 30000 };
+    
     // 기본 설정
     const DEFAULT_CONFIG = {
-        timeout: 30000,
+        timeout: TIMEOUTS.API_TIMEOUT,
         retries: 3,
         retryDelay: 1000,
         showLoading: true,

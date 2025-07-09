@@ -11,7 +11,7 @@ class ReturnNotificationManager {
         this.notificationRules = [];
         this.notificationTemplates = [];
         this.currentPage = 1;
-        this.itemsPerPage = 10;
+        this.itemsPerPage = (window.PAGINATION_SETTINGS && window.PAGINATION_SETTINGS.DEFAULT_PER_PAGE) || 10;
         this.autoRefreshInterval = null;
         this.notificationChart = null;
         

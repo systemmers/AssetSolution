@@ -24,7 +24,7 @@ class OperationsCoreService:
     
     # ==================== 대여 관리 서비스 ====================
     
-    def get_loan_list_with_filters(self, page: int = 1, per_page: int = 10, 
+    def get_loan_list_with_filters(self, page: int = 1, per_page: int = None, 
                                   status: str = None, user_id: str = None, 
                                   department: str = None) -> Dict:
         """
@@ -40,6 +40,10 @@ class OperationsCoreService:
         Returns:
             대여 목록과 페이지네이션 정보가 포함된 딕셔너리
         """
+        # constants.py에서 기본 페이지 크기 가져오기
+        from app.utils.constants import PAGINATION_SETTINGS
+        if per_page is None:
+            per_page = PAGINATION_SETTINGS['DEFAULT_PER_PAGE']
         # 사용자 ID 변환 처리
         user_id_int = None
         if user_id:
@@ -143,11 +147,12 @@ class OperationsCoreService:
         if active_loans:
             return False, "해당 자산은 이미 대여중입니다"
         
-        # 사용자 대여 한도 검증 (1인 최대 5개)
+        # 사용자 대여 한도 검증 (constants.py의 BUSINESS_RULES 사용)
+        from app.utils.constants import BUSINESS_RULES
         user_active_loans = [l for l in self.operations_repo.loans 
-                           if l['user_id'] == user_id and l['status_id'] == 3]
-        if len(user_active_loans) >= 5:
-            return False, "사용자당 최대 5개까지 대여가능합니다."
+                           if l['user_id'] == user_id and l['status_id'] == BUSINESS_RULES['STATUS_ID_DEFAULT']]
+        if len(user_active_loans) >= BUSINESS_RULES['LOAN_LIMIT']:
+            return False, f"사용자당 최대 {BUSINESS_RULES['LOAN_LIMIT']}개까지 대여가능합니다."
         
         return True, "대여가능합니다."
     
@@ -911,7 +916,7 @@ class OperationsCoreService:
         
         return disposal_plans
 
-    def get_disposal_planning_data_by_status(self, status: str = None, page: int = 1, per_page: int = 10) -> Dict:
+    def get_disposal_planning_data_by_status(self, status: str = None, page: int = 1, per_page: int = None) -> Dict:
         """
         상태별 폐기 계획 데이터 조회 (페이지네이션 포함)
         
@@ -923,6 +928,10 @@ class OperationsCoreService:
         Returns:
             폐기 계획 목록과 페이지네이션 정보
         """
+        # constants.py에서 기본 페이지 크기 가져오기
+        from app.utils.constants import PAGINATION_SETTINGS
+        if per_page is None:
+            per_page = PAGINATION_SETTINGS['DEFAULT_PER_PAGE']
         # Repository에서 상태별 데이터 조회
         disposal_plans, current_page, total_pages, total_items = self.operations_repo.get_disposal_plans_with_pagination(
             page=page,
@@ -1002,7 +1011,7 @@ class OperationsCoreService:
     # ==================== 대여 관리 메서드 (신규 추가) ====================
     
     def get_loans_data(self, status: str = None, department: str = None, 
-                      user_name: str = None, page: int = 1, per_page: int = 10) -> Dict[str, Any]:
+                      user_name: str = None, page: int = 1, per_page: int = None) -> Dict[str, Any]:
         """
         대여 목록 데이터 조회 (페이지네이션 포함)
         
@@ -1016,6 +1025,11 @@ class OperationsCoreService:
         Returns:
             대여 목록과 페이지네이션 정보
         """
+        # constants.py에서 기본 페이지 크기 가져오기
+        from app.utils.constants import PAGINATION_SETTINGS
+        if per_page is None:
+            per_page = PAGINATION_SETTINGS['DEFAULT_PER_PAGE']
+            
         try:
             # Repository에서 페이지네이션된 대여 목록 조회
             loans, current_page, total_pages, total_items = self.operations_repo.get_loans_with_pagination(
@@ -1654,7 +1668,7 @@ class OperationsCoreService:
 
     # ==================== 업그레이드 관리 서비스 ====================
     
-    def get_upgrade_management_data(self, page: int = 1, per_page: int = 10, 
+    def get_upgrade_management_data(self, page: int = 1, per_page: int = None, 
                                   status: str = None, upgrade_type: str = None, 
                                   department: str = None) -> Dict:
         """
@@ -2070,7 +2084,7 @@ class OperationsCoreService:
     
     # ==================== 생명주기 추적 서비스 ====================
     
-    def get_lifecycle_tracking_data(self, page: int = 1, per_page: int = 10,
+    def get_lifecycle_tracking_data(self, page: int = 1, per_page: int = None,
                                   asset_id: int = None, event_type: str = None,
                                   department: str = None, start_date: str = None,
                                   end_date: str = None) -> Dict:

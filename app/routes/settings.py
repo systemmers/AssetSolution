@@ -6,35 +6,8 @@ from flask_login import login_required, current_user
 from ..repositories import category_repository, preset_repository
 from datetime import datetime
 
-# 하드코딩된 샘플 데이터
-SAMPLE_ASSET_TYPES = [
-    {"id": 1, "code": "HW", "name": "하드웨어", "description": "컴퓨터, 모니터 등의 물리적 장비", "is_active": True},
-    {"id": 2, "code": "SW", "name": "소프트웨어", "description": "설치된 프로그램 및 라이센스", "is_active": True},
-    {"id": 3, "code": "NW", "name": "네트워크 장비", "description": "라우터, 스위치 등 네트워크 관련 장비", "is_active": True},
-]
-
-SAMPLE_ASSET_STATUSES = [
-    {"id": 1, "code": "USE", "name": "사용중", "description": "현재 사용중인 자산", "is_active": True},
-    {"id": 2, "code": "RPR", "name": "수리중", "description": "고장으로 수리중인 자산", "is_active": True},
-    {"id": 3, "code": "DSP", "name": "폐기예정", "description": "곧 폐기될 예정인 자산", "is_active": True},
-]
-
-SAMPLE_LOCATIONS = [
-    {"id": 1, "code": "HQ3F", "name": "본사 3층", "description": "본사 건물 3층", "parent_id": None, "is_active": True},
-    {"id": 2, "code": "HQ4F", "name": "본사 4층", "description": "본사 건물 4층", "parent_id": None, "is_active": True},
-    {"id": 3, "code": "BR1", "name": "지사 1층", "description": "지사 건물 1층", "parent_id": None, "is_active": True},
-]
-
-SAMPLE_DEPARTMENTS = [
-    {"id": 1, "code": "DEV", "name": "개발팀", "description": "소프트웨어 개발", "parent_id": None, "is_active": True},
-    {"id": 2, "code": "HR", "name": "인사팀", "description": "인사 관리", "parent_id": None, "is_active": True},
-    {"id": 3, "code": "MKT", "name": "마케팅팀", "description": "제품 마케팅", "parent_id": None, "is_active": True},
-]
-
-SAMPLE_DEPRECIATION_METHODS = [
-    {"id": 1, "name": "정액법", "description": "매년 동일한 금액을 감가상각하는 방법"},
-    {"id": 2, "name": "정률법", "description": "매년 일정한 비율로 감가상각하는 방법"},
-]
+# settings_repository를 통한 설정 데이터 관리
+from ..repositories.settings import settings_repository
 
 settings_bp = Blueprint('settings', __name__)
 
@@ -60,7 +33,7 @@ def asset_types():
     """
     자산 유형 목록 페이지
     """
-    asset_types = SAMPLE_ASSET_TYPES
+    asset_types = settings_repository.get_all_asset_types()
     return render_template('settings/asset_types.html', asset_types=asset_types)
 
 @settings_bp.route('/asset-statuses')
@@ -69,7 +42,7 @@ def asset_statuses():
     """
     자산 상태 목록 페이지
     """
-    asset_statuses = SAMPLE_ASSET_STATUSES
+    asset_statuses = settings_repository.get_all_asset_statuses()
     return render_template('settings/asset_statuses.html', asset_statuses=asset_statuses)
 
 @settings_bp.route('/locations')
@@ -78,7 +51,7 @@ def locations():
     """
     위치 목록 페이지
     """
-    locations = SAMPLE_LOCATIONS
+    locations = settings_repository.get_all_locations()
     return render_template('settings/locations.html', locations=locations)
 
 @settings_bp.route('/departments')
@@ -87,7 +60,7 @@ def departments():
     """
     부서 목록 페이지
     """
-    departments = SAMPLE_DEPARTMENTS
+    departments = settings_repository.get_all_departments()
     return render_template('settings/departments.html', departments=departments)
 
 @settings_bp.route('/depreciation-methods')
@@ -96,7 +69,7 @@ def depreciation_methods():
     """
     감가상각 방법 목록 페이지
     """
-    methods = SAMPLE_DEPRECIATION_METHODS
+    methods = settings_repository.get_all_depreciation_methods()
     return render_template('settings/depreciation_methods.html', methods=methods)
 
 @settings_bp.route('/asset-types/create', methods=['GET', 'POST'])
@@ -110,8 +83,8 @@ def create_asset_type():
         code = request.form.get('code')
         name = request.form.get('name')
         
-        # 중복 확인 (하드코딩된 데이터에서 검사)
-        if any(at['code'] == code for at in SAMPLE_ASSET_TYPES):
+        # 중복 확인 (settings_repository를 통해 검사)
+        if settings_repository.get_asset_type_by_code(code):
             flash('이미 존재하는 코드입니다.', 'danger')
             return redirect(url_for('settings.create_asset_type'))
         

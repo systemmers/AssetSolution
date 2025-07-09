@@ -6,7 +6,7 @@
 class AssetDisposalPlanning {
     constructor() {
         this.currentPage = 1;
-        this.itemsPerPage = 10;
+        this.itemsPerPage = (window.PAGINATION_SETTINGS && window.PAGINATION_SETTINGS.DEFAULT_PER_PAGE) || 10;
         this.totalItems = 0;
         this.disposalRequests = [];
         this.filteredRequests = [];

@@ -16,9 +16,9 @@ import ApiUtils from '../../../../common/api-utils.js';
 class DashboardManager {
     constructor() {
         this.config = {
-            autoRefreshInterval: 30000, // 30초마다 자동 새로고침
+            autoRefreshInterval: (window.TIMEOUTS && window.TIMEOUTS.AUTO_REFRESH_INTERVAL) || 30000, // constants.js에서 가져오기
             animationDuration: 1000,
-            chartUpdateInterval: 5000,
+            chartUpdateInterval: (window.TIMEOUTS && window.TIMEOUTS.CHART_UPDATE_INTERVAL) || 5000,
             cardHoverDelay: 300
         };
         

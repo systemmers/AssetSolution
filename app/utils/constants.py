@@ -3,6 +3,14 @@ Asset Management System Constants
 자산 관리 시스템 전역 상수 정의
 
 이 파일은 시스템 전반에서 사용되는 상수들을 중앙에서 관리합니다.
+코드 인덱스:
+- 자산 관련 상수 (ASSET_CATEGORIES, ASSET_STATUS)
+- 계약 관련 상수 (CONTRACT_TYPES, CONTRACT_STATUS)
+- 운영 관련 상수 (OPERATION_TYPES, OPERATION_STATUS)
+- 반납 워크플로우 상수 (RETURN_*)
+- 파일 및 시스템 설정 (FILE_*, PAGINATION_*, TIMEOUT_*)
+- 비즈니스 규칙 상수 (BUSINESS_RULES)
+- 헬퍼 함수들
 """
 
 # 자산 카테고리 매핑
@@ -163,6 +171,92 @@ PAGINATION_SETTINGS = {
 # 검색 및 필터링 설정
 SEARCH_MIN_LENGTH = 2
 MAX_SEARCH_RESULTS = 1000
+
+# === 새로 추가된 하드코딩 제거 상수들 ===
+
+# 비즈니스 규칙 상수
+BUSINESS_RULES = {
+    'LOAN_LIMIT': 5,  # 대여 한도
+    'STATUS_ID_DEFAULT': 3,  # 기본 상태 ID (대여중)
+    'DESCRIPTION_MAX_LENGTH': 100,  # 설명 최대 길이
+    'NOTIFICATION_LIMIT': 100,  # 알림 제한
+    'REPORT_HISTORY_LIMIT': 10,  # 보고서 이력 제한
+}
+
+# 타임아웃 및 지연 시간 설정 (밀리초)
+TIMEOUT_SETTINGS = {
+    'API_TIMEOUT': 30000,  # 30초 - API 타임아웃
+    'AUTO_REFRESH_INTERVAL': 30000,  # 30초 - 자동 새로고침
+    'CHART_UPDATE_INTERVAL': 5000,  # 5초 - 차트 업데이트
+    'MODULE_LOAD_TIMEOUT': 5000,  # 5초 - 모듈 로드 타임아웃
+    'LARGE_OPERATION_TIMEOUT': 30000,  # 30초 - 큰 작업용 타임아웃
+    'IMAGE_TIMEOUT': 5000,  # 5초 - 이미지 로드 타임아웃
+    'NOTIFICATION_AUTO_MARK_READ': 5000,  # 5초 - 알림 자동 읽음 처리
+}
+
+# 알림 지속시간 설정 (밀리초)
+ALERT_DURATION = {
+    'SHORT': 1500,  # 1.5초 - 짧은 알림
+    'MEDIUM': 3000,  # 3초 - 보통 알림 (성공, 정보, 경고)
+    'LONG': 5000,  # 5초 - 긴 알림 (에러)
+}
+
+# 입력 지연시간 설정 (밀리초)
+INPUT_DELAY = {
+    'DEBOUNCE': 500,  # 0.5초 - 입력 디바운스
+    'SEARCH_DEBOUNCE': 500,  # 0.5초 - 검색 디바운스
+    'VALIDATION_DELAY': 500,  # 0.5초 - 검증 지연
+}
+
+# UI 관련 설정
+UI_SETTINGS = {
+    'ANIMATION_DURATION': 300,  # 0.3초 - 애니메이션 지속시간
+    'MODAL_TRANSITION': 150,  # 0.15초 - 모달 전환시간
+    'FONT_SIZE_DEFAULT': 16,  # 16px - 기본 폰트 크기
+}
+
+# 컬럼 너비 설정 (Excel 내보내기용)
+COLUMN_WIDTHS = {
+    'SMALL': 10,
+    'MEDIUM': 12,
+    'LARGE': 20,
+    'EXTRA_LARGE': 30,
+    'DESCRIPTION': 15,
+}
+
+# 샘플 데이터 관련 상수
+SAMPLE_DATA_SETTINGS = {
+    'LOAN_COUNT_BASE': 10,  # 기본 대여 수량
+    'LOAN_COUNT_INCREMENT': 2,  # 대여 수량 증가값
+    'UTILIZATION_RATE_SAMPLE': 78.5,  # 샘플 이용률
+    'OVERDUE_CHANGE_SAMPLE': 5,  # 샘플 연체 변화량
+    'AVG_LOAN_PERIOD': 5,  # 평균 대여 기간
+    'TODAY_PROCESSED': 5,  # 오늘 처리된 건수
+    'PROGRESS_SAMPLE': 50,  # 샘플 진행률
+}
+
+# 차트 관련 상수
+CHART_SETTINGS = {
+    'MONTHLY_DATA_SAMPLE': [12, 16, 18, 17, 19, 18],  # 월별 샘플 데이터
+    'FILE_SIZE_BASE': 2.5,  # 기본 파일 크기 (MB)
+    'FILE_SIZE_INCREMENT': 0.3,  # 파일 크기 증가값
+    'DOWNLOAD_COUNT_BASE': 10,  # 기본 다운로드 수
+}
+
+# AI 모델 관련 상수
+AI_MODEL_SETTINGS = {
+    'MAX_TOKENS_MIN': 1,
+    'MAX_TOKENS_MAX': 2048,
+    'MAX_TOKENS_DEFAULT': 500,
+    'MAX_TOKENS_STEP': 1,
+}
+
+# 날짜 관련 상수
+DATE_SETTINGS = {
+    'DAYS_IN_MONTH': 30,  # 월 계산용 일수
+    'DAYS_IN_YEAR': 365,  # 년 계산용 일수
+    'QUARTERLY_MONTHS': [1, 4, 7, 10],  # 분기별 월
+}
 
 # 알림 설정
 NOTIFICATION_TYPES = {
