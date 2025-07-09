@@ -1,0 +1,282 @@
+/* 
+* 자산관리 시스템 커스텀 스타일시트
+* 기본 Bootstrap 스타일을 확장합니다.
+*/
+
+/* 
+* 전역 스타일 - variables.css의 표준 변수 사용
+* 레거시 변수들은 호환성을 위해 variables.css에서 관리됩니다.
+*/
+
+body {
+    font-family: var(--font-family-sans);
+    color: var(--theme-text-primary);
+    background-color: var(--theme-bg-secondary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0;
+}
+
+main {
+    flex: 1;
+}
+
+/* 카드 스타일 - components/cards.css에서 통합 관리됨 */
+
+/* 테이블 스타일 - components/tables.css에서 통합 관리됨 */
+
+/* 카드 보더 스타일 - 표준 변수 사용 */
+.border-left-primary {
+    border-left: 0.25rem solid var(--color-primary) !important;
+}
+.border-left-success {
+    border-left: 0.25rem solid var(--color-success) !important;
+}
+.border-left-info {
+    border-left: 0.25rem solid var(--color-info) !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid var(--color-warning) !important;
+}
+.border-left-danger {
+    border-left: 0.25rem solid var(--color-danger) !important;
+}
+
+/* 텍스트 색상 - 표준 변수 사용 */
+.text-primary {
+    color: var(--color-primary) !important;
+}
+.text-success {
+    color: var(--color-success) !important;
+}
+.text-info {
+    color: var(--color-info) !important;
+}
+.text-warning {
+    color: var(--color-warning) !important;
+}
+.text-danger {
+    color: var(--color-danger) !important;
+}
+
+/* 로그인 페이지 스타일 - components/forms.css에서 통합 관리됨 */
+
+/* 버튼 아이콘 스타일 - components/buttons.css에서 통합 관리됨 */
+
+/* 글로벌 스타일 정의 */
+html {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+/* 스크롤바 스타일 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 기본 링크 색상 */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+/* 로고 스타일 */
+.navbar-brand {
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+/* 폼 요소 스타일 - components/forms.css에서 통합 관리됨 */
+
+/* 버튼 스타일 */
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+.btn-outline-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* 테이블 스타일, 정렬 표시 - components/tables.css에서 통합 관리됨 */
+
+/* 타임라인 스타일 */
+.timeline {
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    border: 2px solid var(--theme-bg-primary);
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.timeline-time {
+    font-size: 0.85em;
+    color: var(--color-secondary);
+    margin-bottom: 5px;
+}
+
+.timeline-content {
+    background-color: var(--theme-bg-secondary);
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 3px solid var(--color-primary);
+}
+
+/* 차트 컨테이너 */
+.chart-area {
+    position: relative;
+    height: 400px;
+}
+
+.chart-pie {
+    position: relative;
+    height: 300px;
+}
+
+/* 차트 범례 스타일 */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.chart-legend span {
+    display: inline-flex;
+    align-items: center;
+    margin: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.chart-legend i {
+    margin-right: 0.25rem;
+}
+
+/* 필터 폼 스타일 - components/forms.css에서 통합 관리됨 */
+
+/* 검색 결과 하이라이트 */
+.search-highlight {
+    background-color: rgba(var(--color-warning-rgb), 0.2);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-base);
+}
+
+/* 보고서 다운로드 카드 스타일 */
+.download-card {
+    text-align: center;
+    padding: 2rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.download-card:hover {
+    border-color: var(--color-primary);
+    background-color: rgba(var(--color-primary-rgb), 0.03);
+}
+
+.download-card i {
+    margin-bottom: 1rem;
+}
+
+/* 통계 숫자 애니메이션 */
+@keyframes countUp {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.stat-number {
+    animation: countUp 0.6s ease-out;
+}
+
+/* 빈 상태 스타일 */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-12) var(--spacing-4);
+    color: var(--color-secondary);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* 로딩 상태 스타일 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    background-color: var(--theme-bg-primary);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+} 

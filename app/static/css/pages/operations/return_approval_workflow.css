@@ -1,0 +1,163 @@
+/* Return Approval Workflow CSS */
+/* 승인 통계 카드는 components/stats-cards.css의 .stats-card 사용 */
+/* 목록 아이템은 components/list-items.css의 .list-item 사용 */
+
+/* 워크플로우 목록 컨테이너 */
+#workflowsList, 
+#pendingWorkflowsList, 
+#approvedWorkflowsList, 
+#scheduledWorkflowsList, 
+#completedWorkflowsList {
+    max-height: 70vh;
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+}
+
+/* 워크플로우 상세 모달 */
+.workflow-detail-section {
+    margin-bottom: 2rem;
+}
+
+.workflow-detail-section h6 {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.workflow-timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.workflow-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e9ecef;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-left: 1rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 1.25rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #007bff;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #007bff;
+}
+
+.timeline-item.completed::before {
+    background-color: #28a745;
+    box-shadow: 0 0 0 2px #28a745;
+}
+
+.timeline-item.rejected::before {
+    background-color: #dc3545;
+    box-shadow: 0 0 0 2px #dc3545;
+}
+
+.timeline-item .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-item .timeline-title {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.timeline-item .timeline-time {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.timeline-item .timeline-content {
+    color: #495057;
+    line-height: 1.5;
+}
+
+/* 일괄 처리 */
+.bulk-action-bar {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.bulk-action-bar.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.bulk-action-bar .selected-count {
+    font-weight: 600;
+    color: #495057;
+    margin-right: 1rem;
+}
+
+/* 로딩 상태 */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-8);
+}
+
+.loading-spinner .spinner-border {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* 반응형 디자인 - 표준 컴포넌트 사용 */
+@media (max-width: 768px) {
+    #workflowsList, 
+    #pendingWorkflowsList, 
+    #approvedWorkflowsList, 
+    #scheduledWorkflowsList, 
+    #completedWorkflowsList {
+        max-height: 60vh;
+    }
+    
+    .bulk-action-bar {
+        padding: var(--spacing-4);
+        flex-direction: column;
+        gap: var(--spacing-4);
+    }
+    
+    .bulk-action-bar .btn {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-3) var(--spacing-4);
+        width: 100%;
+    }
+} 

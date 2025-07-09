@@ -1,0 +1,744 @@
+/*
+ * 버튼 컴포넌트 스타일
+ * 통합 디자인 시스템 기반
+ */
+
+/* ===== 기본 버튼 스타일 ===== */
+.btn {
+    display: inline-block;
+    font-family: var(--font-family-sans);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text-primary);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-base);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    color: var(--theme-text-primary);
+    text-decoration: none;
+}
+
+.btn:focus,
+.btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
+}
+
+.btn.disabled,
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn:not(:disabled):not(.disabled):active,
+.btn:not(:disabled):not(.disabled).active {
+    transform: translateY(0);
+}
+
+/* ===== 버튼 크기 변형 ===== */
+.btn-sm {
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-base);
+}
+
+.btn-lg {
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: var(--font-size-lg);
+    border-radius: var(--radius-lg);
+}
+
+/* ===== Primary 버튼 ===== */
+.btn-primary {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:focus,
+.btn-primary:focus-visible {
+    outline-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.5);
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* ===== Secondary 버튼 ===== */
+.btn-secondary {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-secondary-dark);
+    border-color: var(--color-secondary-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:focus,
+.btn-secondary:focus-visible {
+    outline-color: var(--color-secondary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-secondary-rgb), 0.25);
+}
+
+/* ===== Success 버튼 ===== */
+.btn-success {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.btn-success:hover {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-success-dark);
+    border-color: var(--color-success-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-success:focus,
+.btn-success:focus-visible {
+    outline-color: var(--color-success);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-success-rgb), 0.25);
+}
+
+/* ===== Warning 버튼 ===== */
+.btn-warning {
+    color: var(--gray-800);
+    background-color: var(--color-warning);
+    border-color: var(--color-warning);
+}
+
+.btn-warning:hover {
+    color: var(--gray-800);
+    background-color: var(--color-warning-dark);
+    border-color: var(--color-warning-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-warning:focus,
+.btn-warning:focus-visible {
+    outline-color: var(--color-warning);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-warning-rgb), 0.25);
+}
+
+/* ===== Danger 버튼 ===== */
+.btn-danger {
+    color: #fff;
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: var(--color-danger-dark);
+    border-color: var(--color-danger-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-danger:focus,
+.btn-danger:focus-visible {
+    outline-color: var(--color-danger);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-danger-rgb), 0.25);
+}
+
+/* ===== Info 버튼 ===== */
+.btn-info {
+    color: #fff;
+    background-color: var(--color-info);
+    border-color: var(--color-info);
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: var(--color-info-dark);
+    border-color: var(--color-info-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===== Light 버튼 ===== */
+.btn-light {
+    color: var(--gray-800);
+    background-color: var(--color-light);
+    border-color: var(--color-light);
+}
+
+.btn-light:hover {
+    color: var(--gray-800);
+    background-color: var(--gray-200);
+    border-color: var(--gray-200);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===== Dark 버튼 ===== */
+.btn-dark {
+    color: #fff;
+    background-color: var(--color-dark);
+    border-color: var(--color-dark);
+}
+
+.btn-dark:hover {
+    color: #fff;
+    background-color: var(--gray-700);
+    border-color: var(--gray-700);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===== Outline 버튼들 ===== */
+.btn-outline-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-outline-secondary {
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.btn-outline-success {
+    color: var(--color-success);
+    border-color: var(--color-success);
+    background-color: transparent;
+}
+
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.btn-outline-warning {
+    color: var(--color-warning);
+    border-color: var(--color-warning);
+    background-color: transparent;
+}
+
+.btn-outline-warning:hover {
+    color: var(--gray-800);
+    background-color: var(--color-warning);
+    border-color: var(--color-warning);
+}
+
+.btn-outline-danger {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+    background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+    color: #fff;
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.btn-outline-info {
+    color: var(--color-info);
+    border-color: var(--color-info);
+    background-color: transparent;
+}
+
+.btn-outline-info:hover {
+    color: #fff;
+    background-color: var(--color-info);
+    border-color: var(--color-info);
+}
+
+.btn-outline-light {
+    color: var(--color-light);
+    border-color: var(--color-light);
+    background-color: transparent;
+}
+
+.btn-outline-light:hover {
+    color: var(--gray-800);
+    background-color: var(--color-light);
+    border-color: var(--color-light);
+}
+
+.btn-outline-dark {
+    color: var(--color-dark);
+    border-color: var(--color-dark);
+    background-color: transparent;
+}
+
+.btn-outline-dark:hover {
+    color: #fff;
+    background-color: var(--color-dark);
+    border-color: var(--color-dark);
+}
+
+/* ===== 버튼 그룹 ===== */
+.btn-group {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.btn-group > .btn {
+    position: relative;
+    flex: 1 1 auto;
+}
+
+.btn-group > .btn:not(:first-child) {
+    margin-left: -1px;
+}
+
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.btn-group > .btn:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.btn-group > .btn:hover,
+.btn-group > .btn:focus,
+.btn-group > .btn:active,
+.btn-group > .btn.active {
+    z-index: 1;
+}
+
+/* ===== 특수 버튼 스타일 ===== */
+.btn-icon-split {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.btn-icon-split .icon {
+    background: rgba(var(--color-dark-rgb), 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--radius-base) 0 0 var(--radius-base);
+    margin-right: var(--spacing-2);
+}
+
+.btn-icon-split .text {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-2) var(--spacing-3);
+}
+
+/* ===== 액션 버튼들 ===== */
+.action-btn {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-base);
+    margin: 0 var(--spacing-1);
+    min-width: 60px;
+}
+
+.btn-view {
+    background-color: var(--color-info);
+    border-color: var(--color-info);
+    color: #fff;
+}
+
+.btn-view:hover {
+    background-color: var(--color-info-dark);
+    border-color: var(--color-info-dark);
+    color: #fff;
+}
+
+.btn-edit {
+    background-color: var(--color-warning);
+    border-color: var(--color-warning);
+    color: var(--gray-800);
+}
+
+.btn-edit:hover {
+    background-color: var(--color-warning-dark);
+    border-color: var(--color-warning-dark);
+    color: var(--gray-800);
+}
+
+.btn-approve {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    color: #fff;
+}
+
+.btn-approve:hover {
+    background-color: var(--color-success-dark);
+    border-color: var(--color-success-dark);
+    color: #fff;
+}
+
+.btn-reject {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+    color: #fff;
+}
+
+.btn-reject:hover {
+    background-color: var(--color-danger-dark);
+    border-color: var(--color-danger-dark);
+    color: #fff;
+}
+
+/* ===== 텍스트 버튼 ===== */
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    padding: var(--spacing-1) var(--spacing-2);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    border-radius: var(--radius-base);
+    transition: var(--transition-fast);
+}
+
+.btn-text:hover {
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-dark);
+    text-decoration: none;
+}
+
+/* ===== 소셜 로그인 버튼 ===== */
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3) var(--spacing-4);
+    margin: var(--spacing-2) 0;
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--radius-md);
+    background-color: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.btn-social:hover {
+    background-color: var(--theme-bg-secondary);
+    border-color: var(--color-primary);
+    color: var(--theme-text-primary);
+    text-decoration: none;
+}
+
+/* ===== 로그인 전용 버튼 ===== */
+.btn-login {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border: none;
+    border-radius: var(--radius-md);
+    color: #fff;
+    transition: var(--transition-base);
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+    color: #fff;
+}
+
+/* ===== 인쇄 버튼 ===== */
+.btn-print {
+    background-color: var(--gray-600);
+    border-color: var(--gray-600);
+    color: #fff;
+}
+
+.btn-print:hover {
+    background-color: var(--gray-700);
+    border-color: var(--gray-700);
+    color: #fff;
+}
+
+/* ===== 반응형 디자인 ===== */
+@media (max-width: var(--breakpoint-md)) {
+    .btn {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-sm);
+    }
+    
+    .btn-lg {
+        padding: var(--spacing-3) var(--spacing-4);
+        font-size: var(--font-size-base);
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-group > .btn {
+        margin-left: 0;
+        margin-bottom: -1px;
+    }
+    
+    .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    
+    .btn-group > .btn:not(:first-child) {
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+    
+    .action-btn {
+        margin: var(--spacing-1) 0;
+        width: 100%;
+    }
+}
+
+/* ===== 다크 모드 지원 ===== */
+[data-theme="dark"] .btn-light {
+    color: var(--gray-200);
+    background-color: var(--gray-700);
+    border-color: var(--gray-700);
+}
+
+[data-theme="dark"] .btn-light:hover {
+    color: var(--gray-100);
+    background-color: var(--gray-600);
+    border-color: var(--gray-600);
+}
+
+[data-theme="dark"] .btn-outline-light {
+    color: var(--gray-300);
+    border-color: var(--gray-600);
+}
+
+[data-theme="dark"] .btn-outline-light:hover {
+    color: var(--gray-800);
+    background-color: var(--gray-300);
+    border-color: var(--gray-300);
+}
+
+[data-theme="dark"] .btn-social {
+    background-color: var(--theme-bg-secondary);
+    border-color: var(--theme-border-primary);
+    color: var(--theme-text-primary);
+}
+
+[data-theme="dark"] .btn-social:hover {
+    background-color: var(--theme-bg-tertiary);
+    border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .btn-text:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+/* ===== BEM 스타일 버튼 (간소화) ===== */
+/* Bootstrap 클래스 사용 권장 - BEM 스타일은 호환성을 위해 최소화 */
+.btn--primary,
+.btn--secondary,
+.btn--outline {
+    /* Bootstrap의 .btn 클래스 사용을 권장합니다 */
+    /* 예: <button class="btn btn-primary">대신 <button class="btn--primary btn btn-primary"> */
+}
+
+/* Badge 스타일은 badges.css로 이동됨 - 중복 제거 완료 */
+
+/* ===== 접근성 개선 ===== */
+/* 포커스 스타일은 파일 상단에 이미 정의됨 - 중복 제거 완료 */
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+    .btn {
+        border-width: 2px;
+        font-weight: var(--font-weight-semibold);
+    }
+    
+    .btn:focus,
+    .btn:focus-visible {
+        outline-width: 3px;
+        box-shadow: 0 0 0 0.3rem rgba(var(--color-primary-rgb), 0.7);
+}
+
+    .btn-outline-primary,
+    .btn-outline-secondary,
+    .btn-outline-success,
+    .btn-outline-warning,
+    .btn-outline-danger,
+    .btn-outline-info {
+        border-width: 2px;
+    }
+}
+
+/* 키보드 내비게이션 지원 */
+.btn:active,
+.btn.active {
+    opacity: 0.9;
+}
+
+.btn:disabled:active,
+.btn.disabled:active {
+    transform: none;
+}
+
+/* 스크린 리더 지원 */
+.btn-icon-only {
+    position: relative;
+}
+
+.btn-icon-only::after {
+    content: attr(aria-label);
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* 모션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+}
+
+    .btn:active,
+    .btn.active {
+        transform: none;
+    }
+}
+
+/* ===== 엑셀 내보내기 버튼 ===== */
+.btn-export-excel {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-success-dark);
+    background-color: transparent;
+    border: 1px solid var(--color-success);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    cursor: pointer;
+}
+
+.btn-export-excel:hover {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    text-decoration: none;
+}
+
+.btn-export-excel:focus,
+.btn-export-excel:focus-visible {
+    outline: 2px solid var(--color-success);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-success-rgb), 0.25);
+}
+
+.btn-export-excel:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+.btn-export-excel:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-export-excel .fas {
+    color: var(--color-success);
+    transition: var(--transition-fast);
+}
+
+.btn-export-excel:hover .fas {
+    color: var(--theme-bg-primary);
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+    .btn-export-excel {
+        border-width: 2px;
+        font-weight: var(--font-weight-semibold);
+    }
+    
+    .btn-export-excel:focus,
+    .btn-export-excel:focus-visible {
+        outline-width: 3px;
+        box-shadow: 0 0 0 0.3rem rgba(var(--color-success-rgb), 0.7);
+    }
+}
+
+/* 다크 모드 지원 */
+[data-theme="dark"] .btn-export-excel {
+    color: var(--color-success-light);
+    border-color: var(--color-success-light);
+}
+
+[data-theme="dark"] .btn-export-excel:hover {
+    color: var(--theme-bg-primary);
+    background-color: var(--color-success-light);
+    border-color: var(--color-success-light);
+}
+
+[data-theme="dark"] .btn-export-excel .fas {
+    color: var(--color-success-light);
+}
+
+/* 모션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+    .btn-export-excel {
+        transition: none;
+    }
+    
+    .btn-export-excel:hover {
+        transform: none;
+    }
+    
+    .btn-export-excel:active {
+        transform: none;
+    }
+} 

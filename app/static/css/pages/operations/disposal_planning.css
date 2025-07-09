@@ -1,0 +1,397 @@
+/* ==========================================================================
+   Disposal Planning Page Styles
+   ========================================================================== */
+
+/* 처분 계획 통계 카드 */
+.disposal-stats-cards .card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.disposal-stats-cards .card:hover {
+    border-color: var(--theme-border-active);
+    background-color: var(--theme-bg-hover);
+}
+
+.disposal-stats-cards .card.bg-info:hover {
+    box-shadow: 0 8px 25px rgba(23,162,184,0.3);
+}
+
+.disposal-stats-cards .card.bg-warning:hover {
+    box-shadow: 0 8px 25px rgba(255,193,7,0.3);
+}
+
+.disposal-stats-cards .card.bg-success:hover {
+    box-shadow: 0 8px 25px rgba(40,167,69,0.3);
+}
+
+.disposal-stats-cards .card.bg-primary:hover {
+    box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+}
+
+/* 달력 컨테이너 */
+.calendar-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.calendar-nav .btn {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    border-radius: 6px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.calendar-cell {
+    background: #fff;
+    padding: 10px;
+    min-height: 80px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.calendar-cell:hover {
+    background: #f8f9fa;
+}
+
+.calendar-cell.other-month {
+    color: #adb5bd;
+    background: #f8f9fa;
+}
+
+.calendar-cell.today {
+    background: #e3f2fd;
+    font-weight: bold;
+}
+
+.calendar-cell.has-events {
+    background: #fff3cd;
+}
+
+.calendar-date {
+    font-size: 0.875rem;
+    margin-bottom: 5px;
+}
+
+.calendar-events {
+    font-size: 0.75rem;
+}
+
+.calendar-event {
+    background: #007bff;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-bottom: 2px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-event.sale {
+    background: #28a745;
+}
+
+.calendar-event.donate {
+    background: #dc3545;
+}
+
+.calendar-event.transfer {
+    background: #17a2b8;
+}
+
+.calendar-event.disposal {
+    background: #ffc107;
+    color: #212529;
+}
+
+/* 처분 계획 테이블 */
+.disposal-plans-table .asset-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+.disposal-plans-table .progress {
+    height: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+
+.disposal-plans-table .progress-bar {
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+/* 처분 유형 배지 */
+.disposal-type-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.disposal-type-badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.disposal-type-badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.disposal-type-badge.bg-info {
+    background-color: #17a2b8 !important;
+}
+
+.disposal-type-badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+/* 처분 상태 배지 */
+.disposal-status-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.disposal-status-badge.bg-secondary {
+    background-color: #e2e3e5 !important;
+    color: #41464b !important;
+    border: 1px solid #c4c8cc;
+}
+
+.disposal-status-badge.bg-info {
+    background-color: #cff4fc !important;
+    color: #055160 !important;
+    border: 1px solid #9eeaf9;
+}
+
+.disposal-status-badge.bg-warning {
+    background-color: #fff3cd !important;
+    color: #856404 !important;
+    border: 1px solid #ffeaa7;
+}
+
+.disposal-status-badge.bg-success {
+    background-color: #d1e7dd !important;
+    color: #0a3622 !important;
+    border: 1px solid #a3cfbb;
+}
+
+/* 월별 주요 일정 타임라인 */
+.monthly-timeline {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.monthly-timeline .timeline {
+    padding-left: 25px;
+}
+
+.monthly-timeline .timeline::before {
+    left: 8px;
+}
+
+.monthly-timeline .timeline-marker {
+    left: -20px;
+    width: 16px;
+    height: 16px;
+}
+
+.monthly-timeline .timeline-marker.bg-success {
+    background: #28a745;
+}
+
+.monthly-timeline .timeline-marker.bg-danger {
+    background: #dc3545;
+}
+
+.monthly-timeline .timeline-marker.bg-info {
+    background: #17a2b8;
+}
+
+.monthly-timeline .timeline-marker.bg-warning {
+    background: #ffc107;
+}
+
+.monthly-timeline .timeline-content {
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #dee2e6;
+}
+
+.monthly-timeline .timeline-content.completed {
+    border-left-color: #28a745;
+}
+
+.monthly-timeline .timeline-content.pending {
+    border-left-color: #ffc107;
+}
+
+/* 차트 컨테이너 */
+.disposal-chart-container {
+    position: relative;
+    height: 300px;
+}
+
+.disposal-chart-container canvas {
+    max-height: 100%;
+}
+
+/* 필터 컨트롤 */
+.disposal-filters {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.disposal-filters .form-select {
+    font-size: 0.875rem;
+    border-color: #ced4da;
+}
+
+.disposal-filters .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+/* 액션 버튼 그룹 */
+.disposal-actions .btn-group .btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: 4px;
+}
+
+/* 빈 상태 스타일 */
+.disposal-empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.disposal-empty-state i {
+    font-size: 3rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.disposal-empty-state h5 {
+    margin-bottom: 10px;
+    color: #495057;
+    font-weight: 600;
+}
+
+.disposal-empty-state p {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .disposal-stats-cards .card {
+        margin-bottom: 15px;
+    }
+    
+    .calendar-container {
+        padding: 15px;
+    }
+    
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+    }
+    
+    .calendar-cell {
+        padding: 5px;
+        min-height: 60px;
+    }
+    
+    .calendar-date {
+        font-size: 0.8rem;
+    }
+    
+    .calendar-event {
+        font-size: 0.65rem;
+        padding: 1px 3px;
+    }
+    
+    .monthly-timeline {
+        max-height: 300px;
+    }
+    
+    .disposal-chart-container {
+        height: 250px;
+    }
+    
+    .disposal-filters {
+        padding: 12px;
+    }
+    
+    .disposal-actions .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .disposal-actions .btn-group .btn {
+        border-radius: 4px !important;
+        margin-bottom: 2px;
+    }
+    
+    .disposal-plans-table {
+        font-size: 0.875rem;
+    }
+    
+    .asset-icon {
+        display: none;
+    }
+    
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* 동적 진행바 처리 */
+.progress-bar[data-progress] {
+    width: calc(var(--progress, 0) * 1%);
+    transition: width 0.3s ease;
+} 

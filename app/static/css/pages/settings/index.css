@@ -1,0 +1,159 @@
+/**
+ * 설정 페이지 스타일
+ * 시스템 설정 페이지에만 필요한 고유 스타일을 정의합니다.
+ */
+
+/* 설정 사이드바 */
+.settings-sidebar {
+    border-right: 1px solid var(--border-light);
+    padding-right: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+}
+
+.settings-sidebar .nav-item {
+    margin-bottom: var(--spacing-1);
+}
+
+.settings-sidebar .nav-link {
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-2) var(--spacing-3);
+    color: var(--text-default);
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-fast);
+}
+
+.settings-sidebar .nav-link:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.05);
+}
+
+.settings-sidebar .nav-link.active {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+}
+
+.settings-sidebar .nav-link i {
+    width: 20px;
+    margin-right: var(--spacing-2);
+    text-align: center;
+    opacity: 0.7;
+}
+
+/* 설정 콘텐츠 영역 */
+.settings-content {
+    padding-left: var(--spacing-3);
+}
+
+.settings-content .settings-title {
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-3);
+    padding-bottom: var(--spacing-2);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.settings-content .settings-section {
+    margin-bottom: var(--spacing-4);
+}
+
+.settings-content .section-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-3);
+}
+
+.settings-content .form-group {
+    margin-bottom: var(--spacing-3);
+}
+
+.settings-content .form-label {
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-1);
+}
+
+.settings-content .form-text {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* 설정 토글 스위치 */
+.settings-toggle {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-3);
+}
+
+.settings-toggle .toggle-label {
+    margin-bottom: 0;
+    margin-left: var(--spacing-2);
+    font-weight: var(--font-weight-medium);
+}
+
+.settings-toggle .toggle-description {
+    margin-top: var(--spacing-1);
+    margin-left: 3.25rem;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* 설정 카드 */
+.settings-card {
+    padding: var(--spacing-3);
+    background-color: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--spacing-3);
+}
+
+.settings-card .card-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-2);
+}
+
+.settings-card .card-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-3);
+}
+
+/* 사용자 권한 테이블 */
+.permissions-table .permission-name {
+    font-weight: var(--font-weight-medium);
+}
+
+.permissions-table .permission-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.permissions-table td {
+    vertical-align: middle;
+}
+
+/* 반응형 조정 */
+@media (max-width: var(--breakpoint-md)) {
+    .settings-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding-right: 0;
+        padding-bottom: var(--spacing-3);
+        margin-bottom: var(--spacing-3);
+    }
+    
+    .settings-content {
+        padding-left: 0;
+    }
+    
+    .settings-sidebar .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin-bottom: var(--spacing-3);
+    }
+    
+    .settings-sidebar .nav-item {
+        margin-right: var(--spacing-2);
+        margin-bottom: 0;
+    }
+    
+    .settings-sidebar .nav-link {
+        white-space: nowrap;
+    }
+} 

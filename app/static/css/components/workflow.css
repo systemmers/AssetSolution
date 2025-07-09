@@ -1,0 +1,360 @@
+/* ==========================================================================
+   Workflow Component
+   ========================================================================== */
+
+/* 워크플로우 기본 컨테이너 */
+.workflow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    margin-bottom: 20px;
+}
+
+/* 워크플로우 아이템 */
+.workflow-item {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    background: white;
+    margin-bottom: 15px;
+}
+
+.workflow-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.15);
+}
+
+/* 워크플로우 아이콘 */
+.workflow-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.workflow-icon.bg-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.workflow-icon.bg-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.workflow-icon.bg-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.workflow-icon.bg-primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.workflow-icon.bg-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* 워크플로우 단계 */
+.workflow-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.workflow-steps .step {
+    font-size: 0.8rem;
+    color: #6c757d;
+    border-top: 1px solid #dee2e6;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+/* 워크플로우 진행률 */
+.workflow-progress {
+    position: relative;
+    height: 6px;
+    background-color: #e9ecef;
+    border-radius: 3px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.workflow-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.workflow-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 30px 30px;
+    animation: move 2s linear infinite;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 30px 30px;
+    }
+}
+
+/* 워크플로우 단계 스타일 */
+.workflow-step {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.workflow-step.active {
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-color: var(--color-primary);
+}
+
+.workflow-step.completed {
+    background: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+}
+
+.workflow-step.pending {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.workflow-step.rejected {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+
+/* 워크플로우 단계 아이콘 */
+.workflow-step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    background: #dee2e6;
+    color: #6c757d;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.workflow-step.active .workflow-step-icon {
+    background: var(--color-primary);
+    color: white;
+}
+
+.workflow-step.completed .workflow-step-icon {
+    background: #28a745;
+    color: white;
+}
+
+.workflow-step.pending .workflow-step-icon {
+    background: #ffc107;
+    color: #212529;
+}
+
+.workflow-step.rejected .workflow-step-icon {
+    background: #dc3545;
+    color: white;
+}
+
+/* 워크플로우 단계 콘텐츠 */
+.workflow-step-content {
+    flex: 1;
+}
+
+.workflow-step-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #2c3e50;
+}
+
+.workflow-step-description {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* 워크플로우 연결선 */
+.workflow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 35px;
+    bottom: -10px;
+    width: 2px;
+    height: 10px;
+    background: #dee2e6;
+}
+
+.workflow-step.completed:not(:last-child)::after {
+    background: #28a745;
+}
+
+.workflow-step.active:not(:last-child)::after {
+    background: var(--color-primary);
+}
+
+/* 수평 워크플로우 */
+.workflow.horizontal {
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.workflow.horizontal .workflow-step {
+    flex: 1;
+    margin-bottom: 0;
+    margin-right: 15px;
+    text-align: center;
+    flex-direction: column;
+}
+
+.workflow.horizontal .workflow-step:last-child {
+    margin-right: 0;
+}
+
+.workflow.horizontal .workflow-step-icon {
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.workflow.horizontal .workflow-step::after {
+    display: none;
+}
+
+.workflow.horizontal .workflow-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: -15px;
+    width: 15px;
+    height: 2px;
+    background: #dee2e6;
+}
+
+.workflow.horizontal .workflow-step.completed:not(:last-child)::before {
+    background: #28a745;
+}
+
+/* 워크플로우 섹션 */
+.workflow-progress-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e9ecef;
+    margin-bottom: 20px;
+}
+
+.workflow-progress-section h6 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .workflow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .workflow.horizontal {
+        flex-direction: column;
+    }
+    
+    .workflow.horizontal .workflow-step {
+        margin-right: 0;
+        margin-bottom: 10px;
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .workflow.horizontal .workflow-step-icon {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    
+    .workflow-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    
+    .workflow-step {
+        padding: 12px;
+    }
+    
+    .workflow-step-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        margin-right: 12px;
+    }
+    
+    .workflow-progress-section {
+        padding: 16px;
+    }
+}
+
+/* 어두운 테마 지원 */
+@media (prefers-color-scheme: dark) {
+    .workflow,
+    .workflow-item,
+    .workflow-progress-section {
+        background: #2c3e50;
+        border-color: #34495e;
+    }
+    
+    .workflow-step {
+        background: #34495e;
+    }
+    
+    .workflow-step-title {
+        color: #ecf0f1;
+    }
+    
+    .workflow-step-description {
+        color: #bdc3c7;
+    }
+} 

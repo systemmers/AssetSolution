@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}반납 상태 추적 - Asset Management System{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/wizard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/modal-cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/stats-cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/workflow.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/timeline.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/operations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/operations/return_status_tracking.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- 페이지 헤더 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">반납 상태 추적</h2>
+            <p class="text-muted mb-0">반납 요청의 진행 상황을 실시간으로 추적하고 관리합니다</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" onclick="refreshStatusData()">
+                <i class="fas fa-sync-alt"></i> 새로고침
+            </button>
+            <button class="btn btn-primary" onclick="openReturnRequestModal()">
+                <i class="fas fa-plus"></i> 반납 요청
+            </button>
+        </div>
+    </div>
+
+    <!-- 상태 통계 카드 -->
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="stats-card requested">
+                <div class="stats-icon">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-number" id="requestedCount">0</div>
+                    <div class="stats-label">요청됨</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stats-card dept-approval">
+                <div class="stats-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-number" id="deptApprovalCount">0</div>
+                    <div class="stats-label">부서장 승인</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stats-card asset-approval">
+                <div class="stats-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-number" id="assetApprovalCount">0</div>
+                    <div class="stats-label">자산관리자 승인</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stats-card final-approval">
+                <div class="stats-icon">
+                    <i class="fas fa-stamp"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-number" id="finalApprovalCount">0</div>
+                    <div class="stats-label">최종 승인</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stats-card completed">
+                <div class="stats-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-number" id="completedCount">0</div>
+                    <div class="stats-label">완료</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stats-card rejected">
+                <div class="stats-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-number" id="rejectedCount">0</div>
+                    <div class="stats-label">거부됨</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 필터 및 검색 -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">상태</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">전체 상태</option>
+                        <option value="requested">요청됨</option>
+                        <option value="dept_approval">부서장 승인 대기</option>
+                        <option value="asset_manager_approval">자산관리자 승인 대기</option>
+                        <option value="final_approval">최종 승인 대기</option>
+                        <option value="approved">승인 완료</option>
+                        <option value="returned">반납 완료</option>
+                        <option value="rejected">거부됨</option>
+                        <option value="cancelled">취소됨</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">부서</label>
+                    <select class="form-select" id="departmentFilter">
+                        <option value="">전체 부서</option>
+                        <option value="개발팀">개발팀</option>
+                        <option value="마케팅팀">마케팅팀</option>
+                        <option value="디자인팀">디자인팀</option>
+                        <option value="영업팀">영업팀</option>
+                        <option value="인사팀">인사팀</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">긴급도</label>
+                    <select class="form-select" id="urgencyFilter">
+                        <option value="">전체 긴급도</option>
+                        <option value="low">낮음</option>
+                        <option value="normal">보통</option>
+                        <option value="high">높음</option>
+                        <option value="urgent">긴급</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">검색</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="자산명, 요청자명, 자산코드">
+                        <button class="btn btn-outline-secondary" onclick="applyFilters()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 반납 상태 목록 -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">반납 상태 목록</h5>
+            <div class="d-flex gap-2">
+                <button class="btn-export-excel" onclick="exportStatusReport()">
+                    <i class="fas fa-file-excel"></i>
+                    <span>엑셀 내보내기</span>
+                </button>
+                <div class="btn-group" role="group">
+                    <input type="radio" class="btn-check" name="viewMode" id="tableView" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary btn-sm" for="tableView">
+                        <i class="fas fa-table"></i>
+                    </label>
+                    <input type="radio" class="btn-check" name="viewMode" id="cardView" autocomplete="off">
+                    <label class="btn btn-outline-secondary btn-sm" for="cardView">
+                        <i class="fas fa-th-large"></i>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <!-- 테이블 뷰 -->
+            <div id="tableViewContainer">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="statusTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>요청 ID</th>
+                                <th>자산 정보</th>
+                                <th>요청자</th>
+                                <th>부서</th>
+                                <th>현재 상태</th>
+                                <th>진행률</th>
+                                <th>긴급도</th>
+                                <th>요청일</th>
+                                <th>액션</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statusTableBody">
+                            <!-- 데이터가 동적으로 로드됩니다 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 카드 뷰 -->
+            <div id="cardViewContainer" style="display: none;">
+                <div class="row g-3 p-3" id="statusCardContainer">
+                    <!-- 카드가 동적으로 로드됩니다 -->
+                </div>
+            </div>
+
+            <!-- 로딩 상태 -->
+            <div id="loadingState" class="text-center py-5" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">데이터를 불러오는 중...</p>
+            </div>
+
+            <!-- 빈 상태 -->
+            <div id="emptyState" class="text-center py-5" style="display: none;">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">반납 요청이 없습니다</h5>
+                <p class="text-muted">새로운 반납 요청을 생성해보세요.</p>
+                <button class="btn btn-primary" onclick="openReturnRequestModal()">
+                    <i class="fas fa-plus"></i> 반납 요청 생성
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <nav aria-label="상태 목록 페이지네이션" class="mt-4">
+        <ul class="pagination justify-content-center" id="pagination">
+            <!-- 페이지네이션이 동적으로 생성됩니다 -->
+        </ul>
+    </nav>
+</div>
+
+<!-- 상태 상세 모달 -->
+<div class="modal fade" id="statusDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">반납 상태 상세</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="statusDetailContent">
+                <!-- 상세 내용이 동적으로 로드됩니다 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 상태 변경 모달 -->
+<div class="modal fade" id="statusChangeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">상태 변경</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="statusChangeForm">
+                    <input type="hidden" id="changeRequestId">
+                    <div class="mb-3">
+                        <label class="form-label">새로운 상태</label>
+                        <select class="form-select" id="newStatus" required>
+                            <option value="">상태 선택</option>
+                            <option value="approved">승인 완료</option>
+                            <option value="rejected">거부</option>
+                            <option value="returned">반납 완료</option>
+                            <option value="cancelled">취소</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">변경 사유</label>
+                        <textarea class="form-control" id="changeReason" rows="3" placeholder="상태 변경 사유를 입력하세요"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" onclick="confirmStatusChange()">변경</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/common/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pages/operations/return_status_tracking.js') }}"></script>
+{% endblock %} 

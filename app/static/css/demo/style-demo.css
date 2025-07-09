@@ -1,0 +1,1128 @@
+/* 
+스타일 가이드 페이지 전용 CSS
+모든 컴포넌트와 스타일 요소를 효과적으로 표시하기 위한 스타일
+*/
+
+/* 다크 모드 지원을 위한 CSS 변수 */
+:root {
+    /* 라이트 모드 색상 */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #e9ecef;
+    --card-bg: #ffffff;
+    --demo-header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 다크 모드 색상 - 최고 우선순위 */
+html[data-theme="dark"] {
+    --bg-primary: #1a1a1a !important;
+    --bg-secondary: #2d2d2d !important;
+    --text-primary: #ffffff !important;
+    --text-secondary: #b0b0b0 !important;
+    --border-color: #404040 !important;
+    --card-bg: #2d2d2d !important;
+    --demo-header-bg: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+}
+
+/* 다크 모드 body 스타일 강제 적용 - Bootstrap 덮어쓰기 */
+html[data-theme="dark"] body,
+html[data-theme="dark"] body.d-flex,
+html[data-theme="dark"] body.flex-column,
+html[data-theme="dark"] body.h-100 {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Bootstrap 컨테이너 다크모드 */
+html[data-theme="dark"] .container,
+html[data-theme="dark"] .container-fluid,
+html[data-theme="dark"] .container-lg,
+html[data-theme="dark"] .container-md,
+html[data-theme="dark"] .container-sm,
+html[data-theme="dark"] .container-xl,
+html[data-theme="dark"] .container-xxl {
+    background-color: transparent !important;
+    color: #ffffff !important;
+}
+
+/* Bootstrap 카드 다크모드 */
+html[data-theme="dark"] .card {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .card-header,
+html[data-theme="dark"] .card-body,
+html[data-theme="dark"] .card-footer {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #ffffff !important;
+}
+
+/* Bootstrap 테이블 다크모드 */
+html[data-theme="dark"] .table {
+    color: #ffffff !important;
+    background-color: #2d2d2d !important;
+}
+
+html[data-theme="dark"] .table th,
+html[data-theme="dark"] .table td {
+    border-color: #404040 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > td,
+html[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > th {
+    background-color: #333333 !important;
+}
+
+/* Bootstrap 폼 요소 다크모드 */
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+    background-color: #2d2d2d !important;
+    border-color: #007bff !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* Bootstrap 버튼 다크모드 조정 */
+html[data-theme="dark"] .btn-outline-primary {
+    color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+html[data-theme="dark"] .btn-outline-primary:hover {
+    background-color: #007bff !important;
+    color: #ffffff !important;
+}
+
+/* Bootstrap 알림 다크모드 */
+html[data-theme="dark"] .alert {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #ffffff !important;
+}
+
+/* 기본값을 라이트 모드로 설정하고 자동 감지 제거 */
+
+/* 데모 페이지 기본 스타일 */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 다크 모드에서 추가 요소들 */
+html[data-theme="dark"] .demo-section {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .demo-item {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+html[data-theme="dark"] .demo-item-title {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .demo-code {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .demo-code pre,
+html[data-theme="dark"] .demo-code code {
+    color: var(--text-primary) !important;
+}
+
+.demo-header {
+    background: var(--demo-header-bg);
+    color: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+}
+
+.demo-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.demo-subtitle {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+/* 데모 네비게이션 */
+.demo-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.demo-nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.demo-nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: white;
+    text-decoration: none;
+}
+
+/* 반응형 테스트 컨트롤 */
+.responsive-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.responsive-controls label {
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+/* 데모 섹션 */
+.demo-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.demo-section-title {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid var(--color-primary, #007bff);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* 데모 그리드 */
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.demo-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.demo-item-title {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.demo-preview {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.demo-code {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.demo-code pre {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.demo-code code {
+    color: var(--text-primary);
+}
+
+/* 색상 팔레트 */
+.color-palette {
+    margin-bottom: 2rem;
+}
+
+.color-group {
+    margin-bottom: 2rem;
+}
+
+.color-group h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.color-item {
+    height: 120px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.color-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.color-var {
+    font-size: 0.875rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.25rem;
+}
+
+.color-value {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+/* 색상 컨트롤 */
+.color-controls {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.color-controls h4 {
+    margin-bottom: 1rem;
+    color: #495057;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.control-group label {
+    min-width: 120px;
+    font-weight: 500;
+}
+
+.control-group input[type="color"] {
+    width: 50px;
+    height: 35px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 컴포넌트 쇼케이스 */
+.component-showcase {
+    margin-bottom: 3rem;
+}
+
+.component-showcase h3 {
+    color: #495057;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.component-showcase .demo-preview {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.component-showcase .demo-preview > * {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 통계 카드 스타일 (데모용) */
+.stats-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stats-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.stats-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stats-card__title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6c757d;
+    margin: 0 0 0.5rem 0;
+}
+
+.stats-card__value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #212529;
+    margin: 0;
+}
+
+.stats-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* 통계 카드 변형 */
+.stats-card--primary .stats-card__icon {
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+}
+
+.stats-card--success .stats-card__icon {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.stats-card--warning .stats-card__icon {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.stats-card--danger .stats-card__icon {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+/* 그리드 데모 */
+.demo-grid-item {
+    background: #007bff;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* 스페이싱 데모 */
+.spacing-demo > div {
+    background: #e9ecef;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* 폼 데모 */
+.demo-form {
+    background: white;
+    padding: 1.5rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .demo-title {
+        font-size: 2rem;
+    }
+    
+    .demo-nav {
+        justify-content: center;
+    }
+    
+    .demo-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .color-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .responsive-controls {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .demo-header {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .demo-section {
+        padding: 1rem;
+    }
+    
+    .control-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .control-group label {
+        min-width: auto;
+    }
+}
+
+/* 뷰포트 테스트용 스타일 */
+.viewport-mobile {
+    max-width: 375px;
+    margin: 0 auto;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+}
+
+.viewport-tablet {
+    max-width: 768px;
+    margin: 0 auto;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+}
+
+.viewport-desktop {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+}
+
+/* 코드 하이라이팅 */
+.demo-code pre code {
+    display: block;
+    padding: 0;
+    background: none;
+    border: none;
+    color: #495057;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* 애니메이션 */
+.demo-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 스크롤 스타일 */
+.demo-nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* 스켈레톤 이미지 플레이스홀더 */
+.skeleton-image {
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, transparent 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* 헤더 레이아웃 */
+.demo-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.demo-header-text {
+    flex: 1;
+}
+
+/* 다크 모드 토글 버튼 */
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.theme-toggle i {
+    font-size: 1.2rem;
+}
+
+/* 페이지별 고유 스타일 */
+.asset-page-demo .asset-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.asset-page-demo .asset-filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.asset-page-demo .asset-filters .form-select,
+.asset-page-demo .asset-filters .form-control {
+    width: auto;
+    min-width: 150px;
+}
+
+.operations-page-demo .operations-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.operations-page-demo .operations-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-indicator.status-good {
+    background-color: #28a745;
+}
+
+.status-indicator.status-warning {
+    background-color: #ffc107;
+}
+
+.status-indicator.status-error {
+    background-color: #dc3545;
+}
+
+.inventory-page-demo .inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.inventory-page-demo .inventory-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.inventory-page-demo .item-icon {
+    font-size: 2rem;
+}
+
+.inventory-page-demo .item-info h5 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.inventory-page-demo .item-count {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.inventory-page-demo .item-status {
+    margin-left: auto;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.inventory-page-demo .item-status.low-stock {
+    background-color: #dc3545;
+    color: white;
+}
+
+.inventory-page-demo .item-status.adequate {
+    background-color: #28a745;
+    color: white;
+}
+
+/* 리스트 스타일 개선 */
+.list-group-item {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.list-group-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.list-group-item.active {
+    background-color: var(--color-primary, #007bff);
+    border-color: var(--color-primary, #007bff);
+}
+
+/* 테이블 다크모드 지원 */
+.table {
+    color: var(--text-primary);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > td,
+.table-striped > tbody > tr:nth-of-type(odd) > th {
+    background-color: var(--bg-secondary);
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+    background-color: var(--border-color);
+}
+
+/* 폼 요소 다크모드 지원 */
+.form-control,
+.form-select {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--card-bg);
+    border-color: var(--color-primary, #007bff);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* 알림 다크모드 지원 */
+.alert {
+    border-color: var(--border-color);
+}
+
+/* 카드 다크모드 지원 */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.card-header {
+    background-color: var(--bg-secondary);
+    border-bottom-color: var(--border-color);
+}
+
+/* 버튼 다크모드 지원 */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover,
+.btn-outline-success:hover,
+.btn-outline-warning:hover,
+.btn-outline-danger:hover,
+.btn-outline-info:hover {
+    color: white;
+}
+
+/* 배지 다크모드 지원 */
+.badge {
+    color: white;
+}
+
+/* 진행률 바 다크모드 지원 */
+.progress {
+    background-color: var(--bg-secondary);
+}
+
+/* 데모 그리드 아이템 */
+.demo-grid-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    text-align: center;
+    border-radius: 4px;
+    color: var(--text-primary);
+}
+
+/* 데모 네비게이션 개선 */
+.demo-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.demo-nav-link {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+}
+
+.demo-nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.demo-nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* 반응형 컨트롤 */
+.responsive-controls {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.responsive-controls label {
+    color: white;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* 색상 팔레트 개선 */
+.color-palette {
+    display: grid;
+    gap: 2rem;
+}
+
+.color-group h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.color-item {
+    padding: 1rem;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    position: relative;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.color-name {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.color-var {
+    font-family: monospace;
+    font-size: 0.75rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.color-value {
+    font-family: monospace;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* 색상 컨트롤 */
+.color-controls {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.color-controls h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.control-group label {
+    color: var(--text-primary);
+    min-width: 120px;
+    margin: 0;
+}
+
+/* 컴포넌트 쇼케이스 */
+.component-showcase {
+    margin-bottom: 2rem;
+}
+
+.component-showcase h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* 데모 미리보기 */
+.demo-preview {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+/* 통계 카드 개선 */
+.stats-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stats-card__title {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.stats-card__value {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.stats-card__icon {
+    font-size: 2rem;
+    opacity: 0.7;
+}
+
+.stats-card--primary .stats-card__icon {
+    color: var(--color-primary, #007bff);
+}
+
+.stats-card--success .stats-card__icon {
+    color: var(--color-success, #28a745);
+}
+
+.stats-card--warning .stats-card__icon {
+    color: var(--color-warning, #ffc107);
+}
+
+.stats-card--danger .stats-card__icon {
+    color: var(--color-danger, #dc3545);
+}
+
+/* 뷰포트 테스트 클래스 */
+.viewport-mobile {
+    max-width: 375px;
+    margin: 0 auto;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.viewport-tablet {
+    max-width: 768px;
+    margin: 0 auto;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.viewport-desktop {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 반응형 디자인 개선 */
+@media (max-width: 768px) {
+    .demo-header-content {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .demo-nav {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .responsive-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .color-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .control-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .demo-title {
+        font-size: 2rem;
+    }
+    
+    .demo-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .demo-section {
+        padding: 1rem;
+    }
+    
+    .demo-header {
+        padding: 1.5rem;
+    }
+    
+    .inventory-page-demo .inventory-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .asset-page-demo .asset-filters {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .operations-page-demo .operations-toolbar {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+} 

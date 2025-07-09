@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}자산 반납 처리 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">자산 반납 처리</h2>
+    <div>
+        <a href="{{ url_for('operations.return_history') }}" class="btn btn-outline-success">
+            <i class="fas fa-history me-1"></i> 반납 이력
+        </a>
+        <a href="{{ url_for('operations.index') }}" class="btn btn-secondary ms-2">
+            <i class="fas fa-arrow-left me-1"></i> 운영 관리
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-success">대여 중인 자산 검색</h6>
+            </div>
+            <div class="card-body">
+                <form id="assetSearchForm" method="get" class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="assetCode" class="form-label">자산 코드</label>
+                            <input type="text" class="form-control" id="assetCode" name="asset_code" placeholder="자산 코드 입력">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="assetName" class="form-label">자산명</label>
+                            <input type="text" class="form-control" id="assetName" name="asset_name" placeholder="자산명 입력">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="borrower" class="form-label">대여자</label>
+                            <input type="text" class="form-control" id="borrower" name="borrower" placeholder="대여자 이름">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="department" class="form-label">부서</label>
+                            <select class="form-select" id="department" name="department">
+                                <option value="">전체 부서</option>
+                                <option value="개발팀">개발팀</option>
+                                <option value="기획팀">기획팀</option>
+                                <option value="디자인팀">디자인팀</option>
+                                <option value="마케팅팀">마케팅팀</option>
+                            </select>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="button" id="searchBtn" class="btn btn-success">
+                                <i class="fas fa-search me-1"></i> 검색
+                            </button>
+                            <button type="button" id="resetBtn" class="btn btn-light ms-2">
+                                <i class="fas fa-redo me-1"></i> 초기화
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div id="searchResults" class="table-responsive fade-in">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 5%">선택</th>
+                                <th style="width: 15%">자산 코드</th>
+                                <th style="width: 20%">자산명</th>
+                                <th style="width: 15%">대여자</th>
+                                <th style="width: 15%">부서</th>
+                                <th style="width: 15%">대여일</th>
+                                <th style="width: 15%">반납 예정일</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultTableBody">
+                            <!-- 검색 결과가 여기에 동적으로 추가됩니다 -->
+                            <tr class="text-center">
+                                <td colspan="7">대여 중인 자산을 검색하세요.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-success">반납 처리</h6>
+            </div>
+            <div class="card-body">
+                <form id="returnForm" method="post">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="returnAssetCode" class="form-label required">자산 코드</label>
+                            <input type="text" class="form-control" id="returnAssetCode" name="asset_code" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="returnAssetName" class="form-label">자산명</label>
+                            <input type="text" class="form-control" id="returnAssetName" name="asset_name" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="returnBorrower" class="form-label">대여자</label>
+                            <input type="text" class="form-control" id="returnBorrower" name="borrower" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="returnDate" class="form-label required">반납일</label>
+                            <input type="date" class="form-control" id="returnDate" name="return_date" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="returnStatus" class="form-label required">반납 상태</label>
+                            <select class="form-select" id="returnStatus" name="return_status" required>
+                                <option value="">상태 선택</option>
+                                <option value="정상">정상</option>
+                                <option value="손상">손상</option>
+                                <option value="분실">분실</option>
+                                <option value="수리필요">수리 필요</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="processedBy" class="form-label required">처리자</label>
+                            <input type="text" class="form-control" id="processedBy" name="processed_by" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="returnNote" class="form-label">비고</label>
+                            <textarea class="form-control" id="returnNote" name="note" rows="3" placeholder="반납 관련 특이사항이 있으면 입력하세요."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label">자산 이미지 및 상태 확인</label>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-body text-center p-3">
+                                            <div id="assetOriginalImage" class="asset-image-container mb-2">
+                                                <img src="{{ url_for('static', filename='img/no-image.png') }}" class="img-fluid" alt="대여 시 이미지">
+                                            </div>
+                                            <span class="text-muted">대여 시 이미지</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-body text-center p-3">
+                                            <div id="assetReturnImage" class="asset-image-container mb-2">
+                                                <img src="{{ url_for('static', filename='img/no-image.png') }}" class="img-fluid" alt="반납 시 이미지">
+                                                <input type="file" id="returnImageUpload" class="form-control mt-2 custom-file-upload" accept="image/*">
+                                            </div>
+                                            <span class="text-muted">반납 시 이미지</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" id="submitReturn" class="btn btn-success" disabled>
+                            <i class="fas fa-check-circle me-1"></i> 반납 처리 완료
+                        </button>
+                        <button type="reset" class="btn btn-light ms-2">
+                            <i class="fas fa-times-circle me-1"></i> 초기화
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 반납 처리 확인 모달 -->
+<div class="modal fade" id="returnConfirmModal" tabindex="-1" aria-labelledby="returnConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="returnConfirmModalLabel">반납 처리 확인</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>선택한 자산의 반납 처리를 진행하시겠습니까?</p>
+                <div id="returnConfirmDetails">
+                    <!-- 반납 정보 요약이 여기에 표시됩니다 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="confirmReturnBtn" class="btn btn-success">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 반납 처리 완료 모달 -->
+<div class="modal fade" id="returnCompleteModal" tabindex="-1" aria-labelledby="returnCompleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="returnCompleteModalLabel">반납 처리 완료</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                <p>자산 반납 처리가 완료되었습니다.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ url_for('operations.return_history') }}" class="btn btn-outline-success">반납 이력 보기</a>
+                <button type="button" id="returnAnotherBtn" class="btn btn-success" data-bs-dismiss="modal">다른 자산 반납하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/shared/operations/operations-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/shared/operations/notification-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/shared/operations/api-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pages/operations/return_form.js') }}"></script>
+{% endblock %}

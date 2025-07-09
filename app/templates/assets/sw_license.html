@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}SW 라이선스 관리 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">SW 라이선스 관리</h2>
+    <div>
+        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#importModal">
+            <i class="fas fa-file-import me-1"></i> 라이선스 가져오기
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLicenseModal">
+            <i class="fas fa-plus me-1"></i> 라이선스 추가
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 라이선스 통계 요약 -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-light p-3 me-3">
+                        <i class="fas fa-key text-primary"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-0">전체 라이선스</h6>
+                        <h3 class="mb-0">86개</h3>
+                    </div>
+                </div>
+                <div class="progress mt-3" style="height: 6px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-light p-3 me-3">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-0">만료 예정</h6>
+                        <h3 class="mb-0">12개</h3>
+                    </div>
+                </div>
+                <div class="progress mt-3" style="height: 6px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 15%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-light p-3 me-3">
+                        <i class="fas fa-times-circle text-danger"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-0">만료됨</h6>
+                        <h3 class="mb-0">5개</h3>
+                    </div>
+                </div>
+                <div class="progress mt-3" style="height: 6px;">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 6%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-light p-3 me-3">
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-0">사용 중</h6>
+                        <h3 class="mb-0">64개</h3>
+                    </div>
+                </div>
+                <div class="progress mt-3" style="height: 6px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 검색 및 필터 영역 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body py-4">
+        <form id="searchForm" method="GET" action="">
+            <div class="row align-items-end g-3">
+                <div class="col-lg-3 col-md-6">
+                    <label for="searchKeyword" class="form-label">검색어</label>
+                    <input type="text" class="form-control" id="searchKeyword" name="q" placeholder="제품명, 라이선스 키, 자산번호">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="swTypeFilter" class="form-label">소프트웨어 유형</label>
+                    <select class="form-select" id="swTypeFilter" name="type">
+                        <option value="">전체</option>
+                        <option value="os">운영체제</option>
+                        <option value="office">오피스</option>
+                        <option value="design">디자인/그래픽</option>
+                        <option value="development">개발도구</option>
+                        <option value="security">보안</option>
+                        <option value="utility">유틸리티</option>
+                        <option value="business">업무용</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="statusFilter" class="form-label">상태</label>
+                    <select class="form-select" id="statusFilter" name="status">
+                        <option value="">전체</option>
+                        <option value="active">사용중</option>
+                        <option value="available">미사용</option>
+                        <option value="expiring">만료 예정</option>
+                        <option value="expired">만료됨</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="departmentFilter" class="form-label">부서</label>
+                    <select class="form-select" id="departmentFilter" name="department">
+                        <option value="">전체</option>
+                        <option value="1">개발팀</option>
+                        <option value="2">디자인팀</option>
+                        <option value="3">마케팅팀</option>
+                        <option value="4">영업팀</option>
+                        <option value="5">인사팀</option>
+                        <option value="6">경영지원팀</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
+                            <i class="fas fa-search me-1"></i> 검색
+                        </button>
+                        <button type="button" id="resetButton" class="btn btn-secondary">
+                            <i class="fas fa-undo me-1"></i> 초기화
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- SW 라이선스 목록 테이블 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">SW 라이선스 목록</h6>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="viewAllButton">전체</button>
+            <button type="button" class="btn btn-sm btn-outline-primary active" id="viewActiveButton">사용중</button>
+            <button type="button" class="btn btn-sm btn-outline-warning" id="viewExpiringButton">만료예정</button>
+            <button type="button" class="btn btn-sm btn-outline-danger" id="viewExpiredButton">만료됨</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="px-3 py-3">제품명</th>
+                    <th class="px-3 py-3">라이선스 키</th>
+                    <th class="px-3 py-3">유형</th>
+                    <th class="px-3 py-3">버전</th>
+                    <th class="px-3 py-3">구매일</th>
+                    <th class="px-3 py-3">만료일</th>
+                    <th class="px-3 py-3">할당된 사용자/장치</th>
+                    <th class="px-3 py-3">상태</th>
+                    <th class="px-3 py-3 text-center">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if licenses %}
+                    {% for license in licenses %}
+                    <tr class="license-row" data-href="{{ url_for('assets.sw_detail', asset_id=license.id) }}">
+                        <td class="px-3 py-3">
+                            <div class="d-flex align-items-center">
+                                {# 간단한 아이콘 표시 로직 #}
+                                <i class="fas fa-{{ 'cogs' if 'dev' in license.model.lower() else 'window-restore' if 'office' in license.model.lower() else 'swatchbook' if 'adobe' in license.model.lower() else 'key' }} me-2"></i>
+                                <div>
+                                    <span class="fw-medium">{{ license.name }}</span>
+                                    <small class="d-block text-muted">{{ license.manufacturer }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if license.details.license_key %}
+                            <span class="license-key">************{{ license.details.license_key[-4:] }}</span>
+                            {% else %}
+                            <span>-</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">{{ license.type.name if license.type else '-'}}</td>
+                        <td class="px-3 py-3">{{ license.model }}</td>
+                        <td class="px-3 py-3">{{ license.purchase_date.strftime('%Y-%m-%d') }}</td>
+                        <td class="px-3 py-3">{{ license.details.expiry_date.strftime('%Y-%m-%d') if license.details.expiry_date else '영구' }}</td>
+                        <td class="px-3 py-3">{{ license.user_name if license.user_name else '공용' }}</td>
+                        <td class="px-3 py-3"><span class="badge badge--success">{{ license.status }}</span></td>
+                        <td class="px-3 py-3 text-center">
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('assets.sw_detail', asset_id=license.id) }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="상세정보">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="수정">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center py-5">표시할 라이선스 정보가 없습니다.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 페이지네이션 -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">이전</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">다음</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block modals %}
+<!-- 라이선스 추가 모달 -->
+<div class="modal fade" id="addLicenseModal" tabindex="-1" aria-labelledby="addLicenseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addLicenseModalLabel">라이선스 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="licenseForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="productName" class="form-label">제품명 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="manufacturer" class="form-label">제조사 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="manufacturer" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="licenseType" class="form-label">소프트웨어 유형 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="licenseType" required>
+                                <option value="">선택...</option>
+                                <option value="os">운영체제</option>
+                                <option value="office">오피스</option>
+                                <option value="design">디자인/그래픽</option>
+                                <option value="development">개발도구</option>
+                                <option value="security">보안</option>
+                                <option value="utility">유틸리티</option>
+                                <option value="business">업무용</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="version" class="form-label">버전</label>
+                            <input type="text" class="form-control" id="version">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="licenseKey" class="form-label">라이선스 키</label>
+                            <input type="text" class="form-control" id="licenseKey">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="seats" class="form-label">사용자 수 <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="seats" min="1" value="1" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="purchaseDate" class="form-label">구매일</label>
+                            <input type="date" class="form-control" id="purchaseDate">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="expiryDate" class="form-label">만료일</label>
+                            <input type="date" class="form-control" id="expiryDate">
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="isPerpetual">
+                                <label class="form-check-label" for="isPerpetual">영구 라이선스</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="purchasePrice" class="form-label">구매가격</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="purchasePrice" min="0">
+                                <span class="input-group-text">원</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="assignTo" class="form-label">할당 대상</label>
+                            <select class="form-select" id="assignTo">
+                                <option value="">선택...</option>
+                                <option value="user">사용자</option>
+                                <option value="department">부서</option>
+                                <option value="device">장치</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">비고</label>
+                        <textarea class="form-control" id="notes" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="saveLicenseButton">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 라이선스 가져오기 모달 -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importModalLabel">라이선스 가져오기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="importFile" class="form-label">엑셀 파일 선택</label>
+                    <input class="form-control" type="file" id="importFile" accept=".xlsx, .xls, .csv">
+                    <div class="form-text">XLSX, XLS 또는 CSV 형식 파일만 업로드 가능합니다.</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">템플릿 다운로드</label>
+                    <div>
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-download me-1"></i> 라이선스 등록 템플릿
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="headerRowCheck" checked>
+                    <label class="form-check-label" for="headerRowCheck">
+                        첫 번째 행은 헤더입니다
+                    </label>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i> 라이선스 등록 템플릿을 다운로드하여 작성한 후 업로드하면 보다 정확하게 등록할 수 있습니다.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="importButton">가져오기</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/assets/sw_license.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/assets/sw_license.js') }}"></script>
+{% endblock %} 

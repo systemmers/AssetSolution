@@ -1,0 +1,326 @@
+{
+  "presets": [
+    {
+      "id": "기본_3단계",
+      "name": "기본 3단계",
+      "description": "일반적인 자산 분류를 위한 3단계 카테고리 구조",
+      "created_at": "2023-12-01T00:00:00",
+      "updated_at": "2023-12-01T00:00:00",
+      "categories": [
+        {
+          "id": 1,
+          "name": "IT 장비",
+          "code": "IT",
+          "level": 0,
+          "parent_id": null,
+          "children": [
+            {
+              "id": 101,
+              "name": "컴퓨터",
+              "code": "IT-PC",
+              "level": 1,
+              "parent_id": 1,
+              "children": [
+                {
+                  "id": 10101,
+                  "name": "노트북",
+                  "code": "IT-PC-NB",
+                  "level": 2,
+                  "parent_id": 101,
+                  "children": []
+                },
+                {
+                  "id": 10102,
+                  "name": "데스크탑",
+                  "code": "IT-PC-DT",
+                  "level": 2,
+                  "parent_id": 101,
+                  "children": []
+                },
+                {
+                  "id": 10103,
+                  "name": "서버",
+                  "code": "IT-PC-SV",
+                  "level": 2,
+                  "parent_id": 101,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 102,
+              "name": "주변기기",
+              "code": "IT-PH",
+              "level": 1,
+              "parent_id": 1,
+              "children": [
+                {
+                  "id": 10201,
+                  "name": "모니터",
+                  "code": "IT-PH-MN",
+                  "level": 2,
+                  "parent_id": 102,
+                  "children": []
+                },
+                {
+                  "id": 10202,
+                  "name": "키보드",
+                  "code": "IT-PH-KB",
+                  "level": 2,
+                  "parent_id": 102,
+                  "children": []
+                },
+                {
+                  "id": 10203,
+                  "name": "마우스",
+                  "code": "IT-PH-MS",
+                  "level": 2,
+                  "parent_id": 102,
+                  "children": []
+                },
+                {
+                  "id": 10204,
+                  "name": "프린터",
+                  "code": "IT-PH-PR",
+                  "level": 2,
+                  "parent_id": 102,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "사무용품",
+          "code": "OF",
+          "level": 0,
+          "parent_id": null,
+          "children": [
+            {
+              "id": 201,
+              "name": "가구",
+              "code": "OF-FN",
+              "level": 1,
+              "parent_id": 2,
+              "children": [
+                {
+                  "id": 20101,
+                  "name": "책상",
+                  "code": "OF-FN-DK",
+                  "level": 2,
+                  "parent_id": 201,
+                  "children": []
+                },
+                {
+                  "id": 20102,
+                  "name": "의자",
+                  "code": "OF-FN-CH",
+                  "level": 2,
+                  "parent_id": 201,
+                  "children": []
+                },
+                {
+                  "id": 20103,
+                  "name": "캐비닛",
+                  "code": "OF-FN-CB",
+                  "level": 2,
+                  "parent_id": 201,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 202,
+              "name": "문구류",
+              "code": "OF-ST",
+              "level": 1,
+              "parent_id": 2,
+              "children": [
+                {
+                  "id": 20201,
+                  "name": "필기구",
+                  "code": "OF-ST-PN",
+                  "level": 2,
+                  "parent_id": 202,
+                  "children": []
+                },
+                {
+                  "id": 20202,
+                  "name": "바인더/파일",
+                  "code": "OF-ST-BD",
+                  "level": 2,
+                  "parent_id": 202,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IT장비_5단계",
+      "name": "IT장비 5단계",
+      "description": "IT 장비를 세분화하여 분류하기 위한 5단계 구조",
+      "created_at": "2023-12-01T00:00:00",
+      "updated_at": "2023-12-01T00:00:00",
+      "categories": [
+        {
+          "id": 1,
+          "name": "하드웨어",
+          "code": "HW",
+          "level": 0,
+          "parent_id": null,
+          "children": [
+            {
+              "id": 101,
+              "name": "컴퓨팅 장비",
+              "code": "HW-CM",
+              "level": 1,
+              "parent_id": 1,
+              "children": [
+                {
+                  "id": 10101,
+                  "name": "개인용 컴퓨터",
+                  "code": "HW-CM-PC",
+                  "level": 2,
+                  "parent_id": 101,
+                  "children": [
+                    {
+                      "id": 1010101,
+                      "name": "노트북",
+                      "code": "HW-CM-PC-LT",
+                      "level": 3,
+                      "parent_id": 10101,
+                      "children": [
+                        {
+                          "id": 101010101,
+                          "name": "업무용 노트북",
+                          "code": "HW-CM-PC-LT-BZ",
+                          "level": 4,
+                          "parent_id": 1010101,
+                          "children": []
+                        },
+                        {
+                          "id": 101010102,
+                          "name": "개발용 노트북",
+                          "code": "HW-CM-PC-LT-DV",
+                          "level": 4,
+                          "parent_id": 1010101,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 1010102,
+                      "name": "데스크탑",
+                      "code": "HW-CM-PC-DT",
+                      "level": 3,
+                      "parent_id": 10101,
+                      "children": [
+                        {
+                          "id": 101010201,
+                          "name": "업무용 데스크탑",
+                          "code": "HW-CM-PC-DT-BZ",
+                          "level": 4,
+                          "parent_id": 1010102,
+                          "children": []
+                        },
+                        {
+                          "id": 101010202,
+                          "name": "개발용 데스크탑",
+                          "code": "HW-CM-PC-DT-DV",
+                          "level": 4,
+                          "parent_id": 1010102,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "사무용품_4단계",
+      "name": "사무용품 4단계",
+      "description": "사무용품을 자세히 분류하기 위한 4단계 구조",
+      "created_at": "2023-12-01T00:00:00",
+      "updated_at": "2023-12-01T00:00:00",
+      "categories": [
+        {
+          "id": 1,
+          "name": "사무용품",
+          "code": "OF",
+          "level": 0,
+          "parent_id": null,
+          "children": [
+            {
+              "id": 101,
+              "name": "가구",
+              "code": "OF-FN",
+              "level": 1,
+              "parent_id": 1,
+              "children": [
+                {
+                  "id": 10101,
+                  "name": "책상",
+                  "code": "OF-FN-DK",
+                  "level": 2,
+                  "parent_id": 101,
+                  "children": [
+                    {
+                      "id": 1010101,
+                      "name": "일반 책상",
+                      "code": "OF-FN-DK-ST",
+                      "level": 3,
+                      "parent_id": 10101,
+                      "children": []
+                    },
+                    {
+                      "id": 1010102,
+                      "name": "높이조절 책상",
+                      "code": "OF-FN-DK-AD",
+                      "level": 3,
+                      "parent_id": 10101,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 10102,
+                  "name": "의자",
+                  "code": "OF-FN-CH",
+                  "level": 2,
+                  "parent_id": 101,
+                  "children": [
+                    {
+                      "id": 1010201,
+                      "name": "일반 의자",
+                      "code": "OF-FN-CH-ST",
+                      "level": 3,
+                      "parent_id": 10102,
+                      "children": []
+                    },
+                    {
+                      "id": 1010202,
+                      "name": "인체공학 의자",
+                      "code": "OF-FN-CH-ER",
+                      "level": 3,
+                      "parent_id": 10102,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 

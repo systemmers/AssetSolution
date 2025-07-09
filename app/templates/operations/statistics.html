@@ -1,0 +1,462 @@
+{% extends "base.html" %}
+
+{% block title %}운영 통계 및 보고서 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">운영 통계 및 보고서</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{{ url_for('operations.index') }}">운영 관리</a></li>
+            <li class="breadcrumb-item active">통계 및 보고서</li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- 보고서 생성 설정 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-cog me-2"></i>보고서 생성 설정
+        </h6>
+    </div>
+    <div class="card-body">
+        <form id="reportConfigForm">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="report_type" class="form-label">보고서 유형</label>
+                    <select class="form-control" id="report_type" name="report_type">
+                        <option value="monthly">월간 보고서</option>
+                        <option value="quarterly">분기별 보고서</option>
+                        <option value="yearly">연간 보고서</option>
+                        <option value="custom">사용자 정의</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="report_period_start" class="form-label">시작일</label>
+                    <input type="date" class="form-control" id="report_period_start" name="report_period_start">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="report_period_end" class="form-label">종료일</label>
+                    <input type="date" class="form-control" id="report_period_end" name="report_period_end">
+                </div>
+                <div class="col-md-3 mb-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary me-2" onclick="generateReport()">
+                        <i class="fas fa-chart-bar me-1"></i>보고서 생성
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">포함할 통계</label>
+                    <div class="d-flex flex-wrap">
+                        <div class="form-check me-3 mb-2">
+                            <input class="form-check-input" type="checkbox" id="include_loans" checked>
+                            <label class="form-check-label" for="include_loans">대여 통계</label>
+                        </div>
+                        <div class="form-check me-3 mb-2">
+                            <input class="form-check-input" type="checkbox" id="include_returns" checked>
+                            <label class="form-check-label" for="include_returns">반납 통계</label>
+                        </div>
+                        <div class="form-check me-3 mb-2">
+                            <input class="form-check-input" type="checkbox" id="include_disposals" checked>
+                            <label class="form-check-label" for="include_disposals">폐기 통계</label>
+                        </div>
+                        <div class="form-check me-3 mb-2">
+                            <input class="form-check-input" type="checkbox" id="include_maintenance" checked>
+                            <label class="form-check-label" for="include_maintenance">유지보수 통계</label>
+                        </div>
+                        <div class="form-check me-3 mb-2">
+                            <input class="form-check-input" type="checkbox" id="include_utilization">
+                            <label class="form-check-label" for="include_utilization">활용도 분석</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 핵심 통계 요약 -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            이번 달 대여
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ statistics.summary_stats.monthly_loans if statistics else 145 }}
+                        </div>
+                        <div class="text-xs text-success mt-1">
+                            <i class="fas fa-arrow-up"></i> 
+                            {{ statistics.summary_stats.monthly_loan_growth if statistics else 12 }}% 증가
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-handshake fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            이번 달 반납
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ statistics.summary_stats.monthly_returns if statistics else 132 }}
+                        </div>
+                        <div class="text-xs text-success mt-1">
+                            <i class="fas fa-arrow-up"></i> 
+                            {{ statistics.summary_stats.monthly_return_growth if statistics else 8 }}% 증가
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-undo fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            지연 반납
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ statistics.summary_stats.overdue_returns if statistics else 23 }}
+                        </div>
+                        <div class="text-xs text-danger mt-1">
+                            <i class="fas fa-arrow-up"></i> 
+                            {{ statistics.summary_stats.overdue_change if statistics else 5 }}건 증가
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            평균 활용률
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ statistics.summary_stats.average_utilization_rate if statistics else 78.5 }}%
+                        </div>
+                        <div class="text-xs text-success mt-1">
+                            <i class="fas fa-arrow-up"></i> 
+                            {{ statistics.summary_stats.utilization_growth if statistics else 2.3 }}% 증가
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-percentage fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 차트 및 분석 -->
+<div class="row">
+    <!-- 월별 운영 추이 차트 -->
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">월별 운영 추이</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
+                        <div class="dropdown-header">차트 옵션:</div>
+                        <a class="dropdown-item" href="#" onclick="changeChartType('line')">선형 차트</a>
+                        <a class="dropdown-item" href="#" onclick="changeChartType('bar')">막대 차트</a>
+                        <a class="dropdown-item" href="#" onclick="changeChartType('area')">영역 차트</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="monthlyTrendChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 부서별 활용도 파이 차트 -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">부서별 활용도</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="departmentPieChart"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> IT개발팀
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> 마케팅팀
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> 영업팀
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> 기타
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 상세 통계 테이블 -->
+<div class="row">
+    <!-- 자산별 활용 통계 -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">자산별 활용 통계 (상위 10)</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>자산명</th>
+                                <th>대여횟수</th>
+                                <th>활용도</th>
+                                <th>평균 대여기간</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if statistics and statistics.asset_utilization_top10 %}
+                                {% for asset in statistics.asset_utilization_top10 %}
+                                <tr>
+                                    <td>{{ asset.asset_name }}</td>
+                                    <td>{{ asset.loan_count }}</td>
+                                    <td>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ asset.utilization_rate }}%"></div>
+                                        </div>
+                                        <small>{{ asset.utilization_rate }}%</small>
+                                    </td>
+                                    <td>{{ asset.avg_loan_period }}일</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Mock 데이터 -->
+                            <tr>
+                                <td>Dell 노트북 (AST-001)</td>
+                                <td>24</td>
+                                <td>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 92%"></div>
+                                    </div>
+                                    <small>92%</small>
+                                </td>
+                                <td>12일</td>
+                            </tr>
+                            <tr>
+                                <td>iPad Pro (AST-005)</td>
+                                <td>18</td>
+                                <td>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small>85%</small>
+                                </td>
+                                <td>8일</td>
+                            </tr>
+                            <tr>
+                                <td>HP 프린터 (AST-003)</td>
+                                <td>16</td>
+                                <td>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 78%"></div>
+                                    </div>
+                                    <small>78%</small>
+                                </td>
+                                <td>5일</td>
+                            </tr>
+                            <tr>
+                                <td>삼성 모니터 (AST-007)</td>
+                                <td>14</td>
+                                <td>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 72%"></div>
+                                    </div>
+                                    <small>72%</small>
+                                </td>
+                                <td>15일</td>
+                            </tr>
+                            <tr>
+                                <td>무선 마우스 (AST-012)</td>
+                                <td>12</td>
+                                <td>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 65%"></div>
+                                    </div>
+                                    <small>65%</small>
+                                </td>
+                                <td>3일</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 사용자별 활동 통계 -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">사용자별 활동 통계 (상위 10)</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>사용자</th>
+                                <th>부서</th>
+                                <th>대여횟수</th>
+                                <th>신뢰도</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if statistics and statistics.user_activity_top10 %}
+                                {% for user in statistics.user_activity_top10 %}
+                                <tr>
+                                    <td>{{ user.user_name }}</td>
+                                    <td>{{ user.department }}</td>
+                                    <td>{{ user.loan_count }}</td>
+                                    <td>
+                                        {% if user.reliability == 'A급' %}
+                                            <span class="badge bg-success">{{ user.reliability }}</span>
+                                        {% elif user.reliability == 'B급' %}
+                                            <span class="badge bg-info">{{ user.reliability }}</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">{{ user.reliability }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Mock 데이터 -->
+                            <tr>
+                                <td>홍길동</td>
+                                <td>IT개발팀</td>
+                                <td>28</td>
+                                <td><span class="badge bg-success">A급</span></td>
+                            </tr>
+                            <tr>
+                                <td>김영수</td>
+                                <td>마케팅팀</td>
+                                <td>22</td>
+                                <td><span class="badge bg-success">A급</span></td>
+                            </tr>
+                            <tr>
+                                <td>박민수</td>
+                                <td>IT지원팀</td>
+                                <td>19</td>
+                                <td><span class="badge bg-info">B급</span></td>
+                            </tr>
+                            <tr>
+                                <td>이철수</td>
+                                <td>영업팀</td>
+                                <td>15</td>
+                                <td><span class="badge bg-warning">C급</span></td>
+                            </tr>
+                            <tr>
+                                <td>정미경</td>
+                                <td>인사팀</td>
+                                <td>12</td>
+                                <td><span class="badge bg-success">A급</span></td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 보고서 다운로드 섹션 -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-download me-2"></i>보고서 다운로드
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card border-left-primary h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                        <h6 class="font-weight-bold">Excel 보고서</h6>
+                        <p class="text-muted">상세한 데이터와 차트가 포함된 Excel 파일</p>
+                        <button class="btn-export-excel" onclick="downloadReport('excel')">
+                            <i class="fas fa-file-excel"></i>
+                            <span>엑셀 내보내기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card border-left-info h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                        <h6 class="font-weight-bold">대시보드 공유</h6>
+                        <p class="text-muted">실시간 데이터를 공유할 수 있는 링크</p>
+                        <button class="btn btn-info btn-sm" onclick="shareDashboard()">
+                            <i class="fas fa-share-alt me-1"></i>링크 생성
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/shared/operations/operations-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/shared/operations/notification-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/shared/operations/api-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pages/operations/statistics.js') }}"></script>
+{% endblock %} 

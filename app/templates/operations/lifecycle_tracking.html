@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+
+{% block title %}생명주기 추적 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">자산 생명주기 추적</h2>
+    <div>
+        <a href="{{ url_for('operations.index') }}" class="btn btn-secondary me-2">
+            <i class="fas fa-arrow-left me-1"></i> 운영 관리
+        </a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventFilterModal">
+            <i class="fas fa-filter me-1"></i> 고급 필터
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 생명주기 통계 요약 -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">총 이벤트</h6>
+                        <h4 class="mb-0">{{ statistics.total_events }}</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-history fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">이번 달 이벤트</h6>
+                        <h4 class="mb-0">{{ statistics.this_month_events }}</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-calendar-alt fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">최근 활동</h6>
+                        <h4 class="mb-0">{{ statistics.recent_events }}</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-clock fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">총 관련 비용</h6>
+                        <h4 class="mb-0 small">{{ statistics.total_costs_formatted }}</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-won-sign fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 필터링 및 검색 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-2">
+                <label for="assetIdFilter" class="form-label">자산 ID</label>
+                <input type="number" class="form-control" id="assetIdFilter" name="asset_id" 
+                       placeholder="자산 ID" value="{{ request.args.get('asset_id', '') }}">
+            </div>
+            <div class="col-md-3">
+                <label for="eventTypeFilter" class="form-label">이벤트 유형</label>
+                <select class="form-select" id="eventTypeFilter" name="event_type">
+                    <option value="">전체 유형</option>
+                    {% for type in filter_options.event_types %}
+                    <option value="{{ type.code.lower() }}" {% if request.args.get('event_type') == type.code.lower() %}selected{% endif %}>
+                        {{ type.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="departmentFilter" class="form-label">부서</label>
+                <input type="text" class="form-control" id="departmentFilter" name="department" 
+                       placeholder="부서명" value="{{ request.args.get('department', '') }}">
+            </div>
+            <div class="col-md-2">
+                <label for="startDateFilter" class="form-label">시작일</label>
+                <input type="date" class="form-control" id="startDateFilter" name="start_date" 
+                       value="{{ request.args.get('start_date', '') }}">
+            </div>
+            <div class="col-md-2">
+                <label for="endDateFilter" class="form-label">종료일</label>
+                <input type="date" class="form-control" id="endDateFilter" name="end_date" 
+                       value="{{ request.args.get('end_date', '') }}">
+            </div>
+            <div class="col-md-1">
+                <label for="searchBtn" class="form-label">&nbsp;</label>
+                <div class="d-flex flex-column gap-1">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a href="{{ url_for('operations.lifecycle_tracking') }}" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 이벤트 유형별 통계 차트 -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>
+                    이벤트 유형별 분포
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="eventTypeChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line me-2"></i>
+                    월별 이벤트 추이
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="monthlyChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 생명주기 이벤트 목록 -->
+<div class="card shadow-sm">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-timeline me-2"></i>
+                생명주기 이벤트 목록
+            </h5>
+            <div class="text-muted small">
+                총 {{ pagination.total_items }}개 이벤트 ({{ pagination.current_page }}/{{ pagination.total_pages }} 페이지)
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="timeline-container">
+            <div class="timeline">
+                {% for event in lifecycle_events %}
+                <div class="timeline-item">
+                <div class="timeline-marker {{ event.bg_color }}">
+                    <i class="{{ event.icon }}"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                    <a href="{{ url_for('operations.asset_lifecycle_timeline', asset_id=event.asset_id) }}" 
+                                       class="text-decoration-none">
+                                        {{ event.asset_name }}
+                                    </a>
+                                    <small class="text-muted">({{ event.asset_number }})</small>
+                                </h6>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-{{ event.color }}">{{ event.event_type_display }}</span>
+                                    <span class="text-muted small">{{ event.department }}</span>
+                                    <span class="text-muted small">{{ event.performed_by }}</span>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-primary fw-medium">{{ event.event_date_formatted }}</div>
+                                <small class="text-muted">{{ event.time_ago_text }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-body mt-2">
+                        <p class="mb-2">{{ event.event_description }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex gap-3">
+                                <span class="badge bg-light text-dark">
+                                    <i class="fas fa-won-sign me-1"></i>{{ event.related_cost_formatted }}
+                                </span>
+                                {% if event.notes %}
+                                <span class="text-muted small">
+                                    <i class="fas fa-sticky-note me-1"></i>{{ event.notes }}
+                                </span>
+                                {% endif %}
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-view-event-detail" 
+                                    data-event-id="{{ event.id }}">
+                                <i class="fas fa-eye me-1"></i> 상세보기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <div class="text-muted">
+                    <i class="fas fa-history fa-3x mb-3 opacity-50"></i>
+                    <p class="mb-0">검색 조건에 맞는 생명주기 이벤트가 없습니다.</p>
+                    <small class="text-muted">필터 조건을 변경해서 다시 검색해보세요.</small>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        
+        <!-- 페이지네이션 -->
+        {% if pagination.total_pages > 1 %}
+        <nav aria-label="생명주기 이벤트 페이지네이션" class="mt-4">
+            <ul class="pagination justify-content-center mb-0">
+                {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('operations.lifecycle_tracking', page=pagination.current_page-1, **request.args) }}" 
+                       aria-label="이전 페이지">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for page_num in range(1, pagination.total_pages + 1) %}
+                    {% if page_num <= 3 or page_num > pagination.total_pages - 3 or (page_num >= pagination.current_page - 1 and page_num <= pagination.current_page + 1) %}
+                        <li class="page-item {% if page_num == pagination.current_page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('operations.lifecycle_tracking', page=page_num, **request.args) }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                    {% elif page_num == 4 and pagination.current_page > 5 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% elif page_num == pagination.total_pages - 3 and pagination.current_page < pagination.total_pages - 4 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('operations.lifecycle_tracking', page=pagination.current_page+1, **request.args) }}" 
+                       aria-label="다음 페이지">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 이벤트 상세보기 모달 -->
+<div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDetailModalLabel">
+                    <i class="fas fa-info-circle me-2"></i>생명주기 이벤트 상세정보
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body" id="eventDetailContent">
+                <!-- 동적으로 로드됨 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="viewAssetTimelineBtn">
+                    <i class="fas fa-timeline me-1"></i> 자산 타임라인 보기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 고급 필터 모달 -->
+<div class="modal fade" id="eventFilterModal" tabindex="-1" aria-labelledby="eventFilterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventFilterModalLabel">
+                    <i class="fas fa-filter me-2"></i>고급 필터 설정
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                <form id="advancedFilterForm">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="eventTypes" class="form-label">이벤트 유형 (다중 선택)</label>
+                            <div class="form-check-container">
+                                {% for type in filter_options.event_types %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="eventType{{ type.id }}" 
+                                           value="{{ type.code.lower() }}" name="event_types">
+                                    <label class="form-check-label" for="eventType{{ type.id }}">
+                                        <span class="badge bg-{{ type.color }} me-1">{{ type.name }}</span>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="minCost" class="form-label">최소 비용 (원)</label>
+                            <input type="number" class="form-control" id="minCost" name="min_cost" placeholder="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="maxCost" class="form-label">최대 비용 (원)</label>
+                            <input type="number" class="form-control" id="maxCost" name="max_cost" placeholder="제한없음">
+                        </div>
+                        <div class="col-12">
+                            <label for="performer" class="form-label">수행자</label>
+                            <input type="text" class="form-control" id="performer" name="performer" 
+                                   placeholder="수행자 이름">
+                        </div>
+                        <div class="col-12">
+                            <label for="descriptionKeyword" class="form-label">설명 키워드</label>
+                            <input type="text" class="form-control" id="descriptionKeyword" name="description" 
+                                   placeholder="이벤트 설명에서 검색할 키워드">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-outline-warning" id="clearAdvancedFilterBtn">
+                    <i class="fas fa-eraser me-1"></i> 초기화
+                </button>
+                <button type="button" class="btn btn-primary" id="applyAdvancedFilterBtn">
+                    <i class="fas fa-search me-1"></i> 필터 적용
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/modal-cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shared/operations.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/operations/lifecycle_tracking.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/pages/operations/lifecycle_tracking.js') }}"></script>
+<script>
+// 차트 데이터 전달
+window.lifecycleChartData = {
+    eventTypeData: {{ statistics.type_stats|tojson }},
+    monthlyData: {{ statistics.monthly_stats|tojson }}
+};
+
+// 페이지 로드 시 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    LifecycleTracking.init();
+    LifecycleTracking.initCharts(window.lifecycleChartData.eventTypeData, window.lifecycleChartData.monthlyData);
+});
+</script>
+{% endblock %} 

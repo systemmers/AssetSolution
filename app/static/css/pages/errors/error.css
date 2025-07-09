@@ -1,0 +1,119 @@
+/**
+ * 에러 페이지 스타일
+ * 404, 500 등 에러 페이지에만 필요한 고유 스타일을 정의합니다.
+ */
+
+/* 에러 컨테이너 */
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-4);
+    text-align: center;
+}
+
+/* 에러 콘텐츠 */
+.error-content {
+    max-width: 600px;
+}
+
+.error-number {
+    font-size: 8rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    margin-bottom: var(--spacing-3);
+    color: var(--color-primary);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-3);
+    color: var(--text-default);
+}
+
+.error-message {
+    font-size: var(--font-size-md);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-4);
+}
+
+.error-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: var(--spacing-4);
+}
+
+/* 에러 버튼 */
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-3);
+}
+
+.error-actions .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+}
+
+.error-actions .btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.error-actions .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+.error-actions .btn-outline-secondary {
+    color: var(--text-muted);
+    border-color: var(--border-light);
+}
+
+.error-actions .btn-outline-secondary:hover {
+    background-color: var(--bg-card-header);
+    color: var(--text-default);
+}
+
+/* 애니메이션 효과 */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.error-animated {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* 반응형 조정 */
+@media (max-width: var(--breakpoint-md)) {
+    .error-number {
+        font-size: 6rem;
+    }
+    
+    .error-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        gap: var(--spacing-2);
+    }
+    
+    .error-actions .btn {
+        width: 100%;
+    }
+} 

@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+
+{% block title %}대시보드 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">대시보드</h2>
+    <div>
+        <span class="text-muted">기준일: <strong>{{ current_date }}</strong></span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 상태 요약 카드 -->
+<div class="card-group card-group--4-cols mb-4">
+    <div class="stats-card stats-card--primary">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">총 자산</h3>
+                <p class="stats-card__value">{{ total_assets }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-boxes"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card stats-card--success">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">정상 자산</h3>
+                <p class="stats-card__value">{{ normal_assets }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card stats-card--warning">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">수리중</h3>
+                <p class="stats-card__value">{{ maintenance_assets }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-tools"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card stats-card--danger">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">폐기 예정</h3>
+                <p class="stats-card__value">{{ disposed_assets }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 계약 요약 카드 -->
+<div class="card-group card-group--4-cols mb-4">
+    <div class="stats-card stats-card--primary">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">총 계약</h3>
+                <p class="stats-card__value">{{ total_contracts }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-file-contract"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card stats-card--success">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">진행중 계약</h3>
+                <p class="stats-card__value">{{ active_contracts }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card stats-card--warning">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">만료 임박</h3>
+                <p class="stats-card__value">{{ expiring_contracts }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-card stats-card--info">
+        <div class="stats-card__header">
+            <div class="stats-card__content">
+                <h3 class="stats-card__title">월간 계약비용</h3>
+                <p class="stats-card__value">₩ {{ '{:,.0f}'.format(monthly_cost) }}</p>
+            </div>
+            <div class="stats-card__icon">
+                <i class="fas fa-won-sign"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 메인 콘텐츠 섹션 -->
+<div class="row">
+    <!-- 왼쪽 콘텐츠 영역 -->
+    <div class="col-lg-8">
+        <!-- 최근 등록 자산 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">최근 등록 자산</h6>
+                <a href="{{ url_for('assets.index') }}" class="btn btn-sm btn-primary">
+                    전체보기
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>자산번호</th>
+                                <th>자산명</th>
+                                <th>카테고리</th>
+                                <th>위치</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asset in recent_assets %}
+                            <tr>
+                                <td>{{ asset.asset_number }}</td>
+                                <td>{{ asset.name }}</td>
+                                <td>
+                                    {% if asset.category_id == 1 %}
+                                    노트북
+                                    {% elif asset.category_id == 2 %}
+                                    데스크탑
+                                    {% elif asset.category_id == 3 %}
+                                    모니터
+                                    {% elif asset.category_id == 4 %}
+                                    서버
+                                    {% elif asset.category_id == 5 %}
+                                    네트워크 장비
+                                    {% elif asset.category_id == 6 %}
+                                    주변기기
+                                    {% elif asset.category_id == 7 %}
+                                    소프트웨어
+                                    {% else %}
+                                    기타
+                                    {% endif %}
+                                </td>
+                                <td>{{ asset.location_name }}</td>
+                                <td>
+                                    {% if asset.status == 'available' %}
+                                    <span class="badge bg-success">사용가능</span>
+                                    {% elif asset.status == 'in_use' %}
+                                    <span class="badge bg-primary">사용중</span>
+                                    {% elif asset.status == 'in_repair' %}
+                                    <span class="badge bg-warning text-dark">수리중</span>
+                                    {% elif asset.status == 'disposed' %}
+                                    <span class="badge bg-danger">폐기</span>
+                                    {% elif asset.status == 'reserved' %}
+                                    <span class="badge bg-info">예약됨</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">기타</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 최근 활동 카드 - 왼쪽 콘텐츠 영역으로 이동 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">최근 활동</h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="timeline px-3 py-3">
+                    <div class="timeline-item">
+                        <div class="d-flex">
+                            <div class="timeline-date text-muted">
+                                <small>오늘</small>
+                            </div>
+                            <div class="timeline-content ms-3">
+                                <div class="fw-bold">자산 상태 변경</div>
+                                <p class="mb-0 text-sm">노트북 HP EliteBook 850 G7 - 사용중 → 수리중</p>
+                                <small class="text-muted">담당자: 김관리</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item mt-3">
+                        <div class="d-flex">
+                            <div class="timeline-date text-muted">
+                                <small>어제</small>
+                            </div>
+                            <div class="timeline-content ms-3">
+                                <div class="fw-bold">자산 등록</div>
+                                <p class="mb-0 text-sm">모니터 Dell P2720D 외 2종</p>
+                                <small class="text-muted">담당자: 이등록</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item mt-3">
+                        <div class="d-flex">
+                            <div class="timeline-date text-muted">
+                                <small>2일 전</small>
+                            </div>
+                            <div class="timeline-content ms-3">
+                                <div class="fw-bold">계약 갱신</div>
+                                <p class="mb-0 text-sm">Microsoft Office 365 라이선스</p>
+                                <small class="text-muted">담당자: 박계약</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item mt-3">
+                        <div class="d-flex">
+                            <div class="timeline-date text-muted">
+                                <small>3일 전</small>
+                            </div>
+                            <div class="timeline-content ms-3">
+                                <div class="fw-bold">자산 반출</div>
+                                <p class="mb-0 text-sm">노트북 HP EliteBook 840 G7 - 외근용</p>
+                                <small class="text-muted">담당자: 최사용</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item mt-3">
+                        <div class="d-flex">
+                            <div class="timeline-date text-muted">
+                                <small>일주일 전</small>
+                            </div>
+                            <div class="timeline-content ms-3">
+                                <div class="fw-bold">자산 실사 완료</div>
+                                <p class="mb-0 text-sm">1분기 정기 자산 실사</p>
+                                <small class="text-muted">담당자: 김실사</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center py-2 border-top">
+                    <a href="#" class="text-primary small">
+                        모든 활동 보기 <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 만료 임박 계약 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">만료 임박 계약</h6>
+                <a href="{{ url_for('contract.index') }}" class="btn btn-sm btn-primary">
+                    전체보기
+                </a>
+            </div>
+            <div class="card-body">
+                {% if soon_expiring_contracts %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>계약번호</th>
+                                <th>계약명</th>
+                                <th>공급업체</th>
+                                <th>종료일</th>
+                                <th>남은 기간</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contract in soon_expiring_contracts %}
+                            <tr>
+                                <td>{{ contract.contract_no }}</td>
+                                <td>{{ contract.name }}</td>
+                                <td>{{ contract.vendor }}</td>
+                                <td>{{ contract.end_date }}</td>
+                                <td>{{ contract.days_remaining }}일</td>
+                                <td>
+                                    {% if contract.status == 'active' %}
+                                    <span class="badge bg-success">진행중</span>
+                                    {% elif contract.status == 'expiring' %}
+                                    <span class="badge bg-warning text-dark">만료예정</span>
+                                    {% elif contract.status == 'expired' %}
+                                    <span class="badge bg-danger">만료됨</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">기타</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <!-- 샘플 데이터로 UI 채우기 -->
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>계약번호</th>
+                                <th>계약명</th>
+                                <th>공급업체</th>
+                                <th>종료일</th>
+                                <th>남은 기간</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CONT-2023-0145</td>
+                                <td>Microsoft Office 365 구독</td>
+                                <td>Microsoft</td>
+                                <td>2023-12-31</td>
+                                <td>7일</td>
+                                <td><span class="badge bg-warning text-dark">만료예정</span></td>
+                            </tr>
+                            <tr>
+                                <td>CONT-2023-0192</td>
+                                <td>Adobe Creative Cloud 라이선스</td>
+                                <td>Adobe</td>
+                                <td>2024-01-15</td>
+                                <td>22일</td>
+                                <td><span class="badge bg-warning text-dark">만료예정</span></td>
+                            </tr>
+                            <tr>
+                                <td>CONT-2022-0087</td>
+                                <td>서버실 유지보수 계약</td>
+                                <td>한국IT서비스</td>
+                                <td>2024-01-10</td>
+                                <td>17일</td>
+                                <td><span class="badge bg-warning text-dark">만료예정</span></td>
+                            </tr>
+                            <tr>
+                                <td>CONT-2023-0203</td>
+                                <td>보안 소프트웨어 라이선스</td>
+                                <td>시큐어테크</td>
+                                <td>2024-01-05</td>
+                                <td>12일</td>
+                                <td><span class="badge bg-warning text-dark">만료예정</span></td>
+                            </tr>
+                            <tr>
+                                <td>CONT-2023-0134</td>
+                                <td>네트워크 장비 유지보수</td>
+                                <td>네트워크솔루션</td>
+                                <td>2024-01-20</td>
+                                <td>27일</td>
+                                <td><span class="badge bg-success">진행중</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 오른쪽 사이드 섹션 -->
+    <div class="col-lg-4">
+        <!-- 자산 카테고리 분포 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">자산 카테고리 분포</h6>
+            </div>
+            <div class="card-body">
+                {% if category_stats %}
+                <div class="pt-2">
+                    {% for category, count in category_stats.items() %}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>{{ category }}</span>
+                            <span>{{ count }}</span>
+                        </div>
+                        <div class="progress">
+                            {% if category == '노트북' %}
+                                <div class="progress-bar bg-primary" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% elif category == '데스크탑' %}
+                                <div class="progress-bar bg-success" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% elif category == '모니터' %}
+                                <div class="progress-bar bg-info" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% elif category == '서버' %}
+                                <div class="progress-bar bg-danger" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% elif category == '네트워크 장비' %}
+                                <div class="progress-bar bg-warning" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% elif category == '주변기기' %}
+                                <div class="progress-bar bg-secondary" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% elif category == '소프트웨어' %}
+                                <div class="progress-bar bg-light text-dark" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% else %}
+                                <div class="progress-bar bg-dark" role="progressbar" data-width="{{ (count / total_assets * 100)|int if total_assets > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_assets if total_assets > 0 else 1 }}"></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-chart-pie fa-3x mb-3 text-gray-300"></i>
+                    <p class="text-muted">차트 데이터 준비 중...</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 계약 유형 분포 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">계약 유형 분포</h6>
+            </div>
+            <div class="card-body">
+                {% if contract_type_stats %}
+                <div class="pt-2">
+                    {% for contract_type, count in contract_type_stats.items() %}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>{{ contract_type }}</span>
+                            <span>{{ count }}</span>
+                        </div>
+                        <div class="progress">
+                            {% if contract_type == '라이선스' %}
+                                <div class="progress-bar bg-primary" role="progressbar" data-width="{{ (count / total_contracts * 100)|int if total_contracts > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_contracts if total_contracts > 0 else 1 }}"></div>
+                            {% elif contract_type == '유지보수' %}
+                                <div class="progress-bar bg-success" role="progressbar" data-width="{{ (count / total_contracts * 100)|int if total_contracts > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_contracts if total_contracts > 0 else 1 }}"></div>
+                            {% elif contract_type == '임대/리스' %}
+                                <div class="progress-bar bg-info" role="progressbar" data-width="{{ (count / total_contracts * 100)|int if total_contracts > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_contracts if total_contracts > 0 else 1 }}"></div>
+                            {% else %}
+                                <div class="progress-bar bg-dark" role="progressbar" data-width="{{ (count / total_contracts * 100)|int if total_contracts > 0 else 0 }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ total_contracts if total_contracts > 0 else 1 }}"></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-chart-pie fa-3x mb-3 text-gray-300"></i>
+                    <p class="text-muted">차트 데이터 준비 중...</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 알림 메시지 -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">알림</h6>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">자산 실사 일정</h6>
+                            <small>3일 전</small>
+                        </div>
+                        <p class="mb-1">2023년 2분기 자산 실사가 예정되어 있습니다.</p>
+                    </a>
+                    {% if expiring_contracts > 0 %}
+                    <a href="{{ url_for('contract.index') }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">계약 만료 알림</h6>
+                            <small>오늘</small>
+                        </div>
+                        <p class="mb-1">{{ expiring_contracts }}건의 계약이 곧 만료됩니다.</p>
+                    </a>
+                    {% endif %}
+                    {% if maintenance_assets > 0 %}
+                    <a href="{{ url_for('assets.index', status='in_repair') }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">수리중인 자산</h6>
+                            <small>오늘</small>
+                        </div>
+                        <p class="mb-1">{{ maintenance_assets }}대의 장비가 현재 수리중입니다.</p>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/main/dashboard.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/main/dashboard.js') }}" type="module"></script>
+{% endblock %} 

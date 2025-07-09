@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}자산 실사 등록 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">자산 실사 등록</h2>
+    <div>
+        <a href="{{ url_for('inventory.index') }}" class="btn btn--secondary">
+            <i class="fas fa-arrow-left me-1"></i> 목록으로
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 안내 메시지 -->
+<div class="alert alert-info">
+    <i class="fas fa-info-circle me-2"></i> 자산 실사 등록 기능은 현재 개발중입니다. 곧 추가될 예정입니다.
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">실사 정보 입력</h6>
+    </div>
+    <div class="card-body">
+        <form id="createInventoryForm" method="POST">
+            <div class="mb-3">
+                <label for="inventoryName" class="form-label">실사명 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="inventoryName" name="name" placeholder="예: 2023년 4분기 정기 실사" required>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="startDate" class="form-label">시작일 <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="startDate" name="start_date" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="endDate" class="form-label">종료일 <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="endDate" name="end_date" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="manager" class="form-label">담당자 <span class="text-danger">*</span></label>
+                <select class="form-select" id="manager" name="manager_id" required>
+                    <option value="">담당자 선택</option>
+                    <option value="1">관리자</option>
+                    <option value="2">홍길동</option>
+                    <option value="3">김철수</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="description" class="form-label">실사 설명</label>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="실사 목적과 범위를 설명해주세요."></textarea>
+            </div>
+            
+            <hr>
+            
+            <h6 class="mb-3">대상 자산 범위</h6>
+            
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="allAssets" name="all_assets" value="1" checked>
+                    <label class="form-check-label" for="allAssets">
+                        전체 자산 대상
+                    </label>
+                </div>
+            </div>
+            
+            <div id="assetFilterSection" class="mb-3 d-none">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="categoryFilter" class="form-label">카테고리</label>
+                        <select class="form-select" id="categoryFilter" name="category_id">
+                            <option value="">전체</option>
+                            <option value="1">노트북</option>
+                            <option value="2">데스크탑</option>
+                            <option value="3">모니터</option>
+                            <option value="4">서버</option>
+                            <option value="5">네트워크 장비</option>
+                            <option value="6">주변기기</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="departmentFilter" class="form-label">부서</label>
+                        <select class="form-select" id="departmentFilter" name="department_id">
+                            <option value="">전체</option>
+                            <option value="1">개발팀</option>
+                            <option value="2">IT팀</option>
+                            <option value="3">인사팀</option>
+                            <option value="4">경영지원팀</option>
+                            <option value="5">영업팀</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn--primary">
+                    <i class="fas fa-save me-1"></i> 실사 계획 등록
+                </button>
+                <a href="{{ url_for('inventory.index') }}" class="btn btn--secondary">
+                    <i class="fas fa-times me-1"></i> 취소
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/inventory/create.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/inventory/create.js') }}"></script>
+{% endblock %} 

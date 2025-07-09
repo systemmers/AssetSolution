@@ -1,0 +1,333 @@
+/* ==========================================================================
+   Lifecycle Tracking Page Styles
+   ========================================================================== */
+
+/* 생명주기 통계 카드 */
+.lifecycle-stats-cards .card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.lifecycle-stats-cards .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.lifecycle-stats-cards .card.bg-primary:hover {
+    box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+}
+
+.lifecycle-stats-cards .card.bg-info:hover {
+    box-shadow: 0 8px 25px rgba(23,162,184,0.3);
+}
+
+.lifecycle-stats-cards .card.bg-warning:hover {
+    box-shadow: 0 8px 25px rgba(255,193,7,0.3);
+}
+
+.lifecycle-stats-cards .card.bg-success:hover {
+    box-shadow: 0 8px 25px rgba(40,167,69,0.3);
+}
+
+/* 타임라인 컨테이너 */
+.timeline-container {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #007bff 0%, #6c757d 50%, #28a745 100%);
+    border-radius: 1px;
+}
+
+/* 타임라인 아이템 */
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.6s ease;
+}
+
+.timeline-item:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.timeline-item:nth-child(odd) {
+    animation-delay: 0.2s;
+}
+
+.timeline-item.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 타임라인 마커 */
+.timeline-marker {
+    position: absolute;
+    left: -40px;
+    top: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border: 3px solid white;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.timeline-marker:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* 타임라인 콘텐츠 */
+.timeline-content {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-left: 15px;
+    flex: 1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    position: relative;
+    max-width: calc(100% - 55px); /* 타임라인 마커와 여백 고려 */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.timeline-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-color: #007bff;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 20px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid white;
+}
+
+/* 타임라인 헤더 */
+.timeline-header {
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.timeline-header h6 {
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    word-wrap: break-word;
+}
+
+.timeline-header .d-flex {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.timeline-header .badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* 타임라인 바디 */
+.timeline-body {
+    color: #5a6c7d;
+    line-height: 1.6;
+}
+
+.timeline-body p {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+}
+
+.timeline-body .d-flex {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.timeline-body .badge {
+    white-space: nowrap;
+    font-size: 0.75rem;
+}
+
+/* 이벤트 유형별 배지 */
+.event-type-badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+/* 생명주기 빈 상태 표시 */
+.lifecycle-empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.lifecycle-empty-state i {
+    font-size: 3rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.lifecycle-empty-state h5 {
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.lifecycle-empty-state p {
+    color: #adb5bd;
+    margin-bottom: 0.25rem;
+}
+
+.lifecycle-empty-state small {
+    color: #ced4da;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .timeline {
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        left: 15px;
+    }
+    
+    .timeline-marker {
+        left: -30px;
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+    
+    .timeline-content {
+        padding: 15px;
+        margin-left: 10px;
+        max-width: calc(100% - 45px);
+    }
+    
+    .timeline-content::before {
+        left: -6px;
+        border-right-width: 6px;
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+    }
+    
+    .timeline-header h6 {
+        font-size: 1rem;
+    }
+    
+    .timeline-header .d-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .timeline-body .d-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .timeline-content .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .timeline-content .text-end {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
+    
+    .timeline-body .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+    }
+    
+    .timeline-body .btn {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .timeline {
+        padding-left: 25px;
+    }
+    
+    .timeline::before {
+        left: 12px;
+    }
+    
+    .timeline-marker {
+        left: -25px;
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+    
+    .timeline-content {
+        padding: 12px;
+        margin-left: 8px;
+        max-width: calc(100% - 35px);
+    }
+    
+    .timeline-header h6 {
+        font-size: 0.95rem;
+    }
+    
+    .timeline-body p {
+        font-size: 0.9rem;
+    }
+    
+    .timeline-header .badge,
+    .timeline-body .badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+}
+
+/* 이벤트 상세 모달 개선 */
+.event-detail-badge {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+}

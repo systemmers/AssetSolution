@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}계약 수정 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">계약 수정</h2>
+    <div>
+        <a href="{{ url_for('contract.index') }}" class="btn btn--outline btn--secondary">
+            <i class="fas fa-arrow-left me-1"></i> 목록으로
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">계약 정보 수정</h6>
+            </div>
+            <div class="card-body">
+                <form id="editForm" method="POST" action="{{ url_for('contract.edit', contract_id=contract_id) }}">
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="contractName" class="form-label">계약명 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="contractName" name="name" required value="{{ contract.name if contract else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="contractNumber" class="form-label">계약 번호 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="contractNumber" name="contract_no" required value="{{ contract.contract_no if contract else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="vendorName" class="form-label">계약 업체 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="vendorName" name="vendor" required value="{{ contract.vendor if contract else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="contractType" class="form-label">계약 유형 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="contractType" name="type" required>
+                                <option value="">유형 선택</option>
+                                <option value="license" {% if contract and contract.type == 'license' %}selected{% endif %}>라이선스</option>
+                                <option value="maintenance" {% if contract and contract.type == 'maintenance' %}selected{% endif %}>유지보수</option>
+                                <option value="lease" {% if contract and contract.type == 'lease' %}selected{% endif %}>임대/리스</option>
+                                <option value="service" {% if contract and contract.type == 'service' %}selected{% endif %}>서비스</option>
+                                <option value="other" {% if contract and contract.type == 'other' %}selected{% endif %}>기타</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="startDate" class="form-label">시작일 <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="startDate" name="start_date" required value="{{ contract.start_date if contract else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="endDate" class="form-label">종료일 <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="endDate" name="end_date" required value="{{ contract.end_date if contract else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="amount" class="form-label">계약 금액 <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">₩</span>
+                                <input type="number" class="form-control" id="amount" name="amount" min="0" step="1000" required value="{{ contract.amount if contract else '' }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="paymentTerm" class="form-label">결제 주기 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="paymentTerm" name="payment_term" required>
+                                <option value="">결제 주기 선택</option>
+                                <option value="monthly" {% if contract and contract.payment_term == '월간' %}selected{% endif %}>월간</option>
+                                <option value="quarterly" {% if contract and contract.payment_term == '분기별' %}selected{% endif %}>분기별</option>
+                                <option value="semiannual" {% if contract and contract.payment_term == '반기별' %}selected{% endif %}>반기별</option>
+                                <option value="annual" {% if contract and contract.payment_term == '연간' %}selected{% endif %}>연간</option>
+                                <option value="once" {% if contract and contract.payment_term == '일시불' %}selected{% endif %}>일시불</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="department" class="form-label">담당 부서 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="department" name="department" required>
+                                <option value="">부서 선택</option>
+                                <option value="IT팀" {% if contract and contract.department == 'IT팀' %}selected{% endif %}>IT팀</option>
+                                <option value="경영지원팀" {% if contract and contract.department == '경영지원팀' %}selected{% endif %}>경영지원팀</option>
+                                <option value="디자인팀" {% if contract and contract.department == '디자인팀' %}selected{% endif %}>디자인팀</option>
+                                <option value="마케팅팀" {% if contract and contract.department == '마케팅팀' %}selected{% endif %}>마케팅팀</option>
+                                <option value="인사팀" {% if contract and contract.department == '인사팀' %}selected{% endif %}>인사팀</option>
+                                <option value="전사" {% if contract and contract.department == '전사' %}selected{% endif %}>전사</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="manager" class="form-label">담당자 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="manager" name="manager" required value="{{ contract.manager if contract else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="status" class="form-label">상태 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="">상태 선택</option>
+                                <option value="active" {% if contract and contract.status == 'active' %}selected{% endif %}>진행중</option>
+                                <option value="expiring" {% if contract and contract.status == 'expiring' %}selected{% endif %}>만료예정</option>
+                                <option value="expired" {% if contract and contract.status == 'expired' %}selected{% endif %}>만료</option>
+                                <option value="terminated" {% if contract and contract.status == 'terminated' %}selected{% endif %}>해지</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">비고</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3">{{ contract.notes if contract and contract.notes else '' }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('contract.detail', contract_id=contract_id) }}" class="btn btn--outline btn--secondary">취소</a>
+                        <button type="submit" class="btn btn--primary">
+                            <i class="fas fa-save me-1"></i> 저장하기
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/contract/edit.js') }}"></script>
+{% endblock %} 

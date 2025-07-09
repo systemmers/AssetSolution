@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}자산관리 시스템{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <!-- CSS 변수 (참조용) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/variables.css') }}">
+    <!-- 기본 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- 컴포넌트 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/grid.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/badges.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/tables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/animations.css') }}">
+    <!-- 이미지 업로드 공통 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/image-upload.css') }}">
+    <!-- 반응형 네비게이션 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/responsive-nav.css') }}">
+    <!-- 페이지별 추가 CSS -->
+    {% block styles %}{% endblock %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        {% if current_user.is_authenticated %}
+        <!-- 최상단 네비게이션 바 - fixed-top 클래스 추가 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-2 fixed-top" id="mainNavbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="{{ url_for('main.index') }}">
+                    <i class="fas fa-cubes me-2"></i>자산관리 시스템
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-dashboard" 
+                               href="{{ url_for('main.dashboard') }}"
+                               data-section="main"
+                               data-path="{{ url_for('main.dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-2"></i> <span>대시보드</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-assets" 
+                               href="{{ url_for('assets.index') }}"
+                               data-section="assets"
+                               data-path="{{ url_for('assets.index') }}">
+                                <i class="fas fa-laptop me-2"></i> <span>자산 관리</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-operations" 
+                               href="{{ url_for('operations.index') }}"
+                               data-section="operations"
+                               data-path="{{ url_for('operations.index') }}">
+                                <i class="fas fa-exchange-alt me-2"></i> <span>운영 관리</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-inventory" 
+                               href="{{ url_for('inventory.index') }}"
+                               data-section="inventory"
+                               data-path="{{ url_for('inventory.index') }}">
+                                <i class="fas fa-clipboard-list me-2"></i> <span>실사 관리</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-contract" 
+                               href="{{ url_for('contract.index') }}"
+                               data-section="contract"
+                               data-path="{{ url_for('contract.index') }}">
+                                <i class="fas fa-file-contract me-2"></i> <span>계약 관리</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-partners" 
+                               href="{{ url_for('assets.partner_management') }}"
+                               data-section="partners"
+                               data-path="{{ url_for('assets.partner_management') }}">
+                                <i class="fas fa-handshake me-2"></i> <span>협력사 관리</span>
+                            </a>
+                        </li>
+                        {% if current_user.is_admin %}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-users" 
+                               href="{{ url_for('users.index') }}"
+                               data-section="users"
+                               data-path="{{ url_for('users.index') }}">
+                                <i class="fas fa-users me-2"></i> <span>사용자 관리</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-ai" 
+                               href="#"
+                               data-section="ai"
+                               data-path="#">
+                                <i class="fas fa-robot me-2"></i> <span>AI</span>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-pc" 
+                               href="#"
+                               data-section="pc"
+                               data-path="#">
+                                <i class="fas fa-desktop me-2"></i> <span>PC관리</span>
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-ip" 
+                               href="#"
+                               data-section="ip"
+                               data-path="#">
+                                <i class="fas fa-network-wired me-2"></i> <span>IP관리</span>
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-board" 
+                               href="#"
+                               data-section="board"
+                               data-path="#">
+                                <i class="fas fa-clipboard me-2"></i> <span>게시판</span>
+                            </a>
+                        </li> -->
+                        <li class="nav-item mx-2">
+                            <a class="nav-link d-flex align-items-center nav-settings" 
+                               href="{{ url_for('settings.index') }}"
+                               data-section="settings"
+                               data-path="{{ url_for('settings.index') }}">
+                                <i class="fas fa-cog me-2"></i> <span>설정</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav">
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-2"></i> <span>{{ current_user.name }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item py-2 nav-profile" href="{{ url_for('auth.profile') }}" data-section="auth"><i class="fas fa-user me-2"></i>내 정보</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item py-2" href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt me-2"></i>로그아웃</a></li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center nav-login" href="{{ url_for('auth.login') }}" data-section="auth">
+                                <i class="fas fa-sign-in-alt me-2"></i> <span>로그인</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- 네비게이션 바 높이만큼 상단 여백 추가 -->
+        <div class="nav-spacer"></div>
+        {% endif %}
+    </header>
+
+    <main class="container my-4 flex-shrink-0">
+        <!-- 플래시 메시지 표시 -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages mb-4">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                        <div class="d-flex align-items-center">
+                            {% if category == 'success' %}
+                                <i class="fas fa-check-circle me-2"></i>
+                            {% elif category == 'danger' %}
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                            {% elif category == 'info' %}
+                                <i class="fas fa-info-circle me-2"></i>
+                            {% endif %}
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- 페이지 제목 -->
+        <div class="page-header mb-4">
+            {% block page_header %}{% endblock %}
+        </div>
+
+        <!-- 메인 콘텐츠 -->
+        <div class="page-content">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light border-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-muted"><i class="fas fa-cubes me-2"></i> &copy; 2025 자산관리 시스템. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0 text-muted small">버전 1.0.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js"></script>
+    
+    <!-- SheetJS - Excel 내보내기 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    
+    <!-- 공통 유틸리티 모듈들 먼저 로드 -->
+    <script src="{{ url_for('static', filename='js/common/ui-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common/api-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common/navigation-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common/layout-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common/form-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common/table-utils.js') }}"></script>
+    <!-- 이미지 업로드 공통 유틸리티 -->
+    <script src="{{ url_for('static', filename='js/common/image-upload-utils.js') }}"></script>
+    
+    <!-- 메인 JavaScript -->
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    
+    <!-- 페이지별 추가 JavaScript -->
+    {% block extra_js %}{% endblock %}
+    
+    <!-- 알림 컨테이너 -->
+    <div class="alert-container position-fixed top-0 end-0 p-3" style="z-index: 1100;"></div>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}자산 지급 관리 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">자산 지급 관리</h2>
+    <div>
+        <a href="{{ url_for('operations.index') }}" class="btn btn--secondary me-2">
+            <i class="fas fa-arrow-left me-1"></i> 운영 관리
+        </a>
+        <button type="button" class="btn btn--primary" data-bs-toggle="modal" data-bs-target="#allocationRequestModal">
+            <i class="fas fa-hand-holding me-1"></i> 지급 요청
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 지급 유형별 통계 요약 -->
+<div class="row mb-4">
+    <div class="col-md-2">
+        <div class="card border-info text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-clock fa-2x text-info mb-2"></i>
+                <h6 class="card-subtitle text-muted">임시지급</h6>
+                <h4 class="text-info">{{ allocation_stats.temporary_count }}</h4>
+                <small class="text-muted">건</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card border-success text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                <h6 class="card-subtitle text-muted">영구지급</h6>
+                <h4 class="text-success">{{ allocation_stats.permanent_count }}</h4>
+                <small class="text-muted">건</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card border-warning text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-boxes fa-2x text-warning mb-2"></i>
+                <h6 class="card-subtitle text-muted">소모품</h6>
+                <h4 class="text-warning">{{ allocation_stats.consumable_count }}</h4>
+                <small class="text-muted">건</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card border-primary text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                <h6 class="card-subtitle text-muted">부서공용</h6>
+                <h4 class="text-primary">{{ allocation_stats.department_count }}</h4>
+                <small class="text-muted">건</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card border-danger text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-star fa-2x text-danger mb-2"></i>
+                <h6 class="card-subtitle text-muted">특별지급</h6>
+                <h4 class="text-danger">{{ allocation_stats.special_count }}</h4>
+                <small class="text-muted">건</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card bg-light text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-chart-line fa-2x text-secondary mb-2"></i>
+                <h6 class="card-subtitle text-muted">총 지급</h6>
+                <h4 class="text-dark">{{ allocation_stats.total_count }}</h4>
+                <small class="text-muted">건</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 지급 유형별 워크플로우 안내 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-route me-2"></i>
+            지급 유형별 워크플로우
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="workflow-item border rounded p-3 h-100">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="workflow-icon bg-info text-white rounded-circle me-3">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h6 class="mb-0">임시 지급</h6>
+                    </div>
+                    <p class="text-muted small mb-2">단기간 사용 후 반납이 예정된 자산 지급</p>
+                    <div class="workflow-steps">
+                        <div class="step">1. 요청 → 2. 승인 → 3. 지급 → 4. 반납</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="workflow-item border rounded p-3 h-100">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="workflow-icon bg-success text-white rounded-circle me-3">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h6 class="mb-0">영구 지급</h6>
+                    </div>
+                    <p class="text-muted small mb-2">개인 또는 부서에 영구적으로 할당하는 자산</p>
+                    <div class="workflow-steps">
+                        <div class="step">1. 요청 → 2. 승인 → 3. 지급 → 4. 이관기록</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="workflow-item border rounded p-3 h-100">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="workflow-icon bg-warning text-white rounded-circle me-3">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <h6 class="mb-0">소모품 지급</h6>
+                    </div>
+                    <p class="text-muted small mb-2">사용 후 소모되는 자산의 지급</p>
+                    <div class="workflow-steps">
+                        <div class="step">1. 요청 → 2. 승인 → 3. 지급 → 4. 소모확인</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="workflow-item border rounded p-3 h-100">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="workflow-icon bg-primary text-white rounded-circle me-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h6 class="mb-0">부서 공용 지급</h6>
+                    </div>
+                    <p class="text-muted small mb-2">부서 내 공용으로 사용할 자산 지급</p>
+                    <div class="workflow-steps">
+                        <div class="step">1. 부서장 요청 → 2. 승인 → 3. 지급 → 4. 부서관리</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="workflow-item border rounded p-3 h-100">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="workflow-icon bg-danger text-white rounded-circle me-3">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h6 class="mb-0">특별 지급</h6>
+                    </div>
+                    <p class="text-muted small mb-2">긴급하거나 특수한 목적의 자산 지급</p>
+                    <div class="workflow-steps">
+                        <div class="step">1. 특별요청 → 2. 임원승인 → 3. 지급 → 4. 모니터링</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 지급 요청 현황 차트 -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    월별 지급 현황
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="monthlyAllocationChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>
+                    지급 유형 분포
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="allocationTypeChart" width="300" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 지급 요청 목록 -->
+<div class="card shadow-sm">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-list-ul me-2"></i>
+                지급 요청 목록
+            </h5>
+            <div class="d-flex gap-2">
+                <select class="form-select form-select-sm" id="allocationTypeFilter">
+                    <option value="">전체 유형</option>
+                    <option value="temporary">임시지급</option>
+                    <option value="permanent">영구지급</option>
+                    <option value="consumable">소모품</option>
+                    <option value="department">부서공용</option>
+                    <option value="special">특별지급</option>
+                </select>
+                <select class="form-select form-select-sm" id="allocationStatusFilter">
+                    <option value="">전체 상태</option>
+                    <option value="pending">승인대기</option>
+                    <option value="approved">승인됨</option>
+                    <option value="allocated">지급완료</option>
+                    <option value="returned">반납완료</option>
+                    <option value="expired">기간만료</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="allocationRequestTable">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">요청 정보</th>
+                        <th scope="col">자산 정보</th>
+                        <th scope="col">지급 유형</th>
+                        <th scope="col">요청자</th>
+                        <th scope="col">요청일</th>
+                        <th scope="col">지급일</th>
+                        <th scope="col">상태</th>
+                        <th scope="col">작업</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in allocation_requests %}
+                    <tr>
+                        <td>
+                            <div class="fw-medium">{{ request.request_title }}</div>
+                            <div class="text-muted small">요청번호: {{ request.request_number }}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="asset-icon me-3 rounded bg-light p-2">
+                                    <i class="fas fa-box text-secondary"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-medium">{{ request.asset_name }}</div>
+                                    <div class="text-muted small">{{ request.asset_number }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ request.type_color }}">{{ request.allocation_type }}</span>
+                            {% if request.is_multi_type %}
+                            <span class="badge bg-secondary ms-1">복합</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div>{{ request.requester_name }}</div>
+                            <div class="text-muted small">{{ request.department }}</div>
+                        </td>
+                        <td>{{ request.request_date.strftime('%Y-%m-%d') if request.request_date else '-' }}</td>
+                        <td>{{ request.allocation_date.strftime('%Y-%m-%d') if request.allocation_date else '-' }}</td>
+                        <td>
+                            {% if request.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">승인대기</span>
+                            {% elif request.status == 'approved' %}
+                                <span class="badge bg-info">승인됨</span>
+                            {% elif request.status == 'allocated' %}
+                                <span class="badge bg-success">지급완료</span>
+                            {% elif request.status == 'returned' %}
+                                <span class="badge bg-secondary">반납완료</span>
+                            {% elif request.status == 'expired' %}
+                                <span class="badge bg-danger">기간만료</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark">{{ request.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn--sm btn--outline btn--primary" 
+                                        onclick="viewAllocationDetail({{ request.id }})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                {% if request.status == 'pending' %}
+                                <button type="button" class="btn btn--sm btn--outline btn--success" 
+                                        onclick="approveAllocation({{ request.id }})">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                {% elif request.status == 'approved' %}
+                                <button type="button" class="btn btn--sm btn--outline btn--info" 
+                                        onclick="executeAllocation({{ request.id }})">
+                                    <i class="fas fa-hand-holding"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
+                                <p class="mb-0">등록된 지급 요청이 없습니다.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 지급 요청 모달 -->
+{% include 'operations/allocation_request_modal.html' %}
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/wizard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/modal-cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/operations.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/operations/allocation_management.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/pages/operations/allocation_management.js') }}"></script>
+<script>
+// 차트 데이터 전달
+const monthlyAllocationData = {{ monthly_allocation_data|tojson }};
+const allocationTypeData = {{ allocation_type_data|tojson }};
+
+// 페이지 로드 시 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    AllocationManagement.init();
+    AllocationManagement.initCharts(monthlyAllocationData, allocationTypeData);
+});
+</script>
+{% endblock %} 
