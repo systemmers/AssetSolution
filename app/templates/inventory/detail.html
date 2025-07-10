@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">자산 실사 상세</h2>
     <div>
-        <a href="{{ url_for('inventory.index') }}" class="btn btn--secondary">
+        <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
     </div>
@@ -24,7 +24,7 @@
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">실사 정보</h6>
         <div>
-            <a href="{{ url_for('inventory.report', inventory_id=inventory.id) }}" class="btn btn--sm btn--info">
+            <a href="{{ url_for('inventory.report', inventory_id=inventory.id) }}" class="btn btn-sm btn-info">
                 <i class="fas fa-chart-bar me-1"></i> 보고서
             </a>
             <a href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}" class="btn btn-sm btn-primary ms-2">

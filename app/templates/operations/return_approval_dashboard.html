@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/components/wizard.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/components/modal-cards.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components/stats-cards.css') }}">
+
 <link rel="stylesheet" href="{{ url_for('static', filename='css/components/workflow.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/components/timeline.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/operations.css') }}">
@@ -32,30 +32,40 @@
     </div>
 
     <!-- 빠른 통계 -->
-    <div class="quick-stats">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number" id="totalPendingCount">0</div>
-                    <div class="stat-label">대기 중인 승인</div>
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-warning text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                    <h4 class="text-warning" id="totalPendingCount">0</h4>
+                    <h6 class="card-subtitle text-muted">대기 중인 승인</h6>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number" id="todayApprovalsCount">0</div>
-                    <div class="stat-label">오늘 처리된 승인</div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <h4 class="text-success" id="todayApprovalsCount">0</h4>
+                    <h6 class="card-subtitle text-muted">오늘 처리된 승인</h6>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number" id="overdueCount">0</div>
-                    <div class="stat-label">지연된 승인</div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-danger text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+                    <h4 class="text-danger" id="overdueCount">0</h4>
+                    <h6 class="card-subtitle text-muted">지연된 승인</h6>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number" id="avgProcessingTime">0</div>
-                    <div class="stat-label">평균 처리시간 (시간)</div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                    <h4 class="text-info" id="avgProcessingTime">0</h4>
+                    <h6 class="card-subtitle text-muted">평균 처리시간 (시간)</h6>
                 </div>
             </div>
         </div>

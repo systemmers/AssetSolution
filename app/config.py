@@ -31,10 +31,8 @@ class Config:
     MAX_CONTENT_LENGTH = MAX_FILE_SIZE  # 16MB
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'uploads'
     
-    # 세션 설정 - constants.py의 TIMEOUT_SETTINGS 활용
-    PERMANENT_SESSION_LIFETIME = timedelta(
-        milliseconds=TIMEOUT_SETTINGS['LARGE_OPERATION_TIMEOUT']
-    )
+    # 세션 설정 - 8시간으로 유효기간 설정
+    PERMANENT_SESSION_LIFETIME = timedelta(hours=8)
     
     # 페이지네이션 설정 - constants.py와 동기화
     POSTS_PER_PAGE = PAGINATION_SETTINGS['DEFAULT_PER_PAGE']
@@ -76,7 +74,7 @@ class DevelopmentConfig(Config):
     """개발 환경 설정"""
     
     DEBUG = True
-    
+
     # 개발용 데이터베이스
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(os.path.dirname(__file__), '..', 'data-dev.sqlite')
@@ -123,7 +121,7 @@ class TestingConfig(Config):
     
     # 테스트용 설정
     WTF_CSRF_ENABLED = False
-    
+
     # 테스트용 타임아웃 단축
     API_TIMEOUT = 5  # 5초로 단축
     
@@ -203,7 +201,7 @@ config = {
     'testing': TestingConfig,
     'production': ProductionConfig,
     'default': DevelopmentConfig
-}
+} 
 
 
 def get_config_class(config_name=None):

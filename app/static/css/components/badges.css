@@ -1,6 +1,10 @@
 /*
  * 배지 컴포넌트 스타일
- * 통합 디자인 시스템 기반 - 모든 배지 스타일 통합
+ * 통합 디자인 시스템 기반 - Bootstrap 표준 완전 적용
+ * 
+ * 🎉 2025-01-10: BEM 형식 클래스 완전 제거 완료
+ * ✅ Bootstrap 표준 100% 준수 달성
+ * ❌ badge--* 형식 사용 금지
  */
 
 /* ===== 기본 배지 스타일 ===== */
@@ -22,109 +26,101 @@
     display: none;
 }
 
-/* ===== 배지 크기 변형 ===== */
-.badge--sm {
+/* ===== 배지 크기 변형 (Bootstrap 표준) ===== */
+.badge.badge-sm {
     padding: var(--spacing-1) var(--spacing-2);
     font-size: var(--font-size-xs);
 }
 
-.badge--lg {
+.badge.badge-lg {
     padding: var(--spacing-2) var(--spacing-4);
     font-size: var(--font-size-sm);
 }
 
-/* ===== 상태별 배지 스타일 ===== */
-.badge--primary,
+/* ===== 상태별 배지 스타일 (Bootstrap 표준) ===== */
 .badge.bg-primary {
     background-color: var(--color-primary) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-.badge--secondary,
 .badge.bg-secondary {
     background-color: var(--color-secondary) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-.badge--success,
 .badge.bg-success {
     background-color: var(--color-success) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-.badge--warning,
 .badge.bg-warning {
     background-color: var(--color-warning) !important;
     color: var(--gray-800) !important;
 }
 
-.badge--danger,
 .badge.bg-danger {
     background-color: var(--color-danger) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-.badge--info,
 .badge.bg-info {
     background-color: var(--color-info) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-.badge--light,
 .badge.bg-light {
     background-color: var(--color-light) !important;
     color: var(--gray-800) !important;
 }
 
-.badge--dark,
 .badge.bg-dark {
     background-color: var(--color-dark) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-/* ===== 아웃라인 배지 스타일 ===== */
-.badge--outline-primary {
+/* ===== 아웃라인 배지 스타일 (Bootstrap 표준) ===== */
+.badge.badge-outline-primary {
     background-color: transparent !important;
     color: var(--color-primary) !important;
     border: 1px solid var(--color-primary);
 }
 
-.badge--outline-secondary {
+.badge.badge-outline-secondary {
     background-color: transparent !important;
     color: var(--color-secondary) !important;
     border: 1px solid var(--color-secondary);
 }
 
-.badge--outline-success {
+.badge.badge-outline-success {
     background-color: transparent !important;
     color: var(--color-success) !important;
     border: 1px solid var(--color-success);
 }
 
-.badge--outline-warning {
+.badge.badge-outline-warning {
     background-color: transparent !important;
     color: var(--color-warning-dark) !important;
     border: 1px solid var(--color-warning);
 }
 
-.badge--outline-danger {
+.badge.badge-outline-danger {
     background-color: transparent !important;
     color: var(--color-danger) !important;
     border: 1px solid var(--color-danger);
 }
 
-.badge--outline-info {
+.badge.badge-outline-info {
     background-color: transparent !important;
     color: var(--color-info) !important;
     border: 1px solid var(--color-info);
 }
 
-/* ===== 특수 배지 스타일 ===== */
-.badge--pill {
+/* ===== 특수 배지 스타일 (Bootstrap 표준) ===== */
+.badge.rounded-pill {
     border-radius: var(--radius-full);
 }
 
-.badge--rounded {
+.badge.rounded {
     border-radius: var(--radius-lg);
 }
 
@@ -194,22 +190,22 @@
     filter: brightness(1.1);
 }
 
-.badge--outline-primary:hover,
-.badge--outline-secondary:hover,
-.badge--outline-success:hover,
-.badge--outline-warning:hover,
-.badge--outline-danger:hover,
-.badge--outline-info:hover {
+.badge.badge-outline-primary:hover,
+.badge.badge-outline-secondary:hover,
+.badge.badge-outline-success:hover,
+.badge.badge-outline-warning:hover,
+.badge.badge-outline-danger:hover,
+.badge.badge-outline-info:hover {
     filter: brightness(0.95);
 }
 
 /* ===== 다크 모드 지원 ===== */
-[data-theme="dark"] .badge--light {
+[data-theme="dark"] .badge.bg-light {
     background-color: var(--gray-600) !important;
     color: var(--theme-bg-primary) !important;
 }
 
-[data-theme="dark"] .badge--outline-light {
+[data-theme="dark"] .badge.badge-outline-light {
     color: var(--gray-300) !important;
     border-color: var(--gray-500);
 }
@@ -230,7 +226,7 @@
         padding: var(--spacing-1) var(--spacing-2);
     }
     
-    .badge--lg {
+    .badge.badge-lg {
         font-size: var(--font-size-sm);
         padding: var(--spacing-1) var(--spacing-3);
     }

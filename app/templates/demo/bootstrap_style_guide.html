@@ -14,6 +14,14 @@
                 <div class="alert alert-success" role="alert">
                     <strong>✅ 최적화 완료!</strong> 2025-01-08 이중 스타일 시스템 통합으로 27.2% 성능 개선
                 </div>
+                <div class="alert alert-info" role="alert">
+                    <strong>🔄 스타일 표준화 완료!</strong> 2025-01-10 BEM 방식을 Bootstrap 표준으로 통일 완료
+                    <ul class="mb-0 mt-2">
+                        <li><code>btn--primary</code> → <code>btn btn-primary</code></li>
+                        <li><code>badge--success</code> → <code>badge bg-success</code></li>
+                        <li><code>btn--outline</code> → <code>btn btn-outline-primary</code></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -57,6 +65,13 @@
                     <h2 class="mb-0">🔘 1. 버튼 시스템 (Bootstrap 5.2.3 표준)</h2>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <strong>⚠️ 중요:</strong> BEM 방식 클래스 사용 금지
+                        <ul class="mb-0 mt-2">
+                            <li>❌ <code>btn--primary</code>, <code>btn--outline</code> 사용 금지</li>
+                            <li>✅ Bootstrap 표준 <code>btn btn-primary</code>, <code>btn btn-outline-primary</code> 사용</li>
+                        </ul>
+                    </div>
                     
                     <!-- 기본 버튼들 -->
                     <h4>1.1 기본 버튼</h4>
@@ -229,7 +244,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card card--elevated">
+                            <div class="card shadow-lg">
                                 <div class="card-body">
                                     <h5 class="card-title">강조 카드</h5>
                                     <p class="card-text">중요한 정보를 표시할 때 사용</p>

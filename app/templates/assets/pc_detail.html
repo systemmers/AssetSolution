@@ -39,7 +39,7 @@
                         <p class="mb-2"><strong>모델명:</strong> {{ asset.model }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>상태:</strong> <span class="badge badge--success">{{ asset.status }}</span></p>
+                        <p class="mb-2"><strong>상태:</strong> <span class="badge bg-success">{{ asset.status }}</span></p>
                         <p class="mb-2"><strong>취득일자:</strong> {{ asset.purchase_date.strftime('%Y-%m-%d') }}</p>
                         <p class="mb-2"><strong>취득가액:</strong> {{ "{:,.0f}".format(asset.purchase_price) }}원</p>
                     </div>
@@ -82,7 +82,7 @@
                     {% for ip in asset.ip_assignments %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="{{ url_for('assets.ip_detail', ip_address=ip.ip_address) }}">{{ ip.ip_address }}</a>
-                        <span class="badge badge--info rounded-pill">{{ '고정 IP' if ip.is_static else '유동 IP' }}</span>
+                        <span class="badge bg-info rounded-pill">{{ '고정 IP' if ip.is_static else '유동 IP' }}</span>
                     </li>
                     {% endfor %}
                 </ul>

@@ -75,10 +75,10 @@
                 <i class="fas fa-file-excel"></i>
                 <span>엑셀 내보내기</span>
                 </button>
-            <a href="{{ url_for('inventory.discrepancies') }}" class="btn btn--sm btn--outline btn--danger me-2">
+            <a href="{{ url_for('inventory.discrepancies') }}" class="btn btn-sm btn-outline-danger me-2">
                 <i class="fas fa-exclamation-triangle me-1"></i> 불일치 항목
             </a>
-            <a href="{{ url_for('inventory.history') }}" class="btn btn--sm btn--outline btn--secondary">
+            <a href="{{ url_for('inventory.history') }}" class="btn btn-sm btn-outline-secondary">
                 <i class="fas fa-history me-1"></i> 실사 이력
             </a>
         </div>
@@ -145,7 +145,7 @@
                             </td>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn--sm btn--outline btn--secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ inventory.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ inventory.id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ inventory.id }}">

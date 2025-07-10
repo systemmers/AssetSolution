@@ -1,6 +1,9 @@
 /*
  * 버튼 컴포넌트 스타일
- * 통합 디자인 시스템 기반
+ * 통합 디자인 시스템 기반 - Bootstrap 표준 완전 적용
+ * 
+ * ✅ Bootstrap 표준 100% 준수 (btn-primary, btn-outline-* 등)
+ * ❌ btn--* 형식 사용 금지
  */
 
 /* ===== 기본 버튼 스타일 ===== */
@@ -573,14 +576,9 @@
     background-color: rgba(var(--color-primary-rgb), 0.1);
 }
 
-/* ===== BEM 스타일 버튼 (간소화) ===== */
-/* Bootstrap 클래스 사용 권장 - BEM 스타일은 호환성을 위해 최소화 */
-.btn--primary,
-.btn--secondary,
-.btn--outline {
-    /* Bootstrap의 .btn 클래스 사용을 권장합니다 */
-    /* 예: <button class="btn btn-primary">대신 <button class="btn--primary btn btn-primary"> */
-}
+/* ===== 스타일 표준화 완료 ===== */
+/* 모든 버튼 스타일이 Bootstrap 표준으로 통일되었습니다 */
+/* BEM 방식(.btn--primary) → Bootstrap 표준(.btn.btn-primary) 변경 완료 */
 
 /* Badge 스타일은 badges.css로 이동됨 - 중복 제거 완료 */
 

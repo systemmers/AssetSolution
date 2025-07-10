@@ -5,7 +5,7 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/wizard.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/modal-cards.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/stats-cards.css') }}">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/workflow.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/timeline.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/operations.css') }}">
@@ -33,68 +33,56 @@
     <!-- 상태 통계 카드 -->
     <div class="row mb-4">
         <div class="col-md-2">
-            <div class="stats-card requested">
-                <div class="stats-icon">
-                    <i class="fas fa-paper-plane"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="requestedCount">0</div>
-                    <div class="stats-label">요청됨</div>
+            <div class="card border-primary text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-paper-plane fa-2x text-primary mb-2"></i>
+                    <h4 class="text-primary" id="requestedCount">0</h4>
+                    <h6 class="card-subtitle text-muted">요청됨</h6>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
-            <div class="stats-card dept-approval">
-                <div class="stats-icon">
-                    <i class="fas fa-user-tie"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="deptApprovalCount">0</div>
-                    <div class="stats-label">부서장 승인</div>
+            <div class="card border-warning text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-user-tie fa-2x text-warning mb-2"></i>
+                    <h4 class="text-warning" id="deptApprovalCount">0</h4>
+                    <h6 class="card-subtitle text-muted">부서장 승인</h6>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
-            <div class="stats-card asset-approval">
-                <div class="stats-icon">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="assetApprovalCount">0</div>
-                    <div class="stats-label">자산관리자 승인</div>
+            <div class="card border-info text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-clipboard-check fa-2x text-info mb-2"></i>
+                    <h4 class="text-info" id="assetApprovalCount">0</h4>
+                    <h6 class="card-subtitle text-muted">자산관리자 승인</h6>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
-            <div class="stats-card final-approval">
-                <div class="stats-icon">
-                    <i class="fas fa-stamp"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="finalApprovalCount">0</div>
-                    <div class="stats-label">최종 승인</div>
+            <div class="card border-secondary text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-stamp fa-2x text-secondary mb-2"></i>
+                    <h4 class="text-secondary" id="finalApprovalCount">0</h4>
+                    <h6 class="card-subtitle text-muted">최종 승인</h6>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
-            <div class="stats-card completed">
-                <div class="stats-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="completedCount">0</div>
-                    <div class="stats-label">완료</div>
+            <div class="card border-success text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <h4 class="text-success" id="completedCount">0</h4>
+                    <h6 class="card-subtitle text-muted">완료</h6>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
-            <div class="stats-card rejected">
-                <div class="stats-icon">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="rejectedCount">0</div>
-                    <div class="stats-label">거부됨</div>
+            <div class="card border-danger text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                    <h4 class="text-danger" id="rejectedCount">0</h4>
+                    <h6 class="card-subtitle text-muted">거부됨</h6>
                 </div>
             </div>
         </div>

@@ -39,7 +39,7 @@
                         <p class="mb-2"><strong>제조사:</strong> {{ asset.manufacturer }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>상태:</strong> <span class="badge badge--success">{{ asset.status }}</span></p>
+                        <p class="mb-2"><strong>상태:</strong> <span class="badge bg-success">{{ asset.status }}</span></p>
                         <p class="mb-2"><strong>취득일자:</strong> {{ asset.purchase_date.strftime('%Y-%m-%d') }}</p>
                         <p class="mb-2"><strong>취득가액:</strong> {{ "{:,.0f}".format(asset.purchase_price) }}원</p>
                     </div>

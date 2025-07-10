@@ -13,102 +13,118 @@
 
 {% block content %}
 <!-- 상태 요약 카드 -->
-<div class="card-group card-group--4-cols mb-4">
-    <div class="stats-card stats-card--primary">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">총 자산</h3>
-                <p class="stats-card__value">{{ total_assets }}</p>
-            </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-boxes"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="stats-card stats-card--success">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">정상 자산</h3>
-                <p class="stats-card__value">{{ normal_assets }}</p>
-            </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-check-circle"></i>
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-primary h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-primary mb-1">총 자산</h3>
+                    <p class="h4 mb-0">{{ total_assets }}</p>
+                </div>
+                <div class="text-primary fs-3">
+                    <i class="fas fa-boxes"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="stats-card stats-card--warning">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">수리중</h3>
-                <p class="stats-card__value">{{ maintenance_assets }}</p>
-            </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-tools"></i>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-success h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-success mb-1">정상 자산</h3>
+                    <p class="h4 mb-0">{{ normal_assets }}</p>
+                </div>
+                <div class="text-success fs-3">
+                    <i class="fas fa-check-circle"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="stats-card stats-card--danger">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">폐기 예정</h3>
-                <p class="stats-card__value">{{ disposed_assets }}</p>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-warning h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-warning mb-1">수리중</h3>
+                    <p class="h4 mb-0">{{ maintenance_assets }}</p>
+                </div>
+                <div class="text-warning fs-3">
+                    <i class="fas fa-tools"></i>
+                </div>
             </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-trash-alt"></i>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-danger h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-danger mb-1">폐기 예정</h3>
+                    <p class="h4 mb-0">{{ disposed_assets }}</p>
+                </div>
+                <div class="text-danger fs-3">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- 계약 요약 카드 -->
-<div class="card-group card-group--4-cols mb-4">
-    <div class="stats-card stats-card--primary">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">총 계약</h3>
-                <p class="stats-card__value">{{ total_contracts }}</p>
-            </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-file-contract"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="stats-card stats-card--success">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">진행중 계약</h3>
-                <p class="stats-card__value">{{ active_contracts }}</p>
-            </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-clipboard-check"></i>
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-primary h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-primary mb-1">총 계약</h3>
+                    <p class="h4 mb-0">{{ total_contracts }}</p>
+                </div>
+                <div class="text-primary fs-3">
+                    <i class="fas fa-file-contract"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="stats-card stats-card--warning">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">만료 임박</h3>
-                <p class="stats-card__value">{{ expiring_contracts }}</p>
-            </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-exclamation-triangle"></i>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-success h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-success mb-1">진행중 계약</h3>
+                    <p class="h4 mb-0">{{ active_contracts }}</p>
+                </div>
+                <div class="text-success fs-3">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="stats-card stats-card--info">
-        <div class="stats-card__header">
-            <div class="stats-card__content">
-                <h3 class="stats-card__title">월간 계약비용</h3>
-                <p class="stats-card__value">₩ {{ '{:,.0f}'.format(monthly_cost) }}</p>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-warning h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-warning mb-1">만료 임박</h3>
+                    <p class="h4 mb-0">{{ expiring_contracts }}</p>
+                </div>
+                <div class="text-warning fs-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
             </div>
-            <div class="stats-card__icon">
-                <i class="fas fa-won-sign"></i>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-left-info h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="h6 text-info mb-1">월간 계약비용</h3>
+                    <p class="h4 mb-0">₩ {{ '{:,.0f}'.format(monthly_cost) }}</p>
+                </div>
+                <div class="text-info fs-3">
+                    <i class="fas fa-won-sign"></i>
+                </div>
             </div>
         </div>
     </div>

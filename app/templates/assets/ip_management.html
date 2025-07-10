@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">IP 주소 관리</h2>
     <div>
-        <button type="button" class="btn btn--outline btn--primary me-2" data-bs-toggle="modal" data-bs-target="#scanNetworkModal">
+        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#scanNetworkModal">
             <i class="fas fa-wifi me-1"></i> 네트워크 스캔
         </button>
-        <button type="button" class="btn btn--primary" data-bs-toggle="modal" data-bs-target="#addIpModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIpModal">
             <i class="fas fa-plus me-1"></i> IP 추가
         </button>
     </div>
@@ -138,10 +138,10 @@
                 </div>
                 <div class="col-lg-2 col-md-12">
                     <div class="d-flex">
-                        <button type="submit" class="btn btn--primary flex-grow-1 me-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn btn--secondary">
+                        <button type="button" id="resetButton" class="btn btn-secondary">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
@@ -186,11 +186,11 @@
                         </td>
                         <td class="px-3 py-3">
                             {% if ip.asset_id %}
-                                <span class="badge badge--primary">사용중</span>
+                                <span class="badge bg-primary">사용중</span>
                             {% elif ip.is_static %}
-                                <span class="badge badge--warning text-dark">예약됨</span>
+                                <span class="badge bg-warning text-dark">예약됨</span>
                             {% else %}
-                                <span class="badge badge--success">사용가능</span>
+                                <span class="badge bg-success">사용가능</span>
                             {% endif %}
                         </td>
                         <td class="px-3 py-3">{{ ip.asset.name if ip.asset else '-' }}</td>
@@ -289,7 +289,7 @@
                         <label for="assetLink" class="form-label">자산 연결</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="assetLink" placeholder="자산 검색..." readonly>
-                            <button class="btn btn--outline btn--secondary" type="button" id="searchAssetButton">
+                            <button class="btn btn-outline-secondary" type="button" id="searchAssetButton">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -301,8 +301,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                            <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">취소</button>
-            <button type="button" class="btn btn--primary" id="saveIpButton">저장</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="saveIpButton">저장</button>
             </div>
         </div>
     </div>
@@ -365,8 +365,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                            <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">취소</button>
-            <button type="button" class="btn btn--primary" id="startScanButton">스캔 시작</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="startScanButton">스캔 시작</button>
             </div>
         </div>
     </div>

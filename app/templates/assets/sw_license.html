@@ -204,7 +204,7 @@
                         <td class="px-3 py-3">{{ license.purchase_date.strftime('%Y-%m-%d') }}</td>
                         <td class="px-3 py-3">{{ license.details.expiry_date.strftime('%Y-%m-%d') if license.details.expiry_date else '영구' }}</td>
                         <td class="px-3 py-3">{{ license.user_name if license.user_name else '공용' }}</td>
-                        <td class="px-3 py-3"><span class="badge badge--success">{{ license.status }}</span></td>
+                        <td class="px-3 py-3"><span class="badge bg-success">{{ license.status }}</span></td>
                         <td class="px-3 py-3 text-center">
                             <div class="btn-group" role="group">
                                 <a href="{{ url_for('assets.sw_detail', asset_id=license.id) }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="상세정보">

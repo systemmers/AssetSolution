@@ -4,7 +4,7 @@
 
 {% block extra_css %}
     <!-- 필수 컴포넌트 CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/stats-cards.css') }}">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/tables.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
@@ -45,46 +45,38 @@
     <!-- 알림 통계 카드 -->
     <div class="row mb-4">
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card pending">
-                <div class="stats-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="pendingNotifications">0</div>
-                    <div class="stats-label">대기 중인 알림</div>
+            <div class="card border-warning text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                    <h4 class="text-warning" id="pendingNotifications">0</h4>
+                    <h6 class="card-subtitle text-muted">대기 중인 알림</h6>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card approved">
-                <div class="stats-icon">
-                    <i class="fas fa-paper-plane"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="sentToday">0</div>
-                    <div class="stats-label">오늘 발송</div>
+            <div class="card border-primary text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-paper-plane fa-2x text-primary mb-2"></i>
+                    <h4 class="text-primary" id="sentToday">0</h4>
+                    <h6 class="card-subtitle text-muted">오늘 발송</h6>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card scheduled">
-                <div class="stats-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="overdueAlerts">0</div>
-                    <div class="stats-label">연체 알림</div>
+            <div class="card border-danger text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+                    <h4 class="text-danger" id="overdueAlerts">0</h4>
+                    <h6 class="card-subtitle text-muted">연체 알림</h6>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card completed">
-                <div class="stats-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="activeRules">0</div>
-                    <div class="stats-label">활성 규칙</div>
+            <div class="card border-info text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-bell fa-2x text-info mb-2"></i>
+                    <h4 class="text-info" id="activeRules">0</h4>
+                    <h6 class="card-subtitle text-muted">활성 규칙</h6>
                 </div>
             </div>
         </div>

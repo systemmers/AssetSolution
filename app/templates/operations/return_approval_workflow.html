@@ -4,7 +4,7 @@
 
 {% block extra_css %}
     <!-- 필수 컴포넌트 CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/stats-cards.css') }}">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/tables.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
@@ -45,46 +45,38 @@
     <!-- 승인 통계 카드 -->
     <div class="row mb-4">
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card pending">
-                <div class="stats-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="pendingApprovals">0</div>
-                    <div class="stats-label">승인 대기</div>
+            <div class="card border-warning text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                    <h4 class="text-warning" id="pendingApprovals">0</h4>
+                    <h6 class="card-subtitle text-muted">승인 대기</h6>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card approved">
-                <div class="stats-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="approvedToday">0</div>
-                    <div class="stats-label">오늘 승인</div>
+            <div class="card border-success text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <h4 class="text-success" id="approvedToday">0</h4>
+                    <h6 class="card-subtitle text-muted">오늘 승인</h6>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card scheduled">
-                <div class="stats-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="scheduledApprovals">0</div>
-                    <div class="stats-label">진행중</div>
+            <div class="card border-info text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-calendar-alt fa-2x text-info mb-2"></i>
+                    <h4 class="text-info" id="scheduledApprovals">0</h4>
+                    <h6 class="card-subtitle text-muted">진행중</h6>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="stats-card completed">
-                <div class="stats-icon">
-                    <i class="fas fa-check-double"></i>
-                </div>
-                <div class="stats-content">
-                    <div class="stats-number" id="completedApprovals">0</div>
-                    <div class="stats-label">완료</div>
+            <div class="card border-primary text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-check-double fa-2x text-primary mb-2"></i>
+                    <h4 class="text-primary" id="completedApprovals">0</h4>
+                    <h6 class="card-subtitle text-muted">완료</h6>
                 </div>
             </div>
         </div>

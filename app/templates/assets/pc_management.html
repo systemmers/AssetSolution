@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">PC 관리</h2>
     <div>
-        <button type="button" class="btn btn--outline btn--primary me-2" data-bs-toggle="modal" data-bs-target="#syncModal">
+        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#syncModal">
             <i class="fas fa-sync-alt me-1"></i> 정보 동기화
         </button>
-        <a href="{{ url_for('assets.create_form') }}?type=pc" class="btn btn--primary">
+        <a href="{{ url_for('assets.create_form') }}?type=pc" class="btn btn-primary">
             <i class="fas fa-plus me-1"></i> PC 등록
         </a>
     </div>
@@ -60,10 +60,10 @@
                 </div>
                 <div class="col-lg-3 col-md-12">
                     <div class="d-flex">
-                        <button type="submit" class="btn btn--primary flex-grow-1 me-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn btn--secondary">
+                        <button type="button" id="resetButton" class="btn btn-secondary">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
@@ -215,7 +215,7 @@
                             {{ storage_info }}
                         </td>
                         <td class="px-3 py-3">{{ pc.user_name if pc.user_name else '-' }} ({{ pc.department.name if pc.department else '-' }})</td>
-                        <td class="px-3 py-3"><span class="badge badge--success">{{ pc.status }}</span></td>
+                        <td class="px-3 py-3"><span class="badge bg-success">{{ pc.status }}</span></td>
                         <td class="px-3 py-3">{{ pc.purchase_date.strftime('%Y-%m-%d') }}</td>
                         <td class="px-3 py-3 text-center">
                             <div class="btn-group" role="group">
@@ -310,8 +310,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                            <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">취소</button>
-            <button type="button" class="btn btn--primary">동기화 시작</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary">동기화 시작</button>
             </div>
         </div>
     </div>
