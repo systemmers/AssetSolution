@@ -165,7 +165,7 @@
                         {% elif asset['type']['name'] == '소프트웨어' %}
                             {% set detail_url = url_for('assets.sw_detail', asset_id=asset.id) %}
                         {% endif %}
-                        <tr class="asset-row" data-href="{{ detail_url }}">
+                        <tr class="data-row" data-href="{{ detail_url }}">
                             <td class="px-3 py-3">{{ asset.asset_number }}</td>
                             <td class="px-3 py-3">{{ asset.name }}</td>
                             <td class="px-3 py-3">

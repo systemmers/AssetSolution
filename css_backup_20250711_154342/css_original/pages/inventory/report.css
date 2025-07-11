@@ -1,0 +1,77 @@
+﻿/* 보고서 스타일 */
+.chart-pie {
+    height: 240px;
+    width: 100%;
+}
+
+/* 인쇄 관련 스타일 */
+@media print {
+    /* 인쇄 시 숨길 요소들 */
+    .no-print,
+    .navbar,
+    .sidebar,
+    .btn-print,
+    .btn-secondary,
+    footer,
+    .btn,
+    .page-header,
+    #navbarToggler {
+        display: none !important;
+    }
+    
+    /* 인쇄 영역 최대화 */
+    body {
+        background-color: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .content-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 15px !important;
+    }
+    
+    .main-content {
+        padding: 0 !important;
+    }
+    
+    /* 카드 스타일 조정 */
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .card-header {
+        background-color: #f8f9fa !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+    
+    /* 테이블 스타일 조정 */
+    .table {
+        border-collapse: collapse !important;
+    }
+    
+    .table th, 
+    .table td {
+        border: 1px solid #ddd !important;
+    }
+    
+    /* 차트 영역 조정 */
+    #resultDonutChart-container,
+    #categoryBarChart-container {
+        page-break-inside: avoid;
+    }
+    
+    /* A4 크기에 맞게 페이지 설정 */
+    @page {
+        size: A4;
+        margin: 1cm;
+    }
+    
+    /* 페이지 나누기 설정 */
+    .card {
+        page-break-inside: avoid;
+    }
+} 

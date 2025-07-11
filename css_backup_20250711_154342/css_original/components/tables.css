@@ -1,0 +1,342 @@
+﻿/*
+ * 테이블 컴포넌트 스타일
+ * 통합 디자인 시스템 기반 - 모든 테이블 스타일 통합
+ */
+
+/* ===== 기본 테이블 스타일 ===== */
+.table {
+    --bs-table-striped-bg: var(--color-primary-50);
+    font-size: var(--font-size-sm);
+    color: var(--theme-text-primary);
+    background-color: var(--theme-bg-primary);
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--spacing-4);
+}
+
+/* ===== 테이블 헤더 스타일 ===== */
+.table th {
+    background-color: var(--theme-bg-secondary);
+    font-weight: var(--font-weight-semibold);
+    color: var(--theme-text-primary);
+    border-bottom: 2px solid var(--theme-border-primary);
+    padding: var(--spacing-3) var(--spacing-4);
+    position: relative;
+}
+
+.table thead th {
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+/* ===== 테이블 바디 스타일 ===== */
+.table td {
+    padding: var(--spacing-3) var(--spacing-4);
+    vertical-align: middle;
+    border-bottom: 1px solid var(--theme-border-secondary);
+}
+
+.table tbody tr {
+    transition: var(--transition-fast);
+}
+
+/* ===== 테이블 호버 효과 ===== */
+.table-hover tbody tr:hover {
+    background-color: var(--color-primary-50);
+}
+
+.table-hover tbody tr:hover td {
+    border-bottom-color: var(--color-primary-100);
+}
+
+/* ===== 테이블 스트라이프 ===== */
+.table-striped > tbody > tr:nth-of-type(odd) > td,
+.table-striped > tbody > tr:nth-of-type(odd) > th {
+    background-color: var(--color-primary-50);
+}
+
+/* ===== 테이블 보더 스타일 ===== */
+.table-bordered {
+    border: 1px solid var(--theme-border-primary);
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid var(--theme-border-secondary);
+}
+
+/* ===== 테이블 크기 변형 ===== */
+.table-sm th,
+.table-sm td {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-xs);
+}
+
+.table-lg th,
+.table-lg td {
+    padding: var(--spacing-4) var(--spacing-6);
+    font-size: var(--font-size-base);
+}
+
+/* ===== 자산 관리 테이블 (도메인 특화) ===== */
+.asset-list-table {
+    margin-bottom: var(--spacing-4);
+}
+
+.asset-list-table .asset-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--theme-border-secondary);
+}
+
+.asset-list-table .asset-tags .tag {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1) var(--spacing-2);
+    margin-right: var(--spacing-1);
+    margin-bottom: var(--spacing-1);
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+}
+
+.asset-row {
+    cursor: pointer;
+}
+
+/* 자산 행 호버 효과는 .table-hover에 의해 처리됨 */
+
+/* ===== 인벤토리 테이블 (도메인 특화) ===== */
+.asset-table {
+    font-size: var(--font-size-sm);
+}
+
+.asset-table thead th {
+    background-color: var(--theme-bg-secondary);
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-700);
+    border-bottom: 2px solid var(--theme-border-primary);
+}
+
+.asset-table tbody tr {
+    transition: var(--transition-fast);
+}
+
+.asset-table tbody tr:hover {
+    background-color: var(--color-primary-50);
+}
+
+/* ===== 정렬 표시 ===== */
+.sort-asc::after {
+    content: ' ↑';
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.sort-desc::after {
+    content: ' ↓';
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sortable:hover {
+    background-color: var(--color-primary-50);
+}
+
+/* ===== 테이블 액션 버튼 ===== */
+.asset-actions .btn {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--font-size-sm);
+    margin: 0 var(--spacing-1);
+}
+
+.table-actions {
+    display: flex;
+    gap: var(--spacing-1);
+    justify-content: center;
+}
+
+/* ===== 반응형 테이블 ===== */
+.table-responsive {
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--radius-md);
+}
+
+@media (max-width: var(--breakpoint-md)) {
+    .table {
+        font-size: var(--font-size-xs);
+    }
+    
+    .table th,
+    .table td {
+        padding: var(--spacing-2) var(--spacing-3);
+    }
+    
+    .asset-list-table .asset-status-badge {
+        display: inline-block;
+        margin-top: var(--spacing-1);
+    }
+    
+    .table-actions {
+        flex-direction: column;
+        gap: var(--spacing-1);
+    }
+    
+    .asset-actions .btn {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-1);
+    }
+}
+
+/* ===== 페이지네이션 ===== */
+.pagination {
+    margin-bottom: 0;
+    margin-top: var(--spacing-4);
+}
+
+.pagination .page-item .page-link {
+    border: none;
+    color: var(--theme-text-secondary);
+    border-radius: var(--radius-sm);
+    margin: 0 var(--spacing-1);
+    padding: var(--spacing-2) var(--spacing-3);
+    transition: var(--transition-fast);
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: var(--color-primary-50);
+    color: var(--color-primary);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--theme-bg-primary);
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--theme-text-muted);
+    background-color: var(--theme-bg-secondary);
+}
+
+/* ===== 다크 모드 지원 ===== */
+[data-theme="dark"] .table {
+    background-color: var(--theme-bg-secondary);
+    color: var(--theme-text-primary);
+}
+
+[data-theme="dark"] .table th {
+    background-color: var(--theme-bg-tertiary);
+    color: var(--theme-text-primary);
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > td {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.15);
+}
+
+/* ===== 접근성 개선 ===== */
+/* 키보드 내비게이션 지원 */
+.sortable:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    background-color: var(--color-primary-50);
+}
+
+.sortable:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* 색상 대비율 개선 */
+.table th {
+    color: var(--theme-text-primary);
+    contrast: 4.5; /* WCAG AA 준수 */
+}
+
+.table td {
+    color: var(--theme-text-primary);
+    contrast: 4.5;
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+    .table {
+        border: 2px solid var(--theme-text-primary);
+    }
+    
+    .table th,
+    .table td {
+        border: 1px solid var(--theme-text-primary);
+        font-weight: var(--font-weight-medium);
+    }
+    
+    .table th {
+        font-weight: var(--font-weight-bold);
+        background-color: var(--theme-text-primary);
+        color: var(--theme-bg-primary);
+    }
+    
+    .sortable:focus {
+        outline-width: 3px;
+        background-color: var(--color-primary);
+        color: var(--theme-bg-primary);
+    }
+}
+
+/* 스크린 리더 지원 */
+.sr-only-table {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* 테이블 캡션 스타일 */
+.table caption {
+    padding-top: var(--spacing-3);
+    padding-bottom: var(--spacing-3);
+    color: var(--theme-text-secondary);
+    text-align: left;
+    caption-side: top;
+    font-weight: var(--font-weight-medium);
+}
+
+/* 키보드 내비게이션을 위한 행 포커스 */
+.asset-row:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -1px;
+    background-color: var(--color-primary-50);
+}
+
+.asset-row:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -1px;
+}
+
+/* 모션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+    .table tbody tr,
+    .asset-row,
+    .sortable {
+        transition: none;
+    }
+} 

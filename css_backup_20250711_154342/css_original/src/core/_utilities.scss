@@ -1,0 +1,31 @@
+// ========================================
+// 자산관리 시스템 유틸리티 클래스
+// ========================================
+
+// 여백 유틸리티 확장
+.m-auto { margin: auto !important; }
+.mx-auto { margin-left: auto !important; margin-right: auto !important; }
+.my-auto { margin-top: auto !important; margin-bottom: auto !important; }
+
+// 그림자 유틸리티
+.shadow-xs { box-shadow: var(--shadow-xs) !important; }
+.shadow-sm { box-shadow: var(--shadow-sm) !important; }
+.shadow-md { box-shadow: var(--shadow-md) !important; }
+.shadow-lg { box-shadow: var(--shadow-lg) !important; }
+.shadow-xl { box-shadow: var(--shadow-xl) !important; }
+
+// 애니메이션 유틸리티
+.transition-fast { transition: var(--transition-fast) !important; }
+.transition-normal { transition: var(--transition-normal) !important; }
+.transition-slow { transition: var(--transition-slow) !important; }
+
+// 텍스트 유틸리티
+.text-uppercase { text-transform: uppercase !important; }
+.letter-spacing { letter-spacing: 0.05em !important; }
+
+// 인쇄 유틸리티
+.print-only { display: none !important; }
+@media print {
+  .print-only { display: block !important; }
+  .no-print { display: none !important; }
+} 

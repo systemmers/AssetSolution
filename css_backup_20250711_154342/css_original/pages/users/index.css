@@ -1,0 +1,156 @@
+﻿/**
+ * 사용자 목록 페이지 스타일
+ * 사용자 관련 페이지에만 필요한 고유 스타일을 정의합니다.
+ */
+
+/* 검색 버튼 그룹 스타일 */
+.search-btn-group {
+    display: flex;
+    width: 100%;
+}
+
+.search-btn, 
+.reset-btn {
+    min-width: 80px;
+    white-space: nowrap;
+    padding: .375rem .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-btn {
+    flex: 1;
+}
+
+.search-btn .fas,
+.reset-btn .fas {
+    margin-right: 0.25rem;
+}
+
+/* 사용자 테이블 스타일 */
+.user-row {
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.user-row:hover {
+    background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.table th {
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .btn-text {
+        display: none;
+    }
+    
+    .search-btn, 
+    .reset-btn {
+        min-width: 40px;
+        padding: .375rem .75rem;
+    }
+    
+    .search-btn .fas,
+    .reset-btn .fas {
+        margin-right: 0;
+    }
+    
+    .search-btn {
+        flex: 1;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-btn-group {
+        flex-wrap: nowrap;
+    }
+}
+
+/* 사용자 목록 테이블 */
+.user-list-table .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-list-table .department-badge {
+    font-size: var(--font-size-xs);
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+}
+
+.user-list-table .role-badge {
+    font-size: var(--font-size-xs);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+.user-list-table .role-badge.admin {
+    background-color: rgba(var(--color-danger-rgb), 0.1);
+    color: var(--color-danger);
+}
+
+.user-list-table .role-badge.user {
+    background-color: rgba(var(--color-info-rgb), 0.1);
+    color: var(--color-info);
+}
+
+.user-list-table .status-badge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.user-list-table .status-badge.active {
+    background-color: var(--color-success);
+}
+
+.user-list-table .status-badge.inactive {
+    background-color: var(--color-secondary);
+}
+
+/* 사용자 필터 및 검색 영역 */
+.user-filters {
+    margin-bottom: var(--spacing-4);
+}
+
+.user-filters .filter-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-1);
+}
+
+/* 사용자 액션 버튼 */
+.user-actions .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: var(--font-size-sm);
+}
+
+/* 반응형 조정 */
+@media (max-width: var(--breakpoint-md)) {
+    .user-list-table .department-badge,
+    .user-list-table .role-badge {
+        display: inline-block;
+        margin-top: var(--spacing-1);
+    }
+} 

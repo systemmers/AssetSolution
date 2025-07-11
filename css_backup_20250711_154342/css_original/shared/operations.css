@@ -1,0 +1,238 @@
+﻿/* ==========================================================================
+   Operations Common Styles
+   ========================================================================== */
+
+/* Workflow Icons */
+.workflow-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.workflow-icon.bg-info {
+    background-color: var(--color-info);
+    color: var(--theme-bg-primary);
+}
+
+.workflow-icon.bg-success {
+    background-color: var(--color-success);
+    color: var(--theme-bg-primary);
+}
+
+.workflow-icon.bg-warning {
+    background-color: var(--color-warning);
+    color: var(--gray-800);
+}
+
+.workflow-icon.bg-primary {
+    background-color: var(--color-primary);
+    color: var(--theme-bg-primary);
+}
+
+.workflow-icon.bg-danger {
+    background-color: var(--color-danger);
+    color: var(--theme-bg-primary);
+}
+
+/* Workflow Steps */
+.workflow-steps .step {
+    font-size: 0.8rem;
+    color: var(--theme-text-secondary);
+    border-top: 1px solid var(--theme-border-primary);
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.workflow-item {
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--radius-lg);
+    padding: 15px;
+    transition: var(--transition-base);
+}
+
+.workflow-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.15);
+}
+
+/* Card Subtitles */
+.card-subtitle {
+    font-size: 0.8rem;
+    color: var(--theme-text-secondary);
+}
+
+/* Legacy Statistics Cards - 이제 components/stats-cards.css 사용 권장 */
+
+/* Asset Icons */
+.asset-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--theme-bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme-text-secondary);
+}
+
+/* Legacy Timeline Styles - 이제 components/timeline.css 사용 권장 */
+
+/* Progress Indicators */
+.progress-indicator {
+    height: 8px;
+    background: var(--theme-bg-tertiary);
+    border-radius: var(--radius-base);
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-indicator .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    transition: var(--transition-base);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.pending {
+    background: rgba(var(--color-warning-rgb), 0.1);
+    color: var(--color-warning-dark);
+    border: 1px solid rgba(var(--color-warning-rgb), 0.3);
+}
+
+.status-badge.approved {
+    background: rgba(var(--color-success-rgb), 0.1);
+    color: var(--color-success-dark);
+    border: 1px solid rgba(var(--color-success-rgb), 0.3);
+}
+
+.status-badge.rejected {
+    background: rgba(var(--color-danger-rgb), 0.1);
+    color: var(--color-danger-dark);
+    border: 1px solid rgba(var(--color-danger-rgb), 0.3);
+}
+
+.status-badge.in-progress {
+    background: rgba(var(--color-info-rgb), 0.1);
+    color: var(--color-info-dark);
+    border: 1px solid rgba(var(--color-info-rgb), 0.3);
+}
+
+.status-badge.completed {
+    background: rgba(var(--color-success-rgb), 0.1);
+    color: var(--color-success-dark);
+    border: 1px solid rgba(var(--color-success-rgb), 0.3);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-buttons .btn {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+}
+
+/* Filter Controls */
+.filter-controls {
+    background: var(--theme-bg-secondary);
+    padding: 15px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+    border: 1px solid var(--theme-border-primary);
+}
+
+.filter-controls .form-select,
+.filter-controls .form-control {
+    font-size: 0.875rem;
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--theme-text-secondary);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state h5 {
+    margin-bottom: 10px;
+    color: var(--theme-text-primary);
+}
+
+.empty-state p {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+}
+
+/* Loading States */
+.loading-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--theme-text-secondary);
+}
+
+.loading-state .spinner-border {
+    margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .workflow-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .timeline {
+        padding-left: 20px;
+    }
+    
+    .timeline-marker {
+        left: -20px;
+        width: 10px;
+        height: 10px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        padding: 8px 12px;
+    }
+    
+    .filter-controls {
+        padding: 12px;
+    }
+} 

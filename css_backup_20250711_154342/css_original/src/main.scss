@@ -1,0 +1,80 @@
+// ========================================
+// 자산관리 시스템 메인 스타일시트
+// Bootstrap 5 + 커스텀 스타일 통합
+// ========================================
+
+// 1. 핵심 변수 시스템
+@import "core/variables";
+
+// 2. Bootstrap 5 (변수 오버라이드 포함)
+@import "bootstrap/bootstrap";
+
+// 3. 핵심 시스템 스타일
+@import "core/utilities";
+@import "core/reset";
+
+// 4. 컴포넌트 스타일
+@import "components/cards";
+@import "components/buttons";
+@import "components/forms";
+@import "components/tables";
+
+// 5. 레이아웃 스타일
+@import "layout/header";
+@import "layout/sidebar";
+@import "layout/footer";
+
+// 자산관리 시스템 전역 스타일
+body {
+  font-family: var(--font-family-sans);
+  line-height: var(--line-height-normal);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+// 스크롤바 커스터마이징
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 4px;
+  
+  &:hover {
+    background: var(--color-secondary-dark);
+  }
+}
+
+// 포커스 스타일 개선
+*:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+// 선택 텍스트 스타일
+::selection {
+  background-color: rgba(var(--color-primary-rgb), 0.2);
+  color: var(--color-dark);
+}
+
+// 인쇄 스타일
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  .btn {
+    display: none !important;
+  }
+} 

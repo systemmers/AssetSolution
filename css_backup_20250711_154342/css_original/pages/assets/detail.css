@@ -1,0 +1,245 @@
+﻿/**
+ * 자산 상세 페이지 스타일
+ * 자산 상세 정보 페이지에만 필요한 고유 스타일을 정의합니다.
+ */
+
+/* 카드 스타일 개선 */
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border-bottom: 1px solid var(--theme-border-secondary);
+    background-color: var(--theme-bg-secondary);
+}
+
+/* 자산 정보 스타일 */
+.form-label.fw-bold {
+    color: var(--gray-700);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-1);
+}
+
+/* 상태 배지 스타일 - components/badges.css에서 통합 관리됨 */
+
+/* 테이블 스타일 - components/tables.css에서 통합 관리됨 */
+
+/* 파일 목록 스타일 */
+.list-group-item {
+    transition: var(--transition-fast);
+}
+
+.list-group-item:hover {
+    background-color: var(--theme-bg-secondary);
+}
+
+.list-group-item a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.list-group-item a:hover {
+    text-decoration: underline;
+}
+
+/* QR 코드 영역 스타일 */
+.fa-qrcode {
+    color: var(--color-secondary);
+}
+
+/* 현재 가치 표시 스타일 */
+.text-primary.fw-bold {
+    font-size: 1.1rem;
+}
+
+/* 모달 스타일 */
+.modal-header {
+    background-color: var(--theme-bg-secondary);
+    border-bottom: 1px solid var(--theme-border-secondary);
+}
+
+.modal-footer {
+    background-color: var(--theme-bg-secondary);
+    border-top: 1px solid var(--theme-border-secondary);
+}
+
+/* 자산 상세 헤더 */
+.asset-detail-header {
+    display: flex;
+    margin-bottom: var(--spacing-4);
+}
+
+.asset-detail-image {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-right: var(--spacing-4);
+    border: 1px solid var(--border-light);
+}
+
+.asset-detail-info h2 {
+    margin-bottom: var(--spacing-1);
+    font-weight: var(--font-weight-bold);
+}
+
+.asset-detail-info .asset-code {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-2);
+}
+
+.asset-detail-info .asset-status {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-2);
+}
+
+.asset-detail-info .status-in-use {
+    background-color: rgba(var(--color-info-rgb), 0.1);
+    color: var(--color-info);
+}
+
+.asset-detail-info .status-available {
+    background-color: rgba(var(--color-success-rgb), 0.1);
+    color: var(--color-success);
+}
+
+.asset-detail-info .status-maintenance {
+    background-color: rgba(var(--color-warning-rgb), 0.1);
+    color: var(--color-warning);
+}
+
+.asset-detail-info .status-retired {
+    background-color: rgba(var(--color-secondary-rgb), 0.1);
+    color: var(--color-secondary);
+}
+
+/* 자산 정보 탭 */
+.asset-info-tabs .nav-tabs {
+    margin-bottom: var(--spacing-3);
+}
+
+.asset-info-tabs .tab-pane {
+    padding: var(--spacing-3);
+    background-color: var(--bg-card);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 자산 세부 정보 */
+.asset-specs .spec-group {
+    margin-bottom: var(--spacing-3);
+}
+
+.asset-specs .spec-group h5 {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-2);
+    padding-bottom: var(--spacing-1);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.asset-specs .spec-label {
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+}
+
+.asset-specs .spec-value {
+    margin-bottom: var(--spacing-2);
+}
+
+/* 대여 이력 리스트 */
+.loan-history-list .loan-item {
+    padding: var(--spacing-2);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: var(--spacing-2);
+}
+
+.loan-history-list .loan-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.loan-history-list .loan-date {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.loan-history-list .loan-user {
+    font-weight: var(--font-weight-semibold);
+}
+
+/* 유지보수 이력 */
+.maintenance-history-list .maintenance-item {
+    padding: var(--spacing-2);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: var(--spacing-2);
+}
+
+.maintenance-history-list .maintenance-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.maintenance-history-list .maintenance-date {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.maintenance-history-list .maintenance-type {
+    font-weight: var(--font-weight-semibold);
+}
+
+/* 첨부 문서 */
+.asset-documents .document-item {
+    margin-bottom: var(--spacing-2);
+    padding: var(--spacing-2);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+}
+
+.asset-documents .document-icon {
+    font-size: var(--font-size-lg);
+    margin-right: var(--spacing-2);
+}
+
+.asset-documents .document-info {
+    flex: 1;
+}
+
+.asset-documents .document-title {
+    font-weight: var(--font-weight-medium);
+}
+
+.asset-documents .document-size {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* 반응형 조정 */
+@media (max-width: var(--breakpoint-md)) {
+    .asset-detail-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .asset-detail-image {
+        margin-right: 0;
+        margin-bottom: var(--spacing-3);
+    }
+    
+    .asset-specs .row > div {
+        margin-bottom: var(--spacing-3);
+    }
+}

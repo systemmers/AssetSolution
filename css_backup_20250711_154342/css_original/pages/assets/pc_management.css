@@ -1,0 +1,38 @@
+﻿/**
+ * PC 관리 페이지 스타일
+ */
+
+/* 테이블 행 커서 스타일 */
+.pc-row {
+    cursor: pointer;
+}
+
+/* 디스크 공간 프로그레스바 스타일 */
+.progress {
+    height: 6px;
+    border-radius: 3px;
+}
+
+/* 통계 카드 스타일 */
+.rounded-circle {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rounded-circle i {
+    font-size: 1.2rem;
+}
+
+/* PC 상태 뱃지 스타일 */
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.6em;
+}
+
+/* 호버 효과 */
+.pc-row:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+} 

@@ -1,0 +1,35 @@
+// ========================================
+// 헤더 레이아웃
+// ========================================
+
+.navbar {
+  box-shadow: var(--shadow-sm);
+  
+  &.navbar-dark {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  }
+  
+  .navbar-brand {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+  }
+  
+  .nav-link {
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-fast);
+    
+    &:hover {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    &.active {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: var(--spacing-1);
+    }
+  }
+}
+
+.nav-spacer {
+  height: var(--navbar-height);
+} 

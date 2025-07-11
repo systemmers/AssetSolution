@@ -1,0 +1,429 @@
+﻿/* ==========================================================================
+   Timeline Component
+   ========================================================================== */
+
+/* 기본 타임라인 컨테이너 */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+    margin: 20px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+
+/* 타임라인 아이템 */
+.timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.timeline-item:last-child .timeline::before {
+    bottom: 20px;
+}
+
+/* 타임라인 마커 */
+.timeline-marker {
+    position: absolute;
+    left: -25px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #6c757d;
+    z-index: 2;
+}
+
+.timeline-marker.completed {
+    background: #28a745;
+}
+
+.timeline-marker.active {
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
+}
+
+.timeline-marker.pending {
+    background: #ffc107;
+}
+
+.timeline-marker.rejected {
+    background: #dc3545;
+}
+
+.timeline-marker.info {
+    background: #17a2b8;
+}
+
+.timeline-marker.warning {
+    background: #fd7e14;
+}
+
+/* 타임라인 콘텐츠 */
+.timeline-content {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border-left: 3px solid #dee2e6;
+    margin-left: 5px;
+}
+
+.timeline-content.completed {
+    border-left-color: #28a745;
+    background: rgba(40, 167, 69, 0.05);
+}
+
+.timeline-content.active {
+    border-left-color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.05);
+}
+
+.timeline-content.pending {
+    border-left-color: #ffc107;
+    background: rgba(255, 193, 7, 0.05);
+}
+
+.timeline-content.rejected {
+    border-left-color: #dc3545;
+    background: rgba(220, 53, 69, 0.05);
+}
+
+.timeline-content.info {
+    border-left-color: #17a2b8;
+    background: rgba(23, 162, 184, 0.05);
+}
+
+.timeline-content.warning {
+    border-left-color: #fd7e14;
+    background: rgba(253, 126, 20, 0.05);
+}
+
+/* 타임라인 헤더 */
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.timeline-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+.timeline-time {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* 타임라인 설명 */
+.timeline-description {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* 타임라인 메타 정보 */
+.timeline-meta {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.timeline-user {
+    font-size: 0.8rem;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.timeline-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* 타임라인 카드 변형 */
+.timeline-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-left: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.timeline-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-card.completed {
+    border-left: 4px solid #28a745;
+}
+
+.timeline-card.active {
+    border-left: 4px solid var(--color-primary);
+}
+
+.timeline-card.pending {
+    border-left: 4px solid #ffc107;
+}
+
+.timeline-card.rejected {
+    border-left: 4px solid #dc3545;
+}
+
+/* 월별 타임라인 변형 */
+.monthly-timeline .timeline {
+    padding-left: 35px;
+}
+
+.monthly-timeline .timeline::before {
+    left: 15px;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-primary-light));
+}
+
+.monthly-timeline .timeline-marker {
+    left: -30px;
+    width: 16px;
+    height: 16px;
+    border: 3px solid white;
+}
+
+.monthly-timeline .timeline-marker.bg-success {
+    background: #28a745;
+}
+
+.monthly-timeline .timeline-marker.bg-danger {
+    background: #dc3545;
+}
+
+.monthly-timeline .timeline-marker.bg-info {
+    background: #17a2b8;
+}
+
+.monthly-timeline .timeline-marker.bg-warning {
+    background: #ffc107;
+}
+
+.monthly-timeline .timeline-content {
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-left: 10px;
+}
+
+.monthly-timeline .timeline-content.completed {
+    background: rgba(40, 167, 69, 0.08);
+    border-left: 4px solid #28a745;
+}
+
+.monthly-timeline .timeline-content.pending {
+    background: rgba(255, 193, 7, 0.08);
+    border-left: 4px solid #ffc107;
+}
+
+/* 수평 타임라인 */
+.timeline.horizontal {
+    display: flex;
+    padding-left: 0;
+    padding-top: 30px;
+    align-items: flex-start;
+}
+
+.timeline.horizontal::before {
+    top: 10px;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+}
+
+.timeline.horizontal .timeline-item {
+    flex: 1;
+    padding-bottom: 0;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.timeline.horizontal .timeline-item:last-child {
+    padding-right: 0;
+}
+
+.timeline.horizontal .timeline-marker {
+    left: 50%;
+    top: -25px;
+    transform: translateX(-50%);
+}
+
+.timeline.horizontal .timeline-content {
+    margin-left: 0;
+    margin-top: 10px;
+}
+
+/* 컴팩트 타임라인 */
+.timeline.compact {
+    padding-left: 25px;
+}
+
+.timeline.compact::before {
+    left: 8px;
+}
+
+.timeline.compact .timeline-marker {
+    left: -22px;
+    width: 10px;
+    height: 10px;
+    top: 6px;
+}
+
+.timeline.compact .timeline-content {
+    padding: 8px 12px;
+    margin-left: 3px;
+}
+
+.timeline.compact .timeline-title {
+    font-size: 0.875rem;
+}
+
+.timeline.compact .timeline-time {
+    font-size: 0.75rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .timeline {
+        padding-left: 25px;
+    }
+    
+    .timeline::before {
+        left: 8px;
+    }
+    
+    .timeline-marker {
+        left: -22px;
+        width: 10px;
+        height: 10px;
+    }
+    
+    .timeline-content {
+        padding: 10px 12px;
+        margin-left: 3px;
+    }
+    
+    .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .timeline-title {
+        font-size: 0.875rem;
+    }
+    
+    .timeline-time {
+        font-size: 0.75rem;
+    }
+    
+    .timeline.horizontal {
+        flex-direction: column;
+        padding-top: 0;
+        padding-left: 25px;
+    }
+    
+    .timeline.horizontal::before {
+        top: 0;
+        bottom: 0;
+        left: 8px;
+        width: 2px;
+        height: auto;
+    }
+    
+    .timeline.horizontal .timeline-item {
+        text-align: left;
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+    
+    .timeline.horizontal .timeline-marker {
+        left: -22px;
+        top: 8px;
+        transform: none;
+    }
+    
+    .timeline.horizontal .timeline-content {
+        margin-left: 3px;
+        margin-top: 0;
+    }
+    
+    .monthly-timeline .timeline {
+        padding-left: 25px;
+    }
+    
+    .monthly-timeline .timeline::before {
+        left: 8px;
+        width: 2px;
+    }
+    
+    .monthly-timeline .timeline-marker {
+        left: -24px;
+        width: 12px;
+        height: 12px;
+    }
+    
+    .monthly-timeline .timeline-content {
+        margin-left: 3px;
+        padding: 12px 16px;
+    }
+}
+
+/* 어두운 테마 지원 */
+@media (prefers-color-scheme: dark) {
+    .timeline::before {
+        background: #34495e;
+    }
+    
+    .timeline-content,
+    .timeline-card {
+        background: #2c3e50;
+        border-color: #34495e;
+        color: #ecf0f1;
+    }
+    
+    .timeline-title {
+        color: #ecf0f1;
+    }
+    
+    .timeline-description,
+    .timeline-time,
+    .timeline-user {
+        color: #bdc3c7;
+    }
+    
+    .timeline-marker {
+        border-color: #2c3e50;
+    }
+} 
