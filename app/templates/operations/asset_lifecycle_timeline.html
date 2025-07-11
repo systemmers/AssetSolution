@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}{{ asset.asset_name }} 생명주기 타임라인 - 자산관리 시스템{% endblock %}
 
@@ -15,10 +15,10 @@
         </nav>
     </div>
     <div>
-        <a href="{{ url_for('operations.lifecycle_tracking') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('operations.lifecycle_tracking') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 생명주기 추적
         </a>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
+        <button type="button" class="btn-primary-solid" data-bs-toggle="modal" data-bs-target="#addEventModal">
             <i class="fas fa-plus me-1"></i> 이벤트 추가
         </button>
     </div>
@@ -105,21 +105,21 @@
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex flex-wrap gap-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary event-filter active" data-type="all">
+                <button type="button" class="btn-size-sm btn-outline-secondary event-filter active" data-type="all">
                     <i class="fas fa-list me-1"></i> 전체 ({{ timeline_stats.total_events }})
                 </button>
                 {% for event_type in event_type_stats %}
-                <button type="button" class="btn btn-sm btn-outline-{{ event_type.color }} event-filter" data-type="{{ event_type.code }}">
+                <button type="button" class="btn-size-sm btn-outline-{{ event_type.color }} event-filter" data-type="{{ event_type.code }}">
                     <i class="{{ event_type.icon }} me-1"></i> {{ event_type.name }} ({{ event_type.count }})
                 </button>
                 {% endfor %}
             </div>
             <div class="d-flex gap-2">
-                <select class="form-select form-select-sm" id="sortOrder" style="width: auto;">
+                <select class="form-select form-select-custom-sm" id="sortOrder" style="width: auto;">
                     <option value="desc">최신순</option>
                     <option value="asc">과거순</option>
                 </select>
-                <button type="button" class="btn btn-sm btn-outline-primary btn-export-timeline">
+                <button type="button" class="btn-size-sm btn-outline-primary btn-export-timeline">
                     <i class="fas fa-download me-1"></i> 내보내기
                 </button>
             </div>
@@ -179,7 +179,7 @@
                         <div class="attachments">
                             <small class="text-muted d-block mb-1">첨부파일:</small>
                             {% for attachment in event.attachments %}
-                            <a href="{{ attachment.url }}" class="btn btn-sm btn-outline-secondary me-1 mb-1" target="_blank">
+                            <a href="{{ attachment.url }}" class="btn-size-sm btn-outline-secondary me-1 mb-1" target="_blank">
                                 <i class="fas fa-paperclip me-1"></i>{{ attachment.filename }}
                             </a>
                             {% endfor %}
@@ -188,12 +188,12 @@
                     </div>
                     {% endif %}
                     <div class="timeline-actions mt-2">
-                        <button type="button" class="btn btn-sm btn-outline-primary btn-action-view-timeline-event" 
+                        <button type="button" class="btn-size-sm btn-outline-primary btn-action-view-timeline-event" 
                                 data-event-id="{{ event.id }}">
                             <i class="fas fa-eye me-1"></i> 상세보기
                         </button>
                         {% if event.can_edit %}
-                        <button type="button" class="btn btn-sm btn-outline-warning btn-action-edit-event" 
+                        <button type="button" class="btn-size-sm btn-outline-warning btn-action-edit-event" 
                                 data-event-id="{{ event.id }}">
                             <i class="fas fa-edit me-1"></i> 수정
                         </button>
@@ -206,7 +206,7 @@
                 <div class="text-muted">
                     <i class="fas fa-history fa-3x mb-3 opacity-50"></i>
                     <p class="mb-0">이 자산에 대한 생명주기 이벤트가 없습니다.</p>
-                    <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                    <button type="button" class="btn-primary-solid mt-2" data-bs-toggle="modal" data-bs-target="#addEventModal">
                         <i class="fas fa-plus me-1"></i> 첫 번째 이벤트 추가하기
                     </button>
                 </div>
@@ -232,7 +232,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="eventType" class="form-label">이벤트 유형 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="eventType" name="event_type" required>
+                            <select class="form-select-custom" id="eventType" name="event_type" required>
                                 <option value="">이벤트 유형을 선택하세요</option>
                                 <option value="acquisition">취득</option>
                                 <option value="deployment">배치</option>
@@ -245,34 +245,34 @@
                         </div>
                         <div class="col-md-6">
                             <label for="eventDate" class="form-label">이벤트 일자 <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="eventDate" name="event_date" required>
+                            <input type="date" class="form-input" id="eventDate" name="event_date" required>
                         </div>
                         <div class="col-12">
                             <label for="eventDescription" class="form-label">이벤트 설명 <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="eventDescription" name="event_description" rows="3" 
+                            <textarea class="form-input" id="eventDescription" name="event_description" rows="3" 
                                       placeholder="이벤트에 대한 상세 설명을 입력하세요" required></textarea>
                         </div>
                         <div class="col-md-6">
                             <label for="performedBy" class="form-label">수행자</label>
-                            <input type="text" class="form-control" id="performedBy" name="performed_by" 
+                            <input type="text" class="form-input" id="performedBy" name="performed_by" 
                                    placeholder="이벤트 수행자 이름">
                         </div>
                         <div class="col-md-6">
                             <label for="relatedCost" class="form-label">관련 비용 (원)</label>
-                            <input type="number" class="form-control" id="relatedCost" name="related_cost" 
+                            <input type="number" class="form-input" id="relatedCost" name="related_cost" 
                                    placeholder="0" min="0">
                         </div>
                         <div class="col-12">
                             <label for="notes" class="form-label">추가 메모</label>
-                            <textarea class="form-control" id="notes" name="notes" rows="2" 
+                            <textarea class="form-input" id="notes" name="notes" rows="2" 
                                       placeholder="추가적인 메모나 특이사항"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="saveNewEventBtn">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" id="saveNewEventBtn">
                     <i class="fas fa-save me-1"></i> 저장
                 </button>
             </div>

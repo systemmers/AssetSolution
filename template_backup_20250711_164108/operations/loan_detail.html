@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}이력 상세 정보{% endblock %}
+
+{% block page_id %}operations-history-detail-page{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/operations/detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mt-4">자산 이력 상세 정보</h1>
+        <div class="text-muted small mt-4">
+            {% if history.audit_trail %}
+                Last modified by {{ history.audit_trail.last_modified_by }} on {{ history.audit_trail.last_modified_at }}
+            {% endif %}
+        </div>
+    </div>
+    
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('main.dashboard') }}">대시보드</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('operations.history') }}">자산 이력</a></li>
+        <li class="breadcrumb-item active">상세 정보 (ID: {{ history.id }})</li>
+    </ol>
+
+    <div class="row">
+        <!-- 기본 정보 -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    기본 정보
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>자산명:</strong> <a href="{{ url_for('assets.detail', asset_id=history.asset_id) }}">{{ history.asset_name }}</a></p>
+                            <p><strong>자산 코드:</strong> <a href="{{ url_for('assets.detail', asset_id=history.asset_id) }}">{{ history.asset_code }}</a></p>
+                            <p><strong>작업 유형:</strong> {{ history.operation_type }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>상태:</strong> <span class="badge bg-success">{{ history.status }}</span></p>
+                            <p><strong>담당자:</strong> <a href="{{ url_for('users.detail', user_id=history.user_id) }}">{{ history.user_name }}</a> ({{ history.department }})</p>
+                            <p><strong>작업일:</strong> {{ history.date }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>상세 내용</h5>
+                    <p>{{ history.details }}</p>
+
+                    {% if history.related_docs %}
+                    <hr>
+                    <h5>관련 문서</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for doc in history.related_docs %}
+                        <li class="list-group-item">
+                            <a href="{{ doc.url }}" target="_blank"><i class="fas fa-file-alt me-2"></i>{{ doc.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <a href="{{ url_for('operations.history') }}" class="btn btn-secondary">목록으로</a>
+                </div>
+            </div>
+
+            <!-- 코멘트 -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-comments me-1"></i>
+                    코멘트
+                </div>
+                <div class="card-body">
+                    {% if history.comments %}
+                        {% for comment in history.comments %}
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0"><i class="fas fa-user-circle fa-2x"></i></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">{{ comment.author }}</div>
+                                {{ comment.text }}
+                                <div class="small text-muted mt-1">{{ comment.date }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">코멘트가 없습니다.</p>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="코멘트 추가...">
+                        <button class="btn btn-primary" type="button">등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 타임라인 -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-history me-1"></i>
+                    상태 변경 이력
+                </div>
+                <div class="card-body">
+                    <ul class="timeline">
+                        {% for event in history.timeline|reverse %}
+                        <li>
+                            <div class="timeline-badge"><i class="fas fa-check"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h5 class="timeline-title">{{ event.status }}</h5>
+                                    <p><small class="text-muted"><i class="fas fa-clock"></i> {{ event.date }} by {{ event.actor }}</small></p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

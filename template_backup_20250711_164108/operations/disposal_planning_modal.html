@@ -1,0 +1,260 @@
+<!-- 처분 계획 수립 모달 -->
+<div class="modal fade" id="disposalPlanModal" tabindex="-1" aria-labelledby="disposalPlanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="disposalPlanModalLabel">
+                    <i class="fas fa-plus-circle me-2"></i>
+                    처분 계획 수립
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="disposalPlanForm">
+                    <!-- 처분 유형 선택 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3">
+                                <i class="fas fa-tags me-2"></i>
+                                처분 유형 선택
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <div class="form-check card-check">
+                                        <input class="form-check-input" type="radio" name="disposalType" 
+                                               id="typeSale" value="sale">
+                                        <label class="form-check-label card h-100" for="typeSale">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-hand-holding-usd fa-2x text-success mb-2"></i>
+                                                <h6 class="card-title">매각</h6>
+                                                <p class="card-text small text-muted">시장 가치가 있는 자산 매각</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check card-check">
+                                        <input class="form-check-input" type="radio" name="disposalType" 
+                                               id="typeDonate" value="donate">
+                                        <label class="form-check-label card h-100" for="typeDonate">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-heart fa-2x text-danger mb-2"></i>
+                                                <h6 class="card-title">기부</h6>
+                                                <p class="card-text small text-muted">사회공헌을 위한 기부</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check card-check">
+                                        <input class="form-check-input" type="radio" name="disposalType" 
+                                               id="typeTransfer" value="transfer">
+                                        <label class="form-check-label card h-100" for="typeTransfer">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-exchange-alt fa-2x text-info mb-2"></i>
+                                                <h6 class="card-title">이전</h6>
+                                                <p class="card-text small text-muted">다른 부서/기관 이전</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check card-check">
+                                        <input class="form-check-input" type="radio" name="disposalType" 
+                                               id="typeDisposal" value="disposal">
+                                        <label class="form-check-label card h-100" for="typeDisposal">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-trash-alt fa-2x text-warning mb-2"></i>
+                                                <h6 class="card-title">폐기</h6>
+                                                <p class="card-text small text-muted">친환경 폐기 처리</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 자산 선택 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3">
+                                <i class="fas fa-boxes me-2"></i>
+                                처분 대상 자산 선택
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">자산 검색</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="assetSearch" 
+                                                   placeholder="자산명 또는 자산번호로 검색">
+                                            <button class="btn btn-outline-secondary" type="button" 
+                                                    id="searchAssetBtn">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label">검색 결과</label>
+                                        <div id="assetSearchResults" class="border rounded p-3" 
+                                             style="height: 200px; overflow-y: auto;">
+                                            <div class="text-center text-muted py-4">
+                                                <i class="fas fa-search fa-2x mb-2 opacity-50"></i>
+                                                <p class="mb-0">자산을 검색해주세요</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">선택된 자산</label>
+                                        <div id="selectedAssets" class="border rounded p-3" 
+                                             style="height: 280px; overflow-y: auto;">
+                                            <div class="text-center text-muted py-4">
+                                                <i class="fas fa-box-open fa-2x mb-2 opacity-50"></i>
+                                                <p class="mb-0">선택된 자산이 없습니다</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 처분 상세 정보 -->
+                    <div id="disposalDetails" class="d-none">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    처분 상세 정보
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- 매각 세부 정보 -->
+                        <div id="saleDetails" class="disposal-type-details d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">예상 매각가</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="salePrice" 
+                                                   placeholder="0">
+                                            <span class="input-group-text">원</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">매각 방법</label>
+                                        <select class="form-select" id="saleMethod">
+                                            <option value="">선택하세요</option>
+                                            <option value="auction">경매</option>
+                                            <option value="direct">직접판매</option>
+                                            <option value="company">업체위탁</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 기부 세부 정보 -->
+                        <div id="donateDetails" class="disposal-type-details d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">수혜기관</label>
+                                        <input type="text" class="form-control" id="donateOrganization" 
+                                               placeholder="기부받을 기관명">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">기부 사유</label>
+                                        <input type="text" class="form-control" id="donateReason" 
+                                               placeholder="기부 목적 및 사유">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 이전 세부 정보 -->
+                        <div id="transferDetails" class="disposal-type-details d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">이전 대상</label>
+                                        <select class="form-select" id="transferTarget">
+                                            <option value="">선택하세요</option>
+                                            <option value="department">타 부서</option>
+                                            <option value="branch">지점</option>
+                                            <option value="subsidiary">자회사</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">이전 부서/기관</label>
+                                        <input type="text" class="form-control" id="transferDestination" 
+                                               placeholder="이전받을 부서/기관명">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 공통 정보 -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">처분 예정일</label>
+                                    <input type="date" class="form-control" id="plannedDate">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">담당자</label>
+                                    <select class="form-select" id="assignedManager">
+                                        <option value="">선택하세요</option>
+                                        <option value="1">김철수 (자산관리팀)</option>
+                                        <option value="2">이영희 (총무팀)</option>
+                                        <option value="3">박민수 (구매팀)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">처분 사유</label>
+                                    <textarea class="form-control" id="disposalReason" rows="3" 
+                                              placeholder="처분 사유를 상세히 입력해주세요"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">특이사항</label>
+                                    <textarea class="form-control" id="specialNotes" rows="2" 
+                                              placeholder="특별히 고려할 사항이 있다면 입력해주세요"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> 취소
+                </button>
+                <button type="button" class="btn btn-primary" id="savePlanBtn" disabled>
+                    <i class="fas fa-save me-1"></i> 계획 저장
+                </button>
+            </div>
+        </div>
+    </div>
+</div> 

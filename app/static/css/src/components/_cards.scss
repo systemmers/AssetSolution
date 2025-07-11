@@ -35,15 +35,13 @@
   }
 }
 
-// 통계 카드 (.card-stat) - 모든 통계 카드 통합
+// 통계 카드 (.card-stat) - 모든 페이지 통합 사용
 .card-stat {
   @extend .card-base;
-  border-left: var(--stat-card-border-width) solid var(--color-primary);
+  position: relative;
   
-  &:hover {
-    border-left-color: var(--color-primary-light);
-    transform: translateY(-2px);
-  }
+  // 중요: border-left 스타일 복원
+  border-left: var(--stat-card-border-width) solid var(--color-gray-300);
   
   .card-body {
     padding: var(--stat-card-padding);
@@ -53,19 +51,17 @@
   }
   
   .stat-content {
-    flex-grow: 1;
+    flex: 1;
   }
   
-  .stat-icon {
-    font-size: var(--stat-card-icon-size);
-    color: var(--color-primary);
-    opacity: 0.8;
-    margin-left: var(--spacing-3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--stat-icon-width);
-    height: var(--stat-icon-height);
+  .stat-label {
+    font-size: var(--stat-card-label-size);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-1);
+    line-height: 1;
   }
   
   .stat-number {
@@ -73,60 +69,92 @@
     font-weight: var(--font-weight-bold);
     color: var(--color-dark);
     margin: 0;
-    line-height: var(--line-height-tight);
+    line-height: 1.2;
   }
+  
+  .stat-icon {
+    width: var(--stat-icon-width);
+    height: var(--stat-icon-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--stat-card-icon-size);
+    border-radius: 50%;
+    background-color: rgba(var(--color-gray-500), 0.1);
+    color: var(--color-gray-500);
+    margin-left: var(--spacing-3);
+  }
+  
+  // 호버 효과
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+
+// 색상별 통계 카드 변형 (Bootstrap 우선순위 극복을 위해 !important 사용)
+.card-stat-primary {
+  border-left: var(--stat-card-border-width) solid var(--color-primary) !important;
   
   .stat-label {
-    font-size: var(--stat-card-label-size);
-    color: var(--color-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0;
-    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
   }
   
-  // 색상 변형 - 모든 페이지에서 통일된 사용
-  &.card-stat-primary {
-    border-left-color: var(--color-primary);
-    .stat-icon { color: var(--color-primary); }
+  .stat-icon {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+  }
+}
+
+.card-stat-success {
+  border-left: var(--stat-card-border-width) solid var(--color-success) !important;
+  
+  .stat-label {
+    color: var(--color-success);
   }
   
-  &.card-stat-success {
-    border-left-color: var(--color-success);
-    .stat-icon { color: var(--color-success); }
+  .stat-icon {
+    background-color: rgba(40, 167, 69, 0.1); // success rgb
+    color: var(--color-success);
+  }
+}
+
+.card-stat-warning {
+  border-left: var(--stat-card-border-width) solid var(--color-warning) !important;
+  
+  .stat-label {
+    color: #e0a800; // warning text color
   }
   
-  &.card-stat-warning {
-    border-left-color: var(--color-warning);
-    .stat-icon { color: var(--color-warning); }
+  .stat-icon {
+    background-color: rgba(255, 193, 7, 0.1); // warning rgb
+    color: var(--color-warning);
+  }
+}
+
+.card-stat-danger {
+  border-left: var(--stat-card-border-width) solid var(--color-danger) !important;
+  
+  .stat-label {
+    color: var(--color-danger);
   }
   
-  &.card-stat-danger {
-    border-left-color: var(--color-danger);
-    .stat-icon { color: var(--color-danger); }
+  .stat-icon {
+    background-color: rgba(220, 53, 69, 0.1); // danger rgb
+    color: var(--color-danger);
+  }
+}
+
+.card-stat-info {
+  border-left: var(--stat-card-border-width) solid var(--color-info) !important;
+  
+  .stat-label {
+    color: var(--color-info);
   }
   
-  &.card-stat-info {
-    border-left-color: var(--color-info);
-    .stat-icon { color: var(--color-info); }
-  }
-  
-  // 반응형 디자인
-  @media (max-width: 768px) {
-    .card-body {
-      flex-direction: column;
-      text-align: center;
-      gap: var(--spacing-2);
-    }
-    
-    .stat-icon {
-      order: 1;
-      margin-left: 0;
-    }
-    
-    .stat-content {
-      order: 2;
-    }
+  .stat-icon {
+    background-color: rgba(23, 162, 184, 0.1); // info rgb
+    color: var(--color-info);
   }
 }
 

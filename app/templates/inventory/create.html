@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 실사 등록 - 자산관리 시스템{% endblock %}
 
@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">자산 실사 등록</h2>
     <div>
-        <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
+        <a href="{{ url_for('inventory.index') }}" class="btn-secondary-solid">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
     </div>
@@ -27,23 +27,23 @@
         <form id="createInventoryForm" method="POST">
             <div class="mb-3">
                 <label for="inventoryName" class="form-label">실사명 <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="inventoryName" name="name" placeholder="예: 2023년 4분기 정기 실사" required>
+                <input type="text" class="form-input" id="inventoryName" name="name" placeholder="예: 2023년 4분기 정기 실사" required>
             </div>
             
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="startDate" class="form-label">시작일 <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" id="startDate" name="start_date" required>
+                    <input type="date" class="form-input" id="startDate" name="start_date" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="endDate" class="form-label">종료일 <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" id="endDate" name="end_date" required>
+                    <input type="date" class="form-input" id="endDate" name="end_date" required>
                 </div>
             </div>
             
             <div class="mb-3">
                 <label for="manager" class="form-label">담당자 <span class="text-danger">*</span></label>
-                <select class="form-select" id="manager" name="manager_id" required>
+                <select class="form-select-custom" id="manager" name="manager_id" required>
                     <option value="">담당자 선택</option>
                     <option value="1">관리자</option>
                     <option value="2">홍길동</option>
@@ -53,7 +53,7 @@
             
             <div class="mb-3">
                 <label for="description" class="form-label">실사 설명</label>
-                <textarea class="form-control" id="description" name="description" rows="3" placeholder="실사 목적과 범위를 설명해주세요."></textarea>
+                <textarea class="form-input" id="description" name="description" rows="3" placeholder="실사 목적과 범위를 설명해주세요."></textarea>
             </div>
             
             <hr>
@@ -62,7 +62,7 @@
             
             <div class="mb-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="allAssets" name="all_assets" value="1" checked>
+                    <input class="form-checkbox" type="checkbox" id="allAssets" name="all_assets" value="1" checked>
                     <label class="form-check-label" for="allAssets">
                         전체 자산 대상
                     </label>
@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="categoryFilter" class="form-label">카테고리</label>
-                        <select class="form-select" id="categoryFilter" name="category_id">
+                        <select class="form-select-custom" id="categoryFilter" name="category_id">
                             <option value="">전체</option>
                             <option value="1">노트북</option>
                             <option value="2">데스크탑</option>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="departmentFilter" class="form-label">부서</label>
-                        <select class="form-select" id="departmentFilter" name="department_id">
+                        <select class="form-select-custom" id="departmentFilter" name="department_id">
                             <option value="">전체</option>
                             <option value="1">개발팀</option>
                             <option value="2">IT팀</option>
@@ -98,10 +98,10 @@
             </div>
             
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn-primary-solid">
                     <i class="fas fa-save me-1"></i> 실사 계획 등록
                 </button>
-                <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
+                <a href="{{ url_for('inventory.index') }}" class="btn-secondary-solid">
                     <i class="fas fa-times me-1"></i> 취소
                 </a>
             </div>

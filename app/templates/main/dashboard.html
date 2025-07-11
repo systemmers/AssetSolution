@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}대시보드 - 자산관리 시스템{% endblock %}
 
@@ -138,13 +138,13 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">최근 등록 자산</h6>
-                <a href="{{ url_for('assets.index') }}" class="btn btn-sm btn-primary">
+                <a href="{{ url_for('assets.index') }}" class="btn-size-sm btn-primary">
                     전체보기
                 </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table-interactive">
                         <thead>
                             <tr>
                                 <th>자산번호</th>
@@ -282,14 +282,14 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">만료 임박 계약</h6>
-                <a href="{{ url_for('contract.index') }}" class="btn btn-sm btn-primary">
+                <a href="{{ url_for('contract.index') }}" class="btn-size-sm btn-primary">
                     전체보기
                 </a>
             </div>
             <div class="card-body">
                 {% if soon_expiring_contracts %}
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table-interactive">
                         <thead>
                             <tr>
                                 <th>계약번호</th>
@@ -327,7 +327,7 @@
                 {% else %}
                 <!-- 샘플 데이터로 UI 채우기 -->
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table-interactive">
                         <thead>
                             <tr>
                                 <th>계약번호</th>

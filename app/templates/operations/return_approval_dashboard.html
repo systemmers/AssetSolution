@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}반납 승인 관리{% endblock %}
 
@@ -22,10 +22,10 @@
             <p class="text-muted">반납 요청에 대한 다단계 승인 프로세스를 관리합니다.</p>
         </div>
         <div>
-            <button class="btn btn-outline-secondary" id="refreshData">
+            <button class="btn-secondary-outline" id="refreshData">
                 <i class="bi bi-arrow-clockwise"></i> 새로고침
             </button>
-            <button class="btn btn-primary" id="bulkApproval">
+            <button class="btn-primary-solid" id="bulkApproval">
                 <i class="bi bi-check-square"></i> 일괄 승인
             </button>
         </div>
@@ -77,7 +77,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <label for="statusFilter" class="form-label">승인 상태</label>
-                    <select class="form-select" id="statusFilter">
+                    <select class="form-select-custom" id="statusFilter">
                         <option value="">전체 상태</option>
                         <option value="dept_approval">부서장 승인 대기</option>
                         <option value="asset_manager_approval">자산관리자 승인 대기</option>
@@ -88,13 +88,13 @@
                 </div>
                 <div class="col-md-3">
                     <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select" id="departmentFilter">
+                    <select class="form-select-custom" id="departmentFilter">
                         <option value="">전체 부서</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="urgencyFilter" class="form-label">긴급도</label>
-                    <select class="form-select" id="urgencyFilter">
+                    <select class="form-select-custom" id="urgencyFilter">
                         <option value="">전체 긴급도</option>
                         <option value="high">높음</option>
                         <option value="normal">보통</option>
@@ -104,9 +104,9 @@
                 <div class="col-md-3">
                     <label for="searchInput" class="form-label">검색</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchInput" 
+                        <input type="text" class="form-input" id="searchInput" 
                                placeholder="자산명, 요청자명 검색">
-                        <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                        <button class="btn-secondary-outline" type="button" id="clearSearch">
                             <i class="bi bi-x"></i>
                         </button>
                     </div>
@@ -126,11 +126,11 @@
                         </h5>
                         <div class="btn-group btn-group-sm" role="group">
                             <input type="radio" class="btn-check" name="viewMode" id="cardView" autocomplete="off" checked>
-                            <label class="btn btn-outline-secondary" for="cardView">
+                            <label class="btn-secondary-outline" for="cardView">
                                 <i class="bi bi-grid"></i>
                             </label>
                             <input type="radio" class="btn-check" name="viewMode" id="listView" autocomplete="off">
-                            <label class="btn btn-outline-secondary" for="listView">
+                            <label class="btn-secondary-outline" for="listView">
                                 <i class="bi bi-list"></i>
                             </label>
                         </div>
@@ -147,11 +147,11 @@
                     <!-- 리스트 뷰 -->
                     <div id="listViewContainer" style="display: none;">
                         <div class="table-responsive">
-                            <table class="table table-hover" id="approvalsTable">
+                            <table class="table-interactive" id="approvalsTable">
                                 <thead class="table-light">
                                     <tr>
                                         <th>
-                                            <input type="checkbox" class="form-check-input" id="selectAll">
+                                            <input type="checkbox" class="form-checkbox" id="selectAll">
                                         </th>
                                         <th>자산 정보</th>
                                         <th>요청자</th>
@@ -263,13 +263,13 @@
                     
                     <div class="mb-3">
                         <label for="approvalComments" class="form-label">승인 의견</label>
-                        <textarea class="form-control" id="approvalComments" rows="3" 
+                        <textarea class="form-input" id="approvalComments" rows="3" 
                                   placeholder="승인 또는 거부 사유를 입력하세요"></textarea>
                     </div>
 
                     <div class="mb-3" id="rejectionReasonGroup" style="display: none;">
                         <label for="rejectionReason" class="form-label">거부 사유 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="rejectionReason">
+                        <select class="form-select-custom" id="rejectionReason">
                             <option value="">선택하세요</option>
                             <option value="insufficient_info">정보 부족</option>
                             <option value="policy_violation">정책 위반</option>
@@ -281,11 +281,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" id="rejectBtn" style="display: none;">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-danger-solid" id="rejectBtn" style="display: none;">
                     <i class="bi bi-x-circle"></i> 거부
                 </button>
-                <button type="button" class="btn btn-success" id="approveBtn" style="display: none;">
+                <button type="button" class="btn-success-solid" id="approveBtn" style="display: none;">
                     <i class="bi bi-check-circle"></i> 승인
                 </button>
             </div>
@@ -306,7 +306,7 @@
                 
                 <div class="mb-3">
                     <label for="bulkApprovalComments" class="form-label">일괄 승인 의견</label>
-                    <textarea class="form-control" id="bulkApprovalComments" rows="3" 
+                    <textarea class="form-input" id="bulkApprovalComments" rows="3" 
                               placeholder="일괄 승인 사유를 입력하세요"></textarea>
                 </div>
 
@@ -316,8 +316,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="confirmBulkApproval">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" id="confirmBulkApproval">
                     <i class="bi bi-check-square"></i> 일괄 승인
                 </button>
             </div>

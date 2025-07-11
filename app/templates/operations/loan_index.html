@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 대여 관리 - 자산관리 시스템{% endblock %}
 
@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">자산 대여 관리</h2>
     <div>
-        <a href="{{ url_for('operations.index') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('operations.index') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 운영 관리
         </a>
-        <a href="{{ url_for('operations.loan_form') }}" class="btn btn-primary">
+        <a href="{{ url_for('operations.loan_form') }}" class="btn-primary-solid">
             <i class="fas fa-plus me-1"></i> 대여 등록
         </a>
     </div>
@@ -24,11 +24,11 @@
             <div class="row align-items-end">
                 <div class="col-md-3 mb-3">
                     <label for="searchKeyword" class="form-label">검색어</label>
-                    <input type="text" class="form-control" id="searchKeyword" name="keyword" placeholder="자산명, 자산번호, 사용자명">
+                    <input type="text" class="form-input" id="searchKeyword" name="keyword" placeholder="자산명, 자산번호, 사용자명">
                 </div>
                 <div class="col-md-2 mb-3">
                     <label for="statusFilter" class="form-label">상태</label>
-                    <select class="form-select" id="statusFilter" name="status">
+                    <select class="form-select-custom" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="pending">대여 신청</option>
                         <option value="approved">대여 승인</option>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-2 mb-3">
                     <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select" id="departmentFilter" name="department">
+                    <select class="form-select-custom" id="departmentFilter" name="department">
                         <option value="">전체</option>
                         <option value="개발팀">개발팀</option>
                         <option value="인사팀">인사팀</option>
@@ -49,16 +49,16 @@
                 <div class="col-md-3 mb-3">
                     <label for="dateRange" class="form-label">대여 일자</label>
                     <div class="input-group">
-                        <input type="date" class="form-control" id="startDate" name="start_date">
+                        <input type="date" class="form-input" id="startDate" name="start_date">
                         <span class="input-group-text">~</span>
-                        <input type="date" class="form-control" id="endDate" name="end_date">
+                        <input type="date" class="form-input" id="endDate" name="end_date">
                     </div>
                 </div>
                 <div class="col-md-2 mb-3 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-2">
+                    <button type="submit" class="btn-primary-solid me-2">
                         <i class="fas fa-search me-1"></i> 검색
                     </button>
-                    <button type="button" id="resetButton" class="btn btn-outline-secondary">
+                    <button type="button" id="resetButton" class="btn-secondary-outline">
                         <i class="fas fa-redo me-1"></i> 초기화
                     </button>
                 </div>
@@ -70,9 +70,9 @@
 <!-- 빠른 필터 버튼 -->
 <div class="mb-4">
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-outline-primary active" id="viewAllBtn">전체 ({{ total_items }})</button>
-        <button type="button" class="btn btn-outline-primary" id="viewLoanedBtn">대여중 (2)</button>
-        <button type="button" class="btn btn-outline-warning" id="viewOverdueBtn">반납 지연 (1)</button>
+        <button type="button" class="btn-primary-outline active" id="viewAllBtn">전체 ({{ total_items }})</button>
+        <button type="button" class="btn-primary-outline" id="viewLoanedBtn">대여중 (2)</button>
+        <button type="button" class="btn-warning-outline" id="viewOverdueBtn">반납 지연 (1)</button>
         <button type="button" class="btn btn-outline-info" id="viewTodayBtn">오늘 반납 예정 (0)</button>
     </div>
 </div>
@@ -81,7 +81,7 @@
 <div class="card shadow-sm mb-4">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
+            <table class="table-interactive align-middle">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">자산 정보</th>
@@ -141,15 +141,15 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="{{ url_for('operations.loan_detail', loan_id=loan.id) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ url_for('operations.loan_detail', loan_id=loan.id) }}" class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 {% if loan.status == '대여중' %}
-                                <a href="{{ url_for('operations.return_form') }}?loan_id={{ loan.id }}" class="btn btn-sm btn-outline-success">
+                                <a href="{{ url_for('operations.return_form') }}?loan_id={{ loan.id }}" class="btn-size-sm btn-outline-success">
                                     <i class="fas fa-undo"></i> 반납
                                 </a>
                                 {% elif loan.status == '대여 신청' %}
-                                <button class="btn btn-sm btn-outline-info">
+                                <button class="btn-size-sm btn-outline-info">
                                     <i class="fas fa-check"></i> 승인
                                 </button>
                                 {% endif %}

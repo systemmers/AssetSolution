@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}업그레이드 계획 상세 - 자산관리 시스템{% endblock %}
 
@@ -15,14 +15,14 @@
         </nav>
     </div>
     <div>
-        <a href="{{ url_for('operations.upgrade_management') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('operations.upgrade_management') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
         {% if plan.status in ['planned', 'approved'] %}
-        <button type="button" class="btn btn-warning me-2 btn-action-edit-plan" data-plan-id="{{ plan.id }}">
+        <button type="button" class="btn-warning-solid me-2 btn-action-edit-plan" data-plan-id="{{ plan.id }}">
             <i class="fas fa-edit me-1"></i> 수정
         </button>
-        <button type="button" class="btn btn-success btn-start-upgrade" data-plan-id="{{ plan.id }}">
+        <button type="button" class="btn-success-solid btn-start-upgrade" data-plan-id="{{ plan.id }}">
             <i class="fas fa-play me-1"></i> 업그레이드 시작
         </button>
         {% endif %}

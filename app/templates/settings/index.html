@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}시스템 설정 - 자산관리 시스템{% endblock %}
 
@@ -74,20 +74,20 @@
                         <form id="generalSettingsForm">
                             <div class="mb-3">
                                 <label for="systemName" class="form-label">시스템 이름</label>
-                                <input type="text" class="form-control" id="systemName" value="자산관리 시스템">
+                                <input type="text" class="form-input" id="systemName" value="자산관리 시스템">
                             </div>
                             <div class="mb-3">
                                 <label for="companyName" class="form-label">회사명</label>
-                                <input type="text" class="form-control" id="companyName" value="(주)예시회사">
+                                <input type="text" class="form-input" id="companyName" value="(주)예시회사">
                             </div>
                             <div class="mb-3">
                                 <label for="logoFile" class="form-label">로고 이미지</label>
-                                <input class="form-control" type="file" id="logoFile">
+                                <input class="form-input" type="file" id="logoFile">
                                 <div class="form-text">최대 2MB, PNG 또는 JPG 파일</div>
                             </div>
                             <div class="mb-3">
                                 <label for="dateFormat" class="form-label">날짜 형식</label>
-                                <select class="form-select" id="dateFormat">
+                                <select class="form-select-custom" id="dateFormat">
                                     <option value="YYYY-MM-DD" selected>YYYY-MM-DD</option>
                                     <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                                     <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="currencyFormat" class="form-label">통화 형식</label>
-                                <select class="form-select" id="currencyFormat">
+                                <select class="form-select-custom" id="currencyFormat">
                                     <option value="KRW" selected>대한민국 원화 (₩)</option>
                                     <option value="USD">미국 달러 ($)</option>
                                     <option value="EUR">유로 (€)</option>
@@ -104,11 +104,11 @@
                             </div>
                             <div class="mb-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="enableNotifications" checked>
+                                    <input class="form-checkbox" type="checkbox" id="enableNotifications" checked>
                                     <label class="form-check-label" for="enableNotifications">이메일 알림 사용</label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn-primary-solid">
                                 <i class="fas fa-save me-1"></i> 설정 저장
                             </button>
                         </form>
@@ -127,7 +127,7 @@
                             <i class="fas fa-tags fa-3x text-muted mb-3"></i>
                             <h4>카테고리 관리</h4>
                             <p class="text-muted">카테고리는 별도 페이지에서 관리됩니다.</p>
-                            <a href="{{ url_for('settings.categories') }}" class="btn btn-primary">
+                            <a href="{{ url_for('settings.categories') }}" class="btn-primary-solid">
                                 <i class="fas fa-external-link-alt me-2"></i>
                                 카테고리 관리 페이지로 이동
                             </a>
@@ -142,7 +142,7 @@
                     <div class="card-header py-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">자산번호 설정</h6>
-                            <button class="btn btn-sm btn-primary">
+                            <button class="btn-size-sm btn-primary">
                                 <i class="fas fa-save me-1"></i> 설정 저장
                             </button>
                         </div>
@@ -155,15 +155,15 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" type="radio" name="numberFormat" id="formatCustom" value="custom" checked>
+                                        <input class="form-checkbox" type="radio" name="numberFormat" id="formatCustom" value="custom" checked>
                                         <label class="form-check-label" for="formatCustom">
                                             형식 지정
                                         </label>
                                     </div>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light"><i class="fas fa-hashtag"></i></span>
-                                        <input type="text" class="form-control" id="customFormatPattern" placeholder="예: ASSET-{YYYY}-{CAT}-{SEQ}" value="ASSET-{YYYY}-{CAT}-{SEQ}">
-                                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="popover" data-bs-trigger="focus" title="형식 도움말" data-bs-content="{YYYY}: 연도, {MM}: 월, {CAT}: 카테고리, {SEQ}: 일련번호, {LOC}: 위치">
+                                        <input type="text" class="form-input" id="customFormatPattern" placeholder="예: ASSET-{YYYY}-{CAT}-{SEQ}" value="ASSET-{YYYY}-{CAT}-{SEQ}">
+                                        <button class="btn-secondary-outline" type="button" data-bs-toggle="popover" data-bs-trigger="focus" title="형식 도움말" data-bs-content="{YYYY}: 연도, {MM}: 월, {CAT}: 카테고리, {SEQ}: 일련번호, {LOC}: 위치">
                                             <i class="fas fa-question-circle"></i>
                                         </button>
                                     </div>
@@ -171,14 +171,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" type="radio" name="numberFormat" id="formatAutomatic" value="automatic">
+                                        <input class="form-checkbox" type="radio" name="numberFormat" id="formatAutomatic" value="automatic">
                                         <label class="form-check-label" for="formatAutomatic">
                                             자동 생성 (일련번호만)
                                         </label>
                                     </div>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light">시작 번호</span>
-                                        <input type="number" class="form-control" id="startingNumber" placeholder="1" value="1" min="1">
+                                        <input type="number" class="form-input" id="startingNumber" placeholder="1" value="1" min="1">
                                     </div>
                                     <div class="form-text">예시: 000001, 000002, 000003</div>
                                 </div>
@@ -187,7 +187,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">일련번호 자릿수</label>
-                                    <select class="form-select" id="seqDigits">
+                                    <select class="form-select-custom" id="seqDigits">
                                         <option value="4" selected>4자리 (0001)</option>
                                         <option value="5">5자리 (00001)</option>
                                         <option value="6">6자리 (000001)</option>
@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check form-switch mt-4">
-                                        <input class="form-check-input" type="checkbox" id="resetSeqYearly" checked>
+                                        <input class="form-checkbox" type="checkbox" id="resetSeqYearly" checked>
                                         <label class="form-check-label" for="resetSeqYearly">매년 일련번호 초기화</label>
                                     </div>
                                 </div>
@@ -213,20 +213,20 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="useCategoryPrefix" checked>
+                                        <input class="form-checkbox" type="checkbox" id="useCategoryPrefix" checked>
                                         <label class="form-check-label" for="useCategoryPrefix">카테고리별 접두어 사용</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="useSeparateSequence" checked>
+                                        <input class="form-checkbox" type="checkbox" id="useSeparateSequence" checked>
                                         <label class="form-check-label" for="useSeparateSequence">카테고리별 일련번호 분리</label>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="table-responsive">
-                                <table class="table table-sm table-bordered">
+                                <table class="table-base table-bordered">
                                     <thead class="table-light">
                                         <tr>
                                             <th>카테고리</th>
@@ -239,7 +239,7 @@
                                         <tr>
                                             <td>컴퓨터/노트북</td>
                                             <td>
-                                                <input type="text" class="form-control form-control-sm" value="PC" maxlength="5">
+                                                <input type="text" class="form-input form-input-sm" value="PC" maxlength="5">
                                             </td>
                                             <td>42</td>
                                             <td>ASSET-2023-PC-0042</td>
@@ -247,7 +247,7 @@
                                         <tr>
                                             <td>모니터</td>
                                             <td>
-                                                <input type="text" class="form-control form-control-sm" value="MON" maxlength="5">
+                                                <input type="text" class="form-input form-input-sm" value="MON" maxlength="5">
                                             </td>
                                             <td>15</td>
                                             <td>ASSET-2023-MON-0015</td>
@@ -255,7 +255,7 @@
                                         <tr>
                                             <td>주변기기</td>
                                             <td>
-                                                <input type="text" class="form-control form-control-sm" value="PRH" maxlength="5">
+                                                <input type="text" class="form-input form-input-sm" value="PRH" maxlength="5">
                                             </td>
                                             <td>53</td>
                                             <td>ASSET-2023-PRH-0053</td>
@@ -264,7 +264,7 @@
                                 </table>
                             </div>
                             <div class="text-end">
-                                <button class="btn btn-sm btn-outline-primary">
+                                <button class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-sync-alt me-1"></i> 카테고리 목록 새로고침
                                 </button>
                             </div>
@@ -277,7 +277,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">바코드 타입</label>
-                                    <select class="form-select" id="barcodeType">
+                                    <select class="form-select-custom" id="barcodeType">
                                         <option value="code128" selected>Code 128 (권장)</option>
                                         <option value="code39">Code 39</option>
                                         <option value="ean13">EAN-13</option>
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">QR 코드 정보</label>
-                                    <select class="form-select" id="qrCodeContent">
+                                    <select class="form-select-custom" id="qrCodeContent">
                                         <option value="assetcode" selected>자산번호만</option>
                                         <option value="assetcode_url">자산번호 + 상세 URL</option>
                                         <option value="full">전체 자산 정보</option>
@@ -297,13 +297,13 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="generateLabelsAutomatically" checked>
+                                        <input class="form-checkbox" type="checkbox" id="generateLabelsAutomatically" checked>
                                         <label class="form-check-label" for="generateLabelsAutomatically">자산 등록 시 라벨 자동 생성</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="showHumanReadableCode" checked>
+                                        <input class="form-checkbox" type="checkbox" id="showHumanReadableCode" checked>
                                         <label class="form-check-label" for="showHumanReadableCode">바코드 아래 자산번호 표시</label>
                                     </div>
                                 </div>
@@ -329,7 +329,7 @@
                             </div>
                             
                             <div class="text-end">
-                                <button class="btn btn-outline-primary">
+                                <button class="btn-primary-outline">
                                     <i class="fas fa-print me-1"></i> 라벨 템플릿 설정
                                 </button>
                             </div>
@@ -383,7 +383,7 @@
                     <div class="card-header py-3">
                         <div class="d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">사용자 정의 필드</h6>
-                            <button class="btn btn-sm btn-primary" id="addCustomField">
+                            <button class="btn-size-sm btn-primary" id="addCustomField">
                                 <i class="fas fa-plus me-1"></i> 새 필드 추가
                             </button>
                         </div>
@@ -435,7 +435,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">
                                         <i class="fas fa-download me-2"></i>백업 생성
                                     </h6>
-                                    <button class="btn btn-sm btn-success" id="createBackupBtn">
+                                    <button class="btn-size-sm btn-success" id="createBackupBtn">
                                         <i class="fas fa-plus me-1"></i> 새 백업
                                     </button>
                                 </div>
@@ -446,7 +446,7 @@
                                 <!-- 자동 백업 설정 -->
                                 <div class="mb-3">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="enableAutoBackup">
+                                        <input class="form-checkbox" type="checkbox" id="enableAutoBackup">
                                         <label class="form-check-label" for="enableAutoBackup">
                                             자동 백업 활성화
                                         </label>
@@ -456,7 +456,7 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">백업 주기</label>
-                                        <select class="form-select" id="backupInterval">
+                                        <select class="form-select-custom" id="backupInterval">
                                             <option value="daily">매일</option>
                                             <option value="weekly" selected>매주</option>
                                             <option value="monthly">매월</option>
@@ -464,7 +464,7 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">보관 기간 (일)</label>
-                                        <input type="number" class="form-control" id="backupRetentionDays" value="30" min="1" max="365">
+                                        <input type="number" class="form-input" id="backupRetentionDays" value="30" min="1" max="365">
                                     </div>
                                 </div>
                                 
@@ -487,7 +487,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">
                                         <i class="fas fa-upload me-2"></i>복원
                                     </h6>
-                                    <button class="btn btn-sm btn-warning" onclick="document.getElementById('restoreFileInput').click()">
+                                    <button class="btn-size-sm btn-warning" onclick="document.getElementById('restoreFileInput').click()">
                                         <i class="fas fa-file-upload me-1"></i> 파일 선택
                                     </button>
                                 </div>
@@ -506,8 +506,8 @@
                                     <div id="restorePreviewContent"></div>
                                     
                                     <div class="d-flex justify-content-end mt-3">
-                                        <button class="btn btn-outline-secondary me-2" onclick="this.closest('.card-body').querySelector('#restorePreviewContainer').classList.add('d-none')">취소</button>
-                                        <button class="btn btn-warning" id="executeRestoreBtn">
+                                        <button class="btn-secondary-outline me-2" onclick="this.closest('.card-body').querySelector('#restorePreviewContainer').classList.add('d-none')">취소</button>
+                                        <button class="btn-warning-solid" id="executeRestoreBtn">
                                             <i class="fas fa-undo me-1"></i> 복원 실행
                                         </button>
                                     </div>
@@ -534,7 +534,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table-interactive">
                                 <thead class="table-light">
                                     <tr>
                                         <th>생성일시</th>
@@ -576,7 +576,7 @@
                             <!-- AI 서비스 활성화 -->
                             <div class="mb-4">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="enableAiServices">
+                                    <input class="form-checkbox" type="checkbox" id="enableAiServices">
                                     <label class="form-check-label" for="enableAiServices">AI 서비스 활성화</label>
                                 </div>
                                 <div class="form-text text-muted">자산 설명 생성, 자동 분류, 이상 탐지 등 AI 기능을 활성화합니다.</div>
@@ -585,7 +585,7 @@
                             <!-- 모델 설정 -->
                             <div class="form-group mb-3">
                                 <label for="aiModel" class="form-label">AI 모델</label>
-                                <select class="form-select" id="aiModel" name="aiModel">
+                                <select class="form-select-custom" id="aiModel" name="aiModel">
                                     <option value="" selected disabled>모델 선택</option>
                                     <optgroup label="OpenAI">
                                         <option value="gpt-4o">GPT-4o</option>
@@ -608,11 +608,11 @@
                             <div class="mb-4">
                                 <label for="apiKey" class="form-label">API 키</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="apiKey" placeholder="API 키를 입력하세요">
-                                    <button class="btn btn-outline-secondary" type="button" id="toggleApiKey">
+                                    <input type="password" class="form-input" id="apiKey" placeholder="API 키를 입력하세요">
+                                    <button class="btn-secondary-outline" type="button" id="toggleApiKey">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn btn-outline-primary" type="button" id="verifyApiKey">
+                                    <button class="btn-primary-outline" type="button" id="verifyApiKey">
                                         <i class="fas fa-check-circle me-1"></i> 검증
                                     </button>
                                 </div>
@@ -626,11 +626,11 @@
                                         <h6 class="card-title">사용자 정의 AI 제공업체 설정</h6>
                                         <div class="mb-3">
                                             <label for="customEndpoint" class="form-label">API 엔드포인트</label>
-                                            <input type="text" class="form-control" id="customEndpoint" placeholder="https://api.example.com/v1">
+                                            <input type="text" class="form-input" id="customEndpoint" placeholder="https://api.example.com/v1">
                                         </div>
                                         <div class="mb-3">
                                             <label for="customModelId" class="form-label">모델 ID</label>
-                                            <input type="text" class="form-control" id="customModelId" placeholder="model-id">
+                                            <input type="text" class="form-input" id="customModelId" placeholder="model-id">
                                         </div>
                                     </div>
                                 </div>
@@ -640,7 +640,7 @@
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <label class="form-label mb-0">고급 설정</label>
-                                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSettings">
+                                    <button class="btn-size-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSettings">
                                         <i class="fas fa-cog me-1"></i> 표시
                                     </button>
                                 </div>
@@ -658,12 +658,12 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="maxTokens" class="form-label">최대 토큰</label>
-                                                    <input type="number" class="form-control" id="maxTokens" value="1000" min="100" max="100000">
+                                                    <input type="number" class="form-input" id="maxTokens" value="1000" min="100" max="100000">
                                                     <div class="form-text">AI가 생성할 최대 텍스트 길이를 제한합니다</div>
                                                 </div>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="cacheResults">
+                                                <input class="form-checkbox" type="checkbox" id="cacheResults">
                                                 <label class="form-check-label" for="cacheResults">결과 캐싱 (성능 향상)</label>
                                             </div>
                                         </div>
@@ -677,21 +677,21 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="useForAssetDescription" checked>
+                                            <input class="form-checkbox" type="checkbox" id="useForAssetDescription" checked>
                                             <label class="form-check-label" for="useForAssetDescription">자산 설명 자동 생성</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="useForCategorization" checked>
+                                            <input class="form-checkbox" type="checkbox" id="useForCategorization" checked>
                                             <label class="form-check-label" for="useForCategorization">자동 카테고리 분류</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="useForAnomalyDetection">
+                                            <input class="form-checkbox" type="checkbox" id="useForAnomalyDetection">
                                             <label class="form-check-label" for="useForAnomalyDetection">이상 거래/사용 패턴 감지</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="useForPredictiveMaintenance">
+                                            <input class="form-checkbox" type="checkbox" id="useForPredictiveMaintenance">
                                             <label class="form-check-label" for="useForPredictiveMaintenance">예측 정비 추천</label>
                                         </div>
                                     </div>
@@ -700,10 +700,10 @@
                             
                             <!-- 저장 버튼 -->
                             <div class="d-flex justify-content-between">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn-primary-solid">
                                     <i class="fas fa-save me-1"></i> 설정 저장
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary" id="testAiConnection">
+                                <button type="button" class="btn-secondary-outline" id="testAiConnection">
                                     <i class="fas fa-plug me-1"></i> 연결 테스트
                                 </button>
                             </div>
@@ -736,7 +736,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="selectAllBackupTypes">
+                        <input class="form-checkbox" type="checkbox" id="selectAllBackupTypes">
                         <label class="form-check-label fw-bold" for="selectAllBackupTypes">
                             모든 데이터 유형 선택
                         </label>
@@ -748,8 +748,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-success" id="executeBackupBtn">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-success-solid" id="executeBackupBtn">
                     <i class="fas fa-download me-1"></i> 백업 생성
                 </button>
             </div>

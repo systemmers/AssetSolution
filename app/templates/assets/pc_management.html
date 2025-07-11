@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}PC 관리 - 자산관리 시스템{% endblock %}
 
@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">PC 관리</h2>
     <div>
-        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#syncModal">
+        <button type="button" class="btn-primary-outline me-2" data-bs-toggle="modal" data-bs-target="#syncModal">
             <i class="fas fa-sync-alt me-1"></i> 정보 동기화
         </button>
-        <a href="{{ url_for('assets.create_form') }}?type=pc" class="btn btn-primary">
+        <a href="{{ url_for('assets.create_form') }}?type=pc" class="btn-primary-solid">
             <i class="fas fa-plus me-1"></i> PC 등록
         </a>
     </div>
@@ -24,11 +24,11 @@
             <div class="row align-items-end g-3">
                 <div class="col-lg-3 col-md-6">
                     <label for="searchKeyword" class="form-label">검색어</label>
-                    <input type="text" class="form-control" id="searchKeyword" name="q" placeholder="PC명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
+                    <input type="text" class="form-input" id="searchKeyword" name="q" placeholder="PC명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label for="osFilter" class="form-label">운영체제</label>
-                    <select class="form-select" id="osFilter" name="os">
+                    <select class="form-select-custom" id="osFilter" name="os">
                         <option value="">전체</option>
                         <option value="windows_10">Windows 10</option>
                         <option value="windows_11">Windows 11</option>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label for="statusFilter" class="form-label">상태</label>
-                    <select class="form-select" id="statusFilter" name="status">
+                    <select class="form-select-custom" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="active">정상</option>
                         <option value="inactive">비활성</option>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select" id="departmentFilter" name="department">
+                    <select class="form-select-custom" id="departmentFilter" name="department">
                         <option value="">전체</option>
                         <option value="1">개발팀</option>
                         <option value="2">IT팀</option>
@@ -60,10 +60,10 @@
                 </div>
                 <div class="col-lg-3 col-md-12">
                     <div class="d-flex">
-                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
+                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn btn-secondary">
+                        <button type="button" id="resetButton" class="btn-secondary-solid">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
@@ -72,18 +72,18 @@
             <div class="row mt-3">
                 <div class="col-lg-8">
                     <div class="form-check form-check-inline me-4">
-                        <input class="form-check-input" type="checkbox" id="updateFilter" name="needsUpdate" value="1">
+                        <input class="form-checkbox" type="checkbox" id="updateFilter" name="needsUpdate" value="1">
                         <label class="form-check-label" for="updateFilter">업데이트 필요 PC만 보기</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="securityFilter" name="securityIssue" value="1">
+                        <input class="form-checkbox" type="checkbox" id="securityFilter" name="securityIssue" value="1">
                         <label class="form-check-label" for="securityFilter">보안이슈 있는 PC만 보기</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="d-flex justify-content-end align-items-center">
                         <div class="me-3">
-                            <select class="form-select form-select-sm" id="sortOrder" name="sort">
+                            <select class="form-select form-select-custom-sm" id="sortOrder" name="sort">
                                 <option value="hostname">호스트명순</option>
                                 <option value="last_online">최근 접속순</option>
                                 <option value="disk_space">디스크 여유공간순</option>
@@ -177,7 +177,7 @@
 <!-- PC 목록 테이블 -->
 <div class="card shadow-sm mb-4">
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table-interactive align-middle mb-0">
             <thead class="table-light">
                 <tr>
                     <th class="px-3 py-3">호스트명</th>
@@ -219,10 +219,10 @@
                         <td class="px-3 py-3">{{ pc.purchase_date.strftime('%Y-%m-%d') }}</td>
                         <td class="px-3 py-3 text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ url_for('assets.pc_detail', asset_id=pc.id) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ url_for('assets.pc_detail', asset_id=pc.id) }}" class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('assets.update_form', asset_id=pc.id) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ url_for('assets.update_form', asset_id=pc.id) }}" class="btn-size-sm btn-outline-secondary">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </div>
@@ -268,21 +268,21 @@
                 <div class="mb-3">
                     <label class="form-label">동기화 방식 선택</label>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="syncMethod" id="syncAuto" checked>
+                        <input class="form-checkbox" type="radio" name="syncMethod" id="syncAuto" checked>
                         <label class="form-check-label" for="syncAuto">
                             <i class="fas fa-network-wired me-1"></i> 네트워크 자동 검색
                         </label>
                         <div class="form-text ms-4">Active Directory 또는 네트워크에 연결된 PC를 자동으로 검색합니다.</div>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="syncMethod" id="syncAgent">
+                        <input class="form-checkbox" type="radio" name="syncMethod" id="syncAgent">
                         <label class="form-check-label" for="syncAgent">
                             <i class="fas fa-robot me-1"></i> 에이전트 수집
                         </label>
                         <div class="form-text ms-4">설치된 에이전트를 통해 PC 정보를 수집합니다.</div>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="syncMethod" id="syncManual">
+                        <input class="form-checkbox" type="radio" name="syncMethod" id="syncManual">
                         <label class="form-check-label" for="syncManual">
                             <i class="fas fa-file-import me-1"></i> 수동 데이터 가져오기
                         </label>
@@ -292,13 +292,13 @@
                 
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="syncCreateAssets" checked>
+                        <input class="form-checkbox" type="checkbox" id="syncCreateAssets" checked>
                         <label class="form-check-label" for="syncCreateAssets">
                             발견된 PC를 자동으로 자산으로 등록
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="syncUpdateOnly" checked>
+                        <input class="form-checkbox" type="checkbox" id="syncUpdateOnly" checked>
                         <label class="form-check-label" for="syncUpdateOnly">
                             기존 자산만 업데이트 (새 PC 무시)
                         </label>
@@ -310,8 +310,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary">동기화 시작</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid">동기화 시작</button>
             </div>
         </div>
     </div>

@@ -36,5 +36,8 @@
     "flask"
   ],
   "author": "",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bootstrap": "^5.2.3"
+  }
 }

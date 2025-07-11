@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}이력 상세 정보{% endblock %}
 
@@ -63,7 +63,7 @@
                     {% endif %}
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <a href="{{ url_for('operations.history') }}" class="btn btn-secondary">목록으로</a>
+                    <a href="{{ url_for('operations.history') }}" class="btn-secondary-solid">목록으로</a>
                 </div>
             </div>
 
@@ -91,8 +91,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="코멘트 추가...">
-                        <button class="btn btn-primary" type="button">등록</button>
+                        <input type="text" class="form-input" placeholder="코멘트 추가...">
+                        <button class="btn-primary-solid" type="button">등록</button>
                     </div>
                 </div>
             </div>

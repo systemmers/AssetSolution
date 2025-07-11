@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}반납 상태 추적 - Asset Management System{% endblock %}
 
@@ -21,10 +21,10 @@
             <p class="text-muted mb-0">반납 요청의 진행 상황을 실시간으로 추적하고 관리합니다</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary" onclick="refreshStatusData()">
+            <button class="btn-secondary-outline" onclick="refreshStatusData()">
                 <i class="fas fa-sync-alt"></i> 새로고침
             </button>
-            <button class="btn btn-primary" onclick="openReturnRequestModal()">
+            <button class="btn-primary-solid" onclick="openReturnRequestModal()">
                 <i class="fas fa-plus"></i> 반납 요청
             </button>
         </div>
@@ -94,7 +94,7 @@
             <div class="row g-3">
                 <div class="col-md-3">
                     <label class="form-label">상태</label>
-                    <select class="form-select" id="statusFilter">
+                    <select class="form-select-custom" id="statusFilter">
                         <option value="">전체 상태</option>
                         <option value="requested">요청됨</option>
                         <option value="dept_approval">부서장 승인 대기</option>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">부서</label>
-                    <select class="form-select" id="departmentFilter">
+                    <select class="form-select-custom" id="departmentFilter">
                         <option value="">전체 부서</option>
                         <option value="개발팀">개발팀</option>
                         <option value="마케팅팀">마케팅팀</option>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">긴급도</label>
-                    <select class="form-select" id="urgencyFilter">
+                    <select class="form-select-custom" id="urgencyFilter">
                         <option value="">전체 긴급도</option>
                         <option value="low">낮음</option>
                         <option value="normal">보통</option>
@@ -130,8 +130,8 @@
                 <div class="col-md-3">
                     <label class="form-label">검색</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchInput" placeholder="자산명, 요청자명, 자산코드">
-                        <button class="btn btn-outline-secondary" onclick="applyFilters()">
+                        <input type="text" class="form-input" id="searchInput" placeholder="자산명, 요청자명, 자산코드">
+                        <button class="btn-secondary-outline" onclick="applyFilters()">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -151,11 +151,11 @@
                 </button>
                 <div class="btn-group" role="group">
                     <input type="radio" class="btn-check" name="viewMode" id="tableView" autocomplete="off" checked>
-                    <label class="btn btn-outline-secondary btn-sm" for="tableView">
+                    <label class="btn-secondary-outline btn-sm" for="tableView">
                         <i class="fas fa-table"></i>
                     </label>
                     <input type="radio" class="btn-check" name="viewMode" id="cardView" autocomplete="off">
-                    <label class="btn btn-outline-secondary btn-sm" for="cardView">
+                    <label class="btn-secondary-outline btn-sm" for="cardView">
                         <i class="fas fa-th-large"></i>
                     </label>
                 </div>
@@ -165,7 +165,7 @@
             <!-- 테이블 뷰 -->
             <div id="tableViewContainer">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0" id="statusTable">
+                    <table class="table-interactive mb-0" id="statusTable">
                         <thead class="table-light">
                             <tr>
                                 <th>요청 ID</th>
@@ -206,7 +206,7 @@
                 <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                 <h5 class="text-muted">반납 요청이 없습니다</h5>
                 <p class="text-muted">새로운 반납 요청을 생성해보세요.</p>
-                <button class="btn btn-primary" onclick="openReturnRequestModal()">
+                <button class="btn-primary-solid" onclick="openReturnRequestModal()">
                     <i class="fas fa-plus"></i> 반납 요청 생성
                 </button>
             </div>
@@ -249,7 +249,7 @@
                     <input type="hidden" id="changeRequestId">
                     <div class="mb-3">
                         <label class="form-label">새로운 상태</label>
-                        <select class="form-select" id="newStatus" required>
+                        <select class="form-select-custom" id="newStatus" required>
                             <option value="">상태 선택</option>
                             <option value="approved">승인 완료</option>
                             <option value="rejected">거부</option>
@@ -259,13 +259,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">변경 사유</label>
-                        <textarea class="form-control" id="changeReason" rows="3" placeholder="상태 변경 사유를 입력하세요"></textarea>
+                        <textarea class="form-input" id="changeReason" rows="3" placeholder="상태 변경 사유를 입력하세요"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" onclick="confirmStatusChange()">변경</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" onclick="confirmStatusChange()">변경</button>
             </div>
         </div>
     </div>

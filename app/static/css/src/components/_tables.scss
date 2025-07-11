@@ -1,42 +1,427 @@
 // ========================================
-// 테이블 컴포넌트 시스템
+// 통합 테이블 컴포넌트 시스템  
+// 기존 Bootstrap 테이블 클래스를 완전 대체하는 시스템
 // ========================================
 
-// 기본 테이블 확장
-.table {
+// 기본 테이블 베이스
+.table-base {
+  width: 100%;
+  margin-bottom: var(--spacing-3);
+  color: var(--color-dark);
+  vertical-align: top;
   border-color: var(--table-border-color);
+  border-collapse: collapse;
   
-  &.table-hover tbody tr:hover {
-    background-color: var(--table-hover-bg);
+  // 셀 기본 스타일
+  th,
+  td {
+    padding: var(--table-cell-padding);
+    border-bottom: 1px solid var(--table-border-color);
+    vertical-align: middle;
   }
   
-  &.table-striped tbody tr:nth-of-type(odd) {
-    background-color: var(--table-striped-bg);
+  // 헤더 스타일
+  thead th {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-700);
+    background-color: var(--color-gray-100);
+    border-bottom: 2px solid var(--table-border-color);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  // 반응형 기본 처리
+  @media (max-width: 768px) {
+    font-size: var(--font-size-sm);
+    
+    th,
+    td {
+      padding: var(--spacing-2);
+    }
   }
 }
 
-// 자산관리 전용 테이블
-.table-asset {
-  .asset-row {
-    cursor: pointer;
-    transition: var(--transition-fast);
+// 인터랙티브 테이블 (.table-interactive) - 기존 table table-hover 대체
+.table-interactive {
+  @extend .table-base;
+  
+  tbody tr {
+    transition: var(--animation-duration-fast) ease;
     
     &:hover {
       background-color: var(--table-hover-bg);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
   }
   
-  .asset-image-thumb {
+  // 클릭 가능한 행
+  .table-row-clickable {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: rgba(var(--color-primary-rgb), 0.05);
+    }
+    
+    &:active {
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+    }
+  }
+}
+
+// 스트라이프 테이블 (.table-striped) - 기존 table table-striped 대체
+.table-striped {
+  @extend .table-base;
+  
+  tbody tr:nth-of-type(odd) {
+    background-color: var(--table-striped-bg);
+  }
+  
+  &.table-interactive tbody tr:nth-of-type(odd):hover {
+    background-color: var(--table-hover-bg);
+  }
+}
+
+// 테이블 헤더 변형
+.table-header-light {
+  thead th {
+    background-color: var(--color-gray-50);
+    color: var(--color-gray-600);
+  }
+}
+
+.table-header-dark {
+  thead th {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border-bottom-color: var(--color-gray-600);
+  }
+}
+
+// 반응형 테이블 시스템
+.table-responsive-scroll {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  
+  .table-base {
+    margin-bottom: 0;
+  }
+  
+  // 스크롤바 스타일링
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-gray-100);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-400);
+    border-radius: 4px;
+    
+    &:hover {
+      background-color: var(--color-gray-500);
+    }
+  }
+}
+
+.table-responsive-mobile {
+  @media (max-width: 768px) {
+    .table-base {
+      border: 0;
+      
+      thead {
+        display: none;
+      }
+      
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+      
+      tr {
+        border: 1px solid var(--table-border-color);
+        border-radius: var(--card-border-radius);
+        margin-bottom: var(--spacing-3);
+        padding: var(--spacing-3);
+        background-color: var(--card-bg);
+        box-shadow: var(--card-shadow);
+      }
+      
+      td {
+        border: none;
+        padding: var(--spacing-1) 0;
+        text-align: left;
+        
+        &:before {
+          content: attr(data-label) ": ";
+          font-weight: var(--font-weight-semibold);
+          color: var(--color-gray-600);
+          text-transform: uppercase;
+          font-size: var(--font-size-xs);
+        }
+      }
+    }
+  }
+}
+
+// 자산관리 특화 테이블 (.table-asset-row) - 자산 관리 전용
+.table-asset-row {
+  @extend .table-interactive;
+  
+  .asset-thumbnail {
     width: 40px;
     height: 40px;
     object-fit: cover;
     border-radius: var(--spacing-1);
+    border: 1px solid var(--table-border-color);
   }
   
-  .asset-status-badge {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
+  .asset-code {
+    font-family: var(--font-family-monospace);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+  }
+  
+  .asset-name {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-dark);
+  }
+  
+  .asset-location {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+  }
+}
+
+// 상태 배지 (.table-status-badge) - 테이블 내 상태 표시
+.table-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  border-radius: 1rem;
+  white-space: nowrap;
+  
+  // 상태별 색상
+  &.status-available {
+    background-color: rgba(var(--asset-status-active), 0.1);
+    color: var(--asset-status-active);
+  }
+  
+  &.status-in-use {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+  }
+  
+  &.status-maintenance {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--asset-status-maintenance);
+  }
+  
+  &.status-disposed {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--asset-status-disposed);
+  }
+  
+  &.status-repair {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: var(--asset-status-repair);
+  }
+}
+
+// 테이블 액션 버튼 그룹
+.table-actions {
+  display: flex;
+  gap: var(--spacing-1);
+  align-items: center;
+  
+  .btn-action {
     padding: var(--spacing-1) var(--spacing-2);
-    border-radius: 1rem;
+    font-size: var(--font-size-xs);
+    border-radius: var(--btn-border-radius);
+    border: 1px solid transparent;
+    transition: var(--btn-transition);
+    text-decoration: none;
+    
+    &.btn-action-view {
+      background-color: rgba(var(--btn-action-view), 0.1);
+      color: var(--btn-action-view);
+      
+      &:hover {
+        background-color: var(--btn-action-view);
+        color: white;
+      }
+    }
+    
+    &.btn-action-edit {
+      background-color: rgba(255, 193, 7, 0.1);
+      color: var(--btn-action-edit);
+      
+      &:hover {
+        background-color: var(--btn-action-edit);
+        color: white;
+      }
+    }
+    
+    &.btn-action-delete {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: var(--btn-action-reject);
+      
+      &:hover {
+        background-color: var(--btn-action-reject);
+        color: white;
+      }
+    }
+  }
+}
+
+// 테이블 검색 및 필터링
+.table-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-3);
+  background-color: var(--card-bg);
+  border-radius: var(--card-border-radius);
+  border: 1px solid var(--card-border-color);
+  
+  .search-group {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+    flex: 1;
+    
+    .form-input {
+      max-width: 300px;
+    }
+  }
+  
+  .action-group {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: var(--spacing-2);
+    
+    .search-group,
+    .action-group {
+      width: 100%;
+      justify-content: stretch;
+    }
+  }
+}
+
+// 테이블 페이지네이션
+.table-pagination {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-3) 0;
+  border-top: 1px solid var(--table-border-color);
+  
+  .pagination-info {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+  }
+  
+  .pagination-controls {
+    display: flex;
+    gap: var(--spacing-1);
+    
+    .page-btn {
+      padding: var(--spacing-1) var(--spacing-2);
+      border: 1px solid var(--table-border-color);
+      background-color: var(--card-bg);
+      color: var(--color-dark);
+      text-decoration: none;
+      border-radius: var(--btn-border-radius);
+      transition: var(--btn-transition);
+      
+      &:hover {
+        background-color: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+      }
+      
+      &.active {
+        background-color: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+      }
+      
+      &:disabled {
+        background-color: var(--color-gray-100);
+        color: var(--color-gray-400);
+        cursor: not-allowed;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: var(--spacing-2);
+    text-align: center;
+  }
+}
+
+// 빈 테이블 상태
+.table-empty-state {
+  text-align: center;
+  padding: var(--spacing-5) var(--spacing-3);
+  color: var(--color-gray-500);
+  
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-3);
+    opacity: 0.3;
+  }
+  
+  .empty-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .empty-description {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-3);
+  }
+}
+
+// 다크 모드 최적화
+[data-bs-theme="dark"] {
+  .table-base {
+    color: var(--color-light);
+    
+    th,
+    td {
+      border-color: var(--color-gray-600);
+    }
+    
+    thead th {
+      background-color: var(--color-gray-800);
+      color: var(--color-gray-300);
+    }
+  }
+  
+  .table-search-header {
+    background-color: var(--color-gray-800);
+    border-color: var(--color-gray-600);
   }
 } 

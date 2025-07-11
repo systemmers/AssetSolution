@@ -1,39 +1,335 @@
 // ========================================
-// 폼 컴포넌트 시스템
+// 통합 폼 컴포넌트 시스템 (Form Component System)
+// 스타일가이드 기반 완전 통합 구현
 // ========================================
 
-// 기본 폼 컨트롤 확장
-.form-control {
+// ----------------------------------------
+// 1. 입력 필드 컴포넌트 시스템 (Input Fields)
+// ----------------------------------------
+
+// 기본 폼 입력 (.form-input)
+.form-input {
+  display: block;
+  width: 100%;
+  padding: var(--form-control-padding-y, 0.375rem) var(--form-control-padding-x, 0.75rem);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-dark);
+  background-color: var(--form-control-bg);
+  background-image: none;
+  border: 1px solid var(--form-control-border-color);
   border-radius: var(--form-control-border-radius);
-  border-color: var(--form-control-border-color);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  
+  &::placeholder {
+    color: var(--color-gray-500);
+    opacity: 1;
+  }
   
   &:focus {
+    color: var(--color-dark);
+    background-color: var(--form-control-bg);
     border-color: var(--form-control-focus-border-color);
+    outline: 0;
     box-shadow: var(--form-control-focus-box-shadow);
+  }
+  
+  &:disabled {
+    background-color: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-500);
+    cursor: not-allowed;
+    opacity: 1;
   }
 }
 
-// 자산관리 전용 폼 스타일
+// 유효성 검증 상태
+.form-input-valid {
+  border-color: var(--color-success);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.94-.94 1.88 1.88 3.78-3.78.94.94-4.72 4.72z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  
+  &:focus {
+    border-color: var(--color-success);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-success), 0.25);
+  }
+}
+
+.form-input-error {
+  border-color: var(--color-danger);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6 1.4 1.4M6.2 7.4 4.8 6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  
+  &:focus {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-danger), 0.25);
+  }
+}
+
+.form-input-disabled {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+// ----------------------------------------
+// 2. 선택 박스 컴포넌트 시스템 (Select)
+// ----------------------------------------
+
+.form-select-custom {
+  @extend .form-input;
+  padding-right: 2.25rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  appearance: none;
+  
+  &:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23007bff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6 6 6-6'/%3e%3c/svg%3e");
+  }
+}
+
+.form-select-multiple {
+  @extend .form-input;
+  height: auto;
+  min-height: calc(1.5em + 0.75rem + 2px);
+  
+  option {
+    padding: var(--spacing-1) var(--spacing-2);
+    
+    &:checked {
+      background-color: var(--color-primary);
+      color: white;
+    }
+  }
+}
+
+// ----------------------------------------
+// 3. 체크박스/라디오 컴포넌트 시스템
+// ----------------------------------------
+
+.form-checkbox {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.25rem;
+  vertical-align: top;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid var(--color-gray-400);
+  border-radius: 0.25rem;
+  appearance: none;
+  transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  
+  &:active {
+    filter: brightness(90%);
+  }
+  
+  &:focus {
+    border-color: var(--color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-primary), 0.25);
+  }
+  
+  &:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3e%3c/svg%3e");
+  }
+  
+  &:disabled {
+    pointer-events: none;
+    filter: none;
+    opacity: 0.5;
+  }
+}
+
+.form-radio {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.25rem;
+  vertical-align: top;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid var(--color-gray-400);
+  border-radius: 50%;
+  appearance: none;
+  transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  
+  &:active {
+    filter: brightness(90%);
+  }
+  
+  &:focus {
+    border-color: var(--color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-primary), 0.25);
+  }
+  
+  &:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+  }
+  
+  &:disabled {
+    pointer-events: none;
+    filter: none;
+    opacity: 0.5;
+  }
+}
+
+.form-toggle {
+  width: 2rem;
+  height: 1rem;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+  background-position: left center;
+  background-repeat: no-repeat;
+  border: 1px solid var(--color-gray-400);
+  border-radius: 2rem;
+  transition: background-position 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+  
+  &:focus {
+    border-color: var(--color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-primary), 0.25);
+  }
+  
+  &:checked {
+    background-position: right center;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  
+  &:disabled {
+    pointer-events: none;
+    filter: none;
+    opacity: 0.5;
+  }
+}
+
+// ----------------------------------------
+// 4. 텍스트 영역 컴포넌트 (Textarea)
+// ----------------------------------------
+
+.form-textarea {
+  @extend .form-input;
+  min-height: calc(1.5em + 0.75rem + 2px);
+  resize: vertical;
+  
+  &:focus {
+    resize: vertical;
+  }
+}
+
+// ----------------------------------------
+// 5. 폼 레이아웃 컴포넌트 시스템
+// ----------------------------------------
+
+.form-label-standard {
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-dark);
+  
+  .required-indicator {
+    color: var(--color-danger);
+    margin-left: var(--spacing-1);
+  }
+}
+
+.form-help-text {
+  margin-top: var(--spacing-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  line-height: var(--line-height-normal);
+}
+
+.form-field {
+  margin-bottom: var(--spacing-3);
+  
+  &.form-field-sm {
+    margin-bottom: var(--spacing-2);
+  }
+  
+  &.form-field-lg {
+    margin-bottom: var(--spacing-4);
+  }
+}
+
+// 피드백 메시지
+.form-feedback-valid {
+  width: 100%;
+  margin-top: var(--spacing-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-success);
+}
+
+.form-feedback-error {
+  width: 100%;
+  margin-top: var(--spacing-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+}
+
+// ----------------------------------------
+// 6. 자산관리 특화 폼 컴포넌트
+// ----------------------------------------
+
 .form-asset {
-  .form-label {
-    font-weight: var(--font-weight-medium);
+  .form-label-standard {
+    font-weight: var(--font-weight-semibold);
     color: var(--color-dark);
     margin-bottom: var(--spacing-2);
   }
   
-  .form-text {
-    color: var(--color-secondary);
+  .form-help-text {
+    color: var(--color-gray-600);
     font-size: var(--font-size-sm);
+  }
+  
+  .form-section {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--form-control-border-radius);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+    
+    .form-section-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-dark);
+      margin-bottom: var(--spacing-3);
+      padding-bottom: var(--spacing-2);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
   }
 }
 
-// 파일 업로드 컴포넌트
+// 파일 업로드 컴포넌트 (확장)
 .file-upload {
-  border: 2px dashed var(--color-secondary);
+  border: 2px dashed var(--color-gray-400);
   border-radius: var(--form-control-border-radius);
   padding: var(--spacing-4);
   text-align: center;
-  transition: var(--transition-normal);
+  transition: var(--animation-duration-normal) ease-in-out;
+  background-color: var(--color-gray-50);
+  cursor: pointer;
   
   &:hover {
     border-color: var(--color-primary);
@@ -42,6 +338,111 @@
   
   &.dragover {
     border-color: var(--color-success);
-    background-color: rgba(var(--color-success-rgb), 0.1);
+    background-color: rgba(var(--color-success), 0.1);
+  }
+  
+  .upload-icon {
+    font-size: 2rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .upload-text {
+    font-size: var(--font-size-base);
+    color: var(--color-gray-600);
+    margin-bottom: var(--spacing-1);
+  }
+  
+  .upload-hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+  }
+}
+
+// ----------------------------------------
+// 7. 반응형 및 접근성
+// ----------------------------------------
+
+// 모바일 최적화
+@media (max-width: 576px) {
+  .form-input,
+  .form-select-custom,
+  .form-textarea {
+    font-size: 16px; // iOS 줌 방지
+  }
+  
+  .form-field {
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .file-upload {
+    padding: var(--spacing-3);
+  }
+}
+
+// 다크 모드 지원
+[data-bs-theme="dark"] {
+  .form-input,
+  .form-select-custom,
+  .form-textarea {
+    color: var(--color-light);
+    background-color: var(--color-gray-800);
+    border-color: var(--color-gray-600);
+    
+    &::placeholder {
+      color: var(--color-gray-400);
+    }
+    
+    &:focus {
+      background-color: var(--color-gray-800);
+      border-color: var(--color-primary);
+    }
+  }
+  
+  .form-label-standard {
+    color: var(--color-light);
+  }
+  
+  .form-help-text {
+    color: var(--color-gray-400);
+  }
+  
+  .file-upload {
+    background-color: var(--color-gray-800);
+    border-color: var(--color-gray-600);
+    color: var(--color-light);
+  }
+}
+
+// 고대비 모드 지원
+@media (prefers-contrast: high) {
+  .form-input,
+  .form-select-custom,
+  .form-textarea {
+    border-width: 2px;
+    border-color: var(--color-dark);
+  }
+  
+  .form-input-valid {
+    border-color: var(--color-success);
+    border-width: 2px;
+  }
+  
+  .form-input-error {
+    border-color: var(--color-danger);
+    border-width: 2px;
+  }
+}
+
+// 모션 감소 설정 지원
+@media (prefers-reduced-motion: reduce) {
+  .form-input,
+  .form-select-custom,
+  .form-textarea,
+  .form-checkbox,
+  .form-radio,
+  .form-toggle,
+  .file-upload {
+    transition: none;
   }
 } 

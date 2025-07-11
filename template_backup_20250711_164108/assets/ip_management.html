@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% block title %}IP 관리 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">IP 주소 관리</h2>
+    <div>
+        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#scanNetworkModal">
+            <i class="fas fa-wifi me-1"></i> 네트워크 스캔
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIpModal">
+            <i class="fas fa-plus me-1"></i> IP 추가
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 네트워크 개요 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">네트워크 개요</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small">기본 네트워크</label>
+                            <select class="form-select" id="networkSelector">
+                                <option value="1" selected>사무실 네트워크 (192.168.1.0/24)</option>
+                                <option value="2">개발 네트워크 (10.0.1.0/24)</option>
+                                <option value="3">게스트 네트워크 (172.16.0.0/24)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small">게이트웨이</label>
+                            <input type="text" class="form-control" value="192.168.1.1" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small">DNS 서버</label>
+                            <input type="text" class="form-control" value="192.168.1.1, 8.8.8.8" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small">DHCP 범위</label>
+                            <input type="text" class="form-control" value="192.168.1.100 - 192.168.1.200" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small">서브넷 마스크</label>
+                            <input type="text" class="form-control" value="255.255.255.0" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small">IP 주소 관리자</label>
+                            <input type="text" class="form-control" value="홍길동 (IT팀)" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">IP 사용 현황</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>전체 IP</div>
+                            <div class="fw-bold">254</div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>사용중</div>
+                            <div class="fw-bold text-primary">118</div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>예약됨</div>
+                            <div class="fw-bold text-warning">35</div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>사용가능</div>
+                            <div class="fw-bold text-success">101</div>
+                        </div>
+                        <div class="progress mt-3" style="height: 24px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 46%;" aria-valuenow="46" aria-valuemin="0" aria-valuemax="100">46%</div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 14%;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">14%</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">40%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 필터 영역 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body py-3">
+        <form id="searchForm" method="GET" action="">
+            <div class="row align-items-end g-3">
+                <div class="col-lg-3 col-md-6">
+                    <label for="ipSearch" class="form-label">IP 주소 검색</label>
+                    <input type="text" class="form-control" id="ipSearch" name="ip" placeholder="예: 192.168.1">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="statusFilter" class="form-label">상태</label>
+                    <select class="form-select" id="statusFilter" name="status">
+                        <option value="">전체</option>
+                        <option value="used">사용중</option>
+                        <option value="reserved">예약됨</option>
+                        <option value="available">사용가능</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="typeFilter" class="form-label">장치 유형</label>
+                    <select class="form-select" id="typeFilter" name="type">
+                        <option value="">전체</option>
+                        <option value="pc">PC</option>
+                        <option value="server">서버</option>
+                        <option value="network">네트워크 장비</option>
+                        <option value="printer">프린터</option>
+                        <option value="mobile">모바일 기기</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label for="deviceSearch" class="form-label">장치명/MAC 주소</label>
+                    <input type="text" class="form-control" id="deviceSearch" name="device" placeholder="장치명 또는 MAC 주소">
+                </div>
+                <div class="col-lg-2 col-md-12">
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
+                            <i class="fas fa-search me-1"></i> 검색
+                        </button>
+                        <button type="button" id="resetButton" class="btn btn-secondary">
+                            <i class="fas fa-undo me-1"></i> 초기화
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- IP 주소 목록 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">IP 주소 목록</h6>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="viewAllButton">전체</button>
+            <button type="button" class="btn btn-sm btn-outline-primary active" id="viewUsedButton">사용중</button>
+            <button type="button" class="btn btn-sm btn-outline-warning" id="viewReservedButton">예약됨</button>
+            <button type="button" class="btn btn-sm btn-outline-success" id="viewAvailableButton">사용가능</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="px-3 py-3">IP 주소</th>
+                    <th class="px-3 py-3">상태</th>
+                    <th class="px-3 py-3">장치명</th>
+                    <th class="px-3 py-3">장치 유형</th>
+                    <th class="px-3 py-3">MAC 주소</th>
+                    <th class="px-3 py-3">자산 정보</th>
+                    <th class="px-3 py-3">최종 확인</th>
+                    <th class="px-3 py-3">메모</th>
+                    <th class="px-3 py-3 text-center">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if ips %}
+                    {% for ip in ips %}
+                    <tr>
+                        <td class="px-3 py-3 fw-medium">
+                            <a href="{{ url_for('assets.ip_detail', ip_address=ip.ip_address) }}">{{ ip.ip_address }}</a>
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if ip.asset_id %}
+                                <span class="badge bg-primary">사용중</span>
+                            {% elif ip.is_static %}
+                                <span class="badge bg-warning text-dark">예약됨</span>
+                            {% else %}
+                                <span class="badge bg-success">사용가능</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">{{ ip.asset.name if ip.asset else '-' }}</td>
+                        <td class="px-3 py-3">{{ ip.asset.type.name if ip.asset else '-' }}</td>
+                        <td class="px-3 py-3">{{ ip.asset.details.mac_address if ip.asset and ip.asset.details else '-' }}</td>
+                        <td class="px-3 py-3">
+                            {% if ip.asset %}
+                                <a href="{{ url_for('assets.pc_detail', asset_id=ip.asset.id) }}" class="text-decoration-none">{{ ip.asset.asset_number }}</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">{{ ip.assigned_date.strftime('%Y-%m-%d') if ip.assigned_date else '-' }}</td>
+                        <td class="px-3 py-3">{{ ip.note }}</td>
+                        <td class="px-3 py-3 text-center">
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('assets.ip_detail', ip_address=ip.ip_address) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center py-5">표시할 IP 정보가 없습니다.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 페이지네이션 -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">이전</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">다음</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block modals %}
+<!-- IP 추가 모달 -->
+<div class="modal fade" id="addIpModal" tabindex="-1" aria-labelledby="addIpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addIpModalLabel">IP 주소 추가/수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ipForm">
+                    <div class="mb-3">
+                        <label for="ipAddress" class="form-label">IP 주소</label>
+                        <input type="text" class="form-control" id="ipAddress" placeholder="예: 192.168.1.100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ipStatus" class="form-label">상태</label>
+                        <select class="form-select" id="ipStatus">
+                            <option value="used">사용중</option>
+                            <option value="reserved">예약됨</option>
+                            <option value="available">사용가능</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deviceName" class="form-label">장치명</label>
+                        <input type="text" class="form-control" id="deviceName" placeholder="예: 파일 서버">
+                    </div>
+                    <div class="mb-3">
+                        <label for="deviceType" class="form-label">장치 유형</label>
+                        <select class="form-select" id="deviceType">
+                            <option value="pc">PC</option>
+                            <option value="server">서버</option>
+                            <option value="network">네트워크 장비</option>
+                            <option value="printer">프린터</option>
+                            <option value="mobile">모바일 기기</option>
+                            <option value="other">기타</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="macAddress" class="form-label">MAC 주소</label>
+                        <input type="text" class="form-control" id="macAddress" placeholder="예: 00:11:22:33:44:55">
+                    </div>
+                    <div class="mb-3">
+                        <label for="assetLink" class="form-label">자산 연결</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="assetLink" placeholder="자산 검색..." readonly>
+                            <button class="btn btn-outline-secondary" type="button" id="searchAssetButton">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ipMemo" class="form-label">메모</label>
+                        <textarea class="form-control" id="ipMemo" rows="3" placeholder="추가 정보를 입력하세요"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="saveIpButton">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 네트워크 스캔 모달 -->
+<div class="modal fade" id="scanNetworkModal" tabindex="-1" aria-labelledby="scanNetworkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scanNetworkModalLabel">네트워크 스캔</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="scanNetwork" class="form-label">스캔할 네트워크</label>
+                    <select class="form-select" id="scanNetwork">
+                        <option value="1" selected>사무실 네트워크 (192.168.1.0/24)</option>
+                        <option value="2">개발 네트워크 (10.0.1.0/24)</option>
+                        <option value="3">게스트 네트워크 (172.16.0.0/24)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="scanRange" class="form-label">IP 범위 (선택사항)</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            <input type="text" class="form-control" id="scanRangeStart" placeholder="시작 IP">
+                        </div>
+                        <div class="col-auto pt-1">
+                            <span>~</span>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" id="scanRangeEnd" placeholder="끝 IP">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="resolveDnsNames" checked>
+                        <label class="form-check-label" for="resolveDnsNames">
+                            DNS 호스트명 확인
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="saveScanResults" checked>
+                        <label class="form-check-label" for="saveScanResults">
+                            스캔 결과 자동 저장
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="notifyConflicts" checked>
+                        <label class="form-check-label" for="notifyConflicts">
+                            IP 충돌 감지 시 알림
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i> 스캔 시간은 네트워크 크기에 따라 몇 분 정도 소요될 수 있습니다.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="startScanButton">스캔 시작</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/assets/ip_management.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/assets/ip_management.js') }}"></script>
+{% endblock %} 

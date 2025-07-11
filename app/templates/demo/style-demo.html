@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}스타일 가이드 - Asset Management System{% endblock %}
 
@@ -36,10 +36,10 @@
         <!-- 반응형 테스트 도구 -->
         <div class="responsive-controls">
             <label>화면 크기 테스트:</label>
-            <button class="btn btn-sm btn-outline-primary" onclick="setViewport('mobile')">Mobile</button>
-            <button class="btn btn-sm btn-outline-primary" onclick="setViewport('tablet')">Tablet</button>
-            <button class="btn btn-sm btn-outline-primary" onclick="setViewport('desktop')">Desktop</button>
-            <button class="btn btn-sm btn-outline-primary" onclick="setViewport('auto')">Auto</button>
+            <button class="btn-size-sm btn-outline-primary" onclick="setViewport('mobile')">Mobile</button>
+            <button class="btn-size-sm btn-outline-primary" onclick="setViewport('tablet')">Tablet</button>
+            <button class="btn-size-sm btn-outline-primary" onclick="setViewport('desktop')">Desktop</button>
+            <button class="btn-size-sm btn-outline-primary" onclick="setViewport('auto')">Auto</button>
         </div>
     </div>
 
@@ -148,22 +148,22 @@
         <div class="component-showcase">
             <h3>Buttons</h3>
             <div class="demo-preview">
-                <button class="btn btn-primary">Primary</button>
-                <button class="btn btn-secondary">Secondary</button>
-                <button class="btn btn-success">Success</button>
-                <button class="btn btn-warning">Warning</button>
-                <button class="btn btn-danger">Danger</button>
-                <button class="btn btn-info">Info</button>
+                <button class="btn-primary-solid">Primary</button>
+                <button class="btn-secondary-solid">Secondary</button>
+                <button class="btn-success-solid">Success</button>
+                <button class="btn-warning-solid">Warning</button>
+                <button class="btn-danger-solid">Danger</button>
+                <button class="btn-info-solid">Info</button>
                 <button class="btn btn-light">Light</button>
                 <button class="btn btn-dark">Dark</button>
             </div>
             
             <div class="demo-preview">
-                <button class="btn btn-outline-primary">Outline Primary</button>
-                <button class="btn btn-outline-secondary">Outline Secondary</button>
-                <button class="btn btn-sm btn-primary">Small</button>
-                <button class="btn btn-lg btn-primary">Large</button>
-                <button class="btn btn-primary" disabled>Disabled</button>
+                <button class="btn-primary-outline">Outline Primary</button>
+                <button class="btn-secondary-outline">Outline Secondary</button>
+                <button class="btn-size-sm btn-primary">Small</button>
+                <button class="btn-size-lg btn-primary">Large</button>
+                <button class="btn-primary-solid" disabled>Disabled</button>
             </div>
             
             <!-- 엑셀 내보내기 버튼 -->
@@ -272,7 +272,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">기본 카드 컴포넌트입니다. 다양한 콘텐츠를 담을 수 있습니다.</p>
-                            <a href="#" class="btn btn-primary">버튼</a>
+                            <a href="#" class="btn-primary-solid">버튼</a>
                         </div>
                     </div>
                 </div>
@@ -351,12 +351,12 @@
                     <form class="demo-form">
                         <div class="mb-3">
                             <label for="demo-input" class="form-label">기본 입력</label>
-                            <input type="text" class="form-control" id="demo-input" placeholder="텍스트를 입력하세요">
+                            <input type="text" class="form-input" id="demo-input" placeholder="텍스트를 입력하세요">
                         </div>
                         
                         <div class="mb-3">
                             <label for="demo-select" class="form-label">선택</label>
-                            <select class="form-select" id="demo-select">
+                            <select class="form-select-custom" id="demo-select">
                                 <option selected>선택하세요</option>
                                 <option value="1">옵션 1</option>
                                 <option value="2">옵션 2</option>
@@ -366,27 +366,27 @@
                         
                         <div class="mb-3">
                             <label for="demo-textarea" class="form-label">텍스트 영역</label>
-                            <textarea class="form-control" id="demo-textarea" rows="3" placeholder="내용을 입력하세요"></textarea>
+                            <textarea class="form-input" id="demo-textarea" rows="3" placeholder="내용을 입력하세요"></textarea>
                         </div>
                         
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="demo-check">
+                            <input type="checkbox" class="form-checkbox" id="demo-check">
                             <label class="form-check-label" for="demo-check">체크박스</label>
                         </div>
                         
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="demo-radio" id="demo-radio1">
+                                <input class="form-checkbox" type="radio" name="demo-radio" id="demo-radio1">
                                 <label class="form-check-label" for="demo-radio1">라디오 1</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="demo-radio" id="demo-radio2">
+                                <input class="form-checkbox" type="radio" name="demo-radio" id="demo-radio2">
                                 <label class="form-check-label" for="demo-radio2">라디오 2</label>
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">제출</button>
-                        <button type="button" class="btn btn-secondary">취소</button>
+                        <button type="submit" class="btn-primary-solid">제출</button>
+                        <button type="button" class="btn-secondary-solid">취소</button>
                     </form>
                 </div>
                 
@@ -394,19 +394,19 @@
                     <h4>폼 상태</h4>
                     <div class="mb-3">
                         <label for="valid-input" class="form-label">유효한 입력</label>
-                        <input type="text" class="form-control is-valid" id="valid-input" value="올바른 값">
+                        <input type="text" class="form-input is-valid" id="valid-input" value="올바른 값">
                         <div class="valid-feedback">올바른 입력입니다!</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="invalid-input" class="form-label">잘못된 입력</label>
-                        <input type="text" class="form-control is-invalid" id="invalid-input" value="잘못된 값">
+                        <input type="text" class="form-input is-invalid" id="invalid-input" value="잘못된 값">
                         <div class="invalid-feedback">올바르지 않은 입력입니다.</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="disabled-input" class="form-label">비활성화된 입력</label>
-                        <input type="text" class="form-control" id="disabled-input" value="비활성화됨" disabled>
+                        <input type="text" class="form-input" id="disabled-input" value="비활성화됨" disabled>
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@
         <div class="component-showcase">
             <h3>테이블 리스트</h3>
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">#</th>
@@ -484,8 +484,8 @@
                             <td>개발팀</td>
                             <td>김개발</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary">보기</button>
-                                <button class="btn btn-sm btn-outline-secondary">수정</button>
+                                <button class="btn-size-sm btn-outline-primary">보기</button>
+                                <button class="btn-size-sm btn-outline-secondary">수정</button>
                             </td>
                         </tr>
                         <tr>
@@ -495,8 +495,8 @@
                             <td>디자인팀</td>
                             <td>이디자인</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary">보기</button>
-                                <button class="btn btn-sm btn-outline-secondary">수정</button>
+                                <button class="btn-size-sm btn-outline-primary">보기</button>
+                                <button class="btn-size-sm btn-outline-secondary">수정</button>
                             </td>
                         </tr>
                         <tr>
@@ -506,8 +506,8 @@
                             <td>사무실</td>
                             <td>박관리</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary">보기</button>
-                                <button class="btn btn-sm btn-outline-secondary">수정</button>
+                                <button class="btn-size-sm btn-outline-primary">보기</button>
+                                <button class="btn-size-sm btn-outline-secondary">수정</button>
                             </td>
                         </tr>
                     </tbody>
@@ -526,12 +526,12 @@
                 <div class="asset-header">
                     <h4>자산 관리 대시보드</h4>
                     <div class="asset-filters">
-                        <select class="form-select form-select-sm">
+                        <select class="form-select form-select-custom-sm">
                             <option>전체 상태</option>
                             <option>사용중</option>
                             <option>유지보수</option>
                         </select>
-                        <input type="text" class="form-control form-control-sm" placeholder="자산 검색...">
+                        <input type="text" class="form-input form-input-sm" placeholder="자산 검색...">
                     </div>
                 </div>
             </div>
@@ -542,9 +542,9 @@
             <div class="demo-preview operations-page-demo">
                 <div class="operations-toolbar">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary">처분 계획</button>
-                        <button type="button" class="btn btn-outline-success">공급 관리</button>
-                        <button type="button" class="btn btn-outline-warning">유지보수</button>
+                        <button type="button" class="btn-primary-outline">처분 계획</button>
+                        <button type="button" class="btn-success-outline">공급 관리</button>
+                        <button type="button" class="btn-warning-outline">유지보수</button>
                     </div>
                     <div class="operations-status">
                         <span class="status-indicator status-good"></span>

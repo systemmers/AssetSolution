@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}운영 통계 및 보고서 - 자산관리 시스템{% endblock %}
 
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <label for="report_type" class="form-label">보고서 유형</label>
-                    <select class="form-control" id="report_type" name="report_type">
+                    <select class="form-input" id="report_type" name="report_type">
                         <option value="monthly">월간 보고서</option>
                         <option value="quarterly">분기별 보고서</option>
                         <option value="yearly">연간 보고서</option>
@@ -37,14 +37,14 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="report_period_start" class="form-label">시작일</label>
-                    <input type="date" class="form-control" id="report_period_start" name="report_period_start">
+                    <input type="date" class="form-input" id="report_period_start" name="report_period_start">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="report_period_end" class="form-label">종료일</label>
-                    <input type="date" class="form-control" id="report_period_end" name="report_period_end">
+                    <input type="date" class="form-input" id="report_period_end" name="report_period_end">
                 </div>
                 <div class="col-md-3 mb-3 d-flex align-items-end">
-                    <button type="button" class="btn btn-primary me-2" onclick="generateReport()">
+                    <button type="button" class="btn-primary-solid me-2" onclick="generateReport()">
                         <i class="fas fa-chart-bar me-1"></i>보고서 생성
                     </button>
                 </div>
@@ -54,23 +54,23 @@
                     <label class="form-label">포함할 통계</label>
                     <div class="d-flex flex-wrap">
                         <div class="form-check me-3 mb-2">
-                            <input class="form-check-input" type="checkbox" id="include_loans" checked>
+                            <input class="form-checkbox" type="checkbox" id="include_loans" checked>
                             <label class="form-check-label" for="include_loans">대여 통계</label>
                         </div>
                         <div class="form-check me-3 mb-2">
-                            <input class="form-check-input" type="checkbox" id="include_returns" checked>
+                            <input class="form-checkbox" type="checkbox" id="include_returns" checked>
                             <label class="form-check-label" for="include_returns">반납 통계</label>
                         </div>
                         <div class="form-check me-3 mb-2">
-                            <input class="form-check-input" type="checkbox" id="include_disposals" checked>
+                            <input class="form-checkbox" type="checkbox" id="include_disposals" checked>
                             <label class="form-check-label" for="include_disposals">폐기 통계</label>
                         </div>
                         <div class="form-check me-3 mb-2">
-                            <input class="form-check-input" type="checkbox" id="include_maintenance" checked>
+                            <input class="form-checkbox" type="checkbox" id="include_maintenance" checked>
                             <label class="form-check-label" for="include_maintenance">유지보수 통계</label>
                         </div>
                         <div class="form-check me-3 mb-2">
-                            <input class="form-check-input" type="checkbox" id="include_utilization">
+                            <input class="form-checkbox" type="checkbox" id="include_utilization">
                             <label class="form-check-label" for="include_utilization">활용도 분석</label>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
+                    <table class="table-base" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>자산명</th>
@@ -343,7 +343,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
+                    <table class="table-base" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>사용자</th>
@@ -440,7 +440,7 @@
                         <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
                         <h6 class="font-weight-bold">대시보드 공유</h6>
                         <p class="text-muted">실시간 데이터를 공유할 수 있는 링크</p>
-                        <button class="btn btn-info btn-sm" onclick="shareDashboard()">
+                        <button class="btn-info-solid btn-sm" onclick="shareDashboard()">
                             <i class="fas fa-share-alt me-1"></i>링크 생성
                         </button>
                     </div>

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}{{ asset.name }} - PC 자산 상세 정보{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">{{ asset.name }}</h2>
+        <p class="text-muted mb-0">PC 자산 상세 정보</p>
+    </div>
+    <div>
+        <a href="{{ url_for('assets.index') }}" class="btn btn-secondary me-2">
+            <i class="fas fa-arrow-left me-1"></i> 목록으로
+        </a>
+        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-warning me-2">
+            <i class="fas fa-edit me-1"></i> 수정
+        </a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <i class="fas fa-trash-alt me-1"></i> 삭제
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- 왼쪽 컨텐츠 영역 -->
+    <div class="col-lg-8">
+        <!-- 기본 정보 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">기본 정보</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>자산번호:</strong> {{ asset.asset_number }}</p>
+                        <p class="mb-2"><strong>시리얼 번호:</strong> {{ asset.serial_number }}</p>
+                        <p class="mb-2"><strong>모델명:</strong> {{ asset.model }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>상태:</strong> <span class="badge bg-success">{{ asset.status }}</span></p>
+                        <p class="mb-2"><strong>취득일자:</strong> {{ asset.purchase_date.strftime('%Y-%m-%d') }}</p>
+                        <p class="mb-2"><strong>취득가액:</strong> {{ "{:,.0f}".format(asset.purchase_price) }}원</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하드웨어 사양 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">하드웨어 사양</h6>
+            </div>
+            <div class="card-body">
+                {% if asset.details %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>CPU:</strong> {{ asset.details.cpu }}</p>
+                        <p class="mb-2"><strong>RAM:</strong> {{ asset.details.ram }}</p>
+                        <p class="mb-2"><strong>운영체제:</strong> {{ asset.details.os }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>저장공간:</strong> {{ asset.details.storage }}</p>
+                        <p class="mb-2"><strong>MAC 주소:</strong> {{ asset.details.mac_address }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted">하드웨어 상세 정보가 없습니다.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 네트워크 정보 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">네트워크 할당 정보</h6>
+            </div>
+            <div class="card-body">
+                {% if asset.ip_assignments %}
+                <ul class="list-group list-group-flush">
+                    {% for ip in asset.ip_assignments %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('assets.ip_detail', ip_address=ip.ip_address) }}">{{ ip.ip_address }}</a>
+                        <span class="badge bg-info rounded-pill">{{ '고정 IP' if ip.is_static else '유동 IP' }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted">할당된 IP 정보가 없습니다.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 오른쪽 사이드바 -->
+    <div class="col-lg-4">
+        <!-- 담당자 정보 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">담당자 정보</h6>
+            </div>
+            <div class="card-body">
+                {% if asset.user_name %}
+                <div class="text-center mb-3">
+                    <i class="fas fa-user-circle fa-5x text-gray-300 mb-3"></i>
+                    <h5>{{ asset.user_name }}</h5>
+                    <p class="text-muted">{{ asset.department.name }}</p>
+                </div>
+                <hr>
+                <div class="mb-2">
+                    <small class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>위치</small>
+                    <p>{{ asset.location_name }}</p>
+                </div>
+                {% else %}
+                <p class="text-muted text-center">담당자가 지정되지 않았습니다.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 기타 정보 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">기타 정보</h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-2"><strong>제조사:</strong> {{ asset.manufacturer }}</p>
+                <p class="mb-2"><strong>보증 만료일:</strong> {{ asset.warranty_expiry }}</p>
+                <hr>
+                <p class="mb-1"><strong>비고:</strong></p>
+                <p class="text-muted">{{ asset.note if asset.note else '기록된 비고가 없습니다.' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 삭제 확인 모달 (기존 detail.html의 것을 재사용) -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">자산 삭제 확인</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        정말로 '{{ asset.name }}' (자산번호: {{ asset.asset_number }}) 자산을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <form action="{{ url_for('assets.delete', asset_id=asset.id) }}" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-danger">삭제</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

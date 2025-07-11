@@ -1,4 +1,4 @@
-<!-- 지급 요청 모달 -->
+﻿<!-- 지급 요청 모달 -->
 <div class="modal fade" id="allocationRequestModal" tabindex="-1" aria-labelledby="allocationRequestModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -142,16 +142,16 @@
                                         <div class="form-group">
                                             <label class="form-label">자산 검색</label>
                                             <div class="input-group">
-                                                <select class="form-select" id="assetCategoryFilter">
+                                                <select class="form-select-custom" id="assetCategoryFilter">
                                                     <option value="">전체 카테고리</option>
                                                     <option value="IT장비">IT장비</option>
                                                     <option value="사무용품">사무용품</option>
                                                     <option value="가구">가구</option>
                                                     <option value="소모품">소모품</option>
                                                 </select>
-                                                <input type="text" class="form-control" id="assetAllocationSearch" 
+                                                <input type="text" class="form-input" id="assetAllocationSearch" 
                                                        placeholder="자산명 또는 번호 검색">
-                                                <button class="btn btn-outline-secondary" type="button" 
+                                                <button class="btn-secondary-outline" type="button" 
                                                         id="searchAllocationAssetBtn">
                                                     <i class="fas fa-search"></i>
                                                 </button>
@@ -201,14 +201,14 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">요청 제목 <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="requestTitle" 
+                                    <input type="text" class="form-input" id="requestTitle" 
                                            placeholder="요청 제목을 입력하세요" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">사용 목적 <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="usagePurpose" required>
+                                    <select class="form-select-custom" id="usagePurpose" required>
                                         <option value="">선택하세요</option>
                                         <option value="업무용">업무용</option>
                                         <option value="프로젝트">프로젝트</option>
@@ -231,13 +231,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">사용 시작일</label>
-                                            <input type="date" class="form-control" id="temporaryStartDate">
+                                            <input type="date" class="form-input" id="temporaryStartDate">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">반납 예정일</label>
-                                            <input type="date" class="form-control" id="temporaryEndDate">
+                                            <input type="date" class="form-input" id="temporaryEndDate">
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +252,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">할당 대상</label>
-                                            <select class="form-select" id="permanentAssignee">
+                                            <select class="form-select-custom" id="permanentAssignee">
                                                 <option value="">선택하세요</option>
                                                 <option value="individual">개인</option>
                                                 <option value="department">부서</option>
@@ -263,7 +263,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">책임자</label>
-                                            <input type="text" class="form-control" id="permanentManager" 
+                                            <input type="text" class="form-input" id="permanentManager" 
                                                    placeholder="자산 관리 책임자">
                                         </div>
                                     </div>
@@ -279,7 +279,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">예상 소모 기간</label>
-                                            <select class="form-select" id="consumableLifetime">
+                                            <select class="form-select-custom" id="consumableLifetime">
                                                 <option value="">선택하세요</option>
                                                 <option value="immediate">즉시 사용</option>
                                                 <option value="1week">1주 이내</option>
@@ -291,7 +291,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">수량</label>
-                                            <input type="number" class="form-control" id="consumableQuantity" 
+                                            <input type="number" class="form-input" id="consumableQuantity" 
                                                    placeholder="필요 수량" min="1">
                                         </div>
                                     </div>
@@ -307,7 +307,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">대상 부서</label>
-                                            <select class="form-select" id="targetDepartment">
+                                            <select class="form-select-custom" id="targetDepartment">
                                                 <option value="">선택하세요</option>
                                                 <option value="dev">개발팀</option>
                                                 <option value="marketing">마케팅팀</option>
@@ -320,7 +320,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">부서장 승인</label>
-                                            <input type="text" class="form-control" id="departmentManager" 
+                                            <input type="text" class="form-input" id="departmentManager" 
                                                    placeholder="부서장 이름">
                                         </div>
                                     </div>
@@ -336,7 +336,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">긴급도</label>
-                                            <select class="form-select" id="specialUrgency">
+                                            <select class="form-select-custom" id="specialUrgency">
                                                 <option value="">선택하세요</option>
                                                 <option value="urgent">긴급</option>
                                                 <option value="high">높음</option>
@@ -347,7 +347,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">프로젝트/이벤트</label>
-                                            <input type="text" class="form-control" id="specialProject" 
+                                            <input type="text" class="form-input" id="specialProject" 
                                                    placeholder="관련 프로젝트명">
                                         </div>
                                     </div>
@@ -360,7 +360,7 @@
                             <div class="col-12">
                                 <div class="form-group mb-3">
                                     <label class="form-label">요청 사유 <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="allocationReason" rows="3" 
+                                    <textarea class="form-input" id="allocationReason" rows="3" 
                                               placeholder="지급 요청 사유를 상세히 입력해주세요" required></textarea>
                                 </div>
                             </div>
@@ -370,7 +370,7 @@
                             <div class="col-12">
                                 <div class="form-group mb-3">
                                     <label class="form-label">특이사항</label>
-                                    <textarea class="form-control" id="allocationNotes" rows="2" 
+                                    <textarea class="form-input" id="allocationNotes" rows="2" 
                                               placeholder="특별히 고려할 사항이 있다면 입력해주세요"></textarea>
                                 </div>
                             </div>
@@ -398,16 +398,16 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i> 취소
                 </button>
-                <button type="button" class="btn btn-outline-primary" id="prevStepBtn" style="display: none;">
+                <button type="button" class="btn-primary-outline" id="prevStepBtn" style="display: none;">
                     <i class="fas fa-arrow-left me-1"></i> 이전
                 </button>
-                <button type="button" class="btn btn-primary" id="nextStepBtn">
+                <button type="button" class="btn-primary-solid" id="nextStepBtn">
                     다음 <i class="fas fa-arrow-right ms-1"></i>
                 </button>
-                <button type="button" class="btn btn-success" id="submitRequestBtn" style="display: none;">
+                <button type="button" class="btn-success-solid" id="submitRequestBtn" style="display: none;">
                     <i class="fas fa-paper-plane me-1"></i> 요청 제출
                 </button>
             </div>

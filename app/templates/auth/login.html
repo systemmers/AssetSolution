@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}로그인 - 자산관리 시스템{% endblock %}
 
@@ -17,7 +17,7 @@
                         <label for="username" class="form-label">사용자 ID</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <input type="text" class="form-input" id="username" name="username" required>
                         </div>
                     </div>
                     
@@ -25,17 +25,17 @@
                         <label for="password" class="form-label">비밀번호</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <input type="password" class="form-input" id="password" name="password" required>
                         </div>
                     </div>
                     
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                        <input type="checkbox" class="form-checkbox" id="remember" name="remember">
                         <label class="form-check-label" for="remember">로그인 상태 유지</label>
                     </div>
                     
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary py-2">로그인</button>
+                        <button type="submit" class="btn-primary-solid py-2">로그인</button>
                     </div>
                 </form>
             </div>

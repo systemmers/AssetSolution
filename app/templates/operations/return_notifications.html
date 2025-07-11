@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}반납 알림 관리 - Asset Management System{% endblock %}
 
@@ -33,10 +33,10 @@
             <p class="text-muted mb-0">반납 관련 알림 및 리마인더를 설정하고 관리합니다</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary" onclick="refreshNotifications()">
+            <button class="btn-secondary-outline" onclick="refreshNotifications()">
                 <i class="fas fa-sync-alt"></i> 새로고침
             </button>
-            <button class="btn btn-primary" onclick="openNotificationSettings()">
+            <button class="btn-primary-solid" onclick="openNotificationSettings()">
                 <i class="fas fa-cog"></i> 알림 설정
             </button>
         </div>
@@ -124,7 +124,7 @@
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label">알림 타입</label>
-                            <select class="form-select" id="typeFilter">
+                            <select class="form-select-custom" id="typeFilter">
                                 <option value="">전체 타입</option>
                                 <option value="approval_request">승인 요청</option>
                                 <option value="due_reminder">반납 기한</option>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">우선순위</label>
-                            <select class="form-select" id="priorityFilter">
+                            <select class="form-select-custom" id="priorityFilter">
                                 <option value="">전체 우선순위</option>
                                 <option value="high">높음</option>
                                 <option value="medium">보통</option>
@@ -143,7 +143,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">상태</label>
-                            <select class="form-select" id="statusFilter">
+                            <select class="form-select-custom" id="statusFilter">
                                 <option value="">전체 상태</option>
                                 <option value="pending">대기</option>
                                 <option value="sent">발송됨</option>
@@ -154,8 +154,8 @@
                         <div class="col-md-3">
                             <label class="form-label">검색</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="searchInput" placeholder="제목, 수신자">
-                                <button class="btn btn-outline-secondary" onclick="applyNotificationFilters()">
+                                <input type="text" class="form-input" id="searchInput" placeholder="제목, 수신자">
+                                <button class="btn-secondary-outline" onclick="applyNotificationFilters()">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -169,10 +169,10 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">현재 알림 목록</h5>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-sm btn-outline-primary" onclick="markAllAsRead()">
+                        <button class="btn-size-sm btn-outline-primary" onclick="markAllAsRead()">
                             <i class="fas fa-check-double"></i> 모두 읽음 처리
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="clearReadNotifications()">
+                        <button class="btn-size-sm btn-outline-danger" onclick="clearReadNotifications()">
                             <i class="fas fa-trash"></i> 읽은 알림 삭제
                         </button>
                     </div>
@@ -193,7 +193,7 @@
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label">기간</label>
-                            <select class="form-select" id="historyPeriodFilter">
+                            <select class="form-select-custom" id="historyPeriodFilter">
                                 <option value="today">오늘</option>
                                 <option value="week">이번 주</option>
                                 <option value="month" selected>이번 달</option>
@@ -203,7 +203,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">발송 상태</label>
-                            <select class="form-select" id="historyStatusFilter">
+                            <select class="form-select-custom" id="historyStatusFilter">
                                 <option value="">전체</option>
                                 <option value="sent">발송 성공</option>
                                 <option value="failed">발송 실패</option>
@@ -212,7 +212,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">알림 채널</label>
-                            <select class="form-select" id="channelFilter">
+                            <select class="form-select-custom" id="channelFilter">
                                 <option value="">전체 채널</option>
                                 <option value="email">이메일</option>
                                 <option value="system">시스템 내</option>
@@ -240,7 +240,7 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0" id="historyTable">
+                        <table class="table-interactive mb-0" id="historyTable">
                             <thead class="table-light">
                                 <tr>
                                     <th>발송 시간</th>
@@ -265,7 +265,7 @@
         <div class="tab-pane fade" id="rules" role="tabpanel">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="mb-0">알림 규칙 관리</h5>
-                <button class="btn btn-primary" onclick="openRuleModal()">
+                <button class="btn-primary-solid" onclick="openRuleModal()">
                     <i class="fas fa-plus"></i> 새 규칙 추가
                 </button>
             </div>
@@ -280,7 +280,7 @@
         <div class="tab-pane fade" id="templates" role="tabpanel">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="mb-0">알림 템플릿 관리</h5>
-                <button class="btn btn-primary" onclick="openTemplateModal()">
+                <button class="btn-primary-solid" onclick="openTemplateModal()">
                     <i class="fas fa-plus"></i> 새 템플릿 추가
                 </button>
             </div>
@@ -323,11 +323,11 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">규칙 이름</label>
-                            <input type="text" class="form-control" id="ruleName" required>
+                            <input type="text" class="form-input" id="ruleName" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">알림 타입</label>
-                            <select class="form-select" id="ruleType" required>
+                            <select class="form-select-custom" id="ruleType" required>
                                 <option value="">선택하세요</option>
                                 <option value="approval_request">승인 요청</option>
                                 <option value="due_reminder">반납 기한</option>
@@ -337,7 +337,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">트리거 조건</label>
-                            <select class="form-select" id="ruleTrigger" required>
+                            <select class="form-select-custom" id="ruleTrigger" required>
                                 <option value="">선택하세요</option>
                                 <option value="immediate">즉시</option>
                                 <option value="1_day_before">1일 전</option>
@@ -348,7 +348,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">우선순위</label>
-                            <select class="form-select" id="rulePriority" required>
+                            <select class="form-select-custom" id="rulePriority" required>
                                 <option value="low">낮음</option>
                                 <option value="medium" selected>보통</option>
                                 <option value="high">높음</option>
@@ -358,22 +358,22 @@
                             <label class="form-label">알림 채널</label>
                             <div class="form-check-group">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="channelEmail" value="email">
+                                    <input class="form-checkbox" type="checkbox" id="channelEmail" value="email">
                                     <label class="form-check-label" for="channelEmail">이메일</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="channelSystem" value="system" checked>
+                                    <input class="form-checkbox" type="checkbox" id="channelSystem" value="system" checked>
                                     <label class="form-check-label" for="channelSystem">시스템 내</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="channelSMS" value="sms">
+                                    <input class="form-checkbox" type="checkbox" id="channelSMS" value="sms">
                                     <label class="form-check-label" for="channelSMS">SMS</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <label class="form-label">수신자 설정</label>
-                            <select class="form-select" id="ruleRecipients" multiple>
+                            <select class="form-select-custom" id="ruleRecipients" multiple>
                                 <option value="requester">요청자</option>
                                 <option value="dept_manager">부서장</option>
                                 <option value="asset_manager">자산관리자</option>
@@ -383,7 +383,7 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">메시지 템플릿</label>
-                            <select class="form-select" id="ruleTemplate">
+                            <select class="form-select-custom" id="ruleTemplate">
                                 <option value="">기본 템플릿</option>
                                 <option value="formal">공식 템플릿</option>
                                 <option value="urgent">긴급 템플릿</option>
@@ -392,7 +392,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ruleActive" checked>
+                                <input class="form-checkbox" type="checkbox" id="ruleActive" checked>
                                 <label class="form-check-label" for="ruleActive">
                                     이 규칙을 활성화
                                 </label>
@@ -402,8 +402,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" onclick="saveRule()">저장</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" onclick="saveRule()">저장</button>
             </div>
         </div>
     </div>
@@ -424,11 +424,11 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">템플릿 이름</label>
-                            <input type="text" class="form-control" id="templateName" required>
+                            <input type="text" class="form-input" id="templateName" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">템플릿 타입</label>
-                            <select class="form-select" id="templateType" required>
+                            <select class="form-select-custom" id="templateType" required>
                                 <option value="email">이메일</option>
                                 <option value="system">시스템 내</option>
                                 <option value="sms">SMS</option>
@@ -436,11 +436,11 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">제목</label>
-                            <input type="text" class="form-control" id="templateSubject" placeholder="알림 제목을 입력하세요">
+                            <input type="text" class="form-input" id="templateSubject" placeholder="알림 제목을 입력하세요">
                         </div>
                         <div class="col-12">
                             <label class="form-label">메시지 내용</label>
-                            <textarea class="form-control" id="templateContent" rows="10" 
+                            <textarea class="form-input" id="templateContent" rows="10" 
                                       placeholder="알림 메시지를 입력하세요. 변수 사용: {{asset_name}}, {{requester_name}}, {{due_date}} 등"></textarea>
                         </div>
                         <div class="col-12">
@@ -454,9 +454,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-outline-primary" onclick="previewTemplate()">미리보기</button>
-                <button type="button" class="btn btn-primary" onclick="saveTemplate()">저장</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-outline" onclick="previewTemplate()">미리보기</button>
+                <button type="button" class="btn-primary-solid" onclick="saveTemplate()">저장</button>
             </div>
         </div>
     </div>
@@ -476,11 +476,11 @@
                         <label class="form-label">기본 알림 채널</label>
                         <div class="form-check-group">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="defaultEmail" checked>
+                                <input class="form-checkbox" type="checkbox" id="defaultEmail" checked>
                                 <label class="form-check-label" for="defaultEmail">이메일</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="defaultSystem" checked>
+                                <input class="form-checkbox" type="checkbox" id="defaultSystem" checked>
                                 <label class="form-check-label" for="defaultSystem">시스템 내</label>
                             </div>
                         </div>
@@ -488,7 +488,7 @@
                     
                     <div class="mb-3">
                         <label class="form-label">이메일 발송 시간</label>
-                        <select class="form-select" id="emailSendTime">
+                        <select class="form-select-custom" id="emailSendTime">
                             <option value="immediate">즉시</option>
                             <option value="09:00" selected>오전 9시</option>
                             <option value="14:00">오후 2시</option>
@@ -498,7 +498,7 @@
                     
                     <div class="mb-3">
                         <label class="form-label">알림 보관 기간</label>
-                        <select class="form-select" id="retentionPeriod">
+                        <select class="form-select-custom" id="retentionPeriod">
                             <option value="30">30일</option>
                             <option value="90" selected>90일</option>
                             <option value="180">180일</option>
@@ -507,7 +507,7 @@
                     </div>
                     
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="enableDigest" checked>
+                        <input class="form-checkbox" type="checkbox" id="enableDigest" checked>
                         <label class="form-check-label" for="enableDigest">
                             일일 요약 알림 활성화
                         </label>
@@ -515,8 +515,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" onclick="saveSettings()">저장</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" onclick="saveSettings()">저장</button>
             </div>
         </div>
     </div>

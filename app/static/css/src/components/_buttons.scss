@@ -1,45 +1,260 @@
 // ========================================
-// 버튼 컴포넌트 시스템
+// 통합 버튼 컴포넌트 시스템 (Button Component System)
+// 스타일가이드 기반 완전 통합 구현
 // ========================================
 
-// 기본 버튼 확장
+// ----------------------------------------
+// 1. 기본 버튼 확장 (.btn)
+// ----------------------------------------
+
 .btn {
+  display: inline-block;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--color-dark);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-size: var(--btn-font-size);
   border-radius: var(--btn-border-radius);
   transition: var(--btn-transition);
-  font-weight: var(--font-weight-medium);
   
-  &:focus {
-    box-shadow: var(--btn-focus-box-shadow);
+  &:hover {
+    color: var(--color-dark);
+    text-decoration: none;
+  }
+  
+  &:focus,
+  &.focus {
+    outline: 0;
+    box-shadow: var(--btn-focus-box-shadow, 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25));
+  }
+  
+  &:disabled,
+  &.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    transform: translateY(1px);
   }
 }
 
-// 자산관리 전용 버튼
-.btn-asset {
+// ----------------------------------------
+// 2. 솔리드 버튼 시스템 (Solid Buttons)
+// ----------------------------------------
+
+.btn-primary-solid {
+  @extend .btn;
+  color: #fff;
   background-color: var(--color-primary);
   border-color: var(--color-primary);
-  color: white;
   
-  &:hover,
-  &:focus {
+  &:hover {
+    color: #fff;
     background-color: var(--color-primary-dark);
     border-color: var(--color-primary-dark);
-    color: white;
+  }
+  
+  &:focus,
+  &.focus {
+    color: #fff;
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.5);
+  }
+  
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    color: #fff;
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
   }
 }
 
+.btn-secondary-solid {
+  @extend .btn;
+  color: #fff;
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  
+  &:hover {
+    color: #fff;
+    background-color: var(--color-secondary-dark);
+    border-color: var(--color-secondary-dark);
+  }
+  
+  &:focus,
+  &.focus {
+    color: #fff;
+    background-color: var(--color-secondary-dark);
+    border-color: var(--color-secondary-dark);
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+  }
+}
+
+.btn-success-solid {
+  @extend .btn;
+  color: #fff;
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  
+  &:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+  }
+}
+
+.btn-warning-solid {
+  @extend .btn;
+  color: #212529;
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  
+  &:hover {
+    color: #212529;
+    background-color: #e0a800;
+    border-color: #d39e00;
+  }
+  
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+  }
+}
+
+.btn-danger-solid {
+  @extend .btn;
+  color: #fff;
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  
+  &:hover {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+  
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+  }
+}
+
+// ----------------------------------------
+// 3. 아웃라인 버튼 시스템 (Outline Buttons)
+// ----------------------------------------
+
+.btn-primary-outline {
+  @extend .btn;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  
+  &:hover {
+    color: #fff;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+  
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.5);
+  }
+  
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    color: #fff;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+}
+
+.btn-secondary-outline {
+  @extend .btn;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  
+  &:hover {
+    color: #fff;
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-1px);
+  }
+  
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+  }
+}
+
+// ----------------------------------------
+// 4. 크기 변형 시스템 (Size Variants)
+// ----------------------------------------
+
+.btn-size-sm {
+  padding: var(--btn-sm-padding-y) var(--btn-sm-padding-x);
+  font-size: var(--btn-sm-font-size);
+  border-radius: calc(var(--btn-border-radius) * 0.75);
+}
+
+.btn-size-lg {
+  padding: var(--btn-lg-padding-y) var(--btn-lg-padding-x);
+  font-size: var(--btn-lg-font-size);
+  border-radius: calc(var(--btn-border-radius) * 1.25);
+}
+
+// ----------------------------------------
+// 5. 특수 버튼 시스템 (Special Buttons)
+// ----------------------------------------
+
 // 아이콘 버튼
-.btn-icon {
+.btn-with-icon {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2);
   
-  i {
+  .btn-icon {
     font-size: 0.875em;
+    line-height: 1;
+  }
+  
+  &.btn-icon-left {
+    flex-direction: row;
+  }
+  
+  &.btn-icon-right {
+    flex-direction: row-reverse;
+  }
+  
+  &.btn-icon-only {
+    padding: var(--btn-padding-y);
+    width: calc(var(--btn-padding-y) * 2 + 1.5em);
+    justify-content: center;
+    
+    .btn-text {
+      display: none;
+    }
   }
 }
 
-// 플로팅 액션 버튼
-.btn-floating {
+// 플로팅 액션 버튼 (확장)
+.btn-floating-action {
   position: fixed;
   bottom: var(--spacing-4);
   right: var(--spacing-4);
@@ -50,10 +265,211 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-lg);
-  z-index: 1000;
+  z-index: var(--z-fixed);
+  border: none;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
   
   &:hover {
     box-shadow: var(--shadow-xl);
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-2px);
+    background-color: var(--color-primary-dark);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: var(--shadow-xl), 0 0 0 3px rgba(var(--color-primary-rgb), 0.3);
+  }
+  
+  &:active {
+    transform: scale(0.95) translateY(1px);
+  }
+}
+
+// 엑셀 내보내기 버튼 (기존 유지 + 개선)
+.btn-export-excel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background: linear-gradient(135deg, #1f7b2e 0%, #28a745 100%);
+  color: white;
+  border: none;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--btn-border-radius);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 120px;
+  justify-content: center;
+  
+  &:hover {
+    background: linear-gradient(135deg, #155724 0%, #1e7e34 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    color: white;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  .fa-file-excel {
+    font-size: 1.1em;
+  }
+}
+
+// ----------------------------------------
+// 6. 버튼 그룹 및 레이아웃
+// ----------------------------------------
+
+.btn-group-horizontal {
+  display: flex;
+  gap: var(--spacing-2);
+  
+  &.btn-group-center {
+    justify-content: center;
+  }
+  
+  &.btn-group-end {
+    justify-content: flex-end;
+  }
+  
+  &.btn-group-between {
+    justify-content: space-between;
+  }
+}
+
+.btn-group-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+// ----------------------------------------
+// 7. 자산관리 특화 버튼
+// ----------------------------------------
+
+.btn-action-view {
+  @extend .btn-primary-outline;
+  @extend .btn-size-sm;
+  background-color: var(--btn-action-view);
+  border-color: var(--btn-action-view);
+  color: white;
+  
+  &:hover {
+    background-color: var(--color-info);
+    border-color: var(--color-info);
+    color: white;
+  }
+}
+
+.btn-action-edit {
+  @extend .btn-warning-solid;
+  @extend .btn-size-sm;
+}
+
+.btn-action-approve {
+  @extend .btn-success-solid;
+  @extend .btn-size-sm;
+}
+
+.btn-action-reject {
+  @extend .btn-danger-solid;
+  @extend .btn-size-sm;
+}
+
+.btn-action-print {
+  @extend .btn-secondary-outline;
+  @extend .btn-size-sm;
+}
+
+// ----------------------------------------
+// 8. 반응형 및 접근성
+// ----------------------------------------
+
+// 모바일 최적화
+@media (max-width: 576px) {
+  .btn {
+    font-size: 16px; // iOS 줌 방지
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+  
+  .btn-floating-action {
+    bottom: var(--spacing-3);
+    right: var(--spacing-3);
+    width: 48px;
+    height: 48px;
+  }
+  
+  .btn-group-horizontal {
+    flex-direction: column;
+    
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+// 다크 모드 지원
+[data-bs-theme="dark"] {
+  .btn-secondary-solid {
+    background-color: var(--color-gray-600);
+    border-color: var(--color-gray-600);
+    
+    &:hover {
+      background-color: var(--color-gray-700);
+      border-color: var(--color-gray-700);
+    }
+  }
+  
+  .btn-secondary-outline {
+    color: var(--color-gray-300);
+    border-color: var(--color-gray-600);
+    
+    &:hover {
+      background-color: var(--color-gray-600);
+      border-color: var(--color-gray-600);
+      color: white;
+    }
+  }
+}
+
+// 고대비 모드 지원
+@media (prefers-contrast: high) {
+  .btn {
+    border-width: 2px;
+  }
+  
+  .btn-primary-outline,
+  .btn-secondary-outline {
+    border-width: 2px;
+  }
+}
+
+// 모션 감소 설정 지원
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-floating-action,
+  .btn-export-excel {
+    transition: none;
+    transform: none !important;
+  }
+  
+  .btn:hover,
+  .btn-floating-action:hover {
+    transform: none !important;
   }
 } 

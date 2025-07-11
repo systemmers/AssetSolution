@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 상세 정보 - 자산관리 시스템{% endblock %}
 
@@ -6,13 +6,13 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">자산 상세 정보</h2>
     <div>
-        <a href="{{ url_for('assets.index') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('assets.index') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
-        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-warning me-2">
+        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-warning-solid me-2">
             <i class="fas fa-edit me-1"></i> 수정
         </a>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <button type="button" class="btn-danger-solid" data-bs-toggle="modal" data-bs-target="#deleteModal">
             <i class="fas fa-trash-alt me-1"></i> 삭제
         </button>
     </div>
@@ -93,7 +93,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table-interactive">
                         <thead>
                             <tr>
                                 <th>변경일자</th>
@@ -128,13 +128,13 @@
         <div class="card shadow-sm mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary">유지보수 이력</h6>
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
+                <button type="button" class="btn-size-sm btn-primary" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
                     <i class="fas fa-plus me-1"></i> 내역 추가
                 </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table-interactive">
                         <thead>
                             <tr>
                                 <th>일자</th>
@@ -189,7 +189,7 @@
         <div class="card shadow-sm mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary">첨부파일</h6>
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
+                <button type="button" class="btn-size-sm btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
                     <i class="fas fa-upload me-1"></i> 파일 추가
                 </button>
             </div>
@@ -201,7 +201,7 @@
                             <a href="#">구매_명세서.pdf</a>
                         </div>
                         <div>
-                            <button class="btn btn-sm btn-outline-danger">
+                            <button class="btn-size-sm btn-outline-danger">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -212,7 +212,7 @@
                             <a href="#">자산_사진.jpg</a>
                         </div>
                         <div>
-                            <button class="btn btn-sm btn-outline-danger">
+                            <button class="btn-size-sm btn-outline-danger">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -230,7 +230,7 @@
                 <div class="mb-3">
                     <i class="fas fa-qrcode fa-8x text-gray-300"></i>
                 </div>
-                <button class="btn btn-sm btn-primary">
+                <button class="btn-size-sm btn-primary">
                     <i class="fas fa-print me-1"></i> QR코드 인쇄
                 </button>
             </div>
@@ -250,9 +250,9 @@
                 정말로 이 자산을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
                 <form action="{{ url_for('assets.delete', asset_id=asset.id) }}" method="POST" class="d-inline">
-                    <button type="submit" class="btn btn-danger">삭제</button>
+                    <button type="submit" class="btn-danger-solid">삭제</button>
                 </form>
             </div>
         </div>
@@ -271,11 +271,11 @@
                 <form id="maintenanceForm">
                     <div class="mb-3">
                         <label for="maintenanceDate" class="form-label">일자</label>
-                        <input type="date" class="form-control" id="maintenanceDate" required>
+                        <input type="date" class="form-input" id="maintenanceDate" required>
                     </div>
                     <div class="mb-3">
                         <label for="maintenanceType" class="form-label">구분</label>
-                        <select class="form-select" id="maintenanceType" required>
+                        <select class="form-select-custom" id="maintenanceType" required>
                             <option value="">선택하세요</option>
                             <option value="repair">수리</option>
                             <option value="upgrade">업그레이드</option>
@@ -285,24 +285,24 @@
                     </div>
                     <div class="mb-3">
                         <label for="maintenanceDesc" class="form-label">내용</label>
-                        <textarea class="form-control" id="maintenanceDesc" rows="3" required></textarea>
+                        <textarea class="form-input" id="maintenanceDesc" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="maintenanceHandler" class="form-label">처리자</label>
-                        <input type="text" class="form-control" id="maintenanceHandler" required>
+                        <input type="text" class="form-input" id="maintenanceHandler" required>
                     </div>
                     <div class="mb-3">
                         <label for="maintenanceCost" class="form-label">비용</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="maintenanceCost">
+                            <input type="number" class="form-input" id="maintenanceCost">
                             <span class="input-group-text">원</span>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary">저장</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid">저장</button>
             </div>
         </div>
     </div>
@@ -320,17 +320,17 @@
                 <form id="fileForm">
                     <div class="mb-3">
                         <label for="fileUpload" class="form-label">파일 선택</label>
-                        <input class="form-control" type="file" id="fileUpload" multiple>
+                        <input class="form-input" type="file" id="fileUpload" multiple>
                     </div>
                     <div class="mb-3">
                         <label for="fileDesc" class="form-label">설명</label>
-                        <input type="text" class="form-control" id="fileDesc" placeholder="파일에 대한 설명을 입력하세요">
+                        <input type="text" class="form-input" id="fileDesc" placeholder="파일에 대한 설명을 입력하세요">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary">업로드</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid">업로드</button>
             </div>
         </div>
     </div>

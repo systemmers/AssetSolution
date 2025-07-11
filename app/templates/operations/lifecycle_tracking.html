@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}생명주기 추적 - 자산관리 시스템{% endblock %}
 
@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">자산 생명주기 추적</h2>
     <div>
-        <a href="{{ url_for('operations.index') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('operations.index') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 운영 관리
         </a>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventFilterModal">
+        <button type="button" class="btn-primary-solid" data-bs-toggle="modal" data-bs-target="#eventFilterModal">
             <i class="fas fa-filter me-1"></i> 고급 필터
         </button>
     </div>
@@ -87,12 +87,12 @@
         <form method="GET" class="row g-3">
             <div class="col-md-2">
                 <label for="assetIdFilter" class="form-label">자산 ID</label>
-                <input type="number" class="form-control" id="assetIdFilter" name="asset_id" 
+                <input type="number" class="form-input" id="assetIdFilter" name="asset_id" 
                        placeholder="자산 ID" value="{{ request.args.get('asset_id', '') }}">
             </div>
             <div class="col-md-3">
                 <label for="eventTypeFilter" class="form-label">이벤트 유형</label>
-                <select class="form-select" id="eventTypeFilter" name="event_type">
+                <select class="form-select-custom" id="eventTypeFilter" name="event_type">
                     <option value="">전체 유형</option>
                     {% for type in filter_options.event_types %}
                     <option value="{{ type.code.lower() }}" {% if request.args.get('event_type') == type.code.lower() %}selected{% endif %}>
@@ -103,26 +103,26 @@
             </div>
             <div class="col-md-2">
                 <label for="departmentFilter" class="form-label">부서</label>
-                <input type="text" class="form-control" id="departmentFilter" name="department" 
+                <input type="text" class="form-input" id="departmentFilter" name="department" 
                        placeholder="부서명" value="{{ request.args.get('department', '') }}">
             </div>
             <div class="col-md-2">
                 <label for="startDateFilter" class="form-label">시작일</label>
-                <input type="date" class="form-control" id="startDateFilter" name="start_date" 
+                <input type="date" class="form-input" id="startDateFilter" name="start_date" 
                        value="{{ request.args.get('start_date', '') }}">
             </div>
             <div class="col-md-2">
                 <label for="endDateFilter" class="form-label">종료일</label>
-                <input type="date" class="form-control" id="endDateFilter" name="end_date" 
+                <input type="date" class="form-input" id="endDateFilter" name="end_date" 
                        value="{{ request.args.get('end_date', '') }}">
             </div>
             <div class="col-md-1">
                 <label for="searchBtn" class="form-label">&nbsp;</label>
                 <div class="d-flex flex-column gap-1">
-                    <button type="submit" class="btn btn-primary btn-sm">
+                    <button type="submit" class="btn-primary-solid btn-sm">
                         <i class="fas fa-search"></i>
                     </button>
-                    <a href="{{ url_for('operations.lifecycle_tracking') }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ url_for('operations.lifecycle_tracking') }}" class="btn-secondary-solid btn-sm">
                         <i class="fas fa-undo"></i>
                     </a>
                 </div>
@@ -218,7 +218,7 @@
                                 </span>
                                 {% endif %}
                             </div>
-                            <button type="button" class="btn btn-sm btn-outline-primary btn-action-view-event-detail" 
+                            <button type="button" class="btn-size-sm btn-outline-primary btn-action-view-event-detail" 
                                     data-event-id="{{ event.id }}">
                                 <i class="fas fa-eye me-1"></i> 상세보기
                             </button>
@@ -297,8 +297,8 @@
                 <!-- 동적으로 로드됨 -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" id="viewAssetTimelineBtn">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn-primary-solid" id="viewAssetTimelineBtn">
                     <i class="fas fa-timeline me-1"></i> 자산 타임라인 보기
                 </button>
             </div>
@@ -324,7 +324,7 @@
                             <div class="form-check-container">
                                 {% for type in filter_options.event_types %}
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="eventType{{ type.id }}" 
+                                    <input class="form-checkbox" type="checkbox" id="eventType{{ type.id }}" 
                                            value="{{ type.code.lower() }}" name="event_types">
                                     <label class="form-check-label" for="eventType{{ type.id }}">
                                         <span class="badge bg-{{ type.color }} me-1">{{ type.name }}</span>
@@ -335,31 +335,31 @@
                         </div>
                         <div class="col-md-6">
                             <label for="minCost" class="form-label">최소 비용 (원)</label>
-                            <input type="number" class="form-control" id="minCost" name="min_cost" placeholder="0">
+                            <input type="number" class="form-input" id="minCost" name="min_cost" placeholder="0">
                         </div>
                         <div class="col-md-6">
                             <label for="maxCost" class="form-label">최대 비용 (원)</label>
-                            <input type="number" class="form-control" id="maxCost" name="max_cost" placeholder="제한없음">
+                            <input type="number" class="form-input" id="maxCost" name="max_cost" placeholder="제한없음">
                         </div>
                         <div class="col-12">
                             <label for="performer" class="form-label">수행자</label>
-                            <input type="text" class="form-control" id="performer" name="performer" 
+                            <input type="text" class="form-input" id="performer" name="performer" 
                                    placeholder="수행자 이름">
                         </div>
                         <div class="col-12">
                             <label for="descriptionKeyword" class="form-label">설명 키워드</label>
-                            <input type="text" class="form-control" id="descriptionKeyword" name="description" 
+                            <input type="text" class="form-input" id="descriptionKeyword" name="description" 
                                    placeholder="이벤트 설명에서 검색할 키워드">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-outline-warning" id="clearAdvancedFilterBtn">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-warning-outline" id="clearAdvancedFilterBtn">
                     <i class="fas fa-eraser me-1"></i> 초기화
                 </button>
-                <button type="button" class="btn btn-primary" id="applyAdvancedFilterBtn">
+                <button type="button" class="btn-primary-solid" id="applyAdvancedFilterBtn">
                     <i class="fas fa-search me-1"></i> 필터 적용
                 </button>
             </div>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}업그레이드/교체 관리 - 자산관리 시스템{% endblock %}
 
@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">업그레이드/교체 관리</h2>
     <div>
-        <a href="{{ url_for('operations.index') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('operations.index') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 운영 관리
         </a>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upgradePlanModal">
+        <button type="button" class="btn-primary-solid" data-bs-toggle="modal" data-bs-target="#upgradePlanModal">
             <i class="fas fa-plus me-1"></i> 업그레이드 계획 수립
         </button>
     </div>
@@ -87,7 +87,7 @@
         <form method="GET" class="row g-3">
             <div class="col-md-3">
                 <label for="statusFilter" class="form-label">상태</label>
-                <select class="form-select" id="statusFilter" name="status">
+                <select class="form-select-custom" id="statusFilter" name="status">
                     <option value="">전체 상태</option>
                     {% for status in filter_options.statuses %}
                     <option value="{{ status.code.lower() }}" {% if request.args.get('status') == status.code.lower() %}selected{% endif %}>
@@ -98,7 +98,7 @@
             </div>
             <div class="col-md-3">
                 <label for="upgradeTypeFilter" class="form-label">업그레이드 유형</label>
-                <select class="form-select" id="upgradeTypeFilter" name="upgrade_type">
+                <select class="form-select-custom" id="upgradeTypeFilter" name="upgrade_type">
                     <option value="">전체 유형</option>
                     {% for type in filter_options.upgrade_types %}
                     <option value="{{ type.code }}" {% if request.args.get('upgrade_type') == type.code %}selected{% endif %}>
@@ -109,16 +109,16 @@
             </div>
             <div class="col-md-3">
                 <label for="departmentFilter" class="form-label">부서</label>
-                <input type="text" class="form-control" id="departmentFilter" name="department" 
+                <input type="text" class="form-input" id="departmentFilter" name="department" 
                        placeholder="부서명 입력" value="{{ request.args.get('department', '') }}">
             </div>
             <div class="col-md-3">
                 <label for="searchBtn" class="form-label">&nbsp;</label>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn-primary-solid">
                         <i class="fas fa-search me-1"></i> 검색
                     </button>
-                    <a href="{{ url_for('operations.upgrade_management') }}" class="btn btn-secondary">
+                    <a href="{{ url_for('operations.upgrade_management') }}" class="btn-secondary-solid">
                         <i class="fas fa-undo me-1"></i> 초기화
                     </a>
                 </div>
@@ -172,7 +172,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover align-middle" id="upgradeePlansTable">
+            <table class="table-interactive align-middle" id="upgradeePlansTable">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">자산 정보</th>
@@ -266,15 +266,15 @@
                         <td>
                             <div class="btn-group" role="group">
                                 <a href="{{ url_for('operations.upgrade_plan_detail', plan_id=plan.id) }}" 
-                                   class="btn btn-sm btn-outline-primary" title="상세 보기">
+                                   class="btn-size-sm btn-outline-primary" title="상세 보기">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-warning btn-action-edit-plan" 
+                                <button type="button" class="btn-size-sm btn-outline-warning btn-action-edit-plan" 
                                         data-plan-id="{{ plan.id }}" title="수정">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 {% if plan.status in ['planned', 'approved'] %}
-                                <button type="button" class="btn btn-sm btn-outline-success btn-start-upgrade" 
+                                <button type="button" class="btn-size-sm btn-outline-success btn-start-upgrade" 
                                         data-plan-id="{{ plan.id }}" title="업그레이드 시작">
                                     <i class="fas fa-play"></i>
                                 </button>
@@ -288,7 +288,7 @@
                             <div class="text-muted">
                                 <i class="fas fa-tools fa-3x mb-3 opacity-50"></i>
                                 <p class="mb-0">등록된 업그레이드 계획이 없습니다.</p>
-                                <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#upgradePlanModal">
+                                <button type="button" class="btn-primary-solid mt-2" data-bs-toggle="modal" data-bs-target="#upgradePlanModal">
                                     <i class="fas fa-plus me-1"></i> 첫 번째 계획 수립하기
                                 </button>
                             </div>
@@ -359,14 +359,14 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="assetSelect" class="form-label">대상 자산 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="assetSelect" name="asset_id" required>
+                            <select class="form-select-custom" id="assetSelect" name="asset_id" required>
                                 <option value="">자산을 선택하세요</option>
                                 <!-- 동적으로 로드됨 -->
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="upgradeType" class="form-label">업그레이드 유형 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="upgradeType" name="upgrade_type" required>
+                            <select class="form-select-custom" id="upgradeType" name="upgrade_type" required>
                                 <option value="">유형을 선택하세요</option>
                                 <option value="replacement">교체</option>
                                 <option value="enhancement">업그레이드</option>
@@ -375,15 +375,15 @@
                         </div>
                         <div class="col-md-6">
                             <label for="plannedDate" class="form-label">계획일 <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="plannedDate" name="planned_date" required>
+                            <input type="date" class="form-input" id="plannedDate" name="planned_date" required>
                         </div>
                         <div class="col-md-6">
                             <label for="budget" class="form-label">예산 (원)</label>
-                            <input type="number" class="form-control" id="budget" name="budget" placeholder="0">
+                            <input type="number" class="form-input" id="budget" name="budget" placeholder="0">
                         </div>
                         <div class="col-md-6">
                             <label for="priority" class="form-label">우선순위</label>
-                            <select class="form-select" id="priority" name="priority">
+                            <select class="form-select-custom" id="priority" name="priority">
                                 <option value="medium">보통</option>
                                 <option value="high">높음</option>
                                 <option value="low">낮음</option>
@@ -391,19 +391,19 @@
                         </div>
                         <div class="col-md-6">
                             <label for="department" class="form-label">담당 부서</label>
-                            <input type="text" class="form-control" id="department" name="department" placeholder="부서명">
+                            <input type="text" class="form-input" id="department" name="department" placeholder="부서명">
                         </div>
                         <div class="col-12">
                             <label for="reason" class="form-label">업그레이드 사유</label>
-                            <textarea class="form-control" id="reason" name="reason" rows="3" 
+                            <textarea class="form-input" id="reason" name="reason" rows="3" 
                                       placeholder="업그레이드가 필요한 이유를 입력하세요"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="savePlanBtn">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" id="savePlanBtn">
                     <i class="fas fa-save me-1"></i> 저장
                 </button>
             </div>

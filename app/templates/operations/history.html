@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 이력 조회 - 자산관리 시스템{% endblock %}
 
@@ -28,17 +28,17 @@
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <label for="asset_id" class="form-label">자산 ID/이름</label>
-                    <input type="text" class="form-control" id="asset_id" name="asset_id" 
+                    <input type="text" class="form-input" id="asset_id" name="asset_id" 
                            placeholder="예: AST-001 또는 노트북" value="{{ request.args.get('asset_id', '') }}">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="user_name" class="form-label">사용자</label>
-                    <input type="text" class="form-control" id="user_name" name="user_name" 
+                    <input type="text" class="form-input" id="user_name" name="user_name" 
                            placeholder="사용자명 또는 부서" value="{{ request.args.get('user_name', '') }}">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="operation_type" class="form-label">작업 유형</label>
-                    <select class="form-control" id="operation_type" name="operation_type">
+                    <select class="form-input" id="operation_type" name="operation_type">
                         <option value="">전체</option>
                         <option value="대여" {{ 'selected' if request.args.get('operation_type') == '대여' }}>대여</option>
                         <option value="반납" {{ 'selected' if request.args.get('operation_type') == '반납' }}>반납</option>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="status" class="form-label">상태</label>
-                    <select class="form-control" id="status" name="status">
+                    <select class="form-input" id="status" name="status">
                         <option value="">전체</option>
                         <option value="진행중" {{ 'selected' if request.args.get('status') == '진행중' }}>진행중</option>
                         <option value="완료" {{ 'selected' if request.args.get('status') == '완료' }}>완료</option>
@@ -61,20 +61,20 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label for="start_date" class="form-label">시작일</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date" 
+                    <input type="date" class="form-input" id="start_date" name="start_date" 
                            value="{{ request.args.get('start_date', '') }}">
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="end_date" class="form-label">종료일</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" 
+                    <input type="date" class="form-input" id="end_date" name="end_date" 
                            value="{{ request.args.get('end_date', '') }}">
                 </div>
                 <div class="col-md-4 mb-3 d-flex align-items-end">
                     <div class="w-100">
-                        <button type="submit" class="btn btn-primary me-2">
+                        <button type="submit" class="btn-primary-solid me-2">
                             <i class="fas fa-search me-1"></i>검색
                         </button>
-                        <a href="{{ url_for('operations.history') }}" class="btn btn-outline-secondary">
+                        <a href="{{ url_for('operations.history') }}" class="btn-secondary-outline">
                             <i class="fas fa-refresh me-1"></i>초기화
                         </a>
                     </div>
@@ -166,7 +166,7 @@
                 <span>엑셀 내보내기</span>
             </button>
             <div class="dropdown">
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" 
+                <button class="btn-size-sm btn-outline-secondary dropdown-toggle" type="button" 
                         id="sortDropdown" data-bs-toggle="dropdown">
                     <i class="fas fa-sort me-1"></i>정렬
                 </button>
@@ -181,7 +181,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="historyTable">
+            <table class="table-interactive" id="historyTable">
                 <thead>
                     <tr>
                         <th>작업일시</th>
@@ -234,7 +234,7 @@
                             </td>
                             <td>{{ record.remarks or '-' }}</td>
                             <td>
-                                <a href="{{ url_for('operations.history_detail', history_id=record.id) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ url_for('operations.history_detail', history_id=record.id) }}" class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
@@ -257,7 +257,7 @@
                             <td><span class="badge bg-success">완료</span></td>
                             <td>정상 대여 처리</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-info" onclick="showHistoryDetail('H001')">
+                                <button class="btn-size-sm btn-outline-info" onclick="showHistoryDetail('H001')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -277,7 +277,7 @@
                             <td><span class="badge bg-success">완료</span></td>
                             <td>정상 작동 확인</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-info" onclick="showHistoryDetail('H002')">
+                                <button class="btn-size-sm btn-outline-info" onclick="showHistoryDetail('H002')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -297,7 +297,7 @@
                             <td><span class="badge bg-warning">진행중</span></td>
                             <td>화면 깜빡임 문제</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-info" onclick="showHistoryDetail('H003')">
+                                <button class="btn-size-sm btn-outline-info" onclick="showHistoryDetail('H003')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -317,7 +317,7 @@
                             <td><span class="badge bg-secondary">승인대기</span></td>
                             <td>내용연수 만료</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-info" onclick="showHistoryDetail('H004')">
+                                <button class="btn-size-sm btn-outline-info" onclick="showHistoryDetail('H004')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -337,7 +337,7 @@
                             <td><span class="badge bg-success">완료</span></td>
                             <td>부서 이동에 따른 이관</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-info" onclick="showHistoryDetail('H005')">
+                                <button class="btn-size-sm btn-outline-info" onclick="showHistoryDetail('H005')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -376,8 +376,8 @@
                 <!-- 상세 정보가 동적으로 로드됩니다 -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" onclick="printHistory()">
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn-primary-solid" onclick="printHistory()">
                     <i class="fas fa-print me-1"></i>인쇄
                 </button>
             </div>

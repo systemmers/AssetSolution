@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 폐기 계획 - Asset Management System{% endblock %}
 
@@ -33,10 +33,10 @@
             <p class="text-muted mb-0">자산의 안전하고 체계적인 폐기 프로세스를 관리합니다</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary" onclick="refreshDisposalData()">
+            <button class="btn-secondary-outline" onclick="refreshDisposalData()">
                 <i class="fas fa-sync-alt"></i> 새로고침
             </button>
-            <button class="btn btn-success" onclick="openDisposalRequestModal()">
+            <button class="btn-success-solid" onclick="openDisposalRequestModal()">
                 <i class="fas fa-plus"></i> 폐기 요청
             </button>
         </div>
@@ -116,7 +116,7 @@
             <div class="row g-3">
                 <div class="col-md-3">
                     <label class="form-label">폐기 사유</label>
-                    <select class="form-select" id="reasonFilter">
+                    <select class="form-select-custom" id="reasonFilter">
                         <option value="">전체 사유</option>
                         <option value="end_of_life">수명 만료</option>
                         <option value="malfunction">고장/오작동</option>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">부서</label>
-                    <select class="form-select" id="departmentFilter">
+                    <select class="form-select-custom" id="departmentFilter">
                         <option value="">전체 부서</option>
                         <option value="IT팀">IT팀</option>
                         <option value="영업팀">영업팀</option>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">우선순위</label>
-                    <select class="form-select" id="priorityFilter">
+                    <select class="form-select-custom" id="priorityFilter">
                         <option value="">전체 우선순위</option>
                         <option value="low">낮음</option>
                         <option value="normal">보통</option>
@@ -149,8 +149,8 @@
                 <div class="col-md-3">
                     <label class="form-label">검색</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchInput" placeholder="자산명, 코드">
-                        <button class="btn btn-outline-secondary" onclick="applyDisposalFilters()">
+                        <input type="text" class="form-input" id="searchInput" placeholder="자산명, 코드">
+                        <button class="btn-secondary-outline" onclick="applyDisposalFilters()">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -168,13 +168,13 @@
                     <h5 class="mb-0">승인 대기 목록</h5>
                     <div class="d-flex gap-2">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="selectAllPending" onchange="toggleSelectAll('pending')">
+                            <input class="form-checkbox" type="checkbox" id="selectAllPending" onchange="toggleSelectAll('pending')">
                             <label class="form-check-label" for="selectAllPending">전체 선택</label>
                         </div>
-                        <button class="btn btn-sm btn-success" onclick="bulkApprove()" id="bulkApproveBtn" disabled>
+                        <button class="btn-size-sm btn-success" onclick="bulkApprove()" id="bulkApproveBtn" disabled>
                             <i class="fas fa-check"></i> 일괄 승인
                         </button>
-                        <button class="btn btn-sm btn-danger" onclick="bulkReject()" id="bulkRejectBtn" disabled>
+                        <button class="btn-size-sm btn-danger" onclick="bulkReject()" id="bulkRejectBtn" disabled>
                             <i class="fas fa-times"></i> 일괄 거부
                         </button>
                     </div>
@@ -206,7 +206,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">폐기 예정 목록</h5>
-                    <button class="btn btn-primary" onclick="openScheduleModal()">
+                    <button class="btn-primary-solid" onclick="openScheduleModal()">
                         <i class="fas fa-calendar-plus"></i> 일정 관리
                     </button>
                 </div>
@@ -259,14 +259,14 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">자산 선택 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="assetSelect" required>
+                            <select class="form-select-custom" id="assetSelect" required>
                                 <option value="">자산을 선택하세요</option>
                                 <!-- 자산 목록이 동적으로 로드됩니다 -->
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">폐기 사유 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="disposalReason" required>
+                            <select class="form-select-custom" id="disposalReason" required>
                                 <option value="">사유를 선택하세요</option>
                                 <option value="end_of_life">수명 만료</option>
                                 <option value="malfunction">고장/오작동</option>
@@ -278,7 +278,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">우선순위 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="disposalPriority" required>
+                            <select class="form-select-custom" id="disposalPriority" required>
                                 <option value="">우선순위 선택</option>
                                 <option value="low">낮음</option>
                                 <option value="normal">보통</option>
@@ -288,22 +288,22 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">희망 폐기일</label>
-                            <input type="date" class="form-control" id="preferredDisposalDate">
+                            <input type="date" class="form-input" id="preferredDisposalDate">
                         </div>
                         <div class="col-12">
                             <label class="form-label">상세 사유 <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="disposalDescription" rows="4" placeholder="폐기가 필요한 구체적인 사유를 입력하세요" required></textarea>
+                            <textarea class="form-input" id="disposalDescription" rows="4" placeholder="폐기가 필요한 구체적인 사유를 입력하세요" required></textarea>
                         </div>
                         <div class="col-12">
                             <label class="form-label">첨부 파일</label>
-                            <input type="file" class="form-control" id="disposalAttachments" multiple accept=".pdf,.doc,.docx,.jpg,.png">
+                            <input type="file" class="form-input" id="disposalAttachments" multiple accept=".pdf,.doc,.docx,.jpg,.png">
                             <small class="form-text text-muted">관련 문서나 이미지를 첨부할 수 있습니다.</small>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="submit" class="btn btn-primary">폐기 요청 제출</button>
+                                    <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="submit" class="btn-primary-solid">폐기 요청 제출</button>
                 </div>
             </form>
         </div>
@@ -322,9 +322,9 @@
                 <!-- 상세 내용이 동적으로 로드됩니다 -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-danger" onclick="showRejectModal()" id="rejectDisposalBtn">거부</button>
-                <button type="button" class="btn btn-success" onclick="approveDisposal()" id="approveDisposalBtn">승인</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn-danger-solid" onclick="showRejectModal()" id="rejectDisposalBtn">거부</button>
+                <button type="button" class="btn-success-solid" onclick="approveDisposal()" id="approveDisposalBtn">승인</button>
             </div>
         </div>
     </div>
@@ -346,12 +346,12 @@
                 <p>선택한 자산의 폐기를 승인하시겠습니까?</p>
                 <div class="mb-3">
                     <label class="form-label">승인 코멘트 (선택사항)</label>
-                    <textarea class="form-control" id="approvalComments" rows="3" placeholder="승인 사유나 추가 지시사항을 입력하세요"></textarea>
+                    <textarea class="form-input" id="approvalComments" rows="3" placeholder="승인 사유나 추가 지시사항을 입력하세요"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-success" onclick="confirmDisposalApproval()">승인 확정</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-success-solid" onclick="confirmDisposalApproval()">승인 확정</button>
             </div>
         </div>
     </div>
@@ -368,12 +368,12 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label">거부 사유 <span class="text-danger">*</span></label>
-                    <textarea class="form-control" id="rejectionReason" rows="4" placeholder="거부 사유를 상세히 입력해주세요" required></textarea>
+                    <textarea class="form-input" id="rejectionReason" rows="4" placeholder="거부 사유를 상세히 입력해주세요" required></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger" onclick="confirmDisposalRejection()">거부 확정</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-danger-solid" onclick="confirmDisposalRejection()">거부 확정</button>
             </div>
         </div>
     </div>
@@ -403,8 +403,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" onclick="saveScheduleChanges()">변경사항 저장</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn-primary-solid" onclick="saveScheduleChanges()">변경사항 저장</button>
             </div>
         </div>
     </div>

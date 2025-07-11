@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}{{ asset.name }} - PC 자산 상세 정보{% endblock %}
 
@@ -9,13 +9,13 @@
         <p class="text-muted mb-0">PC 자산 상세 정보</p>
     </div>
     <div>
-        <a href="{{ url_for('assets.index') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('assets.index') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
-        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-warning me-2">
+        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-warning-solid me-2">
             <i class="fas fa-edit me-1"></i> 수정
         </a>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <button type="button" class="btn-danger-solid" data-bs-toggle="modal" data-bs-target="#deleteModal">
             <i class="fas fa-trash-alt me-1"></i> 삭제
         </button>
     </div>
@@ -146,9 +146,9 @@
         정말로 '{{ asset.name }}' (자산번호: {{ asset.asset_number }}) 자산을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
         <form action="{{ url_for('assets.delete', asset_id=asset.id) }}" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-danger">삭제</button>
+          <button type="submit" class="btn-danger-solid">삭제</button>
         </form>
       </div>
     </div>

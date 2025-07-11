@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 목록 - 자산관리 시스템{% endblock %}
 
@@ -7,20 +7,20 @@
     <h2 class="mb-0">자산 목록</h2>
     <div class="d-flex flex-wrap gap-2">
         <!-- 자산 도구 버튼들을 직접 노출 -->
-        <a href="{{ url_for('assets.pc_management') }}" class="btn btn-outline-primary btn-sm">
+        <a href="{{ url_for('assets.pc_management') }}" class="btn-primary-outline btn-sm">
             <i class="fas fa-desktop me-1"></i> PC 관리
         </a>
-        <a href="{{ url_for('assets.ip_management') }}" class="btn btn-outline-primary btn-sm">
+        <a href="{{ url_for('assets.ip_management') }}" class="btn-primary-outline btn-sm">
             <i class="fas fa-network-wired me-1"></i> IP 관리
         </a>
-        <a href="{{ url_for('assets.sw_license') }}" class="btn btn-outline-primary btn-sm">
+        <a href="{{ url_for('assets.sw_license') }}" class="btn-primary-outline btn-sm">
             <i class="fas fa-file-alt me-1"></i> SW 라이선스 관리
         </a>
-        <a href="{{ url_for('assets.bulk_register') }}" class="btn btn-outline-primary btn-sm">
+        <a href="{{ url_for('assets.bulk_register') }}" class="btn-primary-outline btn-sm">
             <i class="fas fa-file-import me-1"></i> 대량 자산 등록
         </a>
         <!-- 자산 등록 버튼 -->
-        <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary">
+        <a href="{{ url_for('assets.create_form') }}" class="btn-primary-solid">
             <i class="fas fa-plus me-1"></i> 자산 등록
         </a>
     </div>
@@ -35,11 +35,11 @@
             <div class="row align-items-end g-3">
                 <div class="col-lg-3 col-md-6">
                     <label for="searchKeyword" class="form-label">검색어</label>
-                    <input type="text" class="form-control" id="searchKeyword" name="q" placeholder="자산명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
+                    <input type="text" class="form-input" id="searchKeyword" name="q" placeholder="자산명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label for="categoryFilter" class="form-label">카테고리</label>
-                    <select class="form-select" id="categoryFilter" name="category">
+                    <select class="form-select-custom" id="categoryFilter" name="category">
                         <option value="">전체</option>
                         <option value="1" {% if request.args.get('category') == '1' %}selected{% endif %}>노트북</option>
                         <option value="2" {% if request.args.get('category') == '2' %}selected{% endif %}>데스크탑</option>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label for="statusFilter" class="form-label">상태</label>
-                    <select class="form-select" id="statusFilter" name="status">
+                    <select class="form-select-custom" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="available" {% if request.args.get('status') == 'available' %}selected{% endif %}>사용가능</option>
                         <option value="in_use" {% if request.args.get('status') == 'in_use' %}selected{% endif %}>사용중</option>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select" id="departmentFilter" name="department">
+                    <select class="form-select-custom" id="departmentFilter" name="department">
                         <option value="">전체</option>
                         <option value="1" {% if request.args.get('department') == '1' %}selected{% endif %}>개발팀</option>
                         <option value="2" {% if request.args.get('department') == '2' %}selected{% endif %}>IT팀</option>
@@ -74,10 +74,10 @@
                 </div>
                 <div class="col-lg-3 col-md-12">
                     <div class="d-flex">
-                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
+                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn btn-secondary">
+                        <button type="button" id="resetButton" class="btn-secondary-solid">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
@@ -86,12 +86,12 @@
             <div class="row mt-3">
                 <div class="col-lg-8">
                     <div class="form-check form-check-inline me-4">
-                        <input class="form-check-input" type="checkbox" id="expiredFilter" name="expired" value="1" 
+                        <input class="form-checkbox" type="checkbox" id="expiredFilter" name="expired" value="1" 
                             {% if request.args.get('expired') == '1' %}checked{% endif %}>
                         <label class="form-check-label" for="expiredFilter">내용연수 만료 자산만 보기</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="unusedFilter" name="unused" value="1"
+                        <input class="form-checkbox" type="checkbox" id="unusedFilter" name="unused" value="1"
                             {% if request.args.get('unused') == '1' %}checked{% endif %}>
                         <label class="form-check-label" for="unusedFilter">미사용 자산만 보기</label>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="col-lg-4">
                     <div class="d-flex justify-content-end align-items-center">
                         <div class="me-3">
-                            <select class="form-select form-select-sm" id="sortOrder" name="sort">
+                            <select class="form-select form-select-custom-sm" id="sortOrder" name="sort">
                                 <option value="recent" {% if request.args.get('sort') == 'recent' %}selected{% endif %}>최근 등록순</option>
                                 <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>자산명순</option>
                                 <option value="price_high" {% if request.args.get('sort') == 'price_high' %}selected{% endif %}>가격 높은순</option>
@@ -109,10 +109,10 @@
                         </div>
                         <div class="btn-group" role="group">
                             <input type="hidden" name="view" id="viewMode" value="{{ request.args.get('view', 'table') }}">
-                            <button type="button" class="btn btn-sm btn-outline-secondary view-btn {% if request.args.get('view') != 'grid' %}active{% endif %}" data-view="table">
+                            <button type="button" class="btn-size-sm btn-outline-secondary view-btn {% if request.args.get('view') != 'grid' %}active{% endif %}" data-view="table">
                                 <i class="fas fa-list"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary view-btn {% if request.args.get('view') == 'grid' %}active{% endif %}" data-view="grid">
+                            <button type="button" class="btn-size-sm btn-outline-secondary view-btn {% if request.args.get('view') == 'grid' %}active{% endif %}" data-view="grid">
                                 <i class="fas fa-th-large"></i>
                             </button>
                         </div>
@@ -143,7 +143,7 @@
 <div id="tableView" class="mb-4 {% if request.args.get('view') == 'grid' %}d-none{% endif %}">
     <div class="card shadow-sm">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+                                        <table class="table-interactive align-middle mb-0">
                 <thead class="table-light">
                     <tr>
                         <th class="px-3 py-3">자산번호</th>
@@ -217,10 +217,10 @@
                             <td class="px-3 py-3">{{ asset.purchase_date.strftime('%Y-%m-%d') if asset.purchase_date else '-' }}</td>
                             <td class="px-3 py-3 text-center">
                                 <div class="btn-group" role="group">
-                                                                    <a href="{{ detail_url }}" class="btn btn-sm btn-outline-primary">
+                                                                    <a href="{{ detail_url }}" class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-size-sm btn-outline-secondary">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 </div>
@@ -234,7 +234,7 @@
                                     <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
                                     <p class="mb-0">등록된 자산이 없습니다.</p>
                                     <p class="text-muted small">자산 등록 버튼을 클릭하여 첫 번째 자산을 등록하세요.</p>
-                                    <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary mt-3">
+                                    <a href="{{ url_for('assets.create_form') }}" class="btn-primary-solid mt-3">
                                         <i class="fas fa-plus me-1"></i> 자산 등록
                                     </a>
                                 </div>
@@ -263,10 +263,10 @@
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="card-title mb-0 flex-grow-1 me-2">{{ asset.name }}</h5>
                             <div class="btn-group">
-                                <a href="{{ detail_url }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ detail_url }}" class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-size-sm btn-outline-secondary">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </div>
@@ -294,7 +294,7 @@
                 <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
                 <p class="mb-0">등록된 자산이 없습니다.</p>
                 <p class="text-muted small">자산 등록 버튼을 클릭하여 첫 번째 자산을 등록하세요.</p>
-                <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary mt-3">
+                <a href="{{ url_for('assets.create_form') }}" class="btn-primary-solid mt-3">
                     <i class="fas fa-plus me-1"></i> 자산 등록
                 </a>
             </div>

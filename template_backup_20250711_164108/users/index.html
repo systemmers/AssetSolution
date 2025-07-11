@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}사용자 관리 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">사용자 관리</h2>
+    <div>
+        <a href="{{ url_for('users.create') }}" class="btn-primary-solid">
+            <i class="fas fa-user-plus me-1"></i> 사용자 등록
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 검색 및 필터 영역 -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form id="searchForm" method="GET" action="{{ url_for('users.index') }}">
+            <div class="row align-items-end">
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <label for="searchKeyword" class="form-label">검색어</label>
+                                            <input type="text" class="form-input" id="searchKeyword" name="q" placeholder="사용자명, 이메일, 아이디" value="{{ request.args.get('q', '') }}">
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <label for="departmentFilter" class="form-label">부서</label>
+                    <select class="form-select" id="departmentFilter" name="department">
+                        <option value="">전체</option>
+                        <option value="1" {% if request.args.get('department') == '1' %}selected{% endif %}>개발팀</option>
+                        <option value="2" {% if request.args.get('department') == '2' %}selected{% endif %}>인사팀</option>
+                        <option value="3" {% if request.args.get('department') == '3' %}selected{% endif %}>마케팅팀</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <label for="roleFilter" class="form-label">역할</label>
+                    <select class="form-select" id="roleFilter" name="role">
+                        <option value="">전체</option>
+                        <option value="1" {% if request.args.get('role') == '1' %}selected{% endif %}>관리자</option>
+                        <option value="2" {% if request.args.get('role') == '2' %}selected{% endif %}>일반사용자</option>
+                        <option value="3" {% if request.args.get('role') == '3' %}selected{% endif %}>조회전용</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-3">
+                    <div class="search-btn-group">
+                        <button type="submit" class="btn-primary-solid search-btn me-1">
+                            <i class="fas fa-search"></i> <span class="btn-text">검색</span>
+                        </button>
+                        <button type="button" id="resetButton" class="btn btn-secondary reset-btn">
+                            <i class="fas fa-undo"></i> <span class="btn-text">초기화</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 검색 결과 요약 -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <span class="text-muted">총 {{ users|length }}명의 사용자</span>
+        {% if request.args.get('q') or request.args.get('department') or request.args.get('role') %}
+        <span class="ms-2 badge bg-secondary">필터 적용됨</span>
+        {% endif %}
+    </div>
+    <div>
+        <button id="btnExportExcel" class="btn-export-excel">
+            <i class="fas fa-file-excel"></i>
+            <span>엑셀 내보내기</span>
+        </button>
+    </div>
+</div>
+
+<!-- 테이블 뷰 -->
+<div id="tableView" class="mb-4">
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+                            <table class="table-interactive">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-3">ID</th>
+                        <th class="px-3">이름</th>
+                        <th class="px-3">사용자명</th>
+                        <th class="px-3">이메일</th>
+                        <th class="px-3">부서</th>
+                        <th class="px-3">역할</th>
+                        <th class="px-3">상태</th>
+                        <th class="px-3">관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if users %}
+                        {% for user in users %}
+                        <tr class="user-row" data-href="{{ url_for('users.detail', user_id=user.id) }}">
+                            <td class="px-3">{{ user.id }}</td>
+                            <td class="px-3">{{ user.name }}</td>
+                            <td class="px-3">{{ user.username }}</td>
+                            <td class="px-3">{{ user.email }}</td>
+                            <td class="px-3">
+                                {% if user.department %}
+                                {{ user.department.name }}
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                            <td class="px-3">
+                                {% if user.role %}
+                                <span class="badge {% if user.role.id == 1 %}bg-primary{% elif user.role.id == 2 %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ user.role.name }}
+                                </span>
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                            <td class="px-3">
+                                {% if user.is_active %}
+                                <span class="badge bg-success">활성</span>
+                                {% else %}
+                                <span class="badge bg-danger">비활성</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-3">
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('users.detail', user_id=user.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ url_for('users.edit', user_id=user.id) }}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                <div class="d-flex flex-column align-items-center">
+                                    <i class="fas fa-users fa-3x mb-3 text-muted"></i>
+                                    <p class="mb-0">등록된 사용자가 없습니다.</p>
+                                    <p class="text-muted small">사용자 등록 버튼을 클릭하여 첫 번째 사용자를 등록하세요.</p>
+                                    <a href="{{ url_for('users.create') }}" class="btn-primary-solid mt-2">
+                                        <i class="fas fa-user-plus me-1"></i> 사용자 등록
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/users/index.js') }}"></script>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/users/index.css') }}">
+{% endblock %} 

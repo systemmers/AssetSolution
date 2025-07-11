@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}자산 실사 상세 - 자산관리 시스템{% endblock %}
 
@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">자산 실사 상세</h2>
     <div>
-        <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
+        <a href="{{ url_for('inventory.index') }}" class="btn-secondary-solid">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
     </div>
@@ -24,10 +24,10 @@
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">실사 정보</h6>
         <div>
-            <a href="{{ url_for('inventory.report', inventory_id=inventory.id) }}" class="btn btn-sm btn-info">
+            <a href="{{ url_for('inventory.report', inventory_id=inventory.id) }}" class="btn-size-sm btn-info">
                 <i class="fas fa-chart-bar me-1"></i> 보고서
             </a>
-            <a href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}" class="btn btn-sm btn-primary ms-2">
+            <a href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}" class="btn-size-sm btn-primary ms-2">
                 <i class="fas fa-edit me-1"></i> 수정
             </a>
         </div>
@@ -35,7 +35,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <table class="table table-borderless">
+                <table class="table-base">
                     <tbody>
                         <tr>
                             <th style="width: 30%">실사 번호</th>
@@ -57,7 +57,7 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <table class="table table-borderless">
+                <table class="table-base">
                     <tbody>
                         <tr>
                             <th style="width: 30%">진행 상태</th>
@@ -110,7 +110,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table-interactive">
                 <thead class="table-light">
                     <tr>
                         <th>자산번호</th>
@@ -147,7 +147,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary">
+                                <button class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-check me-1"></i> 확인
                                 </button>
                             </td>
@@ -170,13 +170,13 @@
 <div class="card shadow-sm">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">불일치 항목</h6>
-        <a href="{{ url_for('inventory.discrepancies') }}?inventory={{ inventory.id }}" class="btn btn-sm btn-primary">
+        <a href="{{ url_for('inventory.discrepancies') }}?inventory={{ inventory.id }}" class="btn-size-sm btn-primary">
             <i class="fas fa-list me-1"></i> 전체 보기
         </a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table-interactive">
                 <thead class="table-light">
                     <tr>
                         <th>자산번호</th>
@@ -222,7 +222,7 @@
                                 <span class="badge bg-warning text-dark">처리 필요</span>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary">
+                                <button class="btn-size-sm btn-outline-primary">
                                     <i class="fas fa-wrench me-1"></i> 해결
                                 </button>
                             </td>

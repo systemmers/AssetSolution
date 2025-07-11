@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}대량 자산 등록 - 자산관리 시스템{% endblock %}
 
@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">대량 자산 등록</h2>
     <div>
-        <a href="{{ url_for('assets.index') }}" class="btn btn-outline-secondary">
+        <a href="{{ url_for('assets.index') }}" class="btn-secondary-outline">
             <i class="fas fa-arrow-left me-1"></i> 자산 목록으로
         </a>
     </div>
@@ -49,54 +49,54 @@
                             
                             <div class="mb-3">
                                 <label for="excelFile" class="form-label">엑셀 파일 선택</label>
-                                <input class="form-control" type="file" id="excelFile" accept=".xlsx, .xls">
+                                <input class="form-input" type="file" id="excelFile" accept=".xlsx, .xls">
                                 <div class="form-text">XLSX 또는 XLS 형식 파일만 업로드 가능합니다.</div>
                             </div>
                             
                             <div class="mb-3">
                                 <label class="form-label">템플릿 다운로드</label>
                                 <div class="d-flex">
-                                    <a href="#" class="btn btn-outline-primary me-2">
+                                    <a href="#" class="btn-primary-outline me-2">
                                         <i class="fas fa-download me-1"></i> 기본 템플릿
                                     </a>
-                                    <a href="#" class="btn btn-outline-secondary me-2">
+                                    <a href="#" class="btn-secondary-outline me-2">
                                         <i class="fas fa-download me-1"></i> IT 장비 템플릿
                                     </a>
-                                    <a href="#" class="btn btn-outline-secondary">
+                                    <a href="#" class="btn-secondary-outline">
                                         <i class="fas fa-download me-1"></i> 사무용품 템플릿
                                     </a>
                                 </div>
                             </div>
                             
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="headerRowCheck" checked>
+                                <input class="form-checkbox" type="checkbox" id="headerRowCheck" checked>
                                 <label class="form-check-label" for="headerRowCheck">
                                     첫 번째 행은 헤더입니다
                                 </label>
                             </div>
                             
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="validateDataCheck" checked>
+                                <input class="form-checkbox" type="checkbox" id="validateDataCheck" checked>
                                 <label class="form-check-label" for="validateDataCheck">
                                     업로드 전 데이터 유효성 검사
                                 </label>
                             </div>
                             
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="generateAssetNumberCheck" checked>
+                                <input class="form-checkbox" type="checkbox" id="generateAssetNumberCheck" checked>
                                 <label class="form-check-label" for="generateAssetNumberCheck">
                                     자산번호 미입력 시 자동 생성
                                 </label>
                             </div>
                             
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="skipExistingCheck">
+                                <input class="form-checkbox" type="checkbox" id="skipExistingCheck">
                                 <label class="form-check-label" for="skipExistingCheck">
                                     이미 존재하는 자산번호는 건너뛰기 (미체크 시 오류)
                                 </label>
                             </div>
                             
-                            <button type="button" id="uploadButton" class="btn btn-primary">
+                            <button type="button" id="uploadButton" class="btn-primary-solid">
                                 <i class="fas fa-upload me-1"></i> 업로드 및 등록
                             </button>
                         </div>
@@ -145,7 +145,7 @@
                     <div class="mb-3 row">
                         <label for="bulkCategory" class="col-sm-2 col-form-label">카테고리</label>
                         <div class="col-sm-4">
-                            <select class="form-select" id="bulkCategory">
+                            <select class="form-select-custom" id="bulkCategory">
                                 <option value="">카테고리 선택</option>
                                 <option value="1">노트북</option>
                                 <option value="2">데스크탑</option>
@@ -157,7 +157,7 @@
                         </div>
                         <label for="bulkStatus" class="col-sm-2 col-form-label">상태</label>
                         <div class="col-sm-4">
-                            <select class="form-select" id="bulkStatus">
+                            <select class="form-select-custom" id="bulkStatus">
                                 <option value="available" selected>사용가능</option>
                                 <option value="in_use">사용중</option>
                                 <option value="in_repair">수리중</option>
@@ -170,11 +170,11 @@
                     <div class="mb-3 row">
                         <label for="bulkPurchaseDate" class="col-sm-2 col-form-label">구매일자</label>
                         <div class="col-sm-4">
-                            <input type="date" class="form-control" id="bulkPurchaseDate">
+                            <input type="date" class="form-input" id="bulkPurchaseDate">
                         </div>
                         <label for="bulkLocation" class="col-sm-2 col-form-label">위치</label>
                         <div class="col-sm-4">
-                            <select class="form-select" id="bulkLocation">
+                            <select class="form-select-custom" id="bulkLocation">
                                 <option value="">위치 선택</option>
                                 <option value="1">본사 1층</option>
                                 <option value="2">본사 2층</option>
@@ -188,11 +188,11 @@
                     <div class="mb-3 row">
                         <label for="bulkWarranty" class="col-sm-2 col-form-label">보증기간</label>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" id="bulkWarranty" placeholder="개월 수">
+                            <input type="number" class="form-input" id="bulkWarranty" placeholder="개월 수">
                         </div>
                         <label for="bulkManager" class="col-sm-2 col-form-label">담당자</label>
                         <div class="col-sm-4">
-                            <select class="form-select" id="bulkManager">
+                            <select class="form-select-custom" id="bulkManager">
                                 <option value="">담당자 선택</option>
                                 <option value="1">홍길동 (IT팀)</option>
                                 <option value="2">김영희 (자산관리팀)</option>
@@ -204,7 +204,7 @@
                     <hr class="my-4">
                     
                     <div class="table-responsive mb-3">
-                        <table class="table table-bordered" id="assetTable">
+                        <table class="table-base" id="assetTable">
                             <thead class="table-light">
                                 <tr>
                                     <th style="width: 50px;">#</th>
@@ -219,26 +219,26 @@
                             <tbody>
                                 <tr>
                                     <td class="text-center">1</td>
-                                    <td><input type="text" class="form-control" name="name[]" required></td>
-                                    <td><input type="text" class="form-control" name="model[]"></td>
-                                    <td><input type="text" class="form-control" name="serial[]"></td>
-                                    <td><input type="number" class="form-control" name="price[]"></td>
-                                    <td><input type="text" class="form-control" name="note[]"></td>
+                                    <td><input type="text" class="form-input" name="name[]" required></td>
+                                    <td><input type="text" class="form-input" name="model[]"></td>
+                                    <td><input type="text" class="form-input" name="serial[]"></td>
+                                    <td><input type="number" class="form-input" name="price[]"></td>
+                                    <td><input type="text" class="form-input" name="note[]"></td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-outline-danger delete-row">
+                                        <button type="button" class="btn-size-sm btn-outline-danger delete-row">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">2</td>
-                                    <td><input type="text" class="form-control" name="name[]" required></td>
-                                    <td><input type="text" class="form-control" name="model[]"></td>
-                                    <td><input type="text" class="form-control" name="serial[]"></td>
-                                    <td><input type="number" class="form-control" name="price[]"></td>
-                                    <td><input type="text" class="form-control" name="note[]"></td>
+                                    <td><input type="text" class="form-input" name="name[]" required></td>
+                                    <td><input type="text" class="form-input" name="model[]"></td>
+                                    <td><input type="text" class="form-input" name="serial[]"></td>
+                                    <td><input type="number" class="form-input" name="price[]"></td>
+                                    <td><input type="text" class="form-input" name="note[]"></td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-outline-danger delete-row">
+                                        <button type="button" class="btn-size-sm btn-outline-danger delete-row">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
@@ -248,7 +248,7 @@
                     </div>
                     
                     <div class="mb-4">
-                        <button type="button" id="addRowButton" class="btn btn-outline-secondary">
+                        <button type="button" id="addRowButton" class="btn-secondary-outline">
                             <i class="fas fa-plus me-1"></i> 행 추가
                         </button>
                         <div class="form-text mt-2">* 표시 항목은 필수 입력 사항입니다.</div>
@@ -256,12 +256,12 @@
                     
                     <div class="d-flex justify-content-between">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="generateBulkAssetNumberCheck" checked>
+                            <input class="form-checkbox" type="checkbox" id="generateBulkAssetNumberCheck" checked>
                             <label class="form-check-label" for="generateBulkAssetNumberCheck">
                                 자산번호 자동 생성
                             </label>
                         </div>
-                        <button type="button" id="registerBulkButton" class="btn btn-primary">
+                        <button type="button" id="registerBulkButton" class="btn-primary-solid">
                             <i class="fas fa-save me-1"></i> 일괄 등록
                         </button>
                     </div>
@@ -280,7 +280,7 @@
                             
                             <div class="mb-3">
                                 <label for="scanType" class="form-label">스캔 유형</label>
-                                <select class="form-select" id="scanType">
+                                <select class="form-select-custom" id="scanType">
                                     <option value="serial">시리얼 번호</option>
                                     <option value="asset_tag">자산 태그</option>
                                     <option value="product_code">제품 코드</option>
@@ -290,8 +290,8 @@
                             <div class="mb-3">
                                 <label for="scanInput" class="form-label">스캔 입력</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="scanInput" placeholder="스캔하거나 직접 입력...">
-                                    <button class="btn btn-outline-secondary" type="button" id="scanButton">
+                                    <input type="text" class="form-input" id="scanInput" placeholder="스캔하거나 직접 입력...">
+                                    <button class="btn-secondary-outline" type="button" id="scanButton">
                                         <i class="fas fa-camera"></i>
                                     </button>
                                 </div>
@@ -304,7 +304,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <button type="button" id="startCameraButton" class="btn btn-outline-primary">
+                                    <button type="button" id="startCameraButton" class="btn-primary-outline">
                                         <i class="fas fa-video me-1"></i> 카메라 시작
                                     </button>
                                 </div>
@@ -312,7 +312,7 @@
                             
                             <div class="mb-3">
                                 <label for="scanCategory" class="form-label">카테고리</label>
-                                <select class="form-select" id="scanCategory">
+                                <select class="form-select-custom" id="scanCategory">
                                     <option value="">카테고리 선택</option>
                                     <option value="1">노트북</option>
                                     <option value="2">데스크탑</option>
@@ -324,13 +324,13 @@
                             </div>
                             
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="autoLookupCheck" checked>
+                                <input class="form-checkbox" type="checkbox" id="autoLookupCheck" checked>
                                 <label class="form-check-label" for="autoLookupCheck">
                                     스캔 후 정보 자동 조회
                                 </label>
                             </div>
                             
-                            <button type="button" id="addScannedItemButton" class="btn btn-primary">
+                            <button type="button" id="addScannedItemButton" class="btn-primary-solid">
                                 <i class="fas fa-plus me-1"></i> 목록에 추가
                             </button>
                         </div>
@@ -338,7 +338,7 @@
                     <div class="col-lg-6">
                         <h5 class="mb-3">스캔된 항목 목록</h5>
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="scannedItemsTable">
+                            <table class="table-base" id="scannedItemsTable">
                                 <thead class="table-light">
                                     <tr>
                                         <th style="width: 50px;">#</th>
@@ -357,10 +357,10 @@
                         </div>
                         
                         <div class="d-flex justify-content-between mt-3">
-                            <button type="button" id="clearScannedButton" class="btn btn-outline-secondary">
+                            <button type="button" id="clearScannedButton" class="btn-secondary-outline">
                                 <i class="fas fa-trash me-1"></i> 목록 비우기
                             </button>
-                            <button type="button" id="registerScannedButton" class="btn btn-primary">
+                            <button type="button" id="registerScannedButton" class="btn-primary-solid">
                                 <i class="fas fa-save me-1"></i> 일괄 등록
                             </button>
                         </div>
@@ -397,14 +397,14 @@
         <div class="d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">등록 결과</h6>
             <div>
-                <button type="button" class="btn btn-sm btn-outline-primary" id="exportResultButton">
+                <button type="button" class="btn-size-sm btn-outline-primary" id="exportResultButton">
                     <i class="fas fa-download me-1"></i> 결과 내보내기
                 </button>
             </div>
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table-interactive align-middle mb-0">
             <thead class="table-light">
                 <tr>
                     <th>자산번호</th>
@@ -437,7 +437,7 @@
                 <!-- 오류 내용이 여기에 표시됩니다 -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
@@ -453,14 +453,14 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="excelPreviewTable">
+                    <table class="table-base table-striped" id="excelPreviewTable">
                         <!-- 엑셀 미리보기가 여기에 표시됩니다 -->
                     </table>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="confirmImportButton">가져오기 진행</button>
+                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-primary-solid" id="confirmImportButton">가져오기 진행</button>
             </div>
         </div>
     </div>

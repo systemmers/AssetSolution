@@ -1,0 +1,416 @@
+<!-- 지급 요청 모달 -->
+<div class="modal fade" id="allocationRequestModal" tabindex="-1" aria-labelledby="allocationRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="allocationRequestModalLabel">
+                    <i class="fas fa-hand-holding me-2"></i>
+                    자산 지급 요청
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 지급 요청 위자드 진행 상태 -->
+                <div class="wizard-progress mb-4">
+                    <div class="wizard-steps">
+                        <div class="wizard-step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-title">지급 유형 선택</div>
+                        </div>
+                        <div class="wizard-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-title">자산 선택</div>
+                        </div>
+                        <div class="wizard-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-title">상세 정보</div>
+                        </div>
+                        <div class="wizard-step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-title">요청 확인</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="allocationRequestForm">
+                    <!-- Step 1: 지급 유형 선택 -->
+                    <div class="wizard-content" id="step1">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fas fa-hand-holding me-2"></i>
+                                    지급 유형 선택 (다중 선택 가능)
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="allocation-type-card" data-type="temporary">
+                                            <input type="checkbox" class="d-none" id="typeTemporary" name="allocationTypes" value="temporary">
+                                            <label for="typeTemporary" class="card h-100 cursor-pointer">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-clock fa-3x text-info mb-3"></i>
+                                                    <h6 class="card-title">임시 지급</h6>
+                                                    <p class="card-text small text-muted">
+                                                        단기간 사용 후 반납<br>
+                                                        <strong>기간:</strong> 최대 3개월<br>
+                                                        <strong>승인:</strong> 팀장급
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="allocation-type-card" data-type="permanent">
+                                            <input type="checkbox" class="d-none" id="typePermanent" name="allocationTypes" value="permanent">
+                                            <label for="typePermanent" class="card h-100 cursor-pointer">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                                                    <h6 class="card-title">영구 지급</h6>
+                                                    <p class="card-text small text-muted">
+                                                        영구적 할당<br>
+                                                        <strong>기간:</strong> 무기한<br>
+                                                        <strong>승인:</strong> 부서장급
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="allocation-type-card" data-type="consumable">
+                                            <input type="checkbox" class="d-none" id="typeConsumable" name="allocationTypes" value="consumable">
+                                            <label for="typeConsumable" class="card h-100 cursor-pointer">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-boxes fa-3x text-warning mb-3"></i>
+                                                    <h6 class="card-title">소모품 지급</h6>
+                                                    <p class="card-text small text-muted">
+                                                        사용 후 소모<br>
+                                                        <strong>기간:</strong> 즉시 소모<br>
+                                                        <strong>승인:</strong> 팀장급
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-6">
+                                        <div class="allocation-type-card" data-type="department">
+                                            <input type="checkbox" class="d-none" id="typeDepartment" name="allocationTypes" value="department">
+                                            <label for="typeDepartment" class="card h-100 cursor-pointer">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                                                    <h6 class="card-title">부서 공용 지급</h6>
+                                                    <p class="card-text small text-muted">
+                                                        부서 내 공용 사용<br>
+                                                        <strong>관리:</strong> 부서 단위<br>
+                                                        <strong>승인:</strong> 부서장급
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="allocation-type-card" data-type="special">
+                                            <input type="checkbox" class="d-none" id="typeSpecial" name="allocationTypes" value="special">
+                                            <label for="typeSpecial" class="card h-100 cursor-pointer">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-star fa-3x text-danger mb-3"></i>
+                                                    <h6 class="card-title">특별 지급</h6>
+                                                    <p class="card-text small text-muted">
+                                                        긴급/특수 목적<br>
+                                                        <strong>용도:</strong> 프로젝트/이벤트<br>
+                                                        <strong>승인:</strong> 임원급
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: 자산 선택 -->
+                    <div class="wizard-content d-none" id="step2">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fas fa-boxes me-2"></i>
+                                    지급 대상 자산 선택
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">자산 검색</label>
+                                            <div class="input-group">
+                                                <select class="form-select" id="assetCategoryFilter">
+                                                    <option value="">전체 카테고리</option>
+                                                    <option value="IT장비">IT장비</option>
+                                                    <option value="사무용품">사무용품</option>
+                                                    <option value="가구">가구</option>
+                                                    <option value="소모품">소모품</option>
+                                                </select>
+                                                <input type="text" class="form-control" id="assetAllocationSearch" 
+                                                       placeholder="자산명 또는 번호 검색">
+                                                <button class="btn btn-outline-secondary" type="button" 
+                                                        id="searchAllocationAssetBtn">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label class="form-label">검색 결과</label>
+                                            <div id="allocationAssetResults" class="border rounded p-3" 
+                                                 style="height: 250px; overflow-y: auto;">
+                                                <div class="text-center text-muted py-4">
+                                                    <i class="fas fa-search fa-2x mb-2 opacity-50"></i>
+                                                    <p class="mb-0">자산을 검색해주세요</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">선택된 자산 목록</label>
+                                            <div id="selectedAllocationAssets" class="border rounded p-3" 
+                                                 style="height: 320px; overflow-y: auto;">
+                                                <div class="text-center text-muted py-4">
+                                                    <i class="fas fa-hand-holding fa-2x mb-2 opacity-50"></i>
+                                                    <p class="mb-0">선택된 자산이 없습니다</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: 상세 정보 입력 -->
+                    <div class="wizard-content d-none" id="step3">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    지급 상세 정보
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- 기본 정보 -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">요청 제목 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="requestTitle" 
+                                           placeholder="요청 제목을 입력하세요" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">사용 목적 <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="usagePurpose" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="업무용">업무용</option>
+                                        <option value="프로젝트">프로젝트</option>
+                                        <option value="교육/훈련">교육/훈련</option>
+                                        <option value="출장">출장</option>
+                                        <option value="기타">기타</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 유형별 세부 정보 -->
+                        <div id="typeSpecificDetails">
+                            <!-- 임시 지급 세부 정보 -->
+                            <div id="temporaryDetails" class="type-details d-none">
+                                <h6 class="fw-bold mb-3 text-info">
+                                    <i class="fas fa-clock me-2"></i>임시 지급 세부 정보
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">사용 시작일</label>
+                                            <input type="date" class="form-control" id="temporaryStartDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">반납 예정일</label>
+                                            <input type="date" class="form-control" id="temporaryEndDate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 영구 지급 세부 정보 -->
+                            <div id="permanentDetails" class="type-details d-none">
+                                <h6 class="fw-bold mb-3 text-success">
+                                    <i class="fas fa-check-circle me-2"></i>영구 지급 세부 정보
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">할당 대상</label>
+                                            <select class="form-select" id="permanentAssignee">
+                                                <option value="">선택하세요</option>
+                                                <option value="individual">개인</option>
+                                                <option value="department">부서</option>
+                                                <option value="team">팀</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">책임자</label>
+                                            <input type="text" class="form-control" id="permanentManager" 
+                                                   placeholder="자산 관리 책임자">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 소모품 지급 세부 정보 -->
+                            <div id="consumableDetails" class="type-details d-none">
+                                <h6 class="fw-bold mb-3 text-warning">
+                                    <i class="fas fa-boxes me-2"></i>소모품 지급 세부 정보
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">예상 소모 기간</label>
+                                            <select class="form-select" id="consumableLifetime">
+                                                <option value="">선택하세요</option>
+                                                <option value="immediate">즉시 사용</option>
+                                                <option value="1week">1주 이내</option>
+                                                <option value="1month">1개월 이내</option>
+                                                <option value="3month">3개월 이내</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">수량</label>
+                                            <input type="number" class="form-control" id="consumableQuantity" 
+                                                   placeholder="필요 수량" min="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 부서 공용 지급 세부 정보 -->
+                            <div id="departmentDetails" class="type-details d-none">
+                                <h6 class="fw-bold mb-3 text-primary">
+                                    <i class="fas fa-users me-2"></i>부서 공용 지급 세부 정보
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">대상 부서</label>
+                                            <select class="form-select" id="targetDepartment">
+                                                <option value="">선택하세요</option>
+                                                <option value="dev">개발팀</option>
+                                                <option value="marketing">마케팅팀</option>
+                                                <option value="sales">영업팀</option>
+                                                <option value="hr">인사팀</option>
+                                                <option value="finance">재무팀</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">부서장 승인</label>
+                                            <input type="text" class="form-control" id="departmentManager" 
+                                                   placeholder="부서장 이름">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 특별 지급 세부 정보 -->
+                            <div id="specialDetails" class="type-details d-none">
+                                <h6 class="fw-bold mb-3 text-danger">
+                                    <i class="fas fa-star me-2"></i>특별 지급 세부 정보
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">긴급도</label>
+                                            <select class="form-select" id="specialUrgency">
+                                                <option value="">선택하세요</option>
+                                                <option value="urgent">긴급</option>
+                                                <option value="high">높음</option>
+                                                <option value="normal">보통</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">프로젝트/이벤트</label>
+                                            <input type="text" class="form-control" id="specialProject" 
+                                                   placeholder="관련 프로젝트명">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 공통 정보 -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">요청 사유 <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="allocationReason" rows="3" 
+                                              placeholder="지급 요청 사유를 상세히 입력해주세요" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">특이사항</label>
+                                    <textarea class="form-control" id="allocationNotes" rows="2" 
+                                              placeholder="특별히 고려할 사항이 있다면 입력해주세요"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: 요청 확인 -->
+                    <div class="wizard-content d-none" id="step4">
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    요청 내용 확인
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- 요청 미리보기 -->
+                        <div id="requestPreview" class="card bg-light">
+                            <div class="card-body">
+                                <!-- 미리보기 내용이 JavaScript로 동적 생성됨 -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> 취소
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="prevStepBtn" style="display: none;">
+                    <i class="fas fa-arrow-left me-1"></i> 이전
+                </button>
+                <button type="button" class="btn btn-primary" id="nextStepBtn">
+                    다음 <i class="fas fa-arrow-right ms-1"></i>
+                </button>
+                <button type="button" class="btn btn-success" id="submitRequestBtn" style="display: none;">
+                    <i class="fas fa-paper-plane me-1"></i> 요청 제출
+                </button>
+            </div>
+        </div>
+    </div>
+</div> 

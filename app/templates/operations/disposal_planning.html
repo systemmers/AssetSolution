@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}처분 계획 관리 - 자산관리 시스템{% endblock %}
 
@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">처분 계획 관리</h2>
     <div>
-        <a href="{{ url_for('operations.index') }}" class="btn btn-secondary me-2">
+        <a href="{{ url_for('operations.index') }}" class="btn-secondary-solid me-2">
             <i class="fas fa-arrow-left me-1"></i> 운영 관리
         </a>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disposalPlanModal">
+        <button type="button" class="btn-primary-solid" data-bs-toggle="modal" data-bs-target="#disposalPlanModal">
             <i class="fas fa-plus me-1"></i> 처분 계획 수립
         </button>
     </div>
@@ -178,14 +178,14 @@
                 처분 계획 목록
             </h5>
             <div class="d-flex gap-2">
-                <select class="form-select form-select-sm" id="typeFilter">
+                <select class="form-select form-select-custom-sm" id="typeFilter">
                     <option value="">전체 유형</option>
                     <option value="sale">매각</option>
                     <option value="donate">기부</option>
                     <option value="transfer">이전</option>
                     <option value="disposal">폐기</option>
                 </select>
-                <select class="form-select form-select-sm" id="statusFilter">
+                <select class="form-select form-select-custom-sm" id="statusFilter">
                     <option value="">전체 상태</option>
                     <option value="planned">계획됨</option>
                     <option value="approved">승인됨</option>
@@ -197,7 +197,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover align-middle" id="disposalPlansTable">
+            <table class="table-interactive align-middle" id="disposalPlansTable">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">자산 정보</th>
@@ -265,15 +265,15 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-sm btn-outline-primary btn-action-view-disposal-plan" 
+                                <button type="button" class="btn-size-sm btn-outline-primary btn-action-view-disposal-plan" 
                                         data-plan-id="{{ plan.id }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-warning btn-action-edit-disposal-plan" 
+                                <button type="button" class="btn-size-sm btn-outline-warning btn-action-edit-disposal-plan" 
                                         data-plan-id="{{ plan.id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-success btn-execute-disposal-plan" 
+                                <button type="button" class="btn-size-sm btn-outline-success btn-execute-disposal-plan" 
                                         data-plan-id="{{ plan.id }}">
                                     <i class="fas fa-play"></i>
                                 </button>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block title %}불일치 항목 목록 - 자산관리 시스템{% endblock %}
 
@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">불일치 항목 목록</h2>
     <div>
-        <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
+        <a href="{{ url_for('inventory.index') }}" class="btn-secondary-solid">
             <i class="fas fa-arrow-left me-1"></i> 실사 목록으로
         </a>
     </div>
@@ -26,7 +26,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="inventoryFilter" class="form-label">실사</label>
-                    <select class="form-select" id="inventoryFilter" name="inventory">
+                    <select class="form-select-custom" id="inventoryFilter" name="inventory">
                         <option value="">전체 실사</option>
                         {% for inventory in inventories %}
                         <option value="{{ inventory.id }}" {% if selected_inventory|string == inventory.id|string %}selected{% endif %}>{{ inventory.name }}</option>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6 mb-3">
                     <label for="typeFilter" class="form-label">불일치 유형</label>
-                    <select class="form-select" id="typeFilter" name="type">
+                    <select class="form-select-custom" id="typeFilter" name="type">
                         <option value="">전체</option>
                         <option value="location" {% if selected_type == 'location' %}selected{% endif %}>위치 불일치</option>
                         <option value="status" {% if selected_type == 'status' %}selected{% endif %}>상태 불일치</option>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6 mb-3">
                     <label for="statusFilter" class="form-label">처리 상태</label>
-                    <select class="form-select" id="statusFilter" name="status">
+                    <select class="form-select-custom" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="pending" {% if selected_status == 'pending' %}selected{% endif %}>미처리</option>
                         <option value="investigating" {% if selected_status == 'investigating' %}selected{% endif %}>조사중</option>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6 mb-3">
                     <label for="dateFilter" class="form-label">발견 기간</label>
-                    <select class="form-select" id="dateFilter" name="date">
+                    <select class="form-select-custom" id="dateFilter" name="date">
                         <option value="">전체 기간</option>
                         <option value="today" {% if selected_date == 'today' %}selected{% endif %}>오늘</option>
                         <option value="week" {% if selected_date == 'week' %}selected{% endif %}>최근 7일</option>
@@ -66,10 +66,10 @@
                 </div>
                 <div class="col-lg-3 col-md-12 mb-3">
                     <div class="d-flex">
-                        <button type="submit" class="btn btn-primary flex-grow-1 me-2">
+                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <a href="{{ url_for('inventory.discrepancies') }}" class="btn btn-secondary">
+                        <a href="{{ url_for('inventory.discrepancies') }}" class="btn-secondary-solid">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </a>
                     </div>
@@ -88,7 +88,7 @@
         {% endif %}
     </div>
     <div>
-        <a href="#" class="btn btn-sm btn-outline-secondary">
+        <a href="#" class="btn-size-sm btn-outline-secondary">
             <i class="fas fa-download me-1"></i> 내보내기
         </a>
     </div>
@@ -98,7 +98,7 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table-interactive">
                 <thead class="table-light">
                     <tr>
                         <th>자산번호</th>
@@ -150,7 +150,7 @@
                             </td>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <button class="btn-size-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
