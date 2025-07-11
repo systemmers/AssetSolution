@@ -4,12 +4,14 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">SW 라이선스 관리</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-key me-2 text-primary"></i>SW 라이선스 관리
+    </h1>
     <div>
-        <button type="button" class="btn-primary-outline me-2" data-bs-toggle="modal" data-bs-target="#importModal">
+        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#importModal">
             <i class="fas fa-file-import me-1"></i> 라이선스 가져오기
         </button>
-        <button type="button" class="btn-primary-solid" data-bs-toggle="modal" data-bs-target="#addLicenseModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLicenseModal">
             <i class="fas fa-plus me-1"></i> 라이선스 추가
         </button>
     </div>
@@ -20,15 +22,15 @@
 <!-- 라이선스 통계 요약 -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-key text-primary"></i>
+                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-key text-primary fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">전체 라이선스</h6>
-                        <h3 class="mb-0">86개</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">전체 라이선스</h6>
+                        <h3 class="mb-0 text-dark fw-bold">86개</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -38,15 +40,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">만료 예정</h6>
-                        <h3 class="mb-0">12개</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">만료 예정</h6>
+                        <h3 class="mb-0 text-dark fw-bold">12개</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -56,15 +58,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-times-circle text-danger"></i>
+                    <div class="rounded-circle bg-danger bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-times-circle text-danger fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">만료됨</h6>
-                        <h3 class="mb-0">5개</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">만료됨</h6>
+                        <h3 class="mb-0 text-dark fw-bold">5개</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -74,15 +76,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-check-circle text-success"></i>
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-check-circle text-success fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">사용 중</h6>
-                        <h3 class="mb-0">64개</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">사용 중</h6>
+                        <h3 class="mb-0 text-dark fw-bold">64개</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -94,17 +96,22 @@
 </div>
 
 <!-- 검색 및 필터 영역 -->
-<div class="card shadow-sm mb-4">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">
+            <i class="fas fa-filter me-2 text-primary"></i>검색 및 필터
+        </h6>
+    </div>
     <div class="card-body py-4">
         <form id="searchForm" method="GET" action="">
             <div class="row align-items-end g-3">
                 <div class="col-lg-3 col-md-6">
-                    <label for="searchKeyword" class="form-label">검색어</label>
-                    <input type="text" class="form-input" id="searchKeyword" name="q" placeholder="제품명, 라이선스 키, 자산번호">
+                    <label for="searchKeyword" class="form-label fw-medium">검색어</label>
+                    <input type="text" class="form-control" id="searchKeyword" name="q" placeholder="제품명, 라이선스 키, 자산번호">
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="swTypeFilter" class="form-label">소프트웨어 유형</label>
-                    <select class="form-select-custom" id="swTypeFilter" name="type">
+                    <label for="swTypeFilter" class="form-label fw-medium">소프트웨어 유형</label>
+                    <select class="form-select" id="swTypeFilter" name="type">
                         <option value="">전체</option>
                         <option value="os">운영체제</option>
                         <option value="office">오피스</option>
@@ -116,8 +123,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="statusFilter" class="form-label">상태</label>
-                    <select class="form-select-custom" id="statusFilter" name="status">
+                    <label for="statusFilter" class="form-label fw-medium">상태</label>
+                    <select class="form-select" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="active">사용중</option>
                         <option value="available">미사용</option>
@@ -126,8 +133,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select-custom" id="departmentFilter" name="department">
+                    <label for="departmentFilter" class="form-label fw-medium">부서</label>
+                    <select class="form-select" id="departmentFilter" name="department">
                         <option value="">전체</option>
                         <option value="1">개발팀</option>
                         <option value="2">디자인팀</option>
@@ -138,11 +145,11 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-12">
-                    <div class="d-flex">
-                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn-secondary-solid">
+                        <button type="button" id="resetButton" class="btn btn-outline-secondary">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
@@ -153,29 +160,29 @@
 </div>
 
 <!-- SW 라이선스 목록 테이블 -->
-<div class="card shadow-sm mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">SW 라이선스 목록</h6>
-        <div class="btn-group">
-            <button type="button" class="btn-size-sm btn-outline-secondary" id="viewAllButton">전체</button>
-            <button type="button" class="btn-size-sm btn-outline-primary active" id="viewActiveButton">사용중</button>
-            <button type="button" class="btn-size-sm btn-outline-warning" id="viewExpiringButton">만료예정</button>
-            <button type="button" class="btn-size-sm btn-outline-danger" id="viewExpiredButton">만료됨</button>
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3 d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 fw-semibold text-gray-800">SW 라이선스 목록</h6>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="viewAllButton">전체</button>
+            <button type="button" class="btn btn-sm btn-outline-primary active" id="viewActiveButton">사용중</button>
+            <button type="button" class="btn btn-sm btn-outline-warning" id="viewExpiringButton">만료예정</button>
+            <button type="button" class="btn btn-sm btn-outline-danger" id="viewExpiredButton">만료됨</button>
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table-interactive align-middle mb-0">
+        <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th class="px-3 py-3">제품명</th>
-                    <th class="px-3 py-3">라이선스 키</th>
-                    <th class="px-3 py-3">유형</th>
-                    <th class="px-3 py-3">버전</th>
-                    <th class="px-3 py-3">구매일</th>
-                    <th class="px-3 py-3">만료일</th>
-                    <th class="px-3 py-3">할당된 사용자/장치</th>
-                    <th class="px-3 py-3">상태</th>
-                    <th class="px-3 py-3 text-center">관리</th>
+                    <th class="px-3 py-3 fw-semibold">제품명</th>
+                    <th class="px-3 py-3 fw-semibold">라이선스 키</th>
+                    <th class="px-3 py-3 fw-semibold">유형</th>
+                    <th class="px-3 py-3 fw-semibold">버전</th>
+                    <th class="px-3 py-3 fw-semibold">구매일</th>
+                    <th class="px-3 py-3 fw-semibold">만료일</th>
+                    <th class="px-3 py-3 fw-semibold">할당된 사용자/장치</th>
+                    <th class="px-3 py-3 fw-semibold">상태</th>
+                    <th class="px-3 py-3 fw-semibold text-center">관리</th>
                 </tr>
             </thead>
             <tbody>
@@ -185,7 +192,9 @@
                         <td class="px-3 py-3">
                             <div class="d-flex align-items-center">
                                 {# 간단한 아이콘 표시 로직 #}
-                                <i class="fas fa-{{ 'cogs' if 'dev' in license.model.lower() else 'window-restore' if 'office' in license.model.lower() else 'swatchbook' if 'adobe' in license.model.lower() else 'key' }} me-2"></i>
+                                <div class="rounded-circle bg-light p-2 me-3">
+                                    <i class="fas fa-{{ 'cogs' if 'dev' in license.model.lower() else 'window-restore' if 'office' in license.model.lower() else 'swatchbook' if 'adobe' in license.model.lower() else 'key' }} text-primary"></i>
+                                </div>
                                 <div>
                                     <span class="fw-medium">{{ license.name }}</span>
                                     <small class="d-block text-muted">{{ license.manufacturer }}</small>
@@ -194,23 +203,55 @@
                         </td>
                         <td class="px-3 py-3">
                             {% if license.details.license_key %}
-                            <span class="license-key">************{{ license.details.license_key[-4:] }}</span>
+                            <span class="license-key font-monospace">************{{ license.details.license_key[-4:] }}</span>
                             {% else %}
-                            <span>-</span>
+                            <span class="text-muted">-</span>
                             {% endif %}
                         </td>
-                        <td class="px-3 py-3">{{ license.type.name if license.type else '-'}}</td>
+                        <td class="px-3 py-3">
+                            {% if license.type %}
+                            <span class="badge bg-light text-dark border">{{ license.type.name }}</span>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
                         <td class="px-3 py-3">{{ license.model }}</td>
-                        <td class="px-3 py-3">{{ license.purchase_date.strftime('%Y-%m-%d') }}</td>
-                        <td class="px-3 py-3">{{ license.details.expiry_date.strftime('%Y-%m-%d') if license.details.expiry_date else '영구' }}</td>
-                        <td class="px-3 py-3">{{ license.user_name if license.user_name else '공용' }}</td>
-                        <td class="px-3 py-3"><span class="badge bg-success">{{ license.status }}</span></td>
+                        <td class="px-3 py-3">
+                            <i class="fas fa-calendar me-1 text-muted"></i>{{ license.purchase_date.strftime('%Y-%m-%d') }}
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if license.details.expiry_date %}
+                            <i class="fas fa-calendar-times me-1 text-muted"></i>{{ license.details.expiry_date.strftime('%Y-%m-%d') }}
+                            {% else %}
+                            <span class="badge bg-success">영구</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if license.user_name %}
+                            <i class="fas fa-user me-1 text-muted"></i>{{ license.user_name }}
+                            {% else %}
+                            <span class="badge bg-info">공용</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if license.status == 'active' %}
+                            <span class="badge bg-success">사용중</span>
+                            {% elif license.status == 'available' %}
+                            <span class="badge bg-secondary">미사용</span>
+                            {% elif license.status == 'expiring' %}
+                            <span class="badge bg-warning">만료예정</span>
+                            {% elif license.status == 'expired' %}
+                            <span class="badge bg-danger">만료됨</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ license.status }}</span>
+                            {% endif %}
+                        </td>
                         <td class="px-3 py-3 text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ url_for('assets.sw_detail', asset_id=license.id) }}" class="btn-size-sm btn-outline-primary" data-bs-toggle="tooltip" title="상세정보">
+                                <a href="{{ url_for('assets.sw_detail', asset_id=license.id) }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="상세정보">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <button type="button" class="btn-size-sm btn-outline-secondary" data-bs-toggle="tooltip" title="수정">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="수정">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </div>
@@ -219,7 +260,13 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="9" class="text-center py-5">표시할 라이선스 정보가 없습니다.</td>
+                        <td colspan="9" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-key fa-3x mb-3 text-muted"></i>
+                                <h5 class="text-muted">표시할 라이선스 정보가 없습니다</h5>
+                                <p class="text-muted small">라이선스 추가 버튼을 클릭하여 첫 번째 라이선스를 등록하세요.</p>
+                            </div>
+                        </td>
                     </tr>
                 {% endif %}
             </tbody>
@@ -231,13 +278,17 @@
 <nav class="mt-4">
     <ul class="pagination justify-content-center">
         <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">이전</a>
+            <a class="page-link" href="#" tabindex="-1">
+                <i class="fas fa-chevron-left me-1"></i>이전
+            </a>
         </li>
         <li class="page-item active"><a class="page-link" href="#">1</a></li>
         <li class="page-item"><a class="page-link" href="#">2</a></li>
         <li class="page-item"><a class="page-link" href="#">3</a></li>
         <li class="page-item">
-            <a class="page-link" href="#">다음</a>
+            <a class="page-link" href="#">
+                다음<i class="fas fa-chevron-right ms-1"></i>
+            </a>
         </li>
     </ul>
 </nav>
@@ -256,18 +307,18 @@
                 <form id="licenseForm">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="productName" class="form-label">제품명 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-input" id="productName" required>
+                            <label for="productName" class="form-label fw-medium">제품명 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="productName" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="manufacturer" class="form-label">제조사 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-input" id="manufacturer" required>
+                            <label for="manufacturer" class="form-label fw-medium">제조사 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="manufacturer" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="licenseType" class="form-label">소프트웨어 유형 <span class="text-danger">*</span></label>
-                            <select class="form-select-custom" id="licenseType" required>
+                            <label for="licenseType" class="form-label fw-medium">소프트웨어 유형 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="licenseType" required>
                                 <option value="">선택...</option>
                                 <option value="os">운영체제</option>
                                 <option value="office">오피스</option>
@@ -279,45 +330,45 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="version" class="form-label">버전</label>
-                            <input type="text" class="form-input" id="version">
+                            <label for="version" class="form-label fw-medium">버전</label>
+                            <input type="text" class="form-control" id="version">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="licenseKey" class="form-label">라이선스 키</label>
-                            <input type="text" class="form-input" id="licenseKey">
+                            <label for="licenseKey" class="form-label fw-medium">라이선스 키</label>
+                            <input type="text" class="form-control" id="licenseKey">
                         </div>
                         <div class="col-md-6">
-                            <label for="seats" class="form-label">사용자 수 <span class="text-danger">*</span></label>
-                            <input type="number" class="form-input" id="seats" min="1" value="1" required>
+                            <label for="seats" class="form-label fw-medium">사용자 수 <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="seats" min="1" value="1" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="purchaseDate" class="form-label">구매일</label>
-                            <input type="date" class="form-input" id="purchaseDate">
+                            <label for="purchaseDate" class="form-label fw-medium">구매일</label>
+                            <input type="date" class="form-control" id="purchaseDate">
                         </div>
                         <div class="col-md-6">
-                            <label for="expiryDate" class="form-label">만료일</label>
-                            <input type="date" class="form-input" id="expiryDate">
+                            <label for="expiryDate" class="form-label fw-medium">만료일</label>
+                            <input type="date" class="form-control" id="expiryDate">
                             <div class="form-check mt-2">
-                                <input class="form-checkbox" type="checkbox" id="isPerpetual">
+                                <input class="form-check-input" type="checkbox" id="isPerpetual">
                                 <label class="form-check-label" for="isPerpetual">영구 라이선스</label>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="purchasePrice" class="form-label">구매가격</label>
+                            <label for="purchasePrice" class="form-label fw-medium">구매가격</label>
                             <div class="input-group">
-                                <input type="number" class="form-input" id="purchasePrice" min="0">
+                                <input type="number" class="form-control" id="purchasePrice" min="0">
                                 <span class="input-group-text">원</span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="assignTo" class="form-label">할당 대상</label>
-                            <select class="form-select-custom" id="assignTo">
+                            <label for="assignTo" class="form-label fw-medium">할당 대상</label>
+                            <select class="form-select" id="assignTo">
                                 <option value="">선택...</option>
                                 <option value="user">사용자</option>
                                 <option value="department">부서</option>
@@ -326,14 +377,14 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="notes" class="form-label">비고</label>
-                        <textarea class="form-input" id="notes" rows="3"></textarea>
+                        <label for="notes" class="form-label fw-medium">비고</label>
+                        <textarea class="form-control" id="notes" rows="3"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn-primary-solid" id="saveLicenseButton">저장</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="saveLicenseButton">저장</button>
             </div>
         </div>
     </div>
@@ -349,22 +400,22 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="importFile" class="form-label">엑셀 파일 선택</label>
-                    <input class="form-input" type="file" id="importFile" accept=".xlsx, .xls, .csv">
+                    <label for="importFile" class="form-label fw-medium">엑셀 파일 선택</label>
+                    <input class="form-control" type="file" id="importFile" accept=".xlsx, .xls, .csv">
                     <div class="form-text">XLSX, XLS 또는 CSV 형식 파일만 업로드 가능합니다.</div>
                 </div>
                 
                 <div class="mb-3">
-                    <label class="form-label">템플릿 다운로드</label>
+                    <label class="form-label fw-medium">템플릿 다운로드</label>
                     <div>
-                        <a href="#" class="btn-primary-outline btn-sm">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-download me-1"></i> 라이선스 등록 템플릿
                         </a>
                     </div>
                 </div>
                 
                 <div class="form-check mb-3">
-                    <input class="form-checkbox" type="checkbox" id="headerRowCheck" checked>
+                    <input class="form-check-input" type="checkbox" id="headerRowCheck" checked>
                     <label class="form-check-label" for="headerRowCheck">
                         첫 번째 행은 헤더입니다
                     </label>
@@ -375,8 +426,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn-primary-solid" id="importButton">가져오기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="importButton">가져오기</button>
             </div>
         </div>
     </div>

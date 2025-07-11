@@ -4,12 +4,14 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">PC 관리</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-desktop me-2 text-primary"></i>PC 관리
+    </h1>
     <div>
-        <button type="button" class="btn-primary-outline me-2" data-bs-toggle="modal" data-bs-target="#syncModal">
+        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#syncModal">
             <i class="fas fa-sync-alt me-1"></i> 정보 동기화
         </button>
-        <a href="{{ url_for('assets.create_form') }}?type=pc" class="btn-primary-solid">
+        <a href="{{ url_for('assets.create_form') }}?type=pc" class="btn btn-primary">
             <i class="fas fa-plus me-1"></i> PC 등록
         </a>
     </div>
@@ -18,17 +20,22 @@
 
 {% block content %}
 <!-- 검색 및 필터 영역 -->
-<div class="card shadow-sm mb-4">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">
+            <i class="fas fa-filter me-2 text-primary"></i>검색 및 필터
+        </h6>
+    </div>
     <div class="card-body py-4">
         <form id="searchForm" method="GET" action="{{ url_for('assets.pc_management') }}">
             <div class="row align-items-end g-3">
                 <div class="col-lg-3 col-md-6">
-                    <label for="searchKeyword" class="form-label">검색어</label>
-                    <input type="text" class="form-input" id="searchKeyword" name="q" placeholder="PC명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
+                    <label for="searchKeyword" class="form-label fw-medium">검색어</label>
+                    <input type="text" class="form-control" id="searchKeyword" name="q" placeholder="PC명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="osFilter" class="form-label">운영체제</label>
-                    <select class="form-select-custom" id="osFilter" name="os">
+                    <label for="osFilter" class="form-label fw-medium">운영체제</label>
+                    <select class="form-select" id="osFilter" name="os">
                         <option value="">전체</option>
                         <option value="windows_10">Windows 10</option>
                         <option value="windows_11">Windows 11</option>
@@ -37,8 +44,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="statusFilter" class="form-label">상태</label>
-                    <select class="form-select-custom" id="statusFilter" name="status">
+                    <label for="statusFilter" class="form-label fw-medium">상태</label>
+                    <select class="form-select" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="active">정상</option>
                         <option value="inactive">비활성</option>
@@ -47,8 +54,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select-custom" id="departmentFilter" name="department">
+                    <label for="departmentFilter" class="form-label fw-medium">부서</label>
+                    <select class="form-select" id="departmentFilter" name="department">
                         <option value="">전체</option>
                         <option value="1">개발팀</option>
                         <option value="2">IT팀</option>
@@ -59,11 +66,11 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-12">
-                    <div class="d-flex">
-                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn-secondary-solid">
+                        <button type="button" id="resetButton" class="btn btn-outline-secondary">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
@@ -72,18 +79,18 @@
             <div class="row mt-3">
                 <div class="col-lg-8">
                     <div class="form-check form-check-inline me-4">
-                        <input class="form-checkbox" type="checkbox" id="updateFilter" name="needsUpdate" value="1">
+                        <input class="form-check-input" type="checkbox" id="updateFilter" name="needsUpdate" value="1">
                         <label class="form-check-label" for="updateFilter">업데이트 필요 PC만 보기</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-checkbox" type="checkbox" id="securityFilter" name="securityIssue" value="1">
+                        <input class="form-check-input" type="checkbox" id="securityFilter" name="securityIssue" value="1">
                         <label class="form-check-label" for="securityFilter">보안이슈 있는 PC만 보기</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="d-flex justify-content-end align-items-center">
                         <div class="me-3">
-                            <select class="form-select form-select-custom-sm" id="sortOrder" name="sort">
+                            <select class="form-select form-select-sm" id="sortOrder" name="sort">
                                 <option value="hostname">호스트명순</option>
                                 <option value="last_online">최근 접속순</option>
                                 <option value="disk_space">디스크 여유공간순</option>
@@ -101,15 +108,15 @@
 <!-- 통계 요약 -->
 <div class="row mb-4">
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-desktop text-primary"></i>
+                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-desktop text-primary fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">전체 PC</h6>
-                        <h3 class="mb-0">128대</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">전체 PC</h6>
+                        <h3 class="mb-0 text-dark fw-bold">128대</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -119,15 +126,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">업데이트 필요</h6>
-                        <h3 class="mb-0">15대</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">업데이트 필요</h6>
+                        <h3 class="mb-0 text-dark fw-bold">15대</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -137,15 +144,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-shield-alt text-danger"></i>
+                    <div class="rounded-circle bg-danger bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-shield-alt text-danger fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">보안 이슈</h6>
-                        <h3 class="mb-0">5대</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">보안 이슈</h6>
+                        <h3 class="mb-0 text-dark fw-bold">5대</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -155,15 +162,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card shadow-sm border-0 h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-light p-3 me-3">
-                        <i class="fas fa-hdd text-info"></i>
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-hdd text-info fa-lg"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-0">디스크 부족</h6>
-                        <h3 class="mb-0">8대</h3>
+                        <h6 class="card-title mb-0 text-muted fw-medium">디스크 부족</h6>
+                        <h3 class="mb-0 text-dark fw-bold">8대</h3>
                     </div>
                 </div>
                 <div class="progress mt-3" style="height: 6px;">
@@ -175,20 +182,23 @@
 </div>
 
 <!-- PC 목록 테이블 -->
-<div class="card shadow-sm mb-4">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">PC 목록</h6>
+    </div>
     <div class="table-responsive">
-        <table class="table-interactive align-middle mb-0">
+        <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th class="px-3 py-3">호스트명</th>
-                    <th class="px-3 py-3">IP 주소</th>
-                    <th class="px-3 py-3">OS</th>
-                    <th class="px-3 py-3">CPU / RAM</th>
-                    <th class="px-3 py-3">디스크</th>
-                    <th class="px-3 py-3">사용자</th>
-                    <th class="px-3 py-3">상태</th>
-                    <th class="px-3 py-3">마지막 접속</th>
-                    <th class="px-3 py-3 text-center">관리</th>
+                    <th class="px-3 py-3 fw-semibold">호스트명</th>
+                    <th class="px-3 py-3 fw-semibold">IP 주소</th>
+                    <th class="px-3 py-3 fw-semibold">OS</th>
+                    <th class="px-3 py-3 fw-semibold">CPU / RAM</th>
+                    <th class="px-3 py-3 fw-semibold">디스크</th>
+                    <th class="px-3 py-3 fw-semibold">사용자</th>
+                    <th class="px-3 py-3 fw-semibold">상태</th>
+                    <th class="px-3 py-3 fw-semibold">마지막 접속</th>
+                    <th class="px-3 py-3 fw-semibold text-center">관리</th>
                 </tr>
             </thead>
             <tbody>
@@ -197,32 +207,66 @@
                     <tr class="pc-row" data-href="{{ url_for('assets.pc_detail', asset_id=pc.id) }}">
                         <td class="px-3 py-3">
                             <div class="d-flex align-items-center">
-                                <i class="fab fa-{{ 'apple' if pc.details.os and 'macos' in pc.details.os.lower() else 'linux' if pc.details.os and 'linux' in pc.details.os.lower() else 'windows' }} me-2 text-primary"></i>
+                                <div class="rounded-circle bg-light p-2 me-3">
+                                    <i class="fab fa-{{ 'apple' if pc.details.os and 'macos' in pc.details.os.lower() else 'linux' if pc.details.os and 'linux' in pc.details.os.lower() else 'windows' }} text-primary"></i>
+                                </div>
                                 <div>
                                     <span class="fw-medium">{{ pc.name }}</span>
                                     <small class="d-block text-muted">{{ pc.asset_number }}</small>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-3 py-3">{{ pc.ip_address if pc.ip_address else 'N/A' }}</td>
-                        <td class="px-3 py-3">{{ pc.details.os if pc.details.os else 'N/A' }}</td>
                         <td class="px-3 py-3">
-                            <div>{{ pc.details.cpu if pc.details.cpu else 'N/A' }}</div>
-                            <div class="small">{{ pc.details.ram if pc.details.ram else 'N/A' }}</div>
+                            {% if pc.ip_address %}
+                            <span class="font-monospace small">{{ pc.ip_address }}</span>
+                            {% else %}
+                            <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if pc.details.os %}
+                            <span class="badge bg-light text-dark border">{{ pc.details.os }}</span>
+                            {% else %}
+                            <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">
+                            <div class="small">
+                                <div class="fw-medium">{{ pc.details.cpu if pc.details.cpu else 'N/A' }}</div>
+                                <div class="text-muted">{{ pc.details.ram if pc.details.ram else 'N/A' }}</div>
+                            </div>
                         </td>
                         <td class="px-3 py-3">
                             {% set storage_info = pc.details.storage if pc.details.storage else 'N/A' %}
-                            {{ storage_info }}
+                            <span class="small">{{ storage_info }}</span>
                         </td>
-                        <td class="px-3 py-3">{{ pc.user_name if pc.user_name else '-' }} ({{ pc.department.name if pc.department else '-' }})</td>
-                        <td class="px-3 py-3"><span class="badge bg-success">{{ pc.status }}</span></td>
-                        <td class="px-3 py-3">{{ pc.purchase_date.strftime('%Y-%m-%d') }}</td>
+                        <td class="px-3 py-3">
+                            <div class="small">
+                                <div class="fw-medium">{{ pc.user_name if pc.user_name else '-' }}</div>
+                                <div class="text-muted">({{ pc.department.name if pc.department else '-' }})</div>
+                            </div>
+                        </td>
+                        <td class="px-3 py-3">
+                            {% if pc.status == 'active' %}
+                            <span class="badge bg-success">정상</span>
+                            {% elif pc.status == 'inactive' %}
+                            <span class="badge bg-secondary">비활성</span>
+                            {% elif pc.status == 'maintenance' %}
+                            <span class="badge bg-warning">유지보수</span>
+                            {% else %}
+                            <span class="badge bg-primary">{{ pc.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-3">
+                            <i class="fas fa-calendar me-1 text-muted"></i>
+                            <span class="small">{{ pc.purchase_date.strftime('%Y-%m-%d') }}</span>
+                        </td>
                         <td class="px-3 py-3 text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ url_for('assets.pc_detail', asset_id=pc.id) }}" class="btn-size-sm btn-outline-primary">
+                                <a href="{{ url_for('assets.pc_detail', asset_id=pc.id) }}" class="btn btn-sm btn-outline-primary" title="상세보기">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('assets.update_form', asset_id=pc.id) }}" class="btn-size-sm btn-outline-secondary">
+                                <a href="{{ url_for('assets.update_form', asset_id=pc.id) }}" class="btn btn-sm btn-outline-secondary" title="수정">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </div>
@@ -231,7 +275,13 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="9" class="text-center py-5">표시할 PC 정보가 없습니다.</td>
+                        <td colspan="9" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-desktop fa-3x mb-3 text-muted"></i>
+                                <h5 class="text-muted">표시할 PC 정보가 없습니다</h5>
+                                <p class="text-muted small">PC 등록 버튼을 클릭하여 첫 번째 PC를 등록하세요.</p>
+                            </div>
+                        </td>
                     </tr>
                 {% endif %}
             </tbody>
@@ -243,13 +293,17 @@
 <nav class="mt-4">
     <ul class="pagination justify-content-center">
         <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">이전</a>
+            <a class="page-link" href="#" tabindex="-1">
+                <i class="fas fa-chevron-left me-1"></i>이전
+            </a>
         </li>
         <li class="page-item active"><a class="page-link" href="#">1</a></li>
         <li class="page-item"><a class="page-link" href="#">2</a></li>
         <li class="page-item"><a class="page-link" href="#">3</a></li>
         <li class="page-item">
-            <a class="page-link" href="#">다음</a>
+            <a class="page-link" href="#">
+                다음<i class="fas fa-chevron-right ms-1"></i>
+            </a>
         </li>
     </ul>
 </nav>
@@ -266,23 +320,23 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label class="form-label">동기화 방식 선택</label>
+                    <label class="form-label fw-medium">동기화 방식 선택</label>
                     <div class="form-check mb-2">
-                        <input class="form-checkbox" type="radio" name="syncMethod" id="syncAuto" checked>
+                        <input class="form-check-input" type="radio" name="syncMethod" id="syncAuto" checked>
                         <label class="form-check-label" for="syncAuto">
                             <i class="fas fa-network-wired me-1"></i> 네트워크 자동 검색
                         </label>
                         <div class="form-text ms-4">Active Directory 또는 네트워크에 연결된 PC를 자동으로 검색합니다.</div>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-checkbox" type="radio" name="syncMethod" id="syncAgent">
+                        <input class="form-check-input" type="radio" name="syncMethod" id="syncAgent">
                         <label class="form-check-label" for="syncAgent">
                             <i class="fas fa-robot me-1"></i> 에이전트 수집
                         </label>
                         <div class="form-text ms-4">설치된 에이전트를 통해 PC 정보를 수집합니다.</div>
                     </div>
                     <div class="form-check">
-                        <input class="form-checkbox" type="radio" name="syncMethod" id="syncManual">
+                        <input class="form-check-input" type="radio" name="syncMethod" id="syncManual">
                         <label class="form-check-label" for="syncManual">
                             <i class="fas fa-file-import me-1"></i> 수동 데이터 가져오기
                         </label>
@@ -292,13 +346,13 @@
                 
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-checkbox" type="checkbox" id="syncCreateAssets" checked>
+                        <input class="form-check-input" type="checkbox" id="syncCreateAssets" checked>
                         <label class="form-check-label" for="syncCreateAssets">
                             발견된 PC를 자동으로 자산으로 등록
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-checkbox" type="checkbox" id="syncUpdateOnly" checked>
+                        <input class="form-check-input" type="checkbox" id="syncUpdateOnly" checked>
                         <label class="form-check-label" for="syncUpdateOnly">
                             기존 자산만 업데이트 (새 PC 무시)
                         </label>
@@ -310,8 +364,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn-primary-solid">동기화 시작</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary">동기화 시작</button>
             </div>
         </div>
     </div>

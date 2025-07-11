@@ -5,17 +5,19 @@
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h2 class="mb-1">{{ asset.name }}</h2>
+        <h1 class="h2 mb-1 text-gray-800">
+            <i class="fas fa-key me-2 text-primary"></i>{{ asset.name }}
+        </h1>
         <p class="text-muted mb-0">소프트웨어 라이선스 상세 정보</p>
     </div>
     <div>
-        <a href="{{ url_for('assets.index') }}" class="btn-secondary-solid me-2">
+        <a href="{{ url_for('assets.index') }}" class="btn btn-outline-secondary me-2">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
-        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-warning-solid me-2">
+        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-warning me-2">
             <i class="fas fa-edit me-1"></i> 수정
         </a>
-        <button type="button" class="btn-danger-solid" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
             <i class="fas fa-trash-alt me-1"></i> 삭제
         </button>
     </div>
@@ -27,55 +29,121 @@
     <!-- 왼쪽 컨텐츠 영역 -->
     <div class="col-lg-8">
         <!-- 기본 정보 -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">라이선스 기본 정보</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-info-circle me-2 text-primary"></i>라이선스 기본 정보
+                </h6>
             </div>
-            <div class="card-body">
+            <div class="card-body py-4">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>자산번호:</strong> {{ asset.asset_number }}</p>
-                        <p class="mb-2"><strong>제품명:</strong> {{ asset.model }}</p>
-                        <p class="mb-2"><strong>제조사:</strong> {{ asset.manufacturer }}</p>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">자산번호</small>
+                            <span class="fw-bold text-dark">{{ asset.asset_number }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">제품명</small>
+                            <span class="text-dark">{{ asset.model }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">제조사</small>
+                            <span class="text-dark">{{ asset.manufacturer }}</span>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>상태:</strong> <span class="badge bg-success">{{ asset.status }}</span></p>
-                        <p class="mb-2"><strong>취득일자:</strong> {{ asset.purchase_date.strftime('%Y-%m-%d') }}</p>
-                        <p class="mb-2"><strong>취득가액:</strong> {{ "{:,.0f}".format(asset.purchase_price) }}원</p>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">상태</small>
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i>{{ asset.status }}
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">취득일자</small>
+                            <span class="text-dark">
+                                <i class="fas fa-calendar me-1 text-muted"></i>{{ asset.purchase_date.strftime('%Y-%m-%d') }}
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">취득가액</small>
+                            <span class="text-dark fw-medium">
+                                <i class="fas fa-won-sign me-1 text-muted"></i>{{ "{:,.0f}".format(asset.purchase_price) }}원
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- 라이선스 상세 정보 -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">라이선스 관리 정보</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-certificate me-2 text-primary"></i>라이선스 관리 정보
+                </h6>
             </div>
-            <div class="card-body">
+            <div class="card-body py-4">
                 {% if asset.details %}
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="mb-2"><strong>라이선스 키:</strong> 
-                            <span class="font-monospace bg-light p-1 rounded">{{ asset.details.license_key }}</span>
-                        </p>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">라이선스 키</small>
+                            <div class="input-group">
+                                <input type="text" class="form-control font-monospace bg-light" value="{{ asset.details.license_key }}" readonly>
+                                <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard(this.previousElementSibling)">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row mt-3">
+                <hr class="my-4">
+                <div class="row">
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>총 수량 (Seats):</strong> {{ asset.details.total_seats }}</p>
-                        <p class="mb-2"><strong>할당된 수량:</strong> {{ asset.details.assigned_seats }}</p>
-                        <p class="mb-2"><strong>잔여 수량:</strong> {{ asset.details.total_seats - asset.details.assigned_seats }}</p>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">총 수량 (Seats)</small>
+                            <span class="fw-bold text-primary fs-5">{{ asset.details.total_seats }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">할당된 수량</small>
+                            <span class="fw-bold text-warning fs-5">{{ asset.details.assigned_seats }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">잔여 수량</small>
+                            <span class="fw-bold text-success fs-5">{{ asset.details.total_seats - asset.details.assigned_seats }}</span>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>라이선스 만료일:</strong> 
-                            <span class="text-danger fw-bold">{{ asset.details.expiry_date.strftime('%Y-%m-%d') }}</span>
-                        </p>
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">라이선스 만료일</small>
+                            <span class="fw-bold text-danger fs-5">
+                                <i class="fas fa-calendar-times me-1"></i>{{ asset.details.expiry_date.strftime('%Y-%m-%d') }}
+                            </span>
+                        </div>
+                        <!-- 진행률 바 -->
+                        <div class="mb-3">
+                            <small class="text-muted fw-medium d-block">사용률</small>
+                            <div class="progress" style="height: 20px;">
+                                {% if asset.details.total_seats > 0 %}
+                                    {% set usage_percentage = (asset.details.assigned_seats / asset.details.total_seats * 100)|int %}
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ usage_percentage }}%;">
+                                        {{ usage_percentage }}%
+                                    </div>
+                                {% else %}
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 0%;">
+                                        0%
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% else %}
-                <p class="text-muted">라이선스 상세 정보가 없습니다.</p>
+                <div class="text-center py-4">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3 text-muted"></i>
+                    <h6 class="text-muted">라이선스 정보 없음</h6>
+                    <p class="text-muted small mb-0">라이선스 상세 정보가 등록되지 않았습니다.</p>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -84,30 +152,56 @@
     <!-- 오른쪽 사이드바 -->
     <div class="col-lg-4">
         <!-- 할당 정보 -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">할당 정보</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-users me-2 text-primary"></i>할당 정보
+                </h6>
             </div>
-            <div class="card-body">
+            <div class="card-body py-4">
                 {% if asset.user_name %}
-                <p>현재 <strong>{{ asset.department.name }}</strong>의 <strong>{{ asset.user_name }}</strong>님에게 할당되어 있습니다.</p>
-                <p class="mb-2"><small>위치: {{ asset.location_name }}</small></p>
-                {% else %}
-                <p class="text-muted text-center">특정 사용자에게 할당되지 않았습니다.</p>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-info bg-opacity-10 p-2 me-3">
+                        <i class="fas fa-user text-info"></i>
+                    </div>
+                    <div>
+                        <div class="fw-semibold">{{ asset.user_name }}</div>
+                        <small class="text-muted">{{ asset.department.name }}</small>
+                    </div>
+                </div>
+                {% if asset.location_name %}
+                <div class="mb-3">
+                    <small class="text-muted fw-medium d-block">위치</small>
+                    <span class="text-dark">
+                        <i class="fas fa-map-marker-alt me-1 text-muted"></i>{{ asset.location_name }}
+                    </span>
+                </div>
                 {% endif %}
-                <hr>
-                <a href="#" class="btn-size-sm btn-outline-primary">할당된 사용자 목록 보기</a>
+                {% else %}
+                <div class="text-center py-3">
+                    <i class="fas fa-user-slash fa-2x mb-2 text-muted"></i>
+                    <p class="text-muted small mb-0">특정 사용자에게 할당되지 않았습니다.</p>
+                </div>
+                {% endif %}
+                <hr class="my-3">
+                <a href="#" class="btn btn-sm btn-outline-primary w-100">
+                    <i class="fas fa-list me-1"></i>할당된 사용자 목록 보기
+                </a>
             </div>
         </div>
 
         <!-- 기타 정보 -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">기타 정보</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-sticky-note me-2 text-primary"></i>기타 정보
+                </h6>
             </div>
-            <div class="card-body">
-                 <p class="mb-1"><strong>비고:</strong></p>
-                <p class="text-muted">{{ asset.note if asset.note else '기록된 비고가 없습니다.' }}</p>
+            <div class="card-body py-4">
+                <div class="mb-2">
+                    <small class="text-muted fw-medium d-block">비고</small>
+                    <p class="text-muted mb-0">{{ asset.note if asset.note else '기록된 비고가 없습니다.' }}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -122,15 +216,33 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        정말로 '{{ asset.name }}' (자산번호: {{ asset.asset_number }}) 자산을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+        정말로 '<strong>{{ asset.name }}</strong>' (자산번호: <strong>{{ asset.asset_number }}</strong>) 자산을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
         <form action="{{ url_for('assets.delete', asset_id=asset.id) }}" method="POST" style="display: inline;">
-          <button type="submit" class="btn-danger-solid">삭제</button>
+          <button type="submit" class="btn btn-danger">삭제</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+function copyToClipboard(element) {
+    element.select();
+    element.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(element.value);
+    
+    // 버튼 아이콘을 체크 표시로 변경
+    const button = element.nextElementSibling;
+    const icon = button.querySelector('i');
+    icon.className = 'fas fa-check text-success';
+    
+    // 2초 후 원래 아이콘으로 복원
+    setTimeout(() => {
+        icon.className = 'fas fa-copy';
+    }, 2000);
+}
+</script>
 {% endblock %} 
