@@ -117,3 +117,7 @@ static/uploads/
 .obsidian/
 .dev_demo/
 
+/uploads/
+/instance/
+/backup/
+

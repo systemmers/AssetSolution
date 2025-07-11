@@ -1,0 +1,13 @@
+// ========================================
+// Bootstrap 5 Main Import
+// 자산관리 시스템 Bootstrap 커스터마이징
+// ========================================
+
+// 1. 변수 오버라이드 먼저 import
+@import "variables";
+
+// 2. Bootstrap 5 전체 import
+@import "~bootstrap/scss/bootstrap";
+
+// 3. 자산관리 시스템 전용 Bootstrap 확장
+@import "custom"; 

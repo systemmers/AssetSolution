@@ -1,0 +1,236 @@
+// ========================================
+// 통합 카드 컴포넌트 시스템
+// 기존 7개 파일을 1개로 통합
+// ========================================
+
+// 기본 카드 확장 (Bootstrap 기본 카드에 추가)
+.card {
+  border: var(--card-border-width) solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  transition: var(--card-transition);
+  
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+
+// 통계 카드 (.card-stat)
+.card-stat {
+  @extend .card;
+  border-left: var(--stat-card-border-width) solid var(--color-primary);
+  
+  &:hover {
+    border-left-color: var(--color-primary-light);
+    transform: translateY(-2px);
+  }
+  
+  .card-body {
+    padding: var(--stat-card-padding);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .stat-content {
+    flex-grow: 1;
+  }
+  
+  .stat-icon {
+    font-size: var(--stat-card-icon-size);
+    color: var(--color-primary);
+    opacity: 0.8;
+  }
+  
+  .stat-number {
+    font-size: var(--stat-card-number-size);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-dark);
+    margin: 0;
+    line-height: var(--line-height-tight);
+  }
+  
+  .stat-label {
+    font-size: var(--stat-card-label-size);
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+  }
+  
+  // 색상 변형
+  &.border-left-primary {
+    border-left-color: var(--color-primary);
+    .stat-icon { color: var(--color-primary); }
+  }
+  
+  &.border-left-success {
+    border-left-color: var(--color-success);
+    .stat-icon { color: var(--color-success); }
+  }
+  
+  &.border-left-warning {
+    border-left-color: var(--color-warning);
+    .stat-icon { color: var(--color-warning); }
+  }
+  
+  &.border-left-danger {
+    border-left-color: var(--color-danger);
+    .stat-icon { color: var(--color-danger); }
+  }
+  
+  &.border-left-info {
+    border-left-color: var(--color-info);
+    .stat-icon { color: var(--color-info); }
+  }
+}
+
+// 자산 카드 (.card-asset)
+.card-asset {
+  @extend .card;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+  
+  .asset-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: calc(var(--card-border-radius) - 1px);
+    border-top-right-radius: calc(var(--card-border-radius) - 1px);
+  }
+  
+  .default-asset-img {
+    background: linear-gradient(135deg, var(--color-light) 0%, var(--color-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-secondary-dark);
+    font-size: 3rem;
+  }
+  
+  .asset-status {
+    position: absolute;
+    top: var(--spacing-2);
+    right: var(--spacing-2);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: 1rem;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: white;
+    
+    &.status-active { 
+      background-color: var(--asset-status-active); 
+    }
+    &.status-inactive { 
+      background-color: var(--asset-status-inactive); 
+    }
+    &.status-maintenance { 
+      background-color: var(--asset-status-maintenance); 
+    }
+    &.status-disposed { 
+      background-color: var(--asset-status-disposed); 
+    }
+    &.status-repair { 
+      background-color: var(--asset-status-repair); 
+    }
+  }
+  
+  .card-body {
+    padding: var(--spacing-3);
+  }
+  
+  .asset-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-dark);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .asset-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-secondary);
+  }
+}
+
+// 액션 카드 (.card-action)
+.card-action {
+  @extend .card;
+  cursor: pointer;
+  
+  &:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0.125rem 0.5rem rgba(var(--color-primary-rgb), 0.15);
+  }
+  
+  .card-header {
+    background-color: rgba(var(--color-primary-rgb), 0.03);
+    border-bottom-color: rgba(var(--color-primary-rgb), 0.125);
+    font-weight: var(--font-weight-semibold);
+  }
+}
+
+// 모달 카드 (기존 modal-cards.css 통합)
+.modal-card {
+  @extend .card;
+  border: none;
+  box-shadow: var(--shadow-xl);
+  
+  .modal-card-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    padding: var(--spacing-4);
+    border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+    
+    .modal-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      margin: 0;
+    }
+  }
+  
+  .modal-card-body {
+    padding: var(--spacing-4);
+  }
+  
+  .modal-card-footer {
+    background-color: var(--color-light);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-radius: 0 0 var(--card-border-radius) var(--card-border-radius);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-2);
+  }
+}
+
+// 반응형 카드
+@media (max-width: 768px) {
+  .card-stat {
+    .card-body {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--spacing-2);
+    }
+    
+    .stat-icon {
+      order: 1;
+    }
+    
+    .stat-content {
+      order: 2;
+    }
+  }
+  
+  .card-asset {
+    .asset-image {
+      height: 150px;
+    }
+  }
+} 

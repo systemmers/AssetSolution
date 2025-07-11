@@ -1,6 +1,22 @@
 """
 자산 관련 모델
+
+# 자산 유형
+# 자산 상태
+# 감가상각 방법
+# 위치
+# 자산
+# 자산 이력
+# 자산 대여
+# 유지보수 기록
+# 수리 기록
+# 문서
+# 소프트웨어 라이선스
+# PC 자산 상세 정보
+# IP 주소
 """
+
+
 from datetime import datetime
 from flask import current_app
 

@@ -1,5 +1,10 @@
 """
 사용자 및 권한 관련 모델
+
+# 역할
+# 부서
+# 사용자
+
 """
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
