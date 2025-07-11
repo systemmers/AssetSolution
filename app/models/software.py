@@ -1,6 +1,15 @@
 """
 소프트웨어 모델
 Software model for asset management system
+
+# 소프트웨어 모델
+# 소프트웨어 라이선스
+# 소프트웨어 버전
+# 소프트웨어 카테고리
+# 소프트웨어 개발사
+# 소프트웨어 설명
+# 소프트웨어 인기도
+
 """
 
 class Software:

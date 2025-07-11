@@ -1,0 +1,42 @@
+// ========================================
+// 테이블 컴포넌트 시스템
+// ========================================
+
+// 기본 테이블 확장
+.table {
+  border-color: var(--table-border-color);
+  
+  &.table-hover tbody tr:hover {
+    background-color: var(--table-hover-bg);
+  }
+  
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--table-striped-bg);
+  }
+}
+
+// 자산관리 전용 테이블
+.table-asset {
+  .asset-row {
+    cursor: pointer;
+    transition: var(--transition-fast);
+    
+    &:hover {
+      background-color: var(--table-hover-bg);
+    }
+  }
+  
+  .asset-image-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: var(--spacing-1);
+  }
+  
+  .asset-status-badge {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: 1rem;
+  }
+} 
