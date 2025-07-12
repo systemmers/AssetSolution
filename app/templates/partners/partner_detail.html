@@ -5,16 +5,18 @@
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <a href="{{ url_for('assets.partner_management') }}" class="btn-secondary-outline mb-2">
+        <a href="{{ url_for('assets.partner_management') }}" class="btn btn-outline-secondary mb-2">
             <i class="fas fa-arrow-left me-2"></i> 목록으로 돌아가기
         </a>
-        <h2 class="mb-0">협력사 상세 정보</h2>
+        <h1 class="h2 mb-0 text-gray-800">
+            <i class="fas fa-handshake me-2 text-primary"></i>협력사 상세 정보
+        </h1>
     </div>
-    <div>
-        <button type="button" class="btn-primary-outline">
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-warning">
             <i class="fas fa-edit me-1"></i> 정보 수정
         </button>
-        <button type="button" class="btn-danger-outline">
+        <button type="button" class="btn btn-outline-danger">
             <i class="fas fa-trash me-1"></i> 협력사 삭제
         </button>
     </div>
@@ -25,38 +27,64 @@
 <div class="row">
     <!-- 좌측: 기본 정보 -->
     <div class="col-lg-4">
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm border-0 mb-4">
             <div class="card-body text-center">
-                <img src="{{ url_for('static', filename='img/' + partner.logo_image_path) }}" alt="Company Logo" class="rounded-circle img-fluid mb-3" style="width: 150px;">
-                <h4 class="card-title">{{ partner.name }}</h4>
+                <img src="{{ url_for('static', filename='img/' + partner.logo_image_path) }}" 
+                     alt="Company Logo" class="rounded-circle img-fluid mb-3" style="width: 150px;">
+                <h4 class="card-title fw-bold">{{ partner.name }}</h4>
                 <p class="text-muted mb-4">{{ partner.notes or '협력사' }}</p>
                 <div class="d-grid gap-2">
-                    <button class="btn-primary-solid" data-bs-toggle="modal" data-bs-target="#purchaseOrderModal">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#purchaseOrderModal">
                         <i class="fas fa-file-invoice me-2"></i>발주서 생성
                     </button>
-                    <button class="btn-primary-outline" data-bs-toggle="modal" data-bs-target="#quotationRequestModal">
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quotationRequestModal">
                         <i class="fas fa-file-alt me-2"></i>견적서 요청
                     </button>
-                    <button class="btn-secondary-outline">
+                    <button class="btn btn-outline-secondary">
                         <i class="fas fa-envelope me-2"></i>메일 보내기
                     </button>
                 </div>
             </div>
-            <div class="card-body">
-                <h6 class="card-subtitle mb-3 text-muted">기본 정보</h6>
+            <div class="card-body border-top">
+                <h6 class="card-subtitle mb-3 fw-semibold text-gray-700">
+                    <i class="fas fa-info-circle me-2 text-primary"></i>기본 정보
+                </h6>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><i class="fas fa-user-tie fa-fw me-2 text-primary"></i><strong>담당자:</strong> {{ partner.contact_person }}</li>
-                    <li class="mb-2"><i class="fas fa-envelope fa-fw me-2 text-primary"></i><strong>이메일:</strong> {{ partner.contact_email }}</li>
-                    <li class="mb-2"><i class="fas fa-phone fa-fw me-2 text-primary"></i><strong>연락처:</strong> {{ partner.contact_phone }}</li>
-                    <li class="mb-0"><i class="fas fa-map-marker-alt fa-fw me-2 text-primary"></i><strong>주소:</strong> {{ partner.address }}</li>
+                    <li class="mb-2">
+                        <i class="fas fa-user-tie fa-fw me-2 text-primary"></i>
+                        <strong>담당자:</strong> {{ partner.contact_person }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-envelope fa-fw me-2 text-primary"></i>
+                        <strong>이메일:</strong> {{ partner.contact_email }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-phone fa-fw me-2 text-primary"></i>
+                        <strong>연락처:</strong> {{ partner.contact_phone }}
+                    </li>
+                    <li class="mb-0">
+                        <i class="fas fa-map-marker-alt fa-fw me-2 text-primary"></i>
+                        <strong>주소:</strong> {{ partner.address }}
+                    </li>
                 </ul>
             </div>
-            <div class="card-body">
-                <h6 class="card-subtitle mb-3 text-muted">세금 정보</h6>
-                 <ul class="list-unstyled">
-                    <li class="mb-2"><i class="fas fa-building fa-fw me-2 text-success"></i><strong>사업자번호:</strong> {{ partner.tax_info.registration_number }}</li>
-                    <li class="mb-2"><i class="fas fa-industry fa-fw me-2 text-success"></i><strong>업태/종목:</strong> {{ partner.tax_info.business_type }} / {{ partner.tax_info.business_item }}</li>
-                    <li class="mb-0"><i class="fas fa-receipt fa-fw me-2 text-success"></i><strong>계산서 이메일:</strong> {{ partner.tax_info.tax_invoice_email }}</li>
+            <div class="card-body border-top">
+                <h6 class="card-subtitle mb-3 fw-semibold text-gray-700">
+                    <i class="fas fa-receipt me-2 text-success"></i>세금 정보
+                </h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-building fa-fw me-2 text-success"></i>
+                        <strong>사업자번호:</strong> {{ partner.tax_info.registration_number }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-industry fa-fw me-2 text-success"></i>
+                        <strong>업태/종목:</strong> {{ partner.tax_info.business_type }} / {{ partner.tax_info.business_item }}
+                    </li>
+                    <li class="mb-0">
+                        <i class="fas fa-receipt fa-fw me-2 text-success"></i>
+                        <strong>계산서 이메일:</strong> {{ partner.tax_info.tax_invoice_email }}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -64,120 +92,162 @@
 
     <!-- 우측: 탭 메뉴 (문서, 계약, 메일 이력) -->
     <div class="col-lg-8">
-        <div class="card shadow-sm">
-            <div class="card-header">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom">
                 <ul class="nav nav-tabs card-header-tabs" id="partnerTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab">문서 관리 <span class="badge bg-primary ms-1">{{ documents|length }}</span></button>
+                        <button class="nav-link active" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" 
+                                type="button" role="tab">
+                            <i class="fas fa-file-alt me-1"></i>문서 관리 
+                            <span class="badge bg-primary ms-1">{{ documents|length }}</span>
+                        </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts" type="button" role="tab">거래 내역(계약) <span class="badge bg-secondary ms-1">{{ contracts|length }}</span></button>
+                        <button class="nav-link" id="contracts-tab" data-bs-toggle="tab" data-bs-target="#contracts" 
+                                type="button" role="tab">
+                            <i class="fas fa-file-contract me-1"></i>거래 내역 
+                            <span class="badge bg-secondary ms-1">{{ contracts|length }}</span>
+                        </button>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="email-history-tab" data-bs-toggle="tab" href="#email-history" role="tab">
-                            <i class="fas fa-envelope me-2"></i>메일 발송 이력
+                            <i class="fas fa-envelope me-1"></i>메일 발송 이력
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="purchase-orders-tab" data-bs-toggle="tab" href="#purchase-orders" role="tab">
-                            <i class="fas fa-file-invoice me-2"></i>발주서 이력
+                            <i class="fas fa-file-invoice me-1"></i>발주서 이력
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="quotation-requests-tab" data-bs-toggle="tab" href="#quotation-requests" role="tab">
-                            <i class="fas fa-file-alt me-2"></i>견적서 요청 이력
+                            <i class="fas fa-file-alt me-1"></i>견적서 요청 이력
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="card-body">
+            <div class="card-body p-4">
                 <div class="tab-content" id="partnerTabContent">
                     <!-- 문서 관리 탭 -->
                     <div class="tab-pane fade show active" id="documents" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0">업로드된 문서</h5>
-                            <button class="btn-size-sm btn-primary"><i class="fas fa-upload me-1"></i> 새 문서 업로드</button>
+                            <h5 class="mb-0 fw-semibold">업로드된 문서</h5>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-upload me-1"></i> 새 문서 업로드
+                            </button>
                         </div>
                         {% if documents %}
-                        <table class="table-striped">
-                            <thead>
-                                <tr><th>문서명</th><th>종류</th><th>업로드 날짜</th><th class="text-center">관리</th></tr>
-                            </thead>
-                            <tbody>
-                                {% for doc in documents %}
-                                <tr>
-                                    <td>{{ doc.document_name }}</td>
-                                    <td>
-                                        {% if doc.document_type == '계약서' %}
-                                            <span class="badge bg-danger">{{ doc.document_type }}</span>
-                                        {% elif doc.document_type == '견적서' %}
-                                            <span class="badge bg-warning text-dark">{{ doc.document_type }}</span>
-                                        {% else %}
-                                            <span class="badge bg-secondary">{{ doc.document_type }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ doc.uploaded_at.strftime('%Y-%m-%d') }}</td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn-size-sm btn-outline-success"><i class="fas fa-download"></i></a>
-                                        <button class="btn-size-sm btn-outline-info"><i class="fas fa-paper-plane"></i></button>
-                                        <button class="btn-size-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="fw-semibold">문서명</th>
+                                        <th class="fw-semibold">종류</th>
+                                        <th class="fw-semibold">업로드 날짜</th>
+                                        <th class="fw-semibold text-center">관리</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for doc in documents %}
+                                    <tr>
+                                        <td class="fw-medium">{{ doc.document_name }}</td>
+                                        <td>
+                                            {% if doc.document_type == '계약서' %}
+                                                <span class="badge bg-danger">{{ doc.document_type }}</span>
+                                            {% elif doc.document_type == '견적서' %}
+                                                <span class="badge bg-warning text-dark">{{ doc.document_type }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ doc.document_type }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>{{ doc.uploaded_at.strftime('%Y-%m-%d') }}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-info" title="전송">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" title="삭제">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                         {% else %}
-                        <div class="text-center text-muted py-4">
+                        <div class="text-center text-muted py-5">
                             <i class="fas fa-file-alt fa-3x mb-3"></i>
-                            <p>업로드된 문서가 없습니다.</p>
+                            <h6 class="text-muted">업로드된 문서가 없습니다</h6>
+                            <p class="text-muted small">협력사 관련 문서를 업로드해보세요.</p>
                         </div>
                         {% endif %}
                     </div>
+                    
                     <!-- 거래 내역 탭 -->
                     <div class="tab-pane fade" id="contracts" role="tabpanel">
-                        <h5 class="mb-3">관련 계약 목록</h5>
+                        <h5 class="mb-3 fw-semibold">관련 계약 목록</h5>
                         {% if contracts %}
                         <div class="list-group">
                             {% for contract in contracts %}
                             <a href="#" class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">{{ contract.contract_type }} 계약</h6>
-                                    <small>{{ contract.start_date.strftime('%Y-%m-%d') }} ~ {{ contract.end_date.strftime('%Y-%m-%d') }}</small>
+                                    <h6 class="mb-1 fw-semibold">{{ contract.contract_type }} 계약</h6>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>{{ contract.start_date.strftime('%Y-%m-%d') }} ~ {{ contract.end_date.strftime('%Y-%m-%d') }}
+                                    </small>
                                 </div>
-                                <p class="mb-1">{{ "{:,}".format(contract.cost) }}원</p>
-                                <small>{{ contract.details }}</small>
+                                <p class="mb-1 fw-medium text-success">
+                                    <i class="fas fa-won-sign me-1"></i>{{ "{:,}".format(contract.cost) }}원
+                                </p>
+                                <small class="text-muted">{{ contract.details }}</small>
                             </a>
                             {% endfor %}
                         </div>
                         {% else %}
-                        <div class="text-center text-muted py-4">
+                        <div class="text-center text-muted py-5">
                             <i class="fas fa-file-contract fa-3x mb-3"></i>
-                            <p>관련 계약이 없습니다.</p>
+                            <h6 class="text-muted">관련 계약이 없습니다</h6>
+                            <p class="text-muted small">협력사와 체결한 계약이 없습니다.</p>
                         </div>
                         {% endif %}
                     </div>
+                    
                     <!-- 메일 발송 이력 탭 -->
                     <div class="tab-pane fade" id="email-history" role="tabpanel">
-                         <h5 class="mb-3">메일 발송 이력</h5>
+                        <h5 class="mb-3 fw-semibold">메일 발송 이력</h5>
                         {% if emails %}
                         <ul class="list-group">
                             {% for email in emails %}
                             <li class="list-group-item">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">{{ email.subject }}</h6>
-                                    <small class="text-muted">{{ email.sent_at.strftime('%Y-%m-%d') }}</small>
+                                    <h6 class="mb-1 fw-semibold">{{ email.subject }}</h6>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>{{ email.sent_at.strftime('%Y-%m-%d') }}
+                                    </small>
                                 </div>
-                                <p class="mb-1">수신: {{ email.recipient_email }}</p>
+                                <p class="mb-1">
+                                    <i class="fas fa-envelope me-1 text-muted"></i>수신: {{ email.recipient_email }}
+                                </p>
                                 {% if email.attachment_path %}
-                                <small class="text-muted">첨부파일: {{ email.attachment_path.split('/')[-1] }}</small>
+                                <small class="text-muted">
+                                    <i class="fas fa-paperclip me-1"></i>첨부파일: {{ email.attachment_path.split('/')[-1] }}
+                                </small>
                                 {% endif %}
                             </li>
                             {% endfor %}
                         </ul>
                         {% else %}
-                        <div class="text-center text-muted py-4">
+                        <div class="text-center text-muted py-5">
                             <i class="fas fa-envelope fa-3x mb-3"></i>
-                            <p>메일 발송 이력이 없습니다.</p>
+                            <h6 class="text-muted">메일 발송 이력이 없습니다</h6>
+                            <p class="text-muted small">협력사에게 발송한 메일이 없습니다.</p>
                         </div>
                         {% endif %}
                     </div>
@@ -185,16 +255,17 @@
                     <!-- 발주서 이력 탭 -->
                     <div class="tab-pane fade" id="purchase-orders" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0">발주서 이력</h5>
-                            <button class="btn-size-sm btn-primary" data-bs-toggle="modal" data-bs-target="#purchaseOrderModal">
+                            <h5 class="mb-0 fw-semibold">발주서 이력</h5>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#purchaseOrderModal">
                                 <i class="fas fa-plus me-1"></i>새 발주서 생성
                             </button>
                         </div>
                         <div id="purchaseOrdersList">
                             <!-- 발주서 목록이 동적으로 로드됩니다 -->
-                            <div class="text-center text-muted py-4">
+                            <div class="text-center text-muted py-5">
                                 <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
-                                <p>발주서 이력을 불러오는 중...</p>
+                                <h6 class="text-muted">발주서 이력을 불러오는 중...</h6>
+                                <p class="text-muted small">데이터를 로딩중입니다.</p>
                             </div>
                         </div>
                     </div>
@@ -202,16 +273,17 @@
                     <!-- 견적서 요청 이력 탭 -->
                     <div class="tab-pane fade" id="quotation-requests" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0">견적서 요청 이력</h5>
-                            <button class="btn-size-sm btn-success" data-bs-toggle="modal" data-bs-target="#quotationRequestModal">
-                                <i class="fas fa-plus me-1"></i>새 견적서 요청
+                            <h5 class="mb-0 fw-semibold">견적서 요청 이력</h5>
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#quotationRequestModal">
+                                <i class="fas fa-plus me-1"></i>견적서 요청
                             </button>
                         </div>
                         <div id="quotationRequestsList">
                             <!-- 견적서 요청 목록이 동적으로 로드됩니다 -->
-                            <div class="text-center text-muted py-4">
+                            <div class="text-center text-muted py-5">
                                 <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
-                                <p>견적서 요청 이력을 불러오는 중...</p>
+                                <h6 class="text-muted">견적서 요청 이력을 불러오는 중...</h6>
+                                <p class="text-muted small">데이터를 로딩중입니다.</p>
                             </div>
                         </div>
                     </div>
@@ -223,119 +295,26 @@
 
 <!-- 발주서 생성 모달 -->
 <div class="modal fade" id="purchaseOrderModal" tabindex="-1" aria-labelledby="purchaseOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="purchaseOrderModalLabel">
-                    <i class="fas fa-file-invoice me-2"></i>발주서 생성 - {{ partner.name }}
+                    <i class="fas fa-file-invoice me-2"></i>발주서 생성
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="purchaseOrderForm" method="POST" action="#">
-                <div class="modal-body">
-                    <div class="row">
-                        <!-- 좌측: 발주 정보 -->
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>발주 정보</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="po_number" class="form-label">발주번호 <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-input" id="po_number" name="po_number" 
-                                               value="PO-{{ partner.id }}-001" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="po_date" class="form-label">발주일자 <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-input" id="po_date" name="po_date" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="delivery_date" class="form-label">납기일자 <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-input" id="delivery_date" name="delivery_date" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="delivery_address" class="form-label">납품 주소</label>
-                                        <textarea class="form-input" id="delivery_address" name="delivery_address" rows="3" 
-                                                  placeholder="납품받을 주소를 입력하세요"></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="po_notes" class="form-label">특이사항</label>
-                                        <textarea class="form-input" id="po_notes" name="po_notes" rows="3" 
-                                                  placeholder="발주 관련 특이사항을 입력하세요"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 우측: 품목 정보 -->
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0"><i class="fas fa-list me-2"></i>품목 정보</h6>
-                                    <button type="button" class="btn-size-sm btn-success" id="addItemBtn">
-                                        <i class="fas fa-plus me-1"></i>품목 추가
-                                    </button>
-                                </div>
-                                <div class="card-body">
-                                    <div id="itemsContainer">
-                                        <!-- 품목 행이 동적으로 추가됩니다 -->
-                                        <div class="item-row mb-3 p-3 border rounded">
-                                            <div class="row">
-                                                <div class="col-12 mb-2">
-                                                    <label class="form-label">품목명 <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-input item-name" name="items[0][name]" 
-                                                           placeholder="품목명을 입력하세요" required>
-                                                </div>
-                                                <div class="col-4 mb-2">
-                                                    <label class="form-label">수량 <span class="text-danger">*</span></label>
-                                                    <input type="number" class="form-input item-quantity" name="items[0][quantity]" 
-                                                           min="1" value="1" required>
-                                                </div>
-                                                <div class="col-4 mb-2">
-                                                    <label class="form-label">단가 <span class="text-danger">*</span></label>
-                                                    <input type="number" class="form-input item-price" name="items[0][price]" 
-                                                           min="0" step="0.01" placeholder="0" required>
-                                                </div>
-                                                <div class="col-4 mb-2">
-                                                    <label class="form-label">금액</label>
-                                                    <input type="text" class="form-input item-total" readonly>
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">품목 설명</label>
-                                                    <textarea class="form-input" name="items[0][description]" rows="2" 
-                                                              placeholder="품목에 대한 상세 설명"></textarea>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="btn-size-sm btn-outline-danger remove-item-btn mt-2" style="display: none;">
-                                                <i class="fas fa-trash me-1"></i>삭제
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- 총액 표시 -->
-                                    <div class="border-top pt-3 mt-3">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <strong>총 품목 수:</strong> <span id="totalItems">1</span>개
-                                            </div>
-                                            <div class="col-6 text-end">
-                                                <strong>총 금액:</strong> <span id="totalAmount" class="text-primary fs-5">0</span>원
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="modal-body">
+                <div class="text-center py-4">
+                    <i class="fas fa-tools fa-3x mb-3 text-muted"></i>
+                    <h6 class="text-muted">발주서 생성 기능</h6>
+                    <p class="text-muted small">현재 개발중인 기능입니다.</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
-                    <button type="submit" class="btn-primary-solid">
-                        <i class="fas fa-file-pdf me-2"></i>발주서 생성
-                    </button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> 닫기
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -346,67 +325,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="quotationRequestModalLabel">
-                    <i class="fas fa-file-alt me-2"></i>견적서 요청 - {{ partner.name }}
+                    <i class="fas fa-file-alt me-2"></i>견적서 요청
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="quotationRequestForm" method="POST" action="#">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="quote_title" class="form-label">견적 제목 <span class="text-danger">*</span></label>
-                                <input type="text" class="form-input" id="quote_title" name="quote_title" 
-                                       placeholder="견적서 제목을 입력하세요" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="quote_deadline" class="form-label">견적 마감일 <span class="text-danger">*</span></label>
-                                <input type="date" class="form-input" id="quote_deadline" name="quote_deadline" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="quote_description" class="form-label">견적 요청 내용 <span class="text-danger">*</span></label>
-                                <textarea class="form-input" id="quote_description" name="quote_description" rows="8" 
-                                          placeholder="견적을 요청할 품목이나 서비스에 대한 상세한 설명을 입력하세요" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="budget_range" class="form-label">예산 범위</label>
-                                <select class="form-select-custom" id="budget_range" name="budget_range">
-                                    <option value="">예산 범위를 선택하세요</option>
-                                    <option value="under_1m">100만원 미만</option>
-                                    <option value="1m_5m">100만원 ~ 500만원</option>
-                                    <option value="5m_10m">500만원 ~ 1,000만원</option>
-                                    <option value="10m_50m">1,000만원 ~ 5,000만원</option>
-                                    <option value="over_50m">5,000만원 이상</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="contact_person" class="form-label">담당자 정보</label>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" class="form-input" id="contact_person" name="contact_person" 
-                                               placeholder="담당자 이름" value="관리자">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="email" class="form-input" id="contact_email" name="contact_email" 
-                                               placeholder="담당자 이메일" value="admin@company.com">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="special_requirements" class="form-label">특별 요구사항</label>
-                                <textarea class="form-input" id="special_requirements" name="special_requirements" rows="3" 
-                                          placeholder="특별한 요구사항이나 조건이 있다면 입력하세요"></textarea>
-                            </div>
-                        </div>
-                    </div>
+            <div class="modal-body">
+                <div class="text-center py-4">
+                    <i class="fas fa-tools fa-3x mb-3 text-muted"></i>
+                    <h6 class="text-muted">견적서 요청 기능</h6>
+                    <p class="text-muted small">현재 개발중인 기능입니다.</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-secondary-solid" data-bs-dismiss="modal">취소</button>
-                    <button type="submit" class="btn-primary-solid">
-                        <i class="fas fa-paper-plane me-2"></i>견적서 요청 발송
-                    </button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> 닫기
+                </button>
+            </div>
         </div>
     </div>
 </div>
