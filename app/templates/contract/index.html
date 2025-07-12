@@ -4,9 +4,11 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">계약 관리</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-file-contract me-2 text-primary"></i>계약 관리
+    </h1>
     <div>
-            <a href="{{ url_for('contract.create') }}" class="btn-primary-solid">
+        <a href="{{ url_for('contract.create') }}" class="btn btn-primary">
         <i class="fas fa-plus me-1"></i> 계약 등록
     </a>
     </div>
@@ -15,74 +17,76 @@
 
 {% block content %}
 <!-- 안내 메시지 -->
-<div class="alert alert-info">
-    <i class="fas fa-info-circle me-2"></i> 계약 관리 기능은 현재 개발중입니다. 곧 추가될 예정입니다.
+<div class="alert alert-info border-0 shadow-sm mb-4">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-info-circle me-3 text-info"></i>
+        <div>
+            <strong>계약 관리 기능 개발중</strong>
+            <div class="text-muted small">계약 관리 기능은 현재 개발중입니다. 곧 추가될 예정입니다.</div>
+        </div>
+    </div>
 </div>
 
-<!-- 계약 요약 -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card card-stat-primary h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            활성 계약</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.active_contracts if stats else 0 }}</div>
+<!-- 계약 요약 카드 -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start-primary shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">활성 계약</div>
+                        <div class="h3 mb-0 fw-bold text-gray-800">{{ stats.active_contracts if stats else 0 }}</div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-file-contract fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card card-stat-warning h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            만료 임박</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.expiring_contracts if stats else 0 }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-file-contract fa-2x text-primary"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card card-stat-success h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            이번 달 비용</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">₩{{ '{:,}'.format(stats.monthly_cost) if stats else 0 }}</div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start-warning shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">만료 임박</div>
+                        <div class="h3 mb-0 fw-bold text-gray-800">{{ stats.expiring_contracts if stats else 0 }}</div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-won-sign fa-2x text-gray-300"></i>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card card-stat-info h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                            총 계약 수</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.total_contracts if stats else 0 }}</div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start-success shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">이번 달 비용</div>
+                        <div class="h4 mb-0 fw-bold text-gray-800">₩{{ '{:,}'.format(stats.monthly_cost) if stats else 0 }}</div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-won-sign fa-2x text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start-info shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">총 계약 수</div>
+                        <div class="h3 mb-0 fw-bold text-gray-800">{{ stats.total_contracts if stats else 0 }}</div>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-clipboard-list fa-2x text-info"></i>
                     </div>
                 </div>
             </div>
@@ -91,68 +95,88 @@
 </div>
 
 <!-- 계약 목록 테이블 -->
-<div class="card shadow-sm">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">계약 목록</h6>
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light border-bottom py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-semibold text-gray-800">
+                <i class="fas fa-list me-2 text-primary"></i>계약 목록
+            </h6>
         <div>
-            <a href="{{ url_for('contract.export_excel') }}" class="btn-export-excel">
-                <i class="fas fa-file-excel"></i>
-                <span>엑셀 내보내기</span>
+                <a href="{{ url_for('contract.export_excel') }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-file-excel me-1"></i>엑셀 내보내기
             </a>
+            </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table-interactive">
+            <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>계약 번호</th>
-                        <th>계약명</th>
-                        <th>계약 업체</th>
-                        <th>시작일</th>
-                        <th>종료일</th>
-                        <th>계약 금액</th>
-                        <th>상태</th>
-                        <th>관리</th>
+                        <th class="px-3 py-3 fw-semibold">계약 번호</th>
+                        <th class="px-3 py-3 fw-semibold">계약명</th>
+                        <th class="px-3 py-3 fw-semibold">계약 업체</th>
+                        <th class="px-3 py-3 fw-semibold">시작일</th>
+                        <th class="px-3 py-3 fw-semibold">종료일</th>
+                        <th class="px-3 py-3 fw-semibold">계약 금액</th>
+                        <th class="px-3 py-3 fw-semibold">상태</th>
+                        <th class="px-3 py-3 fw-semibold text-center">관리</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if contracts and contracts|length > 0 %}
                         {% for contract in contracts %}
                         <tr>
-                            <td>CONTRACT-{{ contract.id }}</td>
-                            <td>{{ contract.name }}</td>
-                            <td>{{ contract.vendor }}</td>
-                            <td>{{ contract.start_date }}</td>
-                            <td>{{ contract.end_date }}</td>
-                            <td>₩ {{ '{:,}'.format(contract.amount) }}</td>
-                            <td>
+                            <td class="px-3 py-3 fw-medium">CONTRACT-{{ contract.id }}</td>
+                            <td class="px-3 py-3">{{ contract.name }}</td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-building me-1"></i>{{ contract.vendor }}
+                            </td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-calendar me-1"></i>{{ contract.start_date }}
+                            </td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-calendar-times me-1"></i>{{ contract.end_date }}
+                            </td>
+                            <td class="px-3 py-3 fw-medium">₩ {{ '{:,}'.format(contract.amount) }}</td>
+                            <td class="px-3 py-3">
                                                         {% if contract.status == 'active' %}
-                        <span class="badge bg-success">활성</span>
+                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>활성</span>
                         {% elif contract.status == 'expiring' %}
-                        <span class="badge bg-warning text-dark">만료 임박</span>
+                                <span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle me-1"></i>만료 임박</span>
                         {% elif contract.status == 'expired' %}
-                        <span class="badge bg-danger">만료됨</span>
+                                <span class="badge bg-danger"><i class="fas fa-times me-1"></i>만료됨</span>
                         {% elif contract.status == 'pending' %}
-                        <span class="badge bg-info">대기중</span>
+                                <span class="badge bg-info"><i class="fas fa-clock me-1"></i>대기중</span>
                         {% else %}
                         <span class="badge bg-secondary">기타</span>
                         {% endif %}
                             </td>
-                            <td>
-                                <a href="{{ url_for('contract.detail', contract_id=contract.id) }}" class="btn-size-sm btn-outline-primary">
+                            <td class="px-3 py-3 text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('contract.detail', contract_id=contract.id) }}" 
+                                       class="btn btn-sm btn-outline-primary" title="상세보기">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('contract.edit', contract_id=contract.id) }}" class="btn-size-sm btn-outline-secondary">
+                                    <a href="{{ url_for('contract.edit', contract_id=contract.id) }}" 
+                                       class="btn btn-sm btn-outline-secondary" title="수정">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="8" class="text-center py-4">
-                                <p class="text-muted mb-0">현재 등록된 계약 정보가 없습니다.</p>
+                            <td colspan="8" class="text-center py-5">
+                                <div class="empty-state">
+                                    <i class="fas fa-file-contract fa-3x mb-3 text-muted"></i>
+                                    <h5 class="text-muted">등록된 계약이 없습니다</h5>
+                                    <p class="text-muted small">새 계약을 등록해보세요.</p>
+                                    <a href="{{ url_for('contract.create') }}" class="btn btn-primary mt-3">
+                                        <i class="fas fa-plus me-1"></i> 계약 등록
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     {% endif %}
@@ -167,7 +191,9 @@
 <nav aria-label="Page navigation" class="mt-4">
     <ul class="pagination justify-content-center">
         <li class="page-item {% if page == 1 %}disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('contract.index', page=page-1) if page > 1 else '#' }}">이전</a>
+            <a class="page-link" href="{{ url_for('contract.index', page=page-1) if page > 1 else '#' }}">
+                <i class="fas fa-chevron-left me-1"></i>이전
+            </a>
         </li>
         {% for p in range(max(1, page-2), min(total_pages+1, page+3)) %}
         <li class="page-item {% if p == page %}active{% endif %}">
@@ -175,7 +201,9 @@
         </li>
         {% endfor %}
         <li class="page-item {% if page == total_pages %}disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('contract.index', page=page+1) if page < total_pages else '#' }}">다음</a>
+            <a class="page-link" href="{{ url_for('contract.index', page=page+1) if page < total_pages else '#' }}">
+                다음<i class="fas fa-chevron-right ms-1"></i>
+            </a>
         </li>
     </ul>
 </nav>

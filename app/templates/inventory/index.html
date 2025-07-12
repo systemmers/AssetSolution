@@ -4,9 +4,11 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">자산 실사</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-clipboard-list me-2 text-primary"></i>자산 실사
+    </h1>
     <div>
-        <a href="{{ url_for('inventory.create') }}" class="btn-primary-solid">
+        <a href="{{ url_for('inventory.create') }}" class="btn btn-primary">
             <i class="fas fa-plus me-1"></i> 실사 등록
         </a>
     </div>
@@ -15,50 +17,47 @@
 
 {% block content %}
 <!-- 상태별 요약 카드 -->
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card card-stat-primary shadow-sm h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            진행중인 실사</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ status_counts.in_progress }}</div>
+<div class="row g-4 mb-4">
+    <div class="col-xl-4 col-md-6">
+        <div class="card border-start-primary shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">진행중인 실사</div>
+                        <div class="h3 mb-0 fw-bold text-gray-800">{{ status_counts.in_progress }}</div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-stat-success shadow-sm h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            완료된 실사</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ status_counts.completed }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-clipboard-list fa-2x text-primary"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card card-stat-warning shadow-sm h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            예정된 실사</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ status_counts.planned }}</div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card border-start-success shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">완료된 실사</div>
+                        <div class="h3 mb-0 fw-bold text-gray-800">{{ status_counts.completed }}</div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card border-start-warning shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">예정된 실사</div>
+                        <div class="h3 mb-0 fw-bold text-gray-800">{{ status_counts.planned }}</div>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-calendar fa-2x text-warning"></i>
                     </div>
                 </div>
             </div>
@@ -67,101 +66,135 @@
 </div>
 
 <!-- 실사 목록 패널 -->
-<div class="card shadow-sm">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">실사 목록</h6>
-        <div>
-            <button id="btnExportExcel" class="btn-export-excel me-2">
-                <i class="fas fa-file-excel"></i>
-                <span>엑셀 내보내기</span>
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light border-bottom py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-semibold text-gray-800">
+                <i class="fas fa-list me-2 text-primary"></i>실사 목록
+            </h6>
+            <div class="d-flex gap-2">
+                <button id="btnExportExcel" class="btn btn-success btn-sm">
+                    <i class="fas fa-file-excel me-1"></i>엑셀 내보내기
                 </button>
-            <a href="{{ url_for('inventory.discrepancies') }}" class="btn-size-sm btn-outline-danger me-2">
-                <i class="fas fa-exclamation-triangle me-1"></i> 불일치 항목
-            </a>
-            <a href="{{ url_for('inventory.history') }}" class="btn-size-sm btn-outline-secondary">
-                <i class="fas fa-history me-1"></i> 실사 이력
-            </a>
+                <a href="{{ url_for('inventory.discrepancies') }}" class="btn btn-outline-danger btn-sm">
+                    <i class="fas fa-exclamation-triangle me-1"></i> 불일치 항목
+                </a>
+                <a href="{{ url_for('inventory.history') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-history me-1"></i> 실사 이력
+                </a>
+            </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table-interactive">
+            <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>실사 번호</th>
-                        <th>실사명</th>
-                        <th>실사 기간</th>
-                        <th>대상 자산</th>
-                        <th>담당자</th>
-                        <th>진행 상태</th>
-                        <th>처리</th>
+                        <th class="px-3 py-3 fw-semibold">실사 번호</th>
+                        <th class="px-3 py-3 fw-semibold">실사명</th>
+                        <th class="px-3 py-3 fw-semibold">실사 기간</th>
+                        <th class="px-3 py-3 fw-semibold">진행 상황</th>
+                        <th class="px-3 py-3 fw-semibold">담당자</th>
+                        <th class="px-3 py-3 fw-semibold">상태</th>
+                        <th class="px-3 py-3 fw-semibold text-center">관리</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if inventories %}
                         {% for inventory in inventories %}
                         <tr>
-                            <td>{{ inventory.id }}</td>
-                            <td>
-                                <a href="{{ url_for('inventory.detail', inventory_id=inventory.id) }}">
+                            <td class="px-3 py-3 fw-medium">INV-{{ inventory.id }}</td>
+                            <td class="px-3 py-3">
+                                <a href="{{ url_for('inventory.detail', inventory_id=inventory.id) }}" 
+                                   class="text-decoration-none fw-medium text-primary">
                                     {{ inventory.name }}
                                 </a>
                             </td>
-                            <td>{{ inventory.start_date }} ~ {{ inventory.end_date }}</td>
-                            <td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{ inventory.start_date }} ~ {{ inventory.end_date }}
+                            </td>
+                            <td class="px-3 py-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="progress flex-grow-1 me-2" style="height: 5px;">
+                                    <div class="progress flex-grow-1 me-3" style="height: 8px;">
                                         {% if inventory.target_count > 0 %}
                                         {% set progress_percent = (inventory.completed_count / inventory.target_count) * 100 %}
-                                        {# 
-                                          CSS 린터 오류: 
-                                          이 부분에서 Jinja2 템플릿 변수를 사용하는 방식이 CSS 린터에서 오류를 일으킵니다.
-                                          런타임에서는 Jinja2가 먼저 해석되어 정상적으로 CSS로 변환되므로 실제 실행에는 문제가 없습니다.
-                                          예를 들어, 변수 값이 75이면 최종 HTML은 'width: 75%'로 렌더링됩니다.
-                                        #}
-                                        <div class="progress-bar" role="progressbar" 
-                                            style="width: {{ progress_percent }}%" 
-                                            aria-valuenow="{{ progress_percent }}" 
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar {% if progress_percent == 100 %}bg-success{% elif progress_percent >= 50 %}bg-primary{% else %}bg-warning{% endif %}" 
+                                             role="progressbar" 
+                                             style="width: {{ progress_percent }}%" 
+                                             aria-valuenow="{{ progress_percent }}" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                        </div>
                                         {% else %}
-                                        <div class="progress-bar" role="progressbar" style="width: 0%" 
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-secondary" 
+                                             role="progressbar" 
+                                             style="width: 0%" 
+                                             aria-valuenow="0" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                        </div>
                                         {% endif %}
                                     </div>
-                                    <small>{{ inventory.completed_count }}/{{ inventory.target_count }}</small>
+                                    <small class="text-muted fw-medium">
+                                        {{ inventory.completed_count }}/{{ inventory.target_count }}
+                                    </small>
                                 </div>
                             </td>
-                            <td>{{ inventory.manager }} ({{ inventory.department }})</td>
-                            <td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-user me-1"></i>{{ inventory.manager }}
+                                <div class="small text-muted">{{ inventory.department }}</div>
+                            </td>
+                            <td class="px-3 py-3">
                                 {% if inventory.status == 'planned' %}
-                                <span class="badge bg-warning text-dark">예정됨</span>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-clock me-1"></i>예정됨
+                                </span>
                                 {% elif inventory.status == 'in_progress' %}
-                                <span class="badge bg-primary">진행중</span>
+                                <span class="badge bg-primary">
+                                    <i class="fas fa-play me-1"></i>진행중
+                                </span>
                                 {% elif inventory.status == 'completed' %}
-                                <span class="badge bg-success">완료됨</span>
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check me-1"></i>완료됨
+                                </span>
                                 {% else %}
                                 <span class="badge bg-secondary">알 수 없음</span>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="px-3 py-3 text-center">
                                 <div class="dropdown">
-                                    <button class="btn-size-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ inventory.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                            type="button" 
+                                            id="dropdownMenuButton{{ inventory.id }}" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ inventory.id }}">
-                                        <li><a class="dropdown-item" href="{{ url_for('inventory.detail', inventory_id=inventory.id) }}">
-                                            <i class="fas fa-eye me-1"></i> 상세보기
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}">
-                                            <i class="fas fa-edit me-1"></i> 수정
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="{{ url_for('inventory.report', inventory_id=inventory.id) }}">
-                                            <i class="fas fa-file-alt me-1"></i> 보고서
-                                        </a></li>
+                                    <ul class="dropdown-menu shadow" aria-labelledby="dropdownMenuButton{{ inventory.id }}">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('inventory.detail', inventory_id=inventory.id) }}">
+                                                <i class="fas fa-eye me-2 text-primary"></i> 상세보기
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}">
+                                                <i class="fas fa-edit me-2 text-warning"></i> 수정
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('inventory.report', inventory_id=inventory.id) }}">
+                                                <i class="fas fa-file-alt me-2 text-info"></i> 보고서
+                                            </a>
+                                        </li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item text-danger" href="#" onclick="return confirm('정말로 삭제하시겠습니까?')">
-                                            <i class="fas fa-trash-alt me-1"></i> 삭제
-                                        </a></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" 
+                                               href="#" 
+                                               onclick="return confirm('정말로 삭제하시겠습니까?')">
+                                                <i class="fas fa-trash-alt me-2"></i> 삭제
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>
@@ -169,8 +202,15 @@
                         {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="7" class="text-center py-4">
-                            <p class="text-muted mb-0">현재 등록된 실사 정보가 없습니다.</p>
+                        <td colspan="7" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-clipboard-list fa-3x mb-3 text-muted"></i>
+                                <h5 class="text-muted">등록된 실사가 없습니다</h5>
+                                <p class="text-muted small">새 실사를 등록해보세요.</p>
+                                <a href="{{ url_for('inventory.create') }}" class="btn btn-primary mt-3">
+                                    <i class="fas fa-plus me-1"></i> 실사 등록
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     {% endif %}

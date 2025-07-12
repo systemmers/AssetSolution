@@ -72,7 +72,7 @@
                 <h6 class="card-subtitle mb-3 fw-semibold text-gray-700">
                     <i class="fas fa-receipt me-2 text-success"></i>세금 정보
                 </h6>
-                <ul class="list-unstyled">
+                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <i class="fas fa-building fa-fw me-2 text-success"></i>
                         <strong>사업자번호:</strong> {{ partner.tax_info.registration_number }}
@@ -146,24 +146,24 @@
                                         <th class="fw-semibold">업로드 날짜</th>
                                         <th class="fw-semibold text-center">관리</th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {% for doc in documents %}
-                                    <tr>
+                            </thead>
+                            <tbody>
+                                {% for doc in documents %}
+                                <tr>
                                         <td class="fw-medium">{{ doc.document_name }}</td>
-                                        <td>
-                                            {% if doc.document_type == '계약서' %}
-                                                <span class="badge bg-danger">{{ doc.document_type }}</span>
-                                            {% elif doc.document_type == '견적서' %}
-                                                <span class="badge bg-warning text-dark">{{ doc.document_type }}</span>
-                                            {% else %}
-                                                <span class="badge bg-secondary">{{ doc.document_type }}</span>
-                                            {% endif %}
-                                        </td>
+                                    <td>
+                                        {% if doc.document_type == '계약서' %}
+                                            <span class="badge bg-danger">{{ doc.document_type }}</span>
+                                        {% elif doc.document_type == '견적서' %}
+                                            <span class="badge bg-warning text-dark">{{ doc.document_type }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ doc.document_type }}</span>
+                                        {% endif %}
+                                    </td>
                                         <td class="text-muted">
                                             <i class="fas fa-calendar me-1"></i>{{ doc.uploaded_at.strftime('%Y-%m-%d') }}
                                         </td>
-                                        <td class="text-center">
+                                    <td class="text-center">
                                             <div class="btn-group" role="group">
                                                 <a href="#" class="btn btn-sm btn-outline-success" title="다운로드">
                                                     <i class="fas fa-download"></i>
@@ -175,11 +175,11 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                         </div>
                         {% else %}
                         <div class="text-center text-muted py-5">
@@ -303,18 +303,18 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+                <div class="modal-body">
                 <div class="text-center py-4">
                     <i class="fas fa-tools fa-3x mb-3 text-muted"></i>
                     <h6 class="text-muted">발주서 생성 기능</h6>
                     <p class="text-muted small">현재 개발중인 기능입니다.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
+                <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i> 닫기
-                </button>
-            </div>
+                    </button>
+                </div>
         </div>
     </div>
 </div>
@@ -329,18 +329,18 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+                <div class="modal-body">
                 <div class="text-center py-4">
                     <i class="fas fa-tools fa-3x mb-3 text-muted"></i>
                     <h6 class="text-muted">견적서 요청 기능</h6>
                     <p class="text-muted small">현재 개발중인 기능입니다.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
+                <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i> 닫기
-                </button>
-            </div>
+                    </button>
+                </div>
         </div>
     </div>
 </div>

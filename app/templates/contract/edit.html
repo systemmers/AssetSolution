@@ -4,129 +4,303 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">계약 수정</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-edit me-2 text-primary"></i>계약 수정
+    </h1>
     <div>
-            <a href="{{ url_for('contract.index') }}" class="btn-secondary-outline">
-        <i class="fas fa-arrow-left me-1"></i> 목록으로
-    </a>
+        <a href="{{ url_for('contract.index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> 목록으로
+        </a>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-10 mx-auto">
-        <div class="card shadow-sm">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">계약 정보 수정</h6>
+    <!-- 메인 수정 폼 -->
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-edit me-2 text-primary"></i>계약 정보 수정
+                </h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-4">
                 <form id="editForm" method="POST" action="{{ url_for('contract.edit', contract_id=contract_id) }}">
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="contractName" class="form-label">계약명 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-input" id="contractName" name="name" required value="{{ contract.name if contract else '' }}">
+                    <!-- 기본 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-info-circle me-2 text-primary"></i>기본 정보
+                            </h6>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="contractNumber" class="form-label">계약 번호 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-input" id="contractNumber" name="contract_no" required value="{{ contract.contract_no if contract else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="vendorName" class="form-label">계약 업체 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-input" id="vendorName" name="vendor" required value="{{ contract.vendor if contract else '' }}">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="contractType" class="form-label">계약 유형 <span class="text-danger">*</span></label>
-                            <select class="form-select-custom" id="contractType" name="type" required>
-                                <option value="">유형 선택</option>
-                                <option value="license" {% if contract and contract.type == 'license' %}selected{% endif %}>라이선스</option>
-                                <option value="maintenance" {% if contract and contract.type == 'maintenance' %}selected{% endif %}>유지보수</option>
-                                <option value="lease" {% if contract and contract.type == 'lease' %}selected{% endif %}>임대/리스</option>
-                                <option value="service" {% if contract and contract.type == 'service' %}selected{% endif %}>서비스</option>
-                                <option value="other" {% if contract and contract.type == 'other' %}selected{% endif %}>기타</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="startDate" class="form-label">시작일 <span class="text-danger">*</span></label>
-                            <input type="date" class="form-input" id="startDate" name="start_date" required value="{{ contract.start_date if contract else '' }}">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="endDate" class="form-label">종료일 <span class="text-danger">*</span></label>
-                            <input type="date" class="form-input" id="endDate" name="end_date" required value="{{ contract.end_date if contract else '' }}">
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="amount" class="form-label">계약 금액 <span class="text-danger">*</span></label>
+                            <label for="contractName" class="form-label fw-semibold">
+                                계약명 <span class="text-danger">*</span>
+                            </label>
                             <div class="input-group">
-                                <span class="input-group-text">₩</span>
-                                <input type="number" class="form-input" id="amount" name="amount" min="0" step="1000" required value="{{ contract.amount if contract else '' }}">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-file-signature text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" 
+                                       id="contractName" name="name" required 
+                                       value="{{ contract.name if contract else '' }}">
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="paymentTerm" class="form-label">결제 주기 <span class="text-danger">*</span></label>
-                            <select class="form-select-custom" id="paymentTerm" name="payment_term" required>
+                            <label for="contractNumber" class="form-label fw-semibold">
+                                계약 번호 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-hashtag text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" 
+                                       id="contractNumber" name="contract_no" required 
+                                       value="{{ contract.contract_no if contract else '' }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="vendorName" class="form-label fw-semibold">
+                                계약 업체 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-building text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" 
+                                       id="vendorName" name="vendor" required 
+                                       value="{{ contract.vendor if contract else '' }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="contractType" class="form-label fw-semibold">
+                                계약 유형 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="contractType" name="type" required>
+                                <option value="">유형 선택</option>
+                                <option value="license" {% if contract and contract.type == 'license' %}selected{% endif %}>📄 라이선스</option>
+                                <option value="maintenance" {% if contract and contract.type == 'maintenance' %}selected{% endif %}>🔧 유지보수</option>
+                                <option value="lease" {% if contract and contract.type == 'lease' %}selected{% endif %}>📝 임대/리스</option>
+                                <option value="service" {% if contract and contract.type == 'service' %}selected{% endif %}>🎯 서비스</option>
+                                <option value="other" {% if contract and contract.type == 'other' %}selected{% endif %}>📋 기타</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 계약 기간 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-calendar me-2 text-primary"></i>계약 기간
+                            </h6>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="startDate" class="form-label fw-semibold">
+                                시작일 <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="startDate" name="start_date" required 
+                                   value="{{ contract.start_date if contract else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="endDate" class="form-label fw-semibold">
+                                종료일 <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="endDate" name="end_date" required 
+                                   value="{{ contract.end_date if contract else '' }}">
+                        </div>
+                    </div>
+
+                    <!-- 금액 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-won-sign me-2 text-primary"></i>금액 정보
+                            </h6>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="amount" class="form-label fw-semibold">
+                                계약 금액 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-won-sign"></i>
+                                </span>
+                                <input type="number" class="form-control" id="amount" name="amount" 
+                                       min="0" step="1000" required 
+                                       value="{{ contract.amount if contract else '' }}">
+                                <span class="input-group-text bg-light">원</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="paymentTerm" class="form-label fw-semibold">
+                                결제 주기 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="paymentTerm" name="payment_term" required>
                                 <option value="">결제 주기 선택</option>
-                                <option value="monthly" {% if contract and contract.payment_term == '월간' %}selected{% endif %}>월간</option>
-                                <option value="quarterly" {% if contract and contract.payment_term == '분기별' %}selected{% endif %}>분기별</option>
-                                <option value="semiannual" {% if contract and contract.payment_term == '반기별' %}selected{% endif %}>반기별</option>
-                                <option value="annual" {% if contract and contract.payment_term == '연간' %}selected{% endif %}>연간</option>
-                                <option value="once" {% if contract and contract.payment_term == '일시불' %}selected{% endif %}>일시불</option>
+                                <option value="monthly" {% if contract and contract.payment_term == '월간' %}selected{% endif %}>📅 월간</option>
+                                <option value="quarterly" {% if contract and contract.payment_term == '분기별' %}selected{% endif %}>📆 분기별</option>
+                                <option value="semiannual" {% if contract and contract.payment_term == '반기별' %}selected{% endif %}>📊 반기별</option>
+                                <option value="annual" {% if contract and contract.payment_term == '연간' %}selected{% endif %}>🗓️ 연간</option>
+                                <option value="once" {% if contract and contract.payment_term == '일시불' %}selected{% endif %}>💰 일시불</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <!-- 담당 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-users me-2 text-primary"></i>담당 정보
+                            </h6>
+                        </div>
                         <div class="col-md-6 mb-3">
-                            <label for="department" class="form-label">담당 부서 <span class="text-danger">*</span></label>
-                            <select class="form-select-custom" id="department" name="department" required>
+                            <label for="department" class="form-label fw-semibold">
+                                담당 부서 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="department" name="department" required>
                                 <option value="">부서 선택</option>
-                                <option value="IT팀" {% if contract and contract.department == 'IT팀' %}selected{% endif %}>IT팀</option>
-                                <option value="경영지원팀" {% if contract and contract.department == '경영지원팀' %}selected{% endif %}>경영지원팀</option>
-                                <option value="디자인팀" {% if contract and contract.department == '디자인팀' %}selected{% endif %}>디자인팀</option>
-                                <option value="마케팅팀" {% if contract and contract.department == '마케팅팀' %}selected{% endif %}>마케팅팀</option>
-                                <option value="인사팀" {% if contract and contract.department == '인사팀' %}selected{% endif %}>인사팀</option>
-                                <option value="전사" {% if contract and contract.department == '전사' %}selected{% endif %}>전사</option>
+                                <option value="IT팀" {% if contract and contract.department == 'IT팀' %}selected{% endif %}>💻 IT팀</option>
+                                <option value="경영지원팀" {% if contract and contract.department == '경영지원팀' %}selected{% endif %}>📊 경영지원팀</option>
+                                <option value="디자인팀" {% if contract and contract.department == '디자인팀' %}selected{% endif %}>🎨 디자인팀</option>
+                                <option value="마케팅팀" {% if contract and contract.department == '마케팅팀' %}selected{% endif %}>📢 마케팅팀</option>
+                                <option value="인사팀" {% if contract and contract.department == '인사팀' %}selected{% endif %}>👤 인사팀</option>
+                                <option value="전사" {% if contract and contract.department == '전사' %}selected{% endif %}>🏢 전사</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="manager" class="form-label">담당자 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-input" id="manager" name="manager" required value="{{ contract.manager if contract else '' }}">
+                            <label for="manager" class="form-label fw-semibold">
+                                담당자 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-user text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" 
+                                       id="manager" name="manager" required 
+                                       value="{{ contract.manager if contract else '' }}">
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
                         <div class="col-md-6 mb-3">
-                            <label for="status" class="form-label">상태 <span class="text-danger">*</span></label>
-                            <select class="form-select-custom" id="status" name="status" required>
+                            <label for="status" class="form-label fw-semibold">
+                                상태 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="status" name="status" required>
                                 <option value="">상태 선택</option>
-                                <option value="active" {% if contract and contract.status == 'active' %}selected{% endif %}>진행중</option>
-                                <option value="expiring" {% if contract and contract.status == 'expiring' %}selected{% endif %}>만료예정</option>
-                                <option value="expired" {% if contract and contract.status == 'expired' %}selected{% endif %}>만료</option>
-                                <option value="terminated" {% if contract and contract.status == 'terminated' %}selected{% endif %}>해지</option>
+                                <option value="active" {% if contract and contract.status == 'active' %}selected{% endif %}>✅ 진행중</option>
+                                <option value="expiring" {% if contract and contract.status == 'expiring' %}selected{% endif %}>⚠️ 만료예정</option>
+                                <option value="expired" {% if contract and contract.status == 'expired' %}selected{% endif %}>❌ 만료</option>
+                                <option value="terminated" {% if contract and contract.status == 'terminated' %}selected{% endif %}>🔴 해지</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="notes" class="form-label">비고</label>
-                        <textarea class="form-input" id="notes" name="notes" rows="3">{{ contract.notes if contract and contract.notes else '' }}</textarea>
+                    <!-- 추가 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-plus-circle me-2 text-primary"></i>추가 정보
+                            </h6>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="notes" class="form-label fw-semibold">비고</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="4" 
+                                      placeholder="추가적인 비고사항을 입력하세요...">{{ contract.notes if contract and contract.notes else '' }}</textarea>
+                        </div>
                     </div>
 
-                    <div class="d-flex justify-content-between mt-4">
-                        <a href="{{ url_for('contract.detail', contract_id=contract_id) }}" class="btn-secondary-outline">취소</a>
-                        <button type="submit" class="btn-primary-solid">
-                            <i class="fas fa-save me-1"></i> 저장하기
+                    <!-- 제출 버튼 -->
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{{ url_for('contract.detail', contract_id=contract_id) }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i>취소
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save me-1"></i>저장하기
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 사이드바 -->
+    <div class="col-lg-4">
+        <!-- 수정 안내 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-question-circle me-2 text-primary"></i>수정 가이드
+                </h6>
+            </div>
+            <div class="card-body p-3">
+                <div class="alert alert-warning border-0 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle me-3 text-warning"></i>
+                        <div>
+                            <strong>주의사항</strong>
+                            <div class="text-muted small">계약 정보 수정 시 변경된 내용은 즉시 반영됩니다.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        계약 번호는 중복될 수 없습니다.
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        종료일은 시작일 이후로 설정해주세요.
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        금액은 세금포함 총액을 입력해주세요.
+                    </li>
+                    <li class="mb-0">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        상태 변경 시 관련자에게 알림이 발송됩니다.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 계약 이력 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-history me-2 text-primary"></i>수정 이력
+                </h6>
+            </div>
+            <div class="card-body p-3">
+                <div class="alert alert-light border border-light text-center">
+                    <i class="fas fa-clock fa-2x mb-2 text-muted"></i>
+                    <p class="text-muted mb-0 small">수정 이력이 없습니다</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 관련 자산 -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-link me-2 text-primary"></i>관련 자산
+                </h6>
+            </div>
+            <div class="card-body p-3">
+                <div class="alert alert-info border-0">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-info-circle me-3 text-info"></i>
+                        <div>
+                            <strong>안내</strong>
+                            <div class="text-muted small">이 계약과 연결된 자산들은 계약 수정 시 함께 업데이트됩니다.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <i class="fas fa-boxes fa-2x mb-2 text-muted"></i>
+                    <p class="text-muted mb-0 small">연결된 자산이 없습니다</p>
+                </div>
             </div>
         </div>
     </div>

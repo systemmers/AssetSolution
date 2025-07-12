@@ -74,20 +74,20 @@
                         <form id="generalSettingsForm">
                             <div class="mb-3">
                                 <label for="systemName" class="form-label">시스템 이름</label>
-                                <input type="text" class="form-input" id="systemName" value="자산관리 시스템">
+                                <input type="text" class="form-control" id="systemName" value="자산관리 시스템">
                             </div>
                             <div class="mb-3">
                                 <label for="companyName" class="form-label">회사명</label>
-                                <input type="text" class="form-input" id="companyName" value="(주)예시회사">
+                                <input type="text" class="form-control" id="companyName" value="(주)예시회사">
                             </div>
                             <div class="mb-3">
                                 <label for="logoFile" class="form-label">로고 이미지</label>
-                                <input class="form-input" type="file" id="logoFile">
+                                <input class="form-control" type="file" id="logoFile">
                                 <div class="form-text">최대 2MB, PNG 또는 JPG 파일</div>
                             </div>
                             <div class="mb-3">
                                 <label for="dateFormat" class="form-label">날짜 형식</label>
-                                <select class="form-select-custom" id="dateFormat">
+                                <select class="form-select" id="dateFormat">
                                     <option value="YYYY-MM-DD" selected>YYYY-MM-DD</option>
                                     <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                                     <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="currencyFormat" class="form-label">통화 형식</label>
-                                <select class="form-select-custom" id="currencyFormat">
+                                <select class="form-select" id="currencyFormat">
                                     <option value="KRW" selected>대한민국 원화 (₩)</option>
                                     <option value="USD">미국 달러 ($)</option>
                                     <option value="EUR">유로 (€)</option>
@@ -104,11 +104,11 @@
                             </div>
                             <div class="mb-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-checkbox" type="checkbox" id="enableNotifications" checked>
+                                    <input class="form-check-input" type="checkbox" id="enableNotifications" checked>
                                     <label class="form-check-label" for="enableNotifications">이메일 알림 사용</label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-primary-solid">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-1"></i> 설정 저장
                             </button>
                         </form>

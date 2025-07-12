@@ -4,9 +4,12 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">{% if asset %}자산 수정{% else %}자산 등록{% endif %}</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-{% if asset %}edit{% else %}plus-circle{% endif %} me-2 text-primary"></i>
+        {% if asset %}자산 수정{% else %}자산 등록{% endif %}
+    </h1>
     <div>
-        <a href="{{ url_for('assets.index') }}" class="btn-secondary-solid me-2">
+        <a href="{{ url_for('assets.index') }}" class="btn btn-secondary me-2">
             <i class="fas fa-times me-1"></i> 취소
         </a>
     </div>
@@ -16,34 +19,38 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-8">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">자산 정보</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-info-circle me-2 text-primary"></i>자산 정보
+                </h6>
             </div>
             <div class="card-body">
                 <form id="assetForm" method="POST" action="{{ url_for('assets.create') if not asset else url_for('assets.update', asset_id=asset.id) }}" enctype="multipart/form-data">
                     <!-- 기본 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">기본 정보</h6>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light border-bottom py-3">
+                            <h6 class="mb-0 fw-semibold text-gray-800">
+                                <i class="fas fa-clipboard-list me-2 text-primary"></i>기본 정보
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4 mb-0">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="assetNumber" class="form-label">자산번호 <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-input" id="assetNumber" name="asset_number" value="{{ asset.asset_number if asset else '' }}" {% if asset %}readonly{% endif %} required placeholder="예: ASSET-2024001">
+                                        <input type="text" class="form-control" id="assetNumber" name="asset_number" value="{{ asset.asset_number if asset else '' }}" {% if asset %}readonly{% endif %} required placeholder="예: ASSET-2024001">
                                 {% if not asset %}
                                 <div class="form-text">자동 생성을 원하면 비워두세요.</div>
                                 {% endif %}
                             </div>
                             <div class="mb-3">
                                 <label for="assetName" class="form-label">자산명 <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-input" id="assetName" name="name" value="{{ asset.name if asset else '' }}" required placeholder="예: 델 Latitude 노트북">
+                                        <input type="text" class="form-control" id="assetName" name="name" value="{{ asset.name if asset else '' }}" required placeholder="예: 델 Latitude 노트북">
                                     </div>
                                     <div class="mb-3">
                                         <label for="assetCategory" class="form-label">자산 유형 <span class="text-danger">*</span></label>
-                                        <select class="form-select-custom" id="assetCategory" name="asset_type" required>
+                                        <select class="form-select" id="assetCategory" name="asset_type" required>
                                             <option value="">-- 자산 유형을 선택하세요 --</option>
                                             <option value="IT_EQUIPMENT" data-category-ids="1,2">IT 기기 (노트북, 데스크탑)</option>
                                             <option value="NETWORK_EQUIPMENT" data-category-ids="5">네트워크 장비</option>
@@ -58,7 +65,7 @@
                             </div>
                             <div class="mb-3">
                                         <label for="assetSubCategory" class="form-label">자산 세부 카테고리</label>
-                                        <select class="form-select-custom" id="assetSubCategory" name="sub_category">
+                                        <select class="form-select" id="assetSubCategory" name="sub_category">
                                             <option value="">-- 세부 카테고리를 선택하세요 --</option>
                                             <option value="laptop" {% if asset and asset.sub_category == 'laptop' %}selected{% endif %}>노트북</option>
                                             <option value="desktop" {% if asset and asset.sub_category == 'desktop' %}selected{% endif %}>데스크탑</option>
@@ -79,7 +86,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="assetStatus" class="form-label">상태 <span class="text-danger">*</span></label>
-                                <select class="form-select-custom" id="assetStatus" name="status" required>
+                                <select class="form-select" id="assetStatus" name="status" required>
                                     <option value="">상태 선택</option>
                                     <option value="available" {% if asset and asset.status == 'available' %}selected{% endif %}>사용가능</option>
                                     <option value="in_use" {% if asset and asset.status == 'in_use' %}selected{% endif %}>사용중</option>
@@ -116,23 +123,25 @@
                     </div>
 
                     <!-- 취득 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">취득 정보</h6>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light border-bottom py-3">
+                            <h6 class="mb-0 fw-semibold text-gray-800">
+                                <i class="fas fa-shopping-cart me-2 text-primary"></i>취득 정보
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="purchaseDate" class="form-label">취득일자 <span class="text-danger">*</span></label>
-                                <input type="date" class="form-input" id="purchaseDate" name="purchase_date" value="{{ asset.purchase_date if asset else '' }}" required>
+                                <input type="date" class="form-control" id="purchaseDate" name="purchase_date" value="{{ asset.purchase_date if asset else '' }}" required>
                             </div>
                                 </div>
                                 <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="purchasePrice" class="form-label">취득가액</label>
                                 <div class="input-group">
-                                            <input type="number" class="form-input" id="purchasePrice" name="purchase_price" value="{{ asset.purchase_price if asset else '' }}" placeholder="예: 1200000">
+                                            <input type="number" class="form-control" id="purchasePrice" name="purchase_price" value="{{ asset.purchase_price if asset else '' }}" placeholder="예: 1200000">
                                     <span class="input-group-text">원</span>
                                 </div>
                             </div>
@@ -141,7 +150,7 @@
                             <div class="mb-3">
                                 <label for="lifespan" class="form-label">내용연수</label>
                                 <div class="input-group">
-                                            <input type="number" class="form-input" id="lifespan" name="lifespan" value="{{ asset.lifespan if asset else '' }}" placeholder="예: 5" min="1">
+                                            <input type="number" class="form-control" id="lifespan" name="lifespan" value="{{ asset.lifespan if asset else '' }}" placeholder="예: 5" min="1">
                                     <span class="input-group-text">년</span>
                                         </div>
                                     </div>
@@ -151,9 +160,11 @@
                     </div>
 
                     <!-- 동적 필드 컨테이너 -->
-                    <div id="dynamicFieldsContainer" class="card shadow-sm mb-4 d-none">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">카테고리별 상세 정보</h6>
+                    <div id="dynamicFieldsContainer" class="card shadow-sm border-0 mb-4 d-none">
+                        <div class="card-header bg-light border-bottom py-3">
+                            <h6 class="mb-0 fw-semibold text-gray-800">
+                                <i class="fas fa-cogs me-2 text-primary"></i>카테고리별 상세 정보
+                            </h6>
                         </div>
                         <div class="card-body">
                             <!-- IT 기기 필드 -->
@@ -162,37 +173,37 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="os" class="form-label">운영체제</label>
-                                            <input type="text" class="form-input" id="os" name="os" placeholder="예: Windows 11 Pro">
+                                            <input type="text" class="form-control" id="os" name="os" placeholder="예: Windows 11 Pro">
                                         </div>
                                         <div class="mb-3">
                                             <label for="cpu" class="form-label">프로세서 (CPU)</label>
-                                            <input type="text" class="form-input" id="cpu" name="cpu" placeholder="예: Intel Core i7-12700H">
+                                            <input type="text" class="form-control" id="cpu" name="cpu" placeholder="예: Intel Core i7-12700H">
                                         </div>
                                         <div class="mb-3">
                                             <label for="ram" class="form-label">메모리 (RAM)</label>
-                                            <input type="text" class="form-input" id="ram" name="ram" placeholder="예: 16GB DDR4">
+                                            <input type="text" class="form-control" id="ram" name="ram" placeholder="예: 16GB DDR4">
                                         </div>
                                         <div class="mb-3">
                                             <label for="storage" class="form-label">저장 장치</label>
-                                            <input type="text" class="form-input" id="storage" name="storage" placeholder="예: 512GB NVMe SSD">
+                                            <input type="text" class="form-control" id="storage" name="storage" placeholder="예: 512GB NVMe SSD">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="graphicsCard" class="form-label">그래픽 카드</label>
-                                            <input type="text" class="form-input" id="graphicsCard" name="graphics_card" placeholder="예: NVIDIA GeForce RTX 3060">
+                                            <input type="text" class="form-control" id="graphicsCard" name="graphics_card" placeholder="예: NVIDIA GeForce RTX 3060">
                                         </div>
                                         <div class="mb-3">
                                             <label for="displaySize" class="form-label">디스플레이 크기</label>
-                                            <input type="text" class="form-input" id="displaySize" name="display_size" placeholder="예: 15.6인치">
+                                            <input type="text" class="form-control" id="displaySize" name="display_size" placeholder="예: 15.6인치">
                                         </div>
                                         <div class="mb-3">
                                             <label for="macAddress" class="form-label">MAC 주소</label>
-                                            <input type="text" class="form-input" id="macAddress" name="mac_address" placeholder="예: 00:1A:2B:3C:4D:5E">
+                                            <input type="text" class="form-control" id="macAddress" name="mac_address" placeholder="예: 00:1A:2B:3C:4D:5E">
                                         </div>
                                         <div class="mb-3">
                                             <label for="ipAddress" class="form-label">IP 주소</label>
-                                            <input type="text" class="form-input" id="ipAddress" name="ip_address" placeholder="예: 192.168.1.100">
+                                            <input type="text" class="form-control" id="ipAddress" name="ip_address" placeholder="예: 192.168.1.100">
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +215,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="deviceType" class="form-label">장비 유형</label>
-                                            <select class="form-select-custom" id="deviceType" name="device_type">
+                                            <select class="form-select" id="deviceType" name="device_type">
                                                 <option value="">선택</option>
                                                 <option value="router">라우터</option>
                                                 <option value="switch">스위치</option>
@@ -214,25 +225,25 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="firmwareVersion" class="form-label">펌웨어 버전</label>
-                                            <input type="text" class="form-input" id="firmwareVersion" name="firmware_version" placeholder="예: 1.0.5 build 20240101">
+                                            <input type="text" class="form-control" id="firmwareVersion" name="firmware_version" placeholder="예: 1.0.5 build 20240101">
                                         </div>
                                         <div class="mb-3">
                                             <label for="managementIP" class="form-label">관리 IP 주소</label>
-                                            <input type="text" class="form-input" id="managementIP" name="management_ip" placeholder="예: 192.168.0.254">
+                                            <input type="text" class="form-control" id="managementIP" name="management_ip" placeholder="예: 192.168.0.254">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="ports" class="form-label">총 포트 수</label>
-                                            <input type="number" class="form-input" id="ports" name="ports" placeholder="예: 24">
+                                            <input type="number" class="form-control" id="ports" name="ports" placeholder="예: 24">
                                         </div>
                                         <div class="mb-3">
                                             <label for="poePorts" class="form-label">PoE 포트 수</label>
-                                            <input type="number" class="form-input" id="poePorts" name="poe_ports" placeholder="예: 12">
+                                            <input type="number" class="form-control" id="poePorts" name="poe_ports" placeholder="예: 12">
                                         </div>
                                         <div class="mb-3">
                                             <label for="uplinkSpeed" class="form-label">업링크 속도</label>
-                                            <input type="text" class="form-input" id="uplinkSpeed" name="uplink_speed" placeholder="예: 10 Gbps">
+                                            <input type="text" class="form-control" id="uplinkSpeed" name="uplink_speed" placeholder="예: 10 Gbps">
                                         </div>
                                     </div>
                                 </div>
@@ -244,29 +255,29 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="applianceFunction" class="form-label">주요 기능</label>
-                                            <input type="text" class="form-input" id="applianceFunction" name="appliance_function" placeholder="예: 인쇄, 복사, 스캔, 팩스">
+                                            <input type="text" class="form-control" id="applianceFunction" name="appliance_function" placeholder="예: 인쇄, 복사, 스캔, 팩스">
                                         </div>
                                         <div class="mb-3">
                                             <label for="connectionType" class="form-label">연결 방식</label>
-                                            <input type="text" class="form-input" id="connectionType" name="connection_type" placeholder="예: 유선 LAN, Wi-Fi, USB">
+                                            <input type="text" class="form-control" id="connectionType" name="connection_type" placeholder="예: 유선 LAN, Wi-Fi, USB">
                                         </div>
                                         <div class="mb-3">
                                             <label for="printSpeed" class="form-label">인쇄 속도</label>
-                                            <input type="text" class="form-input" id="printSpeed" name="print_speed" placeholder="예: 흑백 30ppm, 컬러 15ppm">
+                                            <input type="text" class="form-control" id="printSpeed" name="print_speed" placeholder="예: 흑백 30ppm, 컬러 15ppm">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="tonerInkModel" class="form-label">토너/잉크 모델명</label>
-                                            <input type="text" class="form-input" id="tonerInkModel" name="toner_ink_model" placeholder="예: HP 410A Black Toner">
+                                            <input type="text" class="form-control" id="tonerInkModel" name="toner_ink_model" placeholder="예: HP 410A Black Toner">
                                         </div>
                                         <div class="mb-3">
                                             <label for="networkIpAppliance" class="form-label">네트워크 IP</label>
-                                            <input type="text" class="form-input" id="networkIpAppliance" name="network_ip_appliance" placeholder="예: 192.168.1.200">
+                                            <input type="text" class="form-control" id="networkIpAppliance" name="network_ip_appliance" placeholder="예: 192.168.1.200">
                                         </div>
                                         <div class="mb-3">
                                             <label for="maintenanceSchedule" class="form-label">유지보수 주기</label>
-                                            <textarea class="form-input" id="maintenanceSchedule" name="maintenance_schedule" rows="3" placeholder="예: 3개월마다 점검, 마지막 점검일: 2024-05-15"></textarea>
+                                            <textarea class="form-control" id="maintenanceSchedule" name="maintenance_schedule" rows="3" placeholder="예: 3개월마다 점검, 마지막 점검일: 2024-05-15"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -278,7 +289,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="serverType" class="form-label">서버 유형</label>
-                                            <select class="form-select-custom" id="serverType" name="server_type">
+                                            <select class="form-select" id="serverType" name="server_type">
                                                 <option value="">선택</option>
                                                 <option value="web_server">웹 서버</option>
                                                 <option value="database_server">데이터베이스 서버</option>
@@ -288,21 +299,21 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="cpuCores" class="form-label">CPU 코어 수</label>
-                                            <input type="number" class="form-input" id="cpuCores" name="cpu_cores" placeholder="예: 8">
+                                            <input type="number" class="form-control" id="cpuCores" name="cpu_cores" placeholder="예: 8">
                                         </div>
                                         <div class="mb-3">
                                             <label for="serverRam" class="form-label">메모리 (RAM)</label>
-                                            <input type="text" class="form-input" id="serverRam" name="server_ram" placeholder="예: 32GB DDR4 ECC">
+                                            <input type="text" class="form-control" id="serverRam" name="server_ram" placeholder="예: 32GB DDR4 ECC">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="storageConfig" class="form-label">저장장치 구성</label>
-                                            <textarea class="form-input" id="storageConfig" name="storage_config" rows="3" placeholder="예: RAID 1, 2TB HDD x2"></textarea>
+                                            <textarea class="form-control" id="storageConfig" name="storage_config" rows="3" placeholder="예: RAID 1, 2TB HDD x2"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="serverOS" class="form-label">서버 운영체제</label>
-                                            <input type="text" class="form-input" id="serverOS" name="server_os" placeholder="예: Ubuntu Server 22.04 LTS">
+                                            <input type="text" class="form-control" id="serverOS" name="server_os" placeholder="예: Ubuntu Server 22.04 LTS">
                                         </div>
                                     </div>
                                 </div>
@@ -314,15 +325,15 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="screenSize" class="form-label">화면 크기</label>
-                                            <input type="text" class="form-input" id="screenSize" name="screen_size" placeholder="예: 27인치">
+                                            <input type="text" class="form-control" id="screenSize" name="screen_size" placeholder="예: 27인치">
                                         </div>
                                         <div class="mb-3">
                                             <label for="resolution" class="form-label">해상도</label>
-                                            <input type="text" class="form-input" id="resolution" name="resolution" placeholder="예: 2560x1440 (QHD)">
+                                            <input type="text" class="form-control" id="resolution" name="resolution" placeholder="예: 2560x1440 (QHD)">
                                         </div>
                                         <div class="mb-3">
                                             <label for="panelType" class="form-label">패널 타입</label>
-                                            <select class="form-select-custom" id="panelType" name="panel_type">
+                                            <select class="form-select" id="panelType" name="panel_type">
                                                 <option value="">선택</option>
                                                 <option value="IPS">IPS</option>
                                                 <option value="VA">VA</option>
@@ -334,15 +345,15 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="refreshRate" class="form-label">주사율</label>
-                                            <input type="text" class="form-input" id="refreshRate" name="refresh_rate" placeholder="예: 144Hz">
+                                            <input type="text" class="form-control" id="refreshRate" name="refresh_rate" placeholder="예: 144Hz">
                                         </div>
                                         <div class="mb-3">
                                             <label for="connectivity" class="form-label">연결 포트</label>
-                                            <input type="text" class="form-input" id="connectivity" name="connectivity" placeholder="예: HDMI, DisplayPort, USB-C">
+                                            <input type="text" class="form-control" id="connectivity" name="connectivity" placeholder="예: HDMI, DisplayPort, USB-C">
                                         </div>
                                         <div class="mb-3">
                                             <label for="adjustability" class="form-label">조절 기능</label>
-                                            <input type="text" class="form-input" id="adjustability" name="adjustability" placeholder="예: 높이, 틸트, 회전 조절 가능">
+                                            <input type="text" class="form-control" id="adjustability" name="adjustability" placeholder="예: 높이, 틸트, 회전 조절 가능">
                                         </div>
                                     </div>
                                 </div>
@@ -354,7 +365,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="furnitureType" class="form-label">가구 유형</label>
-                                            <select class="form-select-custom" id="furnitureType" name="furniture_type">
+                                            <select class="form-select" id="furnitureType" name="furniture_type">
                                                 <option value="">선택</option>
                                                 <option value="desk">책상</option>
                                                 <option value="chair">의자</option>
@@ -367,25 +378,25 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="material" class="form-label">재질</label>
-                                            <input type="text" class="form-input" id="material" name="material" placeholder="예: 원목, 스틸, 플라스틱, 패브릭">
+                                            <input type="text" class="form-control" id="material" name="material" placeholder="예: 원목, 스틸, 플라스틱, 패브릭">
                                         </div>
                                         <div class="mb-3">
                                             <label for="dimensions" class="form-label">크기 (가로x세로x높이)</label>
-                                            <input type="text" class="form-input" id="dimensions" name="dimensions" placeholder="예: 1200x800x750mm">
+                                            <input type="text" class="form-control" id="dimensions" name="dimensions" placeholder="예: 1200x800x750mm">
                                         </div>
                                         <div class="mb-3">
                                             <label for="color" class="form-label">색상</label>
-                                            <input type="text" class="form-input" id="color" name="color" placeholder="예: 화이트, 블랙, 브라운">
+                                            <input type="text" class="form-control" id="color" name="color" placeholder="예: 화이트, 블랙, 브라운">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="weight" class="form-label">무게</label>
-                                            <input type="text" class="form-input" id="weight" name="weight" placeholder="예: 25kg">
+                                            <input type="text" class="form-control" id="weight" name="weight" placeholder="예: 25kg">
                                         </div>
                                         <div class="mb-3">
                                             <label for="assemblyRequired" class="form-label">조립 여부</label>
-                                            <select class="form-select-custom" id="assemblyRequired" name="assembly_required">
+                                            <select class="form-select" id="assemblyRequired" name="assembly_required">
                                                 <option value="">선택</option>
                                                 <option value="yes">조립 필요</option>
                                                 <option value="no">완제품</option>
@@ -393,11 +404,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="warrantyPeriod" class="form-label">보증 기간</label>
-                                            <input type="text" class="form-input" id="warrantyPeriod" name="warranty_period" placeholder="예: 2년">
+                                            <input type="text" class="form-control" id="warrantyPeriod" name="warranty_period" placeholder="예: 2년">
                                         </div>
                                         <div class="mb-3">
                                             <label for="condition" class="form-label">상태</label>
-                                            <select class="form-select-custom" id="condition" name="condition">
+                                            <select class="form-select" id="condition" name="condition">
                                                 <option value="">선택</option>
                                                 <option value="new">신품</option>
                                                 <option value="like_new">거의 새 것</option>
@@ -416,7 +427,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="softwareType" class="form-label">소프트웨어 유형</label>
-                                            <select class="form-select-custom" id="softwareType" name="software_type">
+                                            <select class="form-select" id="softwareType" name="software_type">
                                                 <option value="">선택</option>
                                                 <option value="operating_system">운영체제</option>
                                                 <option value="office_suite">오피스 제품군</option>
@@ -430,11 +441,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="version" class="form-label">버전</label>
-                                            <input type="text" class="form-input" id="version" name="version" placeholder="예: 2024, v1.5.2">
+                                            <input type="text" class="form-control" id="version" name="version" placeholder="예: 2024, v1.5.2">
                                         </div>
                                         <div class="mb-3">
                                             <label for="licenseType" class="form-label">라이선스 유형</label>
-                                            <select class="form-select-custom" id="licenseType" name="license_type">
+                                            <select class="form-select" id="licenseType" name="license_type">
                                                 <option value="">선택</option>
                                                 <option value="perpetual">영구 라이선스</option>
                                                 <option value="subscription">구독형</option>
@@ -445,25 +456,25 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="licenseKey" class="form-label">라이선스 키</label>
-                                            <input type="text" class="form-input" id="licenseKey" name="license_key" placeholder="라이선스 키 (선택사항)">
+                                            <input type="text" class="form-control" id="licenseKey" name="license_key" placeholder="라이선스 키 (선택사항)">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="installationDate" class="form-label">설치일</label>
-                                            <input type="date" class="form-input" id="installationDate" name="installation_date">
+                                            <input type="date" class="form-control" id="installationDate" name="installation_date">
                                         </div>
                                         <div class="mb-3">
                                             <label for="expirationDate" class="form-label">만료일</label>
-                                            <input type="date" class="form-input" id="expirationDate" name="expiration_date">
+                                            <input type="date" class="form-control" id="expirationDate" name="expiration_date">
                                         </div>
                                         <div class="mb-3">
                                             <label for="maxUsers" class="form-label">최대 사용자 수</label>
-                                            <input type="number" class="form-input" id="maxUsers" name="max_users" placeholder="예: 1, 5, 무제한은 0">
+                                            <input type="number" class="form-control" id="maxUsers" name="max_users" placeholder="예: 1, 5, 무제한은 0">
                                         </div>
                                         <div class="mb-3">
                                             <label for="supportLevel" class="form-label">기술 지원 수준</label>
-                                            <select class="form-select-custom" id="supportLevel" name="support_level">
+                                            <select class="form-select" id="supportLevel" name="support_level">
                                                 <option value="">선택</option>
                                                 <option value="none">지원 없음</option>
                                                 <option value="community">커뮤니티 지원</option>
@@ -479,10 +490,12 @@
                     </div>
 
                     <!-- 소프트웨어 관리 섹션 (IT 기기 전용) -->
-                    <div id="softwareManagementContainer" class="card shadow-sm mb-4 d-none">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">설치된 소프트웨어</h6>
-                            <button type="button" class="btn-size-sm btn-outline-primary" id="addSoftwareBtn">
+                                         <div id="softwareManagementContainer" class="card shadow-sm border-0 mb-4 d-none">
+                         <div class="card-header bg-light border-bottom py-3 d-flex justify-content-between align-items-center">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-download me-2 text-primary"></i>설치된 소프트웨어
+                             </h6>
+                                                         <button type="button" class="btn btn-outline-primary btn-sm" id="addSoftwareBtn">
                                 <i class="fas fa-plus me-1"></i>소프트웨어 추가
                             </button>
                         </div>
@@ -492,7 +505,7 @@
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label for="softwareCategoryFilter" class="form-label">카테고리</label>
-                        <select class="form-select-custom" id="softwareCategoryFilter">
+                        <select class="form-select" id="softwareCategoryFilter">
                             <option value="">전체 카테고리</option>
                         </select>
                     </div>
@@ -502,17 +515,17 @@
                             <span class="input-group-text">
                                 <i class="fas fa-search"></i>
                             </span>
-                            <input type="text" class="form-input" id="softwareSearch" placeholder="소프트웨어명, 개발사, 설명을 입력하세요...">
+                            <input type="text" class="form-control" id="softwareSearch" placeholder="소프트웨어명, 개발사, 설명을 입력하세요...">
                         </div>
                         <div id="softwareSearchResults" class="dropdown-menu w-100" style="max-height: 300px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 0.375rem; margin-top: 2px;"></div>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12 d-flex justify-content-end">
-                        <button type="button" class="btn-secondary-solid me-2" id="cancelSoftwareBtn">
+                                                 <button type="button" class="btn btn-secondary me-2" id="cancelSoftwareBtn">
                             <i class="fas fa-times me-1"></i>취소
                         </button>
-                        <button type="button" class="btn-primary-solid" id="selectSoftwareBtn">
+                         <button type="button" class="btn btn-primary" id="selectSoftwareBtn">
                             <i class="fas fa-check me-1"></i>완료
                         </button>
                     </div>
@@ -543,38 +556,40 @@
                     </div>
 
                     <!-- 상세 정보 및 관리 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">상세 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-info-circle me-2 text-primary"></i>상세 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4 mb-4">
                         <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="manufacturer" class="form-label">제조사</label>
-                                        <input type="text" class="form-input" id="manufacturer" name="manufacturer" placeholder="예: Samsung, HP">
+                                        <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="예: Samsung, HP">
                                     </div>
                                     <div class="mb-3">
                                         <label for="modelName" class="form-label">모델명</label>
-                                        <input type="text" class="form-input" id="modelName" name="model_name" placeholder="예: Odyssey G7, LaserJet Pro M404n">
+                                        <input type="text" class="form-control" id="modelName" name="model_name" placeholder="예: Odyssey G7, LaserJet Pro M404n">
                                     </div>
                             <div class="mb-3">
                                 <label for="specifications" class="form-label">사양/규격</label>
-                                        <textarea class="form-input" id="specifications" name="specifications" rows="4" placeholder="상세 사양 및 규격 정보를 입력하세요">{{ asset.specifications if asset else '' }}</textarea>
+                                        <textarea class="form-control" id="specifications" name="specifications" rows="4" placeholder="상세 사양 및 규격 정보를 입력하세요">{{ asset.specifications if asset else '' }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="serialNumber" class="form-label">일련번호</label>
-                                        <input type="text" class="form-input" id="serialNumber" name="serial_number" placeholder="예: XYZ123ABC456">
+                                        <input type="text" class="form-control" id="serialNumber" name="serial_number" placeholder="예: XYZ123ABC456">
                                     </div>
                                     <div class="mb-3">
                                         <label for="quantity" class="form-label">수량</label>
-                                        <input type="number" class="form-input" id="quantity" name="quantity" value="1" min="1" placeholder="예: 1">
+                                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" placeholder="예: 1">
                                     </div>
                                     <div class="mb-3">
                                         <label for="assetTag" class="form-label">자산 태그 번호</label>
-                                        <input type="text" class="form-input" id="assetTag" name="asset_tag" placeholder="예: A001-IT-005">
+                                        <input type="text" class="form-control" id="assetTag" name="asset_tag" placeholder="예: A001-IT-005">
                                     </div>
                                 </div>
                             </div>
@@ -582,38 +597,40 @@
                     </div>
 
                     <!-- 구매처 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">구매처 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-store me-2 text-primary"></i>구매처 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="purchaseVendor" class="form-label">구매처</label>
-                                        <input type="text" class="form-input" id="purchaseVendor" name="purchase_vendor" placeholder="예: (주)테크솔루션">
+                                        <input type="text" class="form-control" id="purchaseVendor" name="purchase_vendor" placeholder="예: (주)테크솔루션">
                                     </div>
                                     <div class="mb-3">
                                         <label for="purchaseOrderNumber" class="form-label">구매 주문 번호</label>
-                                        <input type="text" class="form-input" id="purchaseOrderNumber" name="purchase_order_number" placeholder="예: PO-2024-001">
+                                        <input type="text" class="form-control" id="purchaseOrderNumber" name="purchase_order_number" placeholder="예: PO-2024-001">
                                     </div>
                                     <div class="mb-3">
                                         <label for="purchaseContact" class="form-label">구매 담당자 이름</label>
-                                        <input type="text" class="form-input" id="purchaseContact" name="purchase_contact" placeholder="예: 김영희">
+                                        <input type="text" class="form-control" id="purchaseContact" name="purchase_contact" placeholder="예: 김영희">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="purchaseContactJobTitle" class="form-label">구매 담당자 직책</label>
-                                        <input type="text" class="form-input" id="purchaseContactJobTitle" name="purchase_contact_job_title" placeholder="예: 대리">
+                                        <input type="text" class="form-control" id="purchaseContactJobTitle" name="purchase_contact_job_title" placeholder="예: 대리">
                                     </div>
                                     <div class="mb-3">
                                         <label for="purchaseContactNumber" class="form-label">구매 담당자 연락처</label>
-                                        <input type="text" class="form-input" id="purchaseContactNumber" name="purchase_contact_number" placeholder="예: 02-1234-5678">
+                                        <input type="text" class="form-control" id="purchaseContactNumber" name="purchase_contact_number" placeholder="예: 02-1234-5678">
                                     </div>
                                     <div class="mb-3">
                                         <label for="purchaseContactEmail" class="form-label">구매 담당자 이메일</label>
-                                        <input type="email" class="form-input" id="purchaseContactEmail" name="purchase_contact_email" placeholder="예: younghee.kim@techsolution.com">
+                                        <input type="email" class="form-control" id="purchaseContactEmail" name="purchase_contact_email" placeholder="예: younghee.kim@techsolution.com">
                                     </div>
                                 </div>
                             </div>
@@ -621,52 +638,54 @@
                     </div>
 
                     <!-- AS 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">AS 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-tools me-2 text-primary"></i>AS 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="serviceProvider" class="form-label">서비스 제공 업체</label>
-                                        <input type="text" class="form-input" id="serviceProvider" name="service_provider" placeholder="예: Dell 서비스 센터">
+                                        <input type="text" class="form-control" id="serviceProvider" name="service_provider" placeholder="예: Dell 서비스 센터">
                                     </div>
                                     <div class="mb-3">
                                         <label for="asContactPerson" class="form-label">AS 담당자 이름</label>
-                                        <input type="text" class="form-input" id="asContactPerson" name="as_contact_person" placeholder="예: 박철수 기사">
+                                        <input type="text" class="form-control" id="asContactPerson" name="as_contact_person" placeholder="예: 박철수 기사">
                                     </div>
                                     <div class="mb-3">
                                         <label for="asContactJobTitle" class="form-label">AS 담당자 직책</label>
-                                        <input type="text" class="form-input" id="asContactJobTitle" name="as_contact_job_title" placeholder="예: 서비스 엔지니어">
+                                        <input type="text" class="form-control" id="asContactJobTitle" name="as_contact_job_title" placeholder="예: 서비스 엔지니어">
                                     </div>
                                     <div class="mb-3">
                                         <label for="asContactNumber" class="form-label">AS 담당자 연락처</label>
-                                        <input type="text" class="form-input" id="asContactNumber" name="as_contact_number" placeholder="예: 1588-1234">
+                                        <input type="text" class="form-control" id="asContactNumber" name="as_contact_number" placeholder="예: 1588-1234">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="asContactEmail" class="form-label">AS 담당자 이메일</label>
-                                        <input type="email" class="form-input" id="asContactEmail" name="as_contact_email" placeholder="예: support@dell.com">
+                                        <input type="email" class="form-control" id="asContactEmail" name="as_contact_email" placeholder="예: support@dell.com">
                                     </div>
                                     <div class="mb-3">
                                         <label for="warrantyStartDate" class="form-label">보증 시작일</label>
-                                        <input type="date" class="form-input" id="warrantyStartDate" name="warranty_start_date">
+                                        <input type="date" class="form-control" id="warrantyStartDate" name="warranty_start_date">
                                     </div>
                                     <div class="mb-3">
                                         <label for="warrantyEndDate" class="form-label">보증 종료일</label>
-                                        <input type="date" class="form-input" id="warrantyEndDate" name="warranty_end_date">
+                                        <input type="date" class="form-control" id="warrantyEndDate" name="warranty_end_date">
                                     </div>
                                     <div class="mb-3">
                                         <label for="lastAsDate" class="form-label">마지막 AS일</label>
-                                        <input type="date" class="form-input" id="lastAsDate" name="last_as_date">
+                                        <input type="date" class="form-control" id="lastAsDate" name="last_as_date">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="asVisitFrequency" class="form-label">AS 방문 주기</label>
-                                        <input type="text" class="form-input" id="asVisitFrequency" name="as_visit_frequency" placeholder="예: 연간 1회, 필요 시">
+                                        <input type="text" class="form-control" id="asVisitFrequency" name="as_visit_frequency" placeholder="예: 연간 1회, 필요 시">
                                     </div>
                                 </div>
                             </div>
@@ -674,24 +693,26 @@
                     </div>
 
                     <!-- 자산 관리 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">자산 관리 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-clipboard-check me-2 text-primary"></i>자산 관리 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="storageLocation" class="form-label">보관 장소</label>
-                                        <input type="text" class="form-input" id="storageLocation" name="storage_location" placeholder="예: 1층 창고, 서버실 랙 A-3">
+                                        <input type="text" class="form-control" id="storageLocation" name="storage_location" placeholder="예: 1층 창고, 서버실 랙 A-3">
                                     </div>
                                     <div class="mb-3">
                                         <label for="actualUsageLocation" class="form-label">실사용 위치</label>
-                                        <input type="text" class="form-input" id="actualUsageLocation" name="actual_usage_location" placeholder="예: 5층 개발팀, 회의실 302">
+                                        <input type="text" class="form-control" id="actualUsageLocation" name="actual_usage_location" placeholder="예: 5층 개발팀, 회의실 302">
                                     </div>
                                     <div class="mb-3">
                                         <label for="managingDepartment" class="form-label">관리 부서</label>
-                                        <select class="form-select-custom" id="managingDepartment" name="managing_department">
+                                        <select class="form-select" id="managingDepartment" name="managing_department">
                                             <option value="">부서 선택</option>
                                             <option value="1">개발팀</option>
                                             <option value="2">IT팀</option>
@@ -707,11 +728,11 @@
                         <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="inspectionCycle" class="form-label">점검 주기</label>
-                                        <input type="text" class="form-input" id="inspectionCycle" name="inspection_cycle" placeholder="예: 매월 1일, 분기별">
+                                        <input type="text" class="form-control" id="inspectionCycle" name="inspection_cycle" placeholder="예: 매월 1일, 분기별">
                                     </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label">위치</label>
-                                <select class="form-select-custom" id="location" name="location_id">
+                                <select class="form-select" id="location" name="location_id">
                                     <option value="">위치 선택</option>
                                             <option value="1">본사 1층</option>
                                             <option value="2">본사 2층</option>
@@ -728,38 +749,40 @@
                     </div>
 
                     <!-- 사용자 및 책임자 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">사용자 및 책임자 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-users me-2 text-primary"></i>사용자 및 책임자 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="actualUser" class="form-label">실사용자</label>
-                                        <input type="text" class="form-input" id="actualUser" name="actual_user" placeholder="예: 김선영">
+                                        <input type="text" class="form-control" id="actualUser" name="actual_user" placeholder="예: 김선영">
                                     </div>
                                     <div class="mb-3">
                                         <label for="managerName" class="form-label">관리 담당자 이름</label>
-                                        <input type="text" class="form-input" id="managerName" name="manager_name" placeholder="예: 이지훈">
+                                        <input type="text" class="form-control" id="managerName" name="manager_name" placeholder="예: 이지훈">
                                     </div>
                                     <div class="mb-3">
                                         <label for="managerJobTitle" class="form-label">관리 담당자 직책</label>
-                                        <input type="text" class="form-input" id="managerJobTitle" name="manager_job_title" placeholder="예: 대리, 과장">
+                                        <input type="text" class="form-control" id="managerJobTitle" name="manager_job_title" placeholder="예: 대리, 과장">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="responsiblePersonName" class="form-label">책임자 이름</label>
-                                        <input type="text" class="form-input" id="responsiblePersonName" name="responsible_person_name" placeholder="예: 박정수">
+                                        <input type="text" class="form-control" id="responsiblePersonName" name="responsible_person_name" placeholder="예: 박정수">
                                     </div>
                                     <div class="mb-3">
                                         <label for="responsiblePersonJobTitle" class="form-label">책임자 직책</label>
-                                        <input type="text" class="form-input" id="responsiblePersonJobTitle" name="responsible_person_job_title" placeholder="예: 팀장, 부장">
+                                        <input type="text" class="form-control" id="responsiblePersonJobTitle" name="responsible_person_job_title" placeholder="예: 팀장, 부장">
                             </div>
                             <div class="mb-3">
                                         <label for="user" class="form-label">시스템 사용자</label>
-                                        <select class="form-select-custom" id="user" name="user_id">
+                                        <select class="form-select" id="user" name="user_id">
                                             <option value="">사용자 선택</option>
                                             <option value="1">홍길동</option>
                                             <option value="2">김철수</option>
@@ -773,24 +796,26 @@
                     </div>
 
                     <!-- 자산 가치 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">자산 가치 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-chart-line me-2 text-primary"></i>자산 가치 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="usefulLife" class="form-label">내용연수 (년)</label>
-                                        <input type="number" class="form-input" id="usefulLife" name="useful_life" placeholder="예: 5" min="1">
+                                        <input type="number" class="form-control" id="usefulLife" name="useful_life" placeholder="예: 5" min="1">
                                     </div>
                                     <div class="mb-3">
                                         <label for="depreciationStartDate" class="form-label">감가상각 시작일</label>
-                                        <input type="date" class="form-input" id="depreciationStartDate" name="depreciation_start_date">
+                                        <input type="date" class="form-control" id="depreciationStartDate" name="depreciation_start_date">
                             </div>
                             <div class="mb-3">
                                         <label for="depreciationMethod" class="form-label">감가상각법</label>
-                                        <select class="form-select-custom" id="depreciationMethod" name="depreciation_method">
+                                        <select class="form-select" id="depreciationMethod" name="depreciation_method">
                                             <option value="straight-line">정액법</option>
                                             <option value="declining-balance">정율법</option>
                                             <option value="sum-of-years">연수합계법</option>
@@ -800,14 +825,14 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="initialSalvageValue" class="form-label">최초 잔존가액 (원)</label>
-                                        <input type="number" class="form-input" id="initialSalvageValue" name="initial_salvage_value" placeholder="예: 0" min="0">
+                                        <input type="number" class="form-control" id="initialSalvageValue" name="initial_salvage_value" placeholder="예: 0" min="0">
                                     </div>
                                     <div class="mb-3">
                                         <label for="currentBookValue" class="form-label">현재 장부가액</label>
-                                        <input type="text" class="form-input" id="currentBookValue" name="current_book_value" readonly placeholder="자동 계산" style="background-color: #f8f9fa;">
+                                        <input type="text" class="form-control" id="currentBookValue" name="current_book_value" readonly placeholder="자동 계산" style="background-color: #f8f9fa;">
                                     </div>
                                     <div class="mb-3">
-                                        <button type="button" class="btn-primary-outline btn-sm" id="calculateDepreciationBtn">
+                                                                                 <button type="button" class="btn btn-outline-primary btn-sm" id="calculateDepreciationBtn">
                                             <i class="fas fa-calculator me-1"></i>감가상각 계산
                                         </button>
                                     </div>
@@ -817,24 +842,28 @@
                     </div>
 
                     <!-- 사용자 정의 필드 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">사용자 정의 필드</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-sliders-h me-2 text-primary"></i>사용자 정의 필드
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div id="customFieldsContainer" class="mb-3">
                                 <!-- 사용자 정의 필드가 동적으로 추가됩니다 -->
                             </div>
-                            <button type="button" class="btn-success-outline btn-sm" id="addCustomFieldBtn">
+                                                         <button type="button" class="btn btn-outline-success btn-sm" id="addCustomFieldBtn">
                                 <i class="fas fa-plus me-1"></i>필드 추가
                             </button>
                         </div>
                     </div>
 
                     <!-- 바코드/QR 코드 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">바코드/QR 코드</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-qrcode me-2 text-primary"></i>바코드/QR 코드
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
@@ -851,16 +880,18 @@
                     </div>
 
                     <!-- 추가 정보 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">추가 정보</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-plus-circle me-2 text-primary"></i>추가 정보
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="notes" class="form-label">비고</label>
-                                        <textarea class="form-input" id="notes" name="notes" rows="4" placeholder="추가적인 특이사항이나 관리 기록을 입력하세요">{{ asset.notes if asset else '' }}</textarea>
+                                        <textarea class="form-control" id="notes" name="notes" rows="4" placeholder="추가적인 특이사항이나 관리 기록을 입력하세요">{{ asset.notes if asset else '' }}</textarea>
                                         <button type="button" class="btn btn-outline-info btn-sm mt-2" id="generateDescriptionBtn">
                                             <div id="descriptionSpinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></div>
                                             <i class="fas fa-magic me-1"></i>자산 설명 생성
@@ -872,16 +903,18 @@
                     </div>
 
                     <!-- 파일 첨부 -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">파일 첨부</h6>
+                                         <div class="card shadow-sm border-0 mb-4">
+                         <div class="card-header bg-light border-bottom py-3">
+                             <h6 class="mb-0 fw-semibold text-gray-800">
+                                 <i class="fas fa-paperclip me-2 text-primary"></i>파일 첨부
+                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-md-6">
                             <div class="mb-3">
                                         <label for="assetImage" class="form-label">대표 이미지</label>
-                                <input class="form-input" type="file" id="assetImage" name="asset_image" accept="image/*">
+                                <input class="form-control" type="file" id="assetImage" name="asset_image" accept="image/*">
                                 {% if asset and asset.image_path %}
                                 <div class="form-text">이미 업로드된 이미지가 있습니다. 새 이미지를 업로드하면 기존 이미지가 대체됩니다.</div>
                                 {% endif %}
@@ -891,7 +924,7 @@
                                 <div class="col-md-6">
                             <div class="mb-3">
                                         <label for="documents" class="form-label">관련 문서 (PDF, Word, Excel 등)</label>
-                                        <input class="form-input" type="file" id="documents" name="documents" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
+                                        <input class="form-control" type="file" id="documents" name="documents" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
                                         <div class="form-text">여러 파일을 동시에 선택할 수 있습니다.</div>
                                         <div id="documentsPreview" class="mt-3"></div>
                                     </div>
@@ -901,7 +934,7 @@
                     </div>
 
                     <!-- 제출 버튼 -->
-                    <div class="card shadow-sm">
+                                         <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="text-muted">
@@ -911,10 +944,10 @@
                                     </small>
                                 </div>
                                 <div>
-                                    <button type="reset" class="btn-secondary-solid me-2">
+                                                                         <button type="reset" class="btn btn-secondary me-2">
                                         <i class="fas fa-undo me-1"></i>초기화
                                     </button>
-                                    <button type="submit" class="btn-primary-solid btn-lg">
+                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="fas fa-save me-1"></i>
                             {% if asset %}저장{% else %}등록{% endif %}
                         </button>
@@ -929,9 +962,11 @@
 
     <!-- 오른쪽 사이드바 - 도움말 및 관련 정보 -->
     <div class="col-lg-4">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">도움말</h6>
+                 <div class="card shadow-sm border-0 mb-4">
+             <div class="card-header bg-light border-bottom py-3">
+                 <h6 class="mb-0 fw-semibold text-gray-800">
+                     <i class="fas fa-question-circle me-2 text-primary"></i>도움말
+                 </h6>
             </div>
             <div class="card-body">
                 <h5>자산 등록 시 참고사항</h5>
@@ -944,7 +979,7 @@
                 </ul>
 
                 <h5>자산 카테고리 가이드</h5>
-                <table class="table-base">
+                                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
                             <th>카테고리</th>
@@ -990,9 +1025,11 @@
         </div>
 
         <!-- 자산 유형별 가이드 -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">자산 유형별 가이드</h6>
+                 <div class="card shadow-sm border-0 mb-4">
+             <div class="card-header bg-light border-bottom py-3">
+                 <h6 class="mb-0 fw-semibold text-gray-800">
+                     <i class="fas fa-book me-2 text-primary"></i>자산 유형별 가이드
+                 </h6>
             </div>
             <div class="card-body">
                 <div id="categoryGuide" class="d-none">

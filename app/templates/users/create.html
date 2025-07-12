@@ -4,9 +4,11 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">사용자 등록</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-user-plus me-2 text-primary"></i>사용자 등록
+    </h1>
     <div>
-        <a href="{{ url_for('users.index') }}" class="btn-secondary-solid">
+        <a href="{{ url_for('users.index') }}" class="btn btn-secondary">
             <i class="fas fa-times me-1"></i> 취소
         </a>
     </div>
@@ -16,42 +18,79 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-8">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">사용자 정보</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-user-cog me-2 text-primary"></i>사용자 정보
+                </h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-4">
                 <form id="userForm" method="POST" action="{{ url_for('users.create') }}">
                     <!-- 기본 정보 -->
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="username" class="form-label">사용자 ID <span class="text-danger">*</span></label>
-                                <input type="text" class="form-input" id="username" name="username" required>
+                                <label for="username" class="form-label fw-semibold">
+                                    사용자 ID <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-user text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="username" name="username" required>
+                                </div>
                                 <div class="form-text">영문, 숫자, 밑줄(_)만 사용 가능합니다.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="name" class="form-label">이름 <span class="text-danger">*</span></label>
-                                <input type="text" class="form-input" id="name" name="name" required>
+                                <label for="name" class="form-label fw-semibold">
+                                    이름 <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-id-card text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="name" name="name" required>
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">이메일 <span class="text-danger">*</span></label>
-                                <input type="email" class="form-input" id="email" name="email" required>
+                                <label for="email" class="form-label fw-semibold">
+                                    이메일 <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-envelope text-muted"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" required>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="password" class="form-label">비밀번호 <span class="text-danger">*</span></label>
-                                <input type="password" class="form-input" id="password" name="password" required>
+                                <label for="password" class="form-label fw-semibold">
+                                    비밀번호 <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-lock text-muted"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0 ps-0" id="password" name="password" required>
+                                </div>
                                 <div class="form-text">8자 이상, 대문자, 소문자, 숫자를 포함해야 합니다.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">비밀번호 확인 <span class="text-danger">*</span></label>
-                                <input type="password" class="form-input" id="confirmPassword" name="confirm_password" required>
+                                <label for="confirmPassword" class="form-label fw-semibold">
+                                    비밀번호 확인 <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-lock text-muted"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0 ps-0" id="confirmPassword" name="confirm_password" required>
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="department" class="form-label">부서</label>
-                                <select class="form-select-custom" id="department" name="department_id">
+                                <label for="department" class="form-label fw-semibold">부서</label>
+                                <select class="form-select" id="department" name="department_id">
                                     <option value="">부서 선택</option>
                                     {% for department in departments %}
                                     <option value="{{ department.id }}">{{ department.name }}</option>
@@ -65,8 +104,10 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="role" class="form-label">역할 <span class="text-danger">*</span></label>
-                                <select class="form-select-custom" id="role" name="role_id" required>
+                                <label for="role" class="form-label fw-semibold">
+                                    역할 <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="role" name="role_id" required>
                                     <option value="">역할 선택</option>
                                     {% for role in roles %}
                                     <option value="{{ role.id }}">{{ role.name }} - {{ role.description }}</option>
@@ -76,8 +117,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="position" class="form-label">직위</label>
-                                <input type="text" class="form-input" id="position" name="position">
+                                <label for="position" class="form-label fw-semibold">직위</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-briefcase text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="position" name="position">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,32 +131,49 @@
                     <!-- 추가 설정 -->
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <div class="form-check mb-3">
-                                <input class="form-checkbox" type="checkbox" id="isActive" name="is_active" value="1" checked>
-                                <label class="form-check-label" for="isActive">
-                                    계정 활성화
-                                </label>
-                                <div class="form-text">비활성화된 계정은 로그인할 수 없습니다.</div>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-checkbox" type="checkbox" id="sendEmail" name="send_email" value="1" checked>
-                                <label class="form-check-label" for="sendEmail">
-                                    사용자에게 이메일로 알림
-                                </label>
-                                <div class="form-text">사용자에게 계정 생성 안내와 로그인 정보를 이메일로 발송합니다.</div>
+                            <div class="card bg-light border-0">
+                                <div class="card-body p-3">
+                                    <h6 class="fw-semibold mb-3">
+                                        <i class="fas fa-cog me-2 text-primary"></i>계정 설정
+                                    </h6>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="isActive" name="is_active" value="1" checked>
+                                        <label class="form-check-label fw-medium" for="isActive">
+                                            <i class="fas fa-toggle-on me-1 text-success"></i>계정 활성화
+                                        </label>
+                                        <div class="form-text">비활성화된 계정은 로그인할 수 없습니다.</div>
+                                    </div>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" id="sendEmail" name="send_email" value="1" checked>
+                                        <label class="form-check-label fw-medium" for="sendEmail">
+                                            <i class="fas fa-envelope me-1 text-info"></i>사용자에게 이메일로 알림
+                                        </label>
+                                        <div class="form-text">사용자에게 계정 생성 안내와 로그인 정보를 이메일로 발송합니다.</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- 주의사항 -->
-                    <div class="alert alert-info mb-4">
-                        <i class="fas fa-info-circle me-2"></i> 현재는 데이터베이스 연동이 되어 있지 않아 실제로 사용자가 생성되지 않습니다. 제출하면 가상의 성공 메시지가 표시됩니다.
+                    <div class="alert alert-info border-0 shadow-sm mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle me-3 text-info"></i>
+                            <div>
+                                <strong>주의사항</strong>
+                                <div class="text-muted small">현재는 데이터베이스 연동이 되어 있지 않아 실제로 사용자가 생성되지 않습니다. 제출하면 가상의 성공 메시지가 표시됩니다.</div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 제출 버튼 -->
-                    <div class="d-flex justify-content-end">
-                        <button type="reset" class="btn-secondary-solid me-2">초기화</button>
-                        <button type="submit" class="btn-primary-solid">등록</button>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="reset" class="btn btn-outline-secondary">
+                            <i class="fas fa-undo me-1"></i>초기화
+                        </button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save me-1"></i>등록
+                        </button>
                     </div>
                 </form>
             </div>
@@ -119,42 +182,74 @@
 
     <!-- 오른쪽 사이드바 - 도움말 및 관련 정보 -->
     <div class="col-lg-4">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">도움말</h6>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-question-circle me-2 text-primary"></i>도움말
+                </h6>
             </div>
-            <div class="card-body">
-                <h5>사용자 등록 시 참고사항</h5>
-                <ul class="mb-4">
-                    <li>필수 입력 항목은 <span class="text-danger">*</span> 표시가 되어 있습니다.</li>
-                    <li>사용자 ID는 한번 생성 후 변경할 수 없습니다.</li>
-                    <li>초기 비밀번호는 사용자가 첫 로그인 시 변경하도록 권장합니다.</li>
-                    <li>역할에 따라 시스템 접근 권한이 결정됩니다.</li>
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-info me-2 text-info"></i>사용자 등록 시 참고사항
+                </h6>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        필수 입력 항목은 <span class="text-danger fw-bold">*</span> 표시가 되어 있습니다.
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        사용자 ID는 한번 생성 후 변경할 수 없습니다.
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        초기 비밀번호는 사용자가 첫 로그인 시 변경하도록 권장합니다.
+                    </li>
+                    <li class="mb-0">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        역할에 따라 시스템 접근 권한이 결정됩니다.
+                    </li>
                 </ul>
 
-                <h5>역할 별 권한 안내</h5>
-                <table class="table-base">
-                    <thead>
-                        <tr>
-                            <th>역할</th>
-                            <th>권한 설명</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>관리자</td>
-                            <td>모든 기능 접근 및 관리 가능</td>
-                        </tr>
-                        <tr>
-                            <td>일반사용자</td>
-                            <td>자산 조회, 사용 신청, 기본 기능 사용</td>
-                        </tr>
-                        <tr>
-                            <td>조회전용</td>
-                            <td>읽기 전용 접근, 변경 불가</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-users-cog me-2 text-primary"></i>역할 별 권한 안내
+                </h6>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="fw-semibold">역할</th>
+                                <th class="fw-semibold">권한 설명</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="badge bg-primary">
+                                        <i class="fas fa-crown me-1"></i>관리자
+                                    </span>
+                                </td>
+                                <td class="text-muted small">모든 기능 접근 및 관리 가능</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-user me-1"></i>일반사용자
+                                    </span>
+                                </td>
+                                <td class="text-muted small">자산 조회, 사용 신청, 기본 기능 사용</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-eye me-1"></i>조회전용
+                                    </span>
+                                </td>
+                                <td class="text-muted small">읽기 전용 접근, 변경 불가</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

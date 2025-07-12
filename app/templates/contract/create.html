@@ -4,9 +4,11 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">계약 등록</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-file-contract me-2 text-primary"></i>계약 등록
+    </h1>
     <div>
-            <a href="{{ url_for('contract.index') }}" class="btn-secondary-solid">
+        <a href="{{ url_for('contract.index') }}" class="btn btn-secondary">
         <i class="fas fa-arrow-left me-1"></i> 목록으로
     </a>
     </div>
@@ -15,109 +17,274 @@
 
 {% block content %}
 <!-- 안내 메시지 -->
-<div class="alert alert-info">
-    <i class="fas fa-info-circle me-2"></i> 계약 등록 기능은 현재 개발중입니다. 곧 추가될 예정입니다.
+<div class="alert alert-info border-0 shadow-sm mb-4">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-info-circle me-3 text-info"></i>
+        <div>
+            <strong>개발 진행중</strong>
+            <div class="text-muted small">계약 등록 기능은 현재 개발중입니다. 곧 추가될 예정입니다.</div>
+</div>
+    </div>
 </div>
 
-<div class="card shadow-sm mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">계약 정보 입력</h6>
-    </div>
-    <div class="card-body">
-        <form id="createContractForm" method="POST">
-            <div class="mb-3">
-                <label for="contractName" class="form-label">계약명 <span class="text-danger">*</span></label>
-                <input type="text" class="form-input" id="contractName" name="name" placeholder="예: Adobe Creative Cloud 라이선스 계약" required>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-edit me-2 text-primary"></i>계약 정보 입력
+                </h6>
+            </div>
+            <div class="card-body p-4">
+                <form id="createContractForm" method="POST">
+                    <!-- 기본 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-info-circle me-2 text-primary"></i>기본 정보
+                            </h6>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="contractName" class="form-label fw-semibold">
+                                계약명 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-file-signature text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" 
+                                       id="contractName" name="name" 
+                                       placeholder="예: Adobe Creative Cloud 라이선스 계약" required>
+                            </div>
             </div>
             
-            <div class="mb-3">
-                <label for="contractType" class="form-label">계약 유형 <span class="text-danger">*</span></label>
-                <select class="form-select-custom" id="contractType" name="type" required>
+                        <div class="col-md-6 mb-3">
+                            <label for="contractType" class="form-label fw-semibold">
+                                계약 유형 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="contractType" name="type" required>
                     <option value="">계약 유형 선택</option>
-                    <option value="license">라이선스</option>
-                    <option value="purchase">구매</option>
-                    <option value="rental">렌탈</option>
-                    <option value="lease">리스</option>
-                    <option value="maintenance">유지보수</option>
-                    <option value="service">서비스</option>
+                                <option value="license">📄 라이선스</option>
+                                <option value="purchase">🛒 구매</option>
+                                <option value="rental">🏠 렌탈</option>
+                                <option value="lease">📝 리스</option>
+                                <option value="maintenance">🔧 유지보수</option>
+                                <option value="service">🎯 서비스</option>
                 </select>
             </div>
             
-            <div class="mb-3">
-                <label for="vendor" class="form-label">계약 업체 <span class="text-danger">*</span></label>
-                <input type="text" class="form-input" id="vendor" name="vendor" placeholder="업체명을 입력하세요" required>
+                        <div class="col-md-6 mb-3">
+                            <label for="vendor" class="form-label fw-semibold">
+                                계약 업체 <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-building text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" 
+                                       id="vendor" name="vendor" 
+                                       placeholder="업체명을 입력하세요" required>
+                            </div>
+                        </div>
             </div>
             
-            <div class="row">
+                    <!-- 계약 기간 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-calendar me-2 text-primary"></i>계약 기간
+                            </h6>
+                        </div>
                 <div class="col-md-6 mb-3">
-                    <label for="startDate" class="form-label">계약 시작일 <span class="text-danger">*</span></label>
-                    <input type="date" class="form-input" id="startDate" name="start_date" required>
+                            <label for="startDate" class="form-label fw-semibold">
+                                계약 시작일 <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="startDate" name="start_date" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="endDate" class="form-label">계약 종료일 <span class="text-danger">*</span></label>
-                    <input type="date" class="form-input" id="endDate" name="end_date" required>
+                            <label for="endDate" class="form-label fw-semibold">
+                                계약 종료일 <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="endDate" name="end_date" required>
                 </div>
             </div>
             
-            <div class="row">
+                    <!-- 금액 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-won-sign me-2 text-primary"></i>금액 정보
+                            </h6>
+                        </div>
                 <div class="col-md-6 mb-3">
-                    <label for="amount" class="form-label">계약 금액 <span class="text-danger">*</span></label>
+                            <label for="amount" class="form-label fw-semibold">
+                                계약 금액 <span class="text-danger">*</span>
+                            </label>
                     <div class="input-group">
-                        <span class="input-group-text">₩</span>
-                        <input type="number" class="form-input" id="amount" name="amount" min="0" step="1000" required>
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-won-sign"></i>
+                                </span>
+                                <input type="number" class="form-control" 
+                                       id="amount" name="amount" 
+                                       min="0" step="1000" 
+                                       placeholder="0" required>
+                                <span class="input-group-text bg-light">원</span>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="currency" class="form-label">통화</label>
-                    <select class="form-select-custom" id="currency" name="currency">
-                        <option value="KRW" selected>대한민국 원화 (KRW)</option>
-                        <option value="USD">미국 달러 (USD)</option>
-                        <option value="EUR">유로 (EUR)</option>
-                        <option value="JPY">일본 엔 (JPY)</option>
+                            <label for="currency" class="form-label fw-semibold">통화</label>
+                            <select class="form-select" id="currency" name="currency">
+                                <option value="KRW" selected>🇰🇷 대한민국 원화 (KRW)</option>
+                                <option value="USD">🇺🇸 미국 달러 (USD)</option>
+                                <option value="EUR">🇪🇺 유로 (EUR)</option>
+                                <option value="JPY">🇯🇵 일본 엔 (JPY)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="paymentCycle" class="form-label fw-semibold">결제 주기</label>
+                            <select class="form-select" id="paymentCycle" name="payment_cycle">
+                                <option value="one_time">💰 일시불</option>
+                                <option value="monthly">📅 월간</option>
+                                <option value="quarterly">📆 분기</option>
+                                <option value="yearly">🗓️ 연간</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="manager" class="form-label fw-semibold">
+                                담당자 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="manager" name="manager_id" required>
+                                <option value="">담당자 선택</option>
+                                <option value="1">👨‍💼 관리자</option>
+                                <option value="2">👤 홍길동</option>
+                                <option value="3">👤 김철수</option>
                     </select>
                 </div>
             </div>
             
-            <div class="mb-3">
-                <label for="paymentCycle" class="form-label">결제 주기</label>
-                <select class="form-select-custom" id="paymentCycle" name="payment_cycle">
-                    <option value="one_time">일시불</option>
-                    <option value="monthly">월간</option>
-                    <option value="quarterly">분기</option>
-                    <option value="yearly">연간</option>
-                </select>
+                    <!-- 추가 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6 class="fw-bold mb-3 text-gray-700">
+                                <i class="fas fa-plus-circle me-2 text-primary"></i>추가 정보
+                            </h6>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="description" class="form-label fw-semibold">계약 설명</label>
+                            <textarea class="form-control" id="description" name="description" 
+                                      rows="4" placeholder="계약 내용을 간략히 설명해주세요."></textarea>
+                        </div>
+                        
+                        <div class="col-md-12 mb-3">
+                            <label for="contractFile" class="form-label fw-semibold">계약서 파일</label>
+                            <input class="form-control" type="file" id="contractFile" name="contract_file">
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>PDF, DOCX, JPG 파일 (최대 10MB)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 제출 버튼 -->
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{{ url_for('contract.index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i>취소
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save me-1"></i>계약 등록
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
             </div>
             
-            <div class="mb-3">
-                <label for="manager" class="form-label">담당자 <span class="text-danger">*</span></label>
-                <select class="form-select-custom" id="manager" name="manager_id" required>
-                    <option value="">담당자 선택</option>
-                    <option value="1">관리자</option>
-                    <option value="2">홍길동</option>
-                    <option value="3">김철수</option>
-                </select>
+    <!-- 오른쪽 사이드바 - 도움말 -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-question-circle me-2 text-primary"></i>도움말
+                </h6>
+            </div>
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-lightbulb me-2 text-warning"></i>계약 등록 시 참고사항
+                </h6>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        필수 입력 항목은 <span class="text-danger fw-bold">*</span> 표시가 되어 있습니다.
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        계약 종료일은 시작일 이후로 설정해주세요.
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        금액은 세금포함 총액을 입력해주세요.
+                    </li>
+                    <li class="mb-0">
+                        <i class="fas fa-check-circle me-2 text-success"></i>
+                        계약서 파일은 나중에 추가하셔도 됩니다.
+                    </li>
+                </ul>
+                
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-tags me-2 text-info"></i>계약 유형별 안내
+                </h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="fw-semibold">유형</th>
+                                <th class="fw-semibold">설명</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>📄 라이선스</td>
+                                <td class="text-muted small">소프트웨어 사용권</td>
+                            </tr>
+                            <tr>
+                                <td>🛒 구매</td>
+                                <td class="text-muted small">자산 직접 구매</td>
+                            </tr>
+                            <tr>
+                                <td>🏠 렌탈</td>
+                                <td class="text-muted small">단기 임대</td>
+                            </tr>
+                            <tr>
+                                <td>📝 리스</td>
+                                <td class="text-muted small">장기 금융 임대</td>
+                            </tr>
+                            <tr>
+                                <td>🔧 유지보수</td>
+                                <td class="text-muted small">기술 지원 서비스</td>
+                            </tr>
+                            <tr>
+                                <td>🎯 서비스</td>
+                                <td class="text-muted small">기타 서비스</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             </div>
             
-            <div class="mb-3">
-                <label for="description" class="form-label">계약 설명</label>
-                <textarea class="form-input" id="description" name="description" rows="3" placeholder="계약 내용을 간략히 설명해주세요."></textarea>
+        <!-- 최근 등록된 계약 -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom py-3">
+                <h6 class="mb-0 fw-semibold text-gray-800">
+                    <i class="fas fa-clock me-2 text-primary"></i>최근 등록된 계약
+                </h6>
             </div>
-            
-            <div class="mb-3">
-                <label for="contractFile" class="form-label">계약서 파일</label>
-                <input class="form-input" type="file" id="contractFile" name="contract_file">
-                <div class="form-text">PDF, DOCX, JPG 파일 (최대 10MB)</div>
+            <div class="card-body p-3">
+                <div class="alert alert-light border border-light text-center">
+                    <i class="fas fa-file-contract fa-2x mb-2 text-muted"></i>
+                    <p class="text-muted mb-0 small">등록된 계약이 없습니다</p>
+                </div>
             </div>
-            
-            <div class="text-center">
-                <button type="submit" class="btn-primary-solid">
-                    <i class="fas fa-save me-1"></i> 계약 등록
-                </button>
-                <a href="{{ url_for('contract.index') }}" class="btn-secondary-solid">
-                    <i class="fas fa-times me-1"></i> 취소
-                </a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}

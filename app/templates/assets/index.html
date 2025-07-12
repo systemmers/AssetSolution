@@ -4,23 +4,25 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">자산 목록</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-laptop me-2 text-primary"></i>자산 목록
+    </h1>
     <div class="d-flex flex-wrap gap-2">
         <!-- 자산 도구 버튼들을 직접 노출 -->
-        <a href="{{ url_for('assets.pc_management') }}" class="btn-primary-outline btn-sm">
+        <a href="{{ url_for('assets.pc_management') }}" class="btn btn-outline-primary btn-sm">
             <i class="fas fa-desktop me-1"></i> PC 관리
         </a>
-        <a href="{{ url_for('assets.ip_management') }}" class="btn-primary-outline btn-sm">
+        <a href="{{ url_for('assets.ip_management') }}" class="btn btn-outline-info btn-sm">
             <i class="fas fa-network-wired me-1"></i> IP 관리
         </a>
-        <a href="{{ url_for('assets.sw_license') }}" class="btn-primary-outline btn-sm">
+        <a href="{{ url_for('assets.sw_license') }}" class="btn btn-outline-success btn-sm">
             <i class="fas fa-file-alt me-1"></i> SW 라이선스 관리
         </a>
-        <a href="{{ url_for('assets.bulk_register') }}" class="btn-primary-outline btn-sm">
+        <a href="{{ url_for('assets.bulk_register') }}" class="btn btn-outline-warning btn-sm">
             <i class="fas fa-file-import me-1"></i> 대량 자산 등록
         </a>
         <!-- 자산 등록 버튼 -->
-        <a href="{{ url_for('assets.create_form') }}" class="btn-primary-solid">
+        <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary">
             <i class="fas fa-plus me-1"></i> 자산 등록
         </a>
     </div>
@@ -29,17 +31,22 @@
 
 {% block content %}
 <!-- 검색 및 필터 영역 -->
-<div class="card shadow-sm mb-4">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">
+            <i class="fas fa-filter me-2 text-primary"></i>검색 및 필터
+        </h6>
+    </div>
     <div class="card-body py-4">
         <form id="searchForm" method="GET" action="{{ url_for('assets.index') }}">
             <div class="row align-items-end g-3">
                 <div class="col-lg-3 col-md-6">
-                    <label for="searchKeyword" class="form-label">검색어</label>
-                    <input type="text" class="form-input" id="searchKeyword" name="q" placeholder="자산명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
+                    <label for="searchKeyword" class="form-label fw-medium">검색어</label>
+                    <input type="text" class="form-control" id="searchKeyword" name="q" placeholder="자산명, 자산번호, 시리얼번호" value="{{ request.args.get('q', '') }}">
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="categoryFilter" class="form-label">카테고리</label>
-                    <select class="form-select-custom" id="categoryFilter" name="category">
+                    <label for="categoryFilter" class="form-label fw-medium">카테고리</label>
+                    <select class="form-select" id="categoryFilter" name="category">
                         <option value="">전체</option>
                         <option value="1" {% if request.args.get('category') == '1' %}selected{% endif %}>노트북</option>
                         <option value="2" {% if request.args.get('category') == '2' %}selected{% endif %}>데스크탑</option>
@@ -50,8 +57,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="statusFilter" class="form-label">상태</label>
-                    <select class="form-select-custom" id="statusFilter" name="status">
+                    <label for="statusFilter" class="form-label fw-medium">상태</label>
+                    <select class="form-select" id="statusFilter" name="status">
                         <option value="">전체</option>
                         <option value="available" {% if request.args.get('status') == 'available' %}selected{% endif %}>사용가능</option>
                         <option value="in_use" {% if request.args.get('status') == 'in_use' %}selected{% endif %}>사용중</option>
@@ -61,8 +68,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label for="departmentFilter" class="form-label">부서</label>
-                    <select class="form-select-custom" id="departmentFilter" name="department">
+                    <label for="departmentFilter" class="form-label fw-medium">부서</label>
+                    <select class="form-select" id="departmentFilter" name="department">
                         <option value="">전체</option>
                         <option value="1" {% if request.args.get('department') == '1' %}selected{% endif %}>개발팀</option>
                         <option value="2" {% if request.args.get('department') == '2' %}selected{% endif %}>IT팀</option>
@@ -73,33 +80,33 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-12">
-                    <div class="d-flex">
-                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <button type="button" id="resetButton" class="btn-secondary-solid">
+                        <button type="button" id="resetButton" class="btn btn-outline-secondary">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-4">
                 <div class="col-lg-8">
                     <div class="form-check form-check-inline me-4">
-                        <input class="form-checkbox" type="checkbox" id="expiredFilter" name="expired" value="1" 
+                        <input class="form-check-input" type="checkbox" id="expiredFilter" name="expired" value="1" 
                             {% if request.args.get('expired') == '1' %}checked{% endif %}>
-                        <label class="form-check-label" for="expiredFilter">내용연수 만료 자산만 보기</label>
+                        <label class="form-check-label fw-medium" for="expiredFilter">내용연수 만료 자산만 보기</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-checkbox" type="checkbox" id="unusedFilter" name="unused" value="1"
+                        <input class="form-check-input" type="checkbox" id="unusedFilter" name="unused" value="1"
                             {% if request.args.get('unused') == '1' %}checked{% endif %}>
-                        <label class="form-check-label" for="unusedFilter">미사용 자산만 보기</label>
+                        <label class="form-check-label fw-medium" for="unusedFilter">미사용 자산만 보기</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="me-3">
-                            <select class="form-select form-select-custom-sm" id="sortOrder" name="sort">
+                    <div class="d-flex justify-content-end align-items-center gap-3">
+                        <div>
+                            <select class="form-select form-select-sm" id="sortOrder" name="sort">
                                 <option value="recent" {% if request.args.get('sort') == 'recent' %}selected{% endif %}>최근 등록순</option>
                                 <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>자산명순</option>
                                 <option value="price_high" {% if request.args.get('sort') == 'price_high' %}selected{% endif %}>가격 높은순</option>
@@ -109,10 +116,10 @@
                         </div>
                         <div class="btn-group" role="group">
                             <input type="hidden" name="view" id="viewMode" value="{{ request.args.get('view', 'table') }}">
-                            <button type="button" class="btn-size-sm btn-outline-secondary view-btn {% if request.args.get('view') != 'grid' %}active{% endif %}" data-view="table">
+                            <button type="button" class="btn btn-sm btn-outline-secondary view-btn {% if request.args.get('view') != 'grid' %}active{% endif %}" data-view="table">
                                 <i class="fas fa-list"></i>
                             </button>
-                            <button type="button" class="btn-size-sm btn-outline-secondary view-btn {% if request.args.get('view') == 'grid' %}active{% endif %}" data-view="grid">
+                            <button type="button" class="btn btn-sm btn-outline-secondary view-btn {% if request.args.get('view') == 'grid' %}active{% endif %}" data-view="grid">
                                 <i class="fas fa-th-large"></i>
                             </button>
                         </div>
@@ -124,36 +131,39 @@
 </div>
 
 <!-- 검색 결과 요약 -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <span class="text-muted">총 {{ assets|length }}개 자산</span>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center">
+        <span class="text-muted fw-medium">
+            <i class="fas fa-list-ul me-1"></i>총 <strong class="text-primary">{{ assets|length }}</strong>개 자산
+        </span>
         {% if request.args.get('q') or request.args.get('category') or request.args.get('status') or request.args.get('department') %}
-        <span class="ms-2 badge bg-secondary">필터 적용됨</span>
+        <span class="ms-3 badge bg-info">
+            <i class="fas fa-filter me-1"></i>필터 적용됨
+        </span>
         {% endif %}
     </div>
     <div>
-        <button id="btnExportExcel" class="btn-export-excel">
-            <i class="fas fa-file-excel"></i>
-            <span>엑셀 내보내기</span>
+        <button id="btnExportExcel" class="btn btn-success btn-sm">
+            <i class="fas fa-file-excel me-1"></i>엑셀 내보내기
         </button>
     </div>
 </div>
 
 <!-- 테이블 뷰 -->
 <div id="tableView" class="mb-4 {% if request.args.get('view') == 'grid' %}d-none{% endif %}">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm border-0">
         <div class="table-responsive">
-                                        <table class="table-interactive align-middle mb-0">
+            <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th class="px-3 py-3">자산번호</th>
-                        <th class="px-3 py-3">자산명</th>
-                        <th class="px-3 py-3">카테고리</th>
-                        <th class="px-3 py-3">상태</th>
-                        <th class="px-3 py-3">위치</th>
-                        <th class="px-3 py-3">사용자</th>
-                        <th class="px-3 py-3">취득일자</th>
-                        <th class="px-3 py-3 text-center">관리</th>
+                        <th class="px-3 py-3 fw-semibold">자산번호</th>
+                        <th class="px-3 py-3 fw-semibold">자산명</th>
+                        <th class="px-3 py-3 fw-semibold">카테고리</th>
+                        <th class="px-3 py-3 fw-semibold">상태</th>
+                        <th class="px-3 py-3 fw-semibold">위치</th>
+                        <th class="px-3 py-3 fw-semibold">사용자</th>
+                        <th class="px-3 py-3 fw-semibold">취득일자</th>
+                        <th class="px-3 py-3 fw-semibold text-center">관리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,61 +176,67 @@
                             {% set detail_url = url_for('assets.sw_detail', asset_id=asset.id) %}
                         {% endif %}
                         <tr class="data-row" data-href="{{ detail_url }}">
-                            <td class="px-3 py-3">{{ asset.asset_number }}</td>
+                            <td class="px-3 py-3 fw-medium">{{ asset.asset_number }}</td>
                             <td class="px-3 py-3">{{ asset.name }}</td>
                             <td class="px-3 py-3">
                                 {% if asset.category_id == 1 %}
-                                <span class="badge bg-primary">노트북</span>
+                                <span class="badge bg-primary"><i class="fas fa-laptop me-1"></i>노트북</span>
                                 {% elif asset.category_id == 2 %}
-                                <span class="badge bg-secondary">데스크탑</span>
+                                <span class="badge bg-secondary"><i class="fas fa-desktop me-1"></i>데스크탑</span>
                                 {% elif asset.category_id == 3 %}
-                                <span class="badge bg-info">모니터</span>
+                                <span class="badge bg-info"><i class="fas fa-tv me-1"></i>모니터</span>
                                 {% elif asset.category_id == 4 %}
-                                <span class="badge bg-dark">서버</span>
+                                <span class="badge bg-dark"><i class="fas fa-server me-1"></i>서버</span>
                                 {% elif asset.category_id == 5 %}
-                                <span class="badge bg-warning text-dark">네트워크 장비</span>
+                                <span class="badge bg-warning text-dark"><i class="fas fa-network-wired me-1"></i>네트워크 장비</span>
                                 {% elif asset.category_id == 6 %}
-                                <span class="badge bg-light text-dark">주변기기</span>
+                                <span class="badge bg-light text-dark border"><i class="fas fa-mouse me-1"></i>주변기기</span>
                                 {% else %}
-                                <span class="badge bg-light text-dark">기타</span>
+                                <span class="badge bg-light text-dark border"><i class="fas fa-cube me-1"></i>기타</span>
                                 {% endif %}
                             </td>
                             <td class="px-3 py-3">
                                 {% if asset.status == 'available' %}
-                                <span class="badge bg-success">사용가능</span>
+                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>사용가능</span>
                                 {% elif asset.status == 'in_use' %}
-                                <span class="badge bg-primary">사용중</span>
+                                <span class="badge bg-primary"><i class="fas fa-user me-1"></i>사용중</span>
                                 {% elif asset.status == 'in_repair' %}
-                                <span class="badge bg-warning text-dark">수리중</span>
+                                <span class="badge bg-warning text-dark"><i class="fas fa-tools me-1"></i>수리중</span>
                                 {% elif asset.status == 'disposed' %}
-                                <span class="badge bg-danger">폐기</span>
+                                <span class="badge bg-danger"><i class="fas fa-trash me-1"></i>폐기</span>
                                 {% elif asset.status == 'reserved' %}
-                                <span class="badge bg-info">예약됨</span>
+                                <span class="badge bg-info"><i class="fas fa-clock me-1"></i>예약됨</span>
                                 {% else %}
                                 <span class="badge bg-secondary">-</span>
                                 {% endif %}
                             </td>
-                            <td class="px-3 py-3">
+                            <td class="px-3 py-3 text-muted">
                                 {% if asset.location_id %}
-                                {{ asset.location_name }}
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ asset.location_name }}
                                 {% else %}
                                 -
                                 {% endif %}
                             </td>
-                            <td class="px-3 py-3">
+                            <td class="px-3 py-3 text-muted">
                                 {% if asset.user_id %}
-                                {{ asset.user_name }}
+                                <i class="fas fa-user me-1"></i>{{ asset.user_name }}
                                 {% else %}
                                 -
                                 {% endif %}
                             </td>
-                            <td class="px-3 py-3">{{ asset.purchase_date.strftime('%Y-%m-%d') if asset.purchase_date else '-' }}</td>
+                            <td class="px-3 py-3 text-muted">
+                                {% if asset.purchase_date %}
+                                <i class="fas fa-calendar me-1"></i>{{ asset.purchase_date.strftime('%Y-%m-%d') }}
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
                             <td class="px-3 py-3 text-center">
                                 <div class="btn-group" role="group">
-                                                                    <a href="{{ detail_url }}" class="btn-size-sm btn-outline-primary">
+                                    <a href="{{ detail_url }}" class="btn btn-sm btn-outline-primary" title="상세보기">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-size-sm btn-outline-secondary">
+                                    <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-sm btn-outline-secondary" title="수정">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 </div>
@@ -230,11 +246,11 @@
                     {% else %}
                         <tr>
                             <td colspan="8" class="text-center py-5">
-                                <div class="d-flex flex-column align-items-center py-4">
+                                <div class="empty-state">
                                     <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
-                                    <p class="mb-0">등록된 자산이 없습니다.</p>
+                                    <h5 class="text-muted">등록된 자산이 없습니다</h5>
                                     <p class="text-muted small">자산 등록 버튼을 클릭하여 첫 번째 자산을 등록하세요.</p>
-                                    <a href="{{ url_for('assets.create_form') }}" class="btn-primary-solid mt-3">
+                                    <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary mt-3">
                                         <i class="fas fa-plus me-1"></i> 자산 등록
                                     </a>
                                 </div>
@@ -263,10 +279,10 @@
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="card-title mb-0 flex-grow-1 me-2">{{ asset.name }}</h5>
                             <div class="btn-group">
-                                <a href="{{ detail_url }}" class="btn-size-sm btn-outline-primary">
+                                <a href="{{ detail_url }}" class="btn btn-sm btn-outline-primary" title="상세보기">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn-size-sm btn-outline-secondary">
+                                <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-sm btn-outline-secondary" title="수정">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </div>
@@ -290,11 +306,11 @@
         {% endfor %}
     {% else %}
         <div class="col-12 text-center py-5">
-            <div class="d-flex flex-column align-items-center py-4">
+            <div class="empty-state">
                 <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
-                <p class="mb-0">등록된 자산이 없습니다.</p>
+                <h5 class="text-muted">등록된 자산이 없습니다</h5>
                 <p class="text-muted small">자산 등록 버튼을 클릭하여 첫 번째 자산을 등록하세요.</p>
-                <a href="{{ url_for('assets.create_form') }}" class="btn-primary-solid mt-3">
+                <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary mt-3">
                     <i class="fas fa-plus me-1"></i> 자산 등록
                 </a>
             </div>
@@ -311,7 +327,9 @@
             {% if args.get('page') %}
                 {% set _ = args.pop('page') %}
             {% endif %}
-            <a class="page-link" href="{{ url_for('assets.index', page=page-1, **args) if page > 1 else '#' }}">이전</a>
+            <a class="page-link" href="{{ url_for('assets.index', page=page-1, **args) if page > 1 else '#' }}">
+                <i class="fas fa-chevron-left me-1"></i>이전
+            </a>
         </li>
         {% for p in range(max(1, page-2), min(total_pages+1, page+3)) %}
         <li class="page-item {% if p == page %}active{% endif %}">
@@ -327,7 +345,9 @@
             {% if args.get('page') %}
                 {% set _ = args.pop('page') %}
             {% endif %}
-            <a class="page-link" href="{{ url_for('assets.index', page=page+1, **args) if page < total_pages else '#' }}">다음</a>
+            <a class="page-link" href="{{ url_for('assets.index', page=page+1, **args) if page < total_pages else '#' }}">
+                다음<i class="fas fa-chevron-right ms-1"></i>
+            </a>
         </li>
     </ul>
 </nav>

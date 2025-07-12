@@ -3,49 +3,120 @@
 {% block title %}로그인 - 자산관리 시스템{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white text-center py-3">
-                <h4 class="mb-0"><i class="fas fa-cubes me-2"></i>자산관리 시스템</h4>
+<div class="row justify-content-center min-vh-100 align-items-center">
+    <div class="col-md-6 col-lg-5 col-xl-4">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-gradient-primary text-white text-center py-4 border-0">
+                <div class="mb-2">
+                    <i class="fas fa-cubes fa-3x text-white-50"></i>
+                </div>
+                <h3 class="mb-0 fw-bold">자산관리 시스템</h3>
+                <p class="mb-0 text-white-75 small">Asset Management System</p>
             </div>
-            <div class="card-body p-4">
-                <h5 class="card-title text-center mb-4">로그인</h5>
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h4 class="fw-semibold text-gray-800">로그인</h4>
+                    <p class="text-muted small">계정 정보를 입력해주세요</p>
+                </div>
                 
-                <form method="POST" action="{{ url_for('auth.login') }}">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">사용자 ID</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            <input type="text" class="form-input" id="username" name="username" required>
+                <form method="POST" action="{{ url_for('auth.login') }}" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="username" class="form-label fw-medium text-gray-700">
+                            <i class="fas fa-user me-2 text-primary"></i>사용자 ID
+                        </label>
+                        <input type="text" 
+                               class="form-control form-control-lg" 
+                               id="username" 
+                               name="username" 
+                               placeholder="사용자 ID를 입력하세요"
+                               required>
+                        <div class="invalid-feedback">
+                            사용자 ID를 입력해주세요.
                         </div>
                     </div>
                     
-                    <div class="mb-3">
-                        <label for="password" class="form-label">비밀번호</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="form-input" id="password" name="password" required>
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-medium text-gray-700">
+                            <i class="fas fa-lock me-2 text-primary"></i>비밀번호
+                        </label>
+                        <input type="password" 
+                               class="form-control form-control-lg" 
+                               id="password" 
+                               name="password" 
+                               placeholder="비밀번호를 입력하세요"
+                               required>
+                        <div class="invalid-feedback">
+                            비밀번호를 입력해주세요.
                         </div>
                     </div>
                     
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-checkbox" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">로그인 상태 유지</label>
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input type="checkbox" 
+                                   class="form-check-input" 
+                                   id="remember" 
+                                   name="remember">
+                            <label class="form-check-label fw-medium text-gray-700" for="remember">
+                                로그인 상태 유지
+                            </label>
+                        </div>
                     </div>
                     
-                    <div class="d-grid">
-                        <button type="submit" class="btn-primary-solid py-2">로그인</button>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">
+                            <i class="fas fa-sign-in-alt me-2"></i>로그인
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="card-footer text-center bg-light py-3">
-                <div class="small text-muted">
-                    <p class="mb-0">데모 계정: admin / password</p>
-                    <p class="mb-0">일반 사용자: user1 / password</p>
+            <div class="card-footer bg-light border-0 py-4">
+                <div class="text-center">
+                    <h6 class="text-muted mb-3">
+                        <i class="fas fa-info-circle me-1"></i>데모 계정
+                    </h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="p-3 bg-white rounded border">
+                                <div class="small fw-semibold text-primary">관리자</div>
+                                <div class="small text-muted">admin / password</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 bg-white rounded border">
+                                <div class="small fw-semibold text-success">일반 사용자</div>
+                                <div class="small text-muted">user1 / password</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- 시스템 정보 -->
+        <div class="text-center mt-4">
+            <small class="text-muted">
+                <i class="fas fa-shield-alt me-1"></i>보안 로그인 시스템 v1.0.0
+            </small>
+        </div>
     </div>
 </div>
+
+<!-- 폼 검증 스크립트 -->
+<script>
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
 {% endblock %} 
