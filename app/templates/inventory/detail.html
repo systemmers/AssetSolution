@@ -4,9 +4,11 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">자산 실사 상세</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-clipboard-list me-2 text-primary"></i>자산 실사 상세
+    </h1>
     <div>
-        <a href="{{ url_for('inventory.index') }}" class="btn-secondary-solid">
+        <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left me-1"></i> 목록으로
         </a>
     </div>
@@ -15,139 +17,185 @@
 
 {% block content %}
 <!-- 안내 메시지 -->
-<div class="alert alert-info">
-    <i class="fas fa-info-circle me-2"></i> 자산 실사 상세 기능은 현재 개발중입니다. 곧 추가될 예정입니다.
+<div class="alert alert-info border-0 shadow-sm">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-info-circle me-3 text-info"></i>
+        <div>
+            <strong>기능 준비중</strong>
+            <div class="text-muted small">자산 실사 상세 기능은 현재 개발중입니다. 곧 추가될 예정입니다.</div>
+        </div>
+    </div>
 </div>
 
 <!-- 실사 요약 정보 -->
-<div class="card shadow-sm mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">실사 정보</h6>
-        <div>
-            <a href="{{ url_for('inventory.report', inventory_id=inventory.id) }}" class="btn-size-sm btn-info">
-                <i class="fas fa-chart-bar me-1"></i> 보고서
-            </a>
-            <a href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}" class="btn-size-sm btn-primary ms-2">
-                <i class="fas fa-edit me-1"></i> 수정
-            </a>
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-semibold text-gray-800">
+                <i class="fas fa-clipboard-list me-2 text-primary"></i>실사 정보
+            </h6>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('inventory.report', inventory_id=inventory.id) }}" class="btn btn-info btn-sm">
+                    <i class="fas fa-chart-bar me-1"></i> 보고서
+                </a>
+                <a href="{{ url_for('inventory.edit', inventory_id=inventory.id) }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-edit me-1"></i> 수정
+                </a>
+            </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body p-4">
         <div class="row">
             <div class="col-md-6">
-                <table class="table-base">
-                    <tbody>
-                        <tr>
-                            <th style="width: 30%">실사 번호</th>
-                            <td>INV-{{ inventory.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>실사명</th>
-                            <td>{{ inventory.name }}</td>
-                        </tr>
-                        <tr>
-                            <th>담당자</th>
-                            <td>{{ inventory.manager }} ({{ inventory.department }})</td>
-                        </tr>
-                        <tr>
-                            <th>실사 기간</th>
-                            <td>{{ inventory.start_date }} ~ {{ inventory.end_date }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th class="text-muted fw-medium" style="width: 30%">실사 번호</th>
+                                <td class="fw-medium">INV-{{ inventory.id }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-medium">실사명</th>
+                                <td class="fw-medium">{{ inventory.name }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-medium">담당자</th>
+                                <td class="fw-medium">{{ inventory.manager }} ({{ inventory.department }})</td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-medium">실사 기간</th>
+                                <td class="fw-medium">
+                                    <i class="fas fa-calendar me-1 text-muted"></i>{{ inventory.start_date }} ~ {{ inventory.end_date }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-md-6">
-                <table class="table-base">
-                    <tbody>
-                        <tr>
-                            <th style="width: 30%">진행 상태</th>
-                            <td>
-                                {% if inventory.status == 'planned' %}
-                                <span class="badge bg-warning text-dark">예정됨</span>
-                                {% elif inventory.status == 'in_progress' %}
-                                <span class="badge bg-primary">진행중</span>
-                                {% elif inventory.status == 'completed' %}
-                                <span class="badge bg-success">완료됨</span>
-                                {% else %}
-                                <span class="badge bg-secondary">알 수 없음</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>대상 자산</th>
-                            <td>{{ inventory.target_count }}개</td>
-                        </tr>
-                        <tr>
-                            <th>완료된 자산</th>
-                            <td>
-                                {{ inventory.completed_count }}개 
-                                {% if inventory.target_count > 0 %}
-                                ({{ (inventory.completed_count / inventory.target_count * 100) | round }}%)
-                                {% else %}
-                                (0%)
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>불일치 항목</th>
-                            <td>{{ inventory.discrepancy_count }}개</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th class="text-muted fw-medium" style="width: 30%">진행 상태</th>
+                                <td>
+                                    {% if inventory.status == 'planned' %}
+                                    <span class="badge bg-warning text-dark px-3 py-2">
+                                        <i class="fas fa-clock me-1"></i>예정됨
+                                    </span>
+                                    {% elif inventory.status == 'in_progress' %}
+                                    <span class="badge bg-primary px-3 py-2">
+                                        <i class="fas fa-play me-1"></i>진행중
+                                    </span>
+                                    {% elif inventory.status == 'completed' %}
+                                    <span class="badge bg-success px-3 py-2">
+                                        <i class="fas fa-check me-1"></i>완료됨
+                                    </span>
+                                    {% else %}
+                                    <span class="badge bg-secondary px-3 py-2">알 수 없음</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-medium">대상 자산</th>
+                                <td class="fw-medium">{{ inventory.target_count }}개</td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-medium">완료된 자산</th>
+                                <td class="fw-medium">
+                                    {{ inventory.completed_count }}개 
+                                    {% if inventory.target_count > 0 %}
+                                    <span class="badge bg-light text-dark border ms-2">
+                                        {{ (inventory.completed_count / inventory.target_count * 100) | round }}%
+                                    </span>
+                                    {% else %}
+                                    <span class="badge bg-light text-dark border ms-2">0%</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-medium">불일치 항목</th>
+                                <td class="fw-medium">
+                                    {% if inventory.discrepancy_count > 0 %}
+                                    <span class="text-danger fw-bold">{{ inventory.discrepancy_count }}개</span>
+                                    {% else %}
+                                    <span class="text-success fw-bold">0개</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="mt-3">
-            <h6 class="font-weight-bold">실사 설명</h6>
-            <p>{{ inventory.description }}</p>
+        <div class="mt-4">
+            <h6 class="fw-semibold mb-3">
+                <i class="fas fa-align-left me-2 text-muted"></i>실사 설명
+            </h6>
+            <p class="text-muted mb-0">{{ inventory.description }}</p>
         </div>
     </div>
 </div>
 
 <!-- 실사 대상 자산 목록 -->
-<div class="card shadow-sm mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">실사 대상 자산</h6>
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">
+            <i class="fas fa-cube me-2 text-primary"></i>실사 대상 자산
+        </h6>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table-interactive">
+            <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>자산번호</th>
-                        <th>자산명</th>
-                        <th>카테고리</th>
-                        <th>위치</th>
-                        <th>담당자</th>
-                        <th>실사 상태</th>
-                        <th>처리</th>
+                        <th class="px-3 py-3 fw-semibold">자산번호</th>
+                        <th class="px-3 py-3 fw-semibold">자산명</th>
+                        <th class="px-3 py-3 fw-semibold">카테고리</th>
+                        <th class="px-3 py-3 fw-semibold">위치</th>
+                        <th class="px-3 py-3 fw-semibold">담당자</th>
+                        <th class="px-3 py-3 fw-semibold">실사 상태</th>
+                        <th class="px-3 py-3 fw-semibold text-center">처리</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if details.asset_results %}
                         {% for asset in details.asset_results %}
                         <tr>
-                            <td>{{ asset.asset_number }}</td>
-                            <td>
-                                <a href="{{ url_for('assets.detail', asset_id=asset.id) }}">
+                            <td class="px-3 py-3 fw-medium">{{ asset.asset_number }}</td>
+                            <td class="px-3 py-3">
+                                <a href="{{ url_for('assets.detail', asset_id=asset.id) }}" class="text-decoration-none fw-medium text-primary">
                                     {{ asset.asset_name }}
                                 </a>
                             </td>
-                            <td>{{ asset.category }}</td>
-                            <td>{{ asset.expected_location }}</td>
-                            <td>{{ asset.scanned_by }}</td>
-                            <td>
+                            <td class="px-3 py-3">
+                                <span class="badge bg-light text-dark border">{{ asset.category }}</span>
+                            </td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ asset.expected_location }}
+                            </td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-user me-1"></i>{{ asset.scanned_by }}
+                            </td>
+                            <td class="px-3 py-3">
                                 {% if asset.discrepancy == None %}
-                                <span class="badge bg-success">정상</span>
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check me-1"></i>정상
+                                </span>
                                 {% elif asset.discrepancy == 'not_scanned' %}
-                                <span class="badge bg-danger">미확인</span>
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>미확인
+                                </span>
                                 {% elif asset.discrepancy %}
-                                <span class="badge bg-warning text-dark">불일치</span>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-exclamation-circle me-1"></i>불일치
+                                </span>
                                 {% else %}
                                 <span class="badge bg-secondary">알 수 없음</span>
                                 {% endif %}
                             </td>
-                            <td>
-                                <button class="btn-size-sm btn-outline-primary">
+                            <td class="px-3 py-3 text-center">
+                                <button class="btn btn-outline-primary btn-sm">
                                     <i class="fas fa-check me-1"></i> 확인
                                 </button>
                             </td>
@@ -155,8 +203,12 @@
                         {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="7" class="text-center py-4">
-                            <p class="text-muted mb-0">표시할 자산 정보가 없습니다.</p>
+                        <td colspan="7" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-cube fa-3x mb-3 text-muted"></i>
+                                <h5 class="text-muted">표시할 자산 정보가 없습니다</h5>
+                                <p class="text-muted small">실사 대상 자산이 등록되지 않았거나 아직 준비중입니다.</p>
+                            </div>
                         </td>
                     </tr>
                     {% endif %}
@@ -167,25 +219,29 @@
 </div>
 
 <!-- 불일치 항목 -->
-<div class="card shadow-sm">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">불일치 항목</h6>
-        <a href="{{ url_for('inventory.discrepancies') }}?inventory={{ inventory.id }}" class="btn-size-sm btn-primary">
-            <i class="fas fa-list me-1"></i> 전체 보기
-        </a>
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light border-bottom py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-semibold text-gray-800">
+                <i class="fas fa-exclamation-triangle me-2 text-warning"></i>불일치 항목
+            </h6>
+            <a href="{{ url_for('inventory.discrepancies') }}?inventory={{ inventory.id }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i> 전체 보기
+            </a>
+        </div>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table-interactive">
+            <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>자산번호</th>
-                        <th>자산명</th>
-                        <th>유형</th>
-                        <th>예상 위치/상태</th>
-                        <th>실제 위치/상태</th>
-                        <th>상태</th>
-                        <th>처리</th>
+                        <th class="px-3 py-3 fw-semibold">자산번호</th>
+                        <th class="px-3 py-3 fw-semibold">자산명</th>
+                        <th class="px-3 py-3 fw-semibold">유형</th>
+                        <th class="px-3 py-3 fw-semibold">예상 위치/상태</th>
+                        <th class="px-3 py-3 fw-semibold">실제 위치/상태</th>
+                        <th class="px-3 py-3 fw-semibold">상태</th>
+                        <th class="px-3 py-3 fw-semibold text-center">처리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -199,39 +255,37 @@
                     {% if discrepancies %}
                         {% for disc in discrepancies %}
                         <tr>
-                            <td>{{ disc.asset_number }}</td>
-                            <td>
-                                <a href="{{ url_for('assets.detail', asset_id=disc.id) }}">
+                            <td class="px-3 py-3 fw-medium">{{ disc.asset_number }}</td>
+                            <td class="px-3 py-3">
+                                <a href="{{ url_for('assets.detail', asset_id=disc.id) }}" class="text-decoration-none fw-medium text-primary">
                                     {{ disc.asset_name }}
                                 </a>
                             </td>
-                            <td>
-                                {% if disc.discrepancy == 'not_scanned' %}
-                                <span class="badge bg-danger">미확인</span>
-                                {% elif disc.discrepancy == 'location' %}
+                            <td class="px-3 py-3">
                                 <span class="badge bg-warning text-dark">위치 불일치</span>
-                                {% elif disc.discrepancy == 'status' %}
-                                <span class="badge bg-info">상태 불일치</span>
-                                {% else %}
-                                <span class="badge bg-secondary">기타</span>
-                                {% endif %}
                             </td>
-                            <td>{{ disc.expected_location }}</td>
-                            <td>{{ disc.scanned_location or '-' }}</td>
-                            <td>
-                                <span class="badge bg-warning text-dark">처리 필요</span>
+                            <td class="px-3 py-3 text-muted">{{ disc.expected_location }}</td>
+                            <td class="px-3 py-3 text-muted">{{ disc.actual_location }}</td>
+                            <td class="px-3 py-3">
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-exclamation-circle me-1"></i>미처리
+                                </span>
                             </td>
-                            <td>
-                                <button class="btn-size-sm btn-outline-primary">
-                                    <i class="fas fa-wrench me-1"></i> 해결
+                            <td class="px-3 py-3 text-center">
+                                <button class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-edit me-1"></i> 조치
                                 </button>
                             </td>
                         </tr>
                         {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="7" class="text-center py-4">
-                            <p class="text-muted mb-0">불일치 항목이 없습니다.</p>
+                        <td colspan="7" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-check-circle fa-3x mb-3 text-success"></i>
+                                <h5 class="text-success">불일치 항목이 없습니다</h5>
+                                <p class="text-muted small">모든 자산이 정상적으로 확인되었습니다.</p>
+                            </div>
                         </td>
                     </tr>
                     {% endif %}

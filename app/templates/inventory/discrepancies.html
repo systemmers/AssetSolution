@@ -4,9 +4,11 @@
 
 {% block page_header %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">불일치 항목 목록</h2>
+    <h1 class="h2 mb-0 text-gray-800">
+        <i class="fas fa-exclamation-triangle me-2 text-warning"></i>불일치 항목 목록
+    </h1>
     <div>
-        <a href="{{ url_for('inventory.index') }}" class="btn-secondary-solid">
+        <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left me-1"></i> 실사 목록으로
         </a>
     </div>
@@ -15,18 +17,29 @@
 
 {% block content %}
 <!-- 안내 메시지 -->
-<div class="alert alert-info">
-    <i class="fas fa-info-circle me-2"></i> 불일치 항목 목록 기능은 현재 개발중입니다. 곧 추가될 예정입니다.
+<div class="alert alert-info border-0 shadow-sm">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-info-circle me-3 text-info"></i>
+        <div>
+            <strong>기능 준비중</strong>
+            <div class="text-muted small">불일치 항목 목록 기능은 현재 개발중입니다. 곧 추가될 예정입니다.</div>
+        </div>
+    </div>
 </div>
 
 <!-- 필터 영역 -->
-<div class="card shadow-sm mb-4">
-    <div class="card-body">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">
+            <i class="fas fa-filter me-2 text-primary"></i>검색 및 필터
+        </h6>
+    </div>
+    <div class="card-body p-4">
         <form id="filterForm" method="GET" action="{{ url_for('inventory.discrepancies') }}">
             <div class="row align-items-end">
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <label for="inventoryFilter" class="form-label">실사</label>
-                    <select class="form-select-custom" id="inventoryFilter" name="inventory">
+                    <label for="inventoryFilter" class="form-label fw-semibold">실사</label>
+                    <select class="form-select" id="inventoryFilter" name="inventory">
                         <option value="">전체 실사</option>
                         {% for inventory in inventories %}
                         <option value="{{ inventory.id }}" {% if selected_inventory|string == inventory.id|string %}selected{% endif %}>{{ inventory.name }}</option>
@@ -34,9 +47,9 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-3">
-                    <label for="typeFilter" class="form-label">불일치 유형</label>
-                    <select class="form-select-custom" id="typeFilter" name="type">
-                        <option value="">전체</option>
+                    <label for="typeFilter" class="form-label fw-semibold">불일치 유형</label>
+                    <select class="form-select" id="typeFilter" name="type">
+                        <option value="">전체 유형</option>
                         <option value="location" {% if selected_type == 'location' %}selected{% endif %}>위치 불일치</option>
                         <option value="status" {% if selected_type == 'status' %}selected{% endif %}>상태 불일치</option>
                         <option value="lost" {% if selected_type == 'lost' %}selected{% endif %}>분실</option>
@@ -45,9 +58,9 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-3">
-                    <label for="statusFilter" class="form-label">처리 상태</label>
-                    <select class="form-select-custom" id="statusFilter" name="status">
-                        <option value="">전체</option>
+                    <label for="statusFilter" class="form-label fw-semibold">처리 상태</label>
+                    <select class="form-select" id="statusFilter" name="status">
+                        <option value="">전체 상태</option>
                         <option value="pending" {% if selected_status == 'pending' %}selected{% endif %}>미처리</option>
                         <option value="investigating" {% if selected_status == 'investigating' %}selected{% endif %}>조사중</option>
                         <option value="confirmed" {% if selected_status == 'confirmed' %}selected{% endif %}>확인됨</option>
@@ -55,8 +68,8 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-3">
-                    <label for="dateFilter" class="form-label">발견 기간</label>
-                    <select class="form-select-custom" id="dateFilter" name="date">
+                    <label for="dateFilter" class="form-label fw-semibold">발견 기간</label>
+                    <select class="form-select" id="dateFilter" name="date">
                         <option value="">전체 기간</option>
                         <option value="today" {% if selected_date == 'today' %}selected{% endif %}>오늘</option>
                         <option value="week" {% if selected_date == 'week' %}selected{% endif %}>최근 7일</option>
@@ -65,11 +78,11 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-12 mb-3">
-                    <div class="d-flex">
-                        <button type="submit" class="btn-primary-solid flex-grow-1 me-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1">
                             <i class="fas fa-search me-1"></i> 검색
                         </button>
-                        <a href="{{ url_for('inventory.discrepancies') }}" class="btn-secondary-solid">
+                        <a href="{{ url_for('inventory.discrepancies') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-undo me-1"></i> 초기화
                         </a>
                     </div>
@@ -82,86 +95,134 @@
 <!-- 검색 결과 요약 -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <span class="text-muted">총 {{ discrepancies|length }}개 불일치 항목</span>
+        <span class="text-muted">
+            <i class="fas fa-exclamation-triangle me-1"></i>총 <span class="fw-semibold text-warning">{{ discrepancies|length }}</span>개 불일치 항목
+        </span>
         {% if selected_inventory or selected_type or selected_status or selected_date %}
-        <span class="ms-2 badge bg-secondary">필터 적용됨</span>
+        <span class="ms-2 badge bg-secondary">
+            <i class="fas fa-filter me-1"></i>필터 적용됨
+        </span>
         {% endif %}
     </div>
     <div>
-        <a href="#" class="btn-size-sm btn-outline-secondary">
+        <button class="btn btn-outline-secondary btn-sm">
             <i class="fas fa-download me-1"></i> 내보내기
-        </a>
+        </button>
     </div>
 </div>
 
 <!-- 불일치 항목 목록 -->
-<div class="card shadow-sm">
-    <div class="card-body">
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light border-bottom py-3">
+        <h6 class="mb-0 fw-semibold text-gray-800">
+            <i class="fas fa-list me-2 text-primary"></i>불일치 항목 목록
+        </h6>
+    </div>
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table-interactive">
+            <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>자산번호</th>
-                        <th>자산명</th>
-                        <th>불일치 유형</th>
-                        <th>예상 위치/상태</th>
-                        <th>실제 위치/상태</th>
-                        <th>발견일</th>
-                        <th>처리 상태</th>
-                        <th>관리</th>
+                        <th class="px-3 py-3 fw-semibold">자산번호</th>
+                        <th class="px-3 py-3 fw-semibold">자산명</th>
+                        <th class="px-3 py-3 fw-semibold">불일치 유형</th>
+                        <th class="px-3 py-3 fw-semibold">예상 위치/상태</th>
+                        <th class="px-3 py-3 fw-semibold">실제 위치/상태</th>
+                        <th class="px-3 py-3 fw-semibold">발견일</th>
+                        <th class="px-3 py-3 fw-semibold">처리 상태</th>
+                        <th class="px-3 py-3 fw-semibold text-center">관리</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if discrepancies %}
                         {% for item in discrepancies %}
                         <tr>
-                            <td>{{ item.asset_number }}</td>
-                            <td>{{ item.asset_name }}</td>
-                            <td>
+                            <td class="px-3 py-3 fw-medium">{{ item.asset_number }}</td>
+                            <td class="px-3 py-3">
+                                <a href="{{ url_for('assets.detail', asset_id=item.asset_id) }}" class="text-decoration-none fw-medium text-primary">
+                                    {{ item.asset_name }}
+                                </a>
+                            </td>
+                            <td class="px-3 py-3">
                                 {% if item.type == 'location' %}
-                                <span class="badge bg-warning text-dark">위치 불일치</span>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-map-marker-alt me-1"></i>위치 불일치
+                                </span>
                                 {% elif item.type == 'status' %}
-                                <span class="badge bg-info">상태 불일치</span>
+                                <span class="badge bg-info">
+                                    <i class="fas fa-info-circle me-1"></i>상태 불일치
+                                </span>
                                 {% elif item.type == 'lost' %}
-                                <span class="badge bg-danger">분실</span>
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-times-circle me-1"></i>분실
+                                </span>
                                 {% elif item.type == 'damaged' %}
-                                <span class="badge bg-danger">손상</span>
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-broken-heart me-1"></i>손상
+                                </span>
                                 {% elif item.type == 'extra' %}
-                                <span class="badge bg-primary">미등록 자산</span>
+                                <span class="badge bg-primary">
+                                    <i class="fas fa-plus-circle me-1"></i>미등록 자산
+                                </span>
                                 {% else %}
-                                <span class="badge bg-secondary">기타</span>
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-question-circle me-1"></i>기타
+                                </span>
                                 {% endif %}
                             </td>
-                            <td>{{ item.expected_location }}</td>
-                            <td>{{ item.actual_location }}</td>
-                            <td>{{ item.discovery_date }}</td>
-                            <td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ item.expected_location }}
+                            </td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ item.actual_location }}
+                            </td>
+                            <td class="px-3 py-3 text-muted">
+                                <i class="fas fa-calendar me-1"></i>{{ item.discovery_date }}
+                            </td>
+                            <td class="px-3 py-3">
                                 {% if item.status == 'pending' %}
-                                <span class="badge bg-warning text-dark">미처리</span>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-clock me-1"></i>미처리
+                                </span>
                                 {% elif item.status == 'investigating' %}
-                                <span class="badge bg-info">조사중</span>
+                                <span class="badge bg-info">
+                                    <i class="fas fa-search me-1"></i>조사중
+                                </span>
                                 {% elif item.status == 'confirmed' %}
-                                <span class="badge bg-primary">확인됨</span>
+                                <span class="badge bg-primary">
+                                    <i class="fas fa-check-circle me-1"></i>확인됨
+                                </span>
                                 {% elif item.status == 'resolved' %}
-                                <span class="badge bg-success">해결됨</span>
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-double me-1"></i>해결됨
+                                </span>
                                 {% else %}
-                                <span class="badge bg-secondary">기타</span>
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-question-circle me-1"></i>기타
+                                </span>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="px-3 py-3 text-center">
                                 <div class="dropdown">
-                                    <button class="btn-size-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" 
+                                            id="dropdownMenuButton{{ item.id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fas fa-cog"></i>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
+                                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuButton{{ item.id }}">
                                         <li>
                                             <a class="dropdown-item" href="#">
-                                                <i class="fas fa-edit me-1"></i> 상세 보기
+                                                <i class="fas fa-eye me-2 text-primary"></i> 상세 보기
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="#">
-                                                <i class="fas fa-check me-1"></i> 해결 처리
+                                                <i class="fas fa-check me-2 text-success"></i> 해결 처리
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="#">
+                                                <i class="fas fa-trash-alt me-2"></i> 삭제
                                             </a>
                                         </li>
                                     </ul>
@@ -171,8 +232,12 @@
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="8" class="text-center py-4">
-                                <p class="text-muted mb-0">불일치 항목이 없습니다.</p>
+                            <td colspan="8" class="text-center py-5">
+                                <div class="empty-state">
+                                    <i class="fas fa-check-circle fa-3x mb-3 text-success"></i>
+                                    <h5 class="text-success">불일치 항목이 없습니다</h5>
+                                    <p class="text-muted small">선택한 조건에 해당하는 불일치 항목이 없습니다.</p>
+                                </div>
                             </td>
                         </tr>
                     {% endif %}
@@ -187,7 +252,9 @@
 <nav aria-label="Page navigation" class="mt-4">
     <ul class="pagination justify-content-center">
         <li class="page-item {% if page == 1 %}disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('inventory.discrepancies', page=page-1, inventory=selected_inventory, type=selected_type, status=selected_status, date=selected_date) if page > 1 else '#' }}">이전</a>
+            <a class="page-link" href="{{ url_for('inventory.discrepancies', page=page-1, inventory=selected_inventory, type=selected_type, status=selected_status, date=selected_date) if page > 1 else '#' }}">
+                <i class="fas fa-chevron-left me-1"></i>이전
+            </a>
         </li>
         {% for p in range(max(1, page-2), min(total_pages+1, page+3)) %}
         <li class="page-item {% if p == page %}active{% endif %}">
@@ -195,12 +262,13 @@
         </li>
         {% endfor %}
         <li class="page-item {% if page == total_pages %}disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('inventory.discrepancies', page=page+1, inventory=selected_inventory, type=selected_type, status=selected_status, date=selected_date) if page < total_pages else '#' }}">다음</a>
+            <a class="page-link" href="{{ url_for('inventory.discrepancies', page=page+1, inventory=selected_inventory, type=selected_type, status=selected_status, date=selected_date) if page < total_pages else '#' }}">
+                다음<i class="fas fa-chevron-right ms-1"></i>
+            </a>
         </li>
     </ul>
 </nav>
 {% endif %}
-
 {% endblock %}
 
 {% block scripts %}
