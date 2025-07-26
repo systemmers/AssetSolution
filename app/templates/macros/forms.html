@@ -1,0 +1,550 @@
+{#
+  Form Component Macros
+  327개 폼 필드를 재사용 가능한 매크로로 통합
+  
+  사용법:
+  {% from 'macros/forms.html' import input_field, select_field, form_group %}
+  {{ input_field('username', '사용자명', type='text', required=true) }}
+#}
+
+{# 
+  기본 입력 필드 매크로
+  텍스트, 이메일, 패스워드 등 모든 input 타입
+#}
+{% macro input_field(name, label='', type='text', value='', placeholder='', required=false, 
+                     disabled=false, readonly=false, size='normal', help_text='', 
+                     validation_state='', validation_message='', attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+  {% set input_classes = ['form-control'] %}
+  
+  {# Size classes #}
+  {% if size == 'sm' %}
+    {% set input_classes = input_classes + ['form-control-sm'] %}
+  {% elif size == 'lg' %}
+    {% set input_classes = input_classes + ['form-control-lg'] %}
+  {% elif size == 'xs' %}
+    {% set input_classes = input_classes + ['form-control--xs'] %}
+  {% endif %}
+  
+  {# Validation classes #}
+  {% if validation_state == 'valid' %}
+    {% set input_classes = input_classes + ['is-valid'] %}
+  {% elif validation_state == 'invalid' %}
+    {% set input_classes = input_classes + ['is-invalid'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set input_classes = input_classes + [class] %}
+  {% endif %}
+
+  <div class="form-group">
+    {% if label %}
+      <label for="{{ field_id }}" class="form-label{% if required %} form-label--required{% endif %}">
+        {{ label }}
+      </label>
+    {% endif %}
+    
+    <input 
+      type="{{ type }}"
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="{{ input_classes | join(' ') }}"
+      {% if value %}value="{{ value }}"{% endif %}
+      {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+      {% if required %}required{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if readonly %}readonly{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    />
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  셀렉트 필드 매크로
+  드롭다운 선택 필드
+#}
+{% macro select_field(name, label='', options=[], value='', required=false, disabled=false, 
+                      size='normal', help_text='', validation_state='', validation_message='', 
+                      placeholder='선택하세요', attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+  {% set select_classes = ['form-select'] %}
+  
+  {# Size classes #}
+  {% if size == 'sm' %}
+    {% set select_classes = select_classes + ['form-select-sm'] %}
+  {% elif size == 'lg' %}
+    {% set select_classes = select_classes + ['form-select-lg'] %}
+  {% elif size == 'xs' %}
+    {% set select_classes = select_classes + ['form-select--xs'] %}
+  {% endif %}
+  
+  {# Validation classes #}
+  {% if validation_state == 'valid' %}
+    {% set select_classes = select_classes + ['is-valid'] %}
+  {% elif validation_state == 'invalid' %}
+    {% set select_classes = select_classes + ['is-invalid'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set select_classes = select_classes + [class] %}
+  {% endif %}
+
+  <div class="form-group">
+    {% if label %}
+      <label for="{{ field_id }}" class="form-label{% if required %} form-label--required{% endif %}">
+        {{ label }}
+      </label>
+    {% endif %}
+    
+    <select 
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="{{ select_classes | join(' ') }}"
+      {% if required %}required{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    >
+      {% if placeholder %}
+        <option value="">{{ placeholder }}</option>
+      {% endif %}
+      
+      {% for option in options %}
+        {% if option is mapping %}
+          <option value="{{ option.value }}" {% if option.value == value %}selected{% endif %}>
+            {{ option.label }}
+          </option>
+        {% else %}
+          <option value="{{ option }}" {% if option == value %}selected{% endif %}>
+            {{ option }}
+          </option>
+        {% endif %}
+      {% endfor %}
+    </select>
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  텍스트에리어 매크로
+  여러 줄 텍스트 입력
+#}
+{% macro textarea_field(name, label='', value='', rows=4, placeholder='', required=false, 
+                        disabled=false, readonly=false, size='normal', help_text='', 
+                        validation_state='', validation_message='', attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+  {% set textarea_classes = ['form-control'] %}
+  
+  {# Size classes #}
+  {% if size == 'sm' %}
+    {% set textarea_classes = textarea_classes + ['form-control-sm'] %}
+  {% elif size == 'lg' %}
+    {% set textarea_classes = textarea_classes + ['form-control-lg'] %}
+  {% endif %}
+  
+  {# Validation classes #}
+  {% if validation_state == 'valid' %}
+    {% set textarea_classes = textarea_classes + ['is-valid'] %}
+  {% elif validation_state == 'invalid' %}
+    {% set textarea_classes = textarea_classes + ['is-invalid'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set textarea_classes = textarea_classes + [class] %}
+  {% endif %}
+
+  <div class="form-group">
+    {% if label %}
+      <label for="{{ field_id }}" class="form-label{% if required %} form-label--required{% endif %}">
+        {{ label }}
+      </label>
+    {% endif %}
+    
+    <textarea 
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="{{ textarea_classes | join(' ') }}"
+      rows="{{ rows }}"
+      {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+      {% if required %}required{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if readonly %}readonly{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    >{{ value }}</textarea>
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  체크박스 매크로
+#}
+{% macro checkbox_field(name, label, value='1', checked=false, disabled=false, 
+                        help_text='', validation_state='', validation_message='', 
+                        attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+
+  <div class="form-check{% if class %} {{ class }}{% endif %}">
+    <input 
+      type="checkbox"
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="form-check-input{% if validation_state == 'valid' %} is-valid{% elif validation_state == 'invalid' %} is-invalid{% endif %}"
+      value="{{ value }}"
+      {% if checked %}checked{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    />
+    <label for="{{ field_id }}" class="form-check-label">
+      {{ label }}
+    </label>
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  라디오 버튼 그룹 매크로
+#}
+{% macro radio_group(name, label='', options=[], value='', required=false, disabled=false, 
+                     inline=false, help_text='', validation_state='', validation_message='', 
+                     attributes='', class='', id='') %}
+  {% set group_id = id or (name + '_group') %}
+
+  <fieldset class="form-group{% if class %} {{ class }}{% endif %}">
+    {% if label %}
+      <legend class="form-label{% if required %} form-label--required{% endif %}">{{ label }}</legend>
+    {% endif %}
+    
+    {% for option in options %}
+      {% set option_id = group_id + '_' + loop.index|string %}
+      {% set option_value = option.value if option is mapping else option %}
+      {% set option_label = option.label if option is mapping else option %}
+      
+      <div class="form-check{% if inline %} form-check-inline{% endif %}">
+        <input 
+          type="radio"
+          id="{{ option_id }}"
+          name="{{ name }}"
+          class="form-check-input{% if validation_state == 'valid' %} is-valid{% elif validation_state == 'invalid' %} is-invalid{% endif %}"
+          value="{{ option_value }}"
+          {% if option_value == value %}checked{% endif %}
+          {% if disabled %}disabled{% endif %}
+          {% if required %}required{% endif %}
+          {% if validation_state and loop.first %}aria-describedby="{{ group_id }}_feedback"{% endif %}
+          {% if attributes %}{{ attributes | safe }}{% endif %}
+        />
+        <label for="{{ option_id }}" class="form-check-label">
+          {{ option_label }}
+        </label>
+      </div>
+    {% endfor %}
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ group_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </fieldset>
+{% endmacro %}
+
+{# 
+  스위치 토글 매크로
+#}
+{% macro switch_field(name, label, checked=false, disabled=false, help_text='', 
+                      validation_state='', validation_message='', attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+
+  <div class="form-check form-switch{% if class %} {{ class }}{% endif %}">
+    <input 
+      type="checkbox"
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="form-check-input{% if validation_state == 'valid' %} is-valid{% elif validation_state == 'invalid' %} is-invalid{% endif %}"
+      {% if checked %}checked{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    />
+    <label for="{{ field_id }}" class="form-check-label">
+      {{ label }}
+    </label>
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  파일 업로드 매크로
+#}
+{% macro file_field(name, label='', accept='', multiple=false, required=false, 
+                    disabled=false, help_text='', validation_state='', validation_message='', 
+                    attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+  {% set file_classes = ['form-control'] %}
+  
+  {# Validation classes #}
+  {% if validation_state == 'valid' %}
+    {% set file_classes = file_classes + ['is-valid'] %}
+  {% elif validation_state == 'invalid' %}
+    {% set file_classes = file_classes + ['is-invalid'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set file_classes = file_classes + [class] %}
+  {% endif %}
+
+  <div class="form-group">
+    {% if label %}
+      <label for="{{ field_id }}" class="form-label{% if required %} form-label--required{% endif %}">
+        {{ label }}
+      </label>
+    {% endif %}
+    
+    <input 
+      type="file"
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="{{ file_classes | join(' ') }}"
+      {% if accept %}accept="{{ accept }}"{% endif %}
+      {% if multiple %}multiple{% endif %}
+      {% if required %}required{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    />
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  범위 슬라이더 매크로
+#}
+{% macro range_field(name, label='', min=0, max=100, step=1, value=50, 
+                     disabled=false, help_text='', attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+
+  <div class="form-group">
+    {% if label %}
+      <label for="{{ field_id }}" class="form-label">{{ label }}</label>
+    {% endif %}
+    
+    <input 
+      type="range"
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="form-range{% if class %} {{ class }}{% endif %}"
+      min="{{ min }}"
+      max="{{ max }}"
+      step="{{ step }}"
+      value="{{ value }}"
+      {% if disabled %}disabled{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    />
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  입력 그룹 매크로
+  앞뒤에 텍스트나 버튼이 붙는 입력 필드
+#}
+{% macro input_group(name, label='', type='text', value='', placeholder='', 
+                     prepend='', append='', required=false, disabled=false, size='normal', 
+                     help_text='', validation_state='', validation_message='', 
+                     attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+  {% set input_classes = ['form-control'] %}
+  
+  {# Size classes #}
+  {% if size == 'sm' %}
+    {% set input_classes = input_classes + ['form-control-sm'] %}
+  {% elif size == 'lg' %}
+    {% set input_classes = input_classes + ['form-control-lg'] %}
+  {% endif %}
+  
+  {# Validation classes #}
+  {% if validation_state == 'valid' %}
+    {% set input_classes = input_classes + ['is-valid'] %}
+  {% elif validation_state == 'invalid' %}
+    {% set input_classes = input_classes + ['is-invalid'] %}
+  {% endif %}
+
+  <div class="form-group">
+    {% if label %}
+      <label for="{{ field_id }}" class="form-label{% if required %} form-label--required{% endif %}">
+        {{ label }}
+      </label>
+    {% endif %}
+    
+    <div class="input-group{% if size == 'sm' %} input-group-sm{% elif size == 'lg' %} input-group-lg{% endif %}{% if class %} {{ class }}{% endif %}">
+      {% if prepend %}
+        <span class="input-group-text">{{ prepend }}</span>
+      {% endif %}
+      
+      <input 
+        type="{{ type }}"
+        id="{{ field_id }}"
+        name="{{ name }}"
+        class="{{ input_classes | join(' ') }}"
+        {% if value %}value="{{ value }}"{% endif %}
+        {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+        {% if required %}required{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+        {% if attributes %}{{ attributes | safe }}{% endif %}
+      />
+      
+      {% if append %}
+        <span class="input-group-text">{{ append }}</span>
+      {% endif %}
+    </div>
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  플로팅 라벨 매크로
+  Material Design 스타일 라벨
+#}
+{% macro floating_field(name, label, type='text', value='', placeholder=' ', required=false, 
+                        disabled=false, readonly=false, help_text='', validation_state='', 
+                        validation_message='', attributes='', class='', id='') %}
+  {% set field_id = id or (name + '_field') %}
+  {% set input_classes = ['form-control'] %}
+  
+  {# Validation classes #}
+  {% if validation_state == 'valid' %}
+    {% set input_classes = input_classes + ['is-valid'] %}
+  {% elif validation_state == 'invalid' %}
+    {% set input_classes = input_classes + ['is-invalid'] %}
+  {% endif %}
+
+  <div class="form-floating{% if class %} {{ class }}{% endif %}">
+    <input 
+      type="{{ type }}"
+      id="{{ field_id }}"
+      name="{{ name }}"
+      class="{{ input_classes | join(' ') }}"
+      placeholder="{{ placeholder }}"
+      {% if value %}value="{{ value }}"{% endif %}
+      {% if required %}required{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if readonly %}readonly{% endif %}
+      {% if validation_state %}aria-describedby="{{ field_id }}_feedback"{% endif %}
+      {% if attributes %}{{ attributes | safe }}{% endif %}
+    />
+    <label for="{{ field_id }}">{{ label }}{% if required %} *{% endif %}</label>
+    
+    {% if help_text %}
+      <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+    
+    {% if validation_message %}
+      <div id="{{ field_id }}_feedback" class="{% if validation_state == 'valid' %}valid{% else %}invalid{% endif %}-feedback">
+        {{ validation_message }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  폼 그룹 매크로
+  여러 필드를 그룹으로 묶기
+#}
+{% macro form_group(legend='', fields=[], class='', horizontal=false) %}
+  <fieldset class="form-group{% if class %} {{ class }}{% endif %}">
+    {% if legend %}
+      <legend class="form-label">{{ legend }}</legend>
+    {% endif %}
+    
+    {% if horizontal %}
+      <div class="row">
+        {% for field in fields %}
+          <div class="col-md-{{ 12 // fields|length }}">
+            {{ field }}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% for field in fields %}
+        {{ field }}
+      {% endfor %}
+    {% endif %}
+  </fieldset>
+{% endmacro %}

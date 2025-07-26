@@ -6,9 +6,9 @@
 /* 새로운 컴포넌트 시스템 */
 @import './cards.new.css';
 @import './buttons.new.css';
+@import './forms.new.css';
 
 /* 기존 컴포넌트들 (점진적 마이그레이션) */
-/* @import './forms.css'; */
 /* @import './tables.css'; */
 
 /* 레거시 호환성 (필요시) */
