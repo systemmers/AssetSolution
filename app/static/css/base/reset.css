@@ -1,0 +1,252 @@
+/*
+ * Modern CSS Reset
+ * 브라우저 기본 스타일 초기화 및 일관된 기반 제공
+ */
+
+/* Box sizing 전역 적용 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 기본 마진/패딩 제거 */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* HTML 및 Body 기본 설정 */
+html {
+  font-size: 100%; /* 16px 기본값 유지 */
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--theme-text-primary);
+  background-color: var(--theme-bg-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-rendering: optimizeSpeed;
+}
+
+/* 메인 컨텐츠 영역 */
+main {
+  flex: 1;
+}
+
+/* 링크 기본 스타일 */
+a {
+  color: var(--color-primary-500);
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+
+a:hover,
+a:focus {
+  color: var(--color-primary-600);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid var(--theme-border-focus);
+  outline-offset: 2px;
+}
+
+/* 버튼 초기화 */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 2px solid var(--theme-border-focus);
+  outline-offset: 2px;
+}
+
+/* 폼 요소 초기화 */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: var(--theme-bg-primary);
+  border: 1px solid var(--theme-border-primary);
+  border-radius: var(--radius-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--theme-border-focus);
+  outline-offset: 2px;
+  border-color: var(--theme-border-focus);
+}
+
+/* 이미지 반응형 처리 */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 목록 스타일 제거 */
+ol,
+ul {
+  list-style: none;
+}
+
+/* 테이블 초기화 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 제목 요소 기본 스타일 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--theme-text-primary);
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+/* 문단 기본 스타일 */
+p {
+  line-height: var(--leading-normal);
+  color: var(--theme-text-secondary);
+}
+
+/* 강조 요소 */
+strong,
+b {
+  font-weight: var(--font-bold);
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+/* 코드 요소 */
+code,
+pre {
+  font-family: var(--font-family-mono);
+  font-size: 0.875em;
+}
+
+code {
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--theme-bg-secondary);
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  padding: var(--spacing-4);
+  background-color: var(--theme-bg-secondary);
+  border-radius: var(--radius-base);
+  overflow-x: auto;
+}
+
+pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* 수평선 */
+hr {
+  border: none;
+  border-top: 1px solid var(--theme-border-primary);
+  margin: var(--spacing-6) 0;
+}
+
+/* 스크롤바 스타일링 (Webkit 기반 브라우저) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-bg-secondary);
+  border-radius: var(--radius-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-text-tertiary);
+  border-radius: var(--radius-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-text-secondary);
+}
+
+/* Firefox 스크롤바 스타일링 */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-text-tertiary) var(--theme-bg-secondary);
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  :root {
+    --theme-border-primary: var(--gray-900);
+    --theme-text-secondary: var(--gray-900);
+  }
+  
+  [data-theme="dark"] {
+    --theme-border-primary: var(--gray-50);
+    --theme-text-secondary: var(--gray-50);
+  }
+}
+
+/* 포커스 표시 개선 */
+@media (prefers-reduced-motion: no-preference) {
+  :focus {
+    transition: outline-offset 0.2s ease;
+  }
+}

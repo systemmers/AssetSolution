@@ -1,0 +1,13 @@
+/*
+ * Base Styles Entry Point
+ * 모든 기본 스타일의 진입점
+ */
+
+/* 디자인 토큰 (가장 먼저 로드) */
+@import './tokens.css';
+
+/* CSS 리셋 (토큰 이후 로드) */
+@import './reset.css';
+
+/* 유틸리티 클래스 (선택적 로드) */
+/* @import '../utilities/index.css'; */
