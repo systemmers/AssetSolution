@@ -1,0 +1,49 @@
+/*
+ * Templates System Entry Point
+ * 모든 페이지 템플릿과 패턴의 진입점
+ * 28개 페이지 CSS 파일을 현대적 템플릿 시스템으로 통합
+ */
+
+/* Base Templates */
+@import './layouts.css';
+@import './page-patterns.css';
+
+/* 
+ * Template Usage Guide:
+ * 
+ * 1. Layout Templates (layouts.css):
+ *    - .dashboard-layout: 대시보드 페이지
+ *    - .list-layout: 목록 페이지 (자산, 사용자, 계약 등)
+ *    - .detail-layout: 상세 페이지
+ *    - .form-layout: 폼 페이지 (생성, 수정)
+ *    - .settings-layout: 설정 페이지
+ *    - .auth-layout: 로그인 페이지
+ *    - .modal-layout: 모달 다이얼로그
+ * 
+ * 2. Page Patterns (page-patterns.css):
+ *    - .summary-cards: 요약 통계 카드
+ *    - .filter-section: 필터링 영역
+ *    - .content-section: 콘텐츠 섹션
+ *    - .activity-timeline: 활동 타임라인
+ *    - .status-badge: 상태 배지
+ *    - .quick-actions: 빠른 액션
+ *    - .list-item: 리스트 아이템
+ *    - .empty-state: 빈 상태
+ * 
+ * 3. Component Integration:
+ *    템플릿은 기존 컴포넌트 시스템과 함께 사용:
+ *    - cards.new.css
+ *    - buttons.new.css
+ *    - forms.new.css
+ *    - tables.new.css
+ * 
+ * 4. Template Combinations:
+ *    <div class="layout">
+ *      <div class="layout__content dashboard-layout">
+ *        <div class="dashboard-layout__stats">
+ *          <div class="summary-cards">...</div>
+ *        </div>
+ *        <div class="dashboard-layout__main">...</div>
+ *      </div>
+ *    </div>
+ */

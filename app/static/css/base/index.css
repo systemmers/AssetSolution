@@ -9,5 +9,8 @@
 /* CSS 리셋 (토큰 이후 로드) */
 @import './reset.css';
 
+/* 템플릿 시스템 (컴포넌트 이전 로드) */
+@import '../templates/index.css';
+
 /* 유틸리티 클래스 (선택적 로드) */
 /* @import '../utilities/index.css'; */
