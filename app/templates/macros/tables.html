@@ -1,0 +1,531 @@
+{#
+  Table Component Macros
+  2581개 테이블 인스턴스를 재사용 가능한 매크로로 통합
+  
+  사용법:
+  {% from 'macros/tables.html' import data_table, simple_table, asset_table %}
+  {{ data_table(title='자산 목록', headers=['이름', '상태', '액션'], rows=assets) }}
+#}
+
+{# 
+  기본 데이터 테이블 매크로
+  검색, 정렬, 페이지네이션 기능 포함
+#}
+{% macro data_table(title='', headers=[], rows=[], 
+                   searchable=true, sortable=true, paginated=true, 
+                   actions=[], bulk_actions=false, size='normal', 
+                   variant='', responsive=true, mobile_stack=true,
+                   empty_message='데이터가 없습니다.', class='', id='') %}
+  {% set table_id = id or ('table_' + range(1000, 9999) | random | string) %}
+  {% set table_classes = ['table'] %}
+  
+  {# Size classes #}
+  {% if size == 'xs' %}
+    {% set table_classes = table_classes + ['table--xs'] %}
+  {% elif size == 'sm' %}
+    {% set table_classes = table_classes + ['table--sm'] %}
+  {% elif size == 'lg' %}
+    {% set table_classes = table_classes + ['table--lg'] %}
+  {% elif size == 'xl' %}
+    {% set table_classes = table_classes + ['table--xl'] %}
+  {% endif %}
+  
+  {# Variant classes #}
+  {% if 'striped' in variant %}
+    {% set table_classes = table_classes + ['table--striped'] %}
+  {% endif %}
+  {% if 'hover' in variant %}
+    {% set table_classes = table_classes + ['table--hover'] %}
+  {% endif %}
+  {% if 'bordered' in variant %}
+    {% set table_classes = table_classes + ['table--bordered'] %}
+  {% endif %}
+  {% if 'elevated' in variant %}
+    {% set table_classes = table_classes + ['table--elevated'] %}
+  {% endif %}
+  {% if 'flush' in variant %}
+    {% set table_classes = table_classes + ['table--flush'] %}
+  {% endif %}
+  
+  {# Mobile responsive #}
+  {% if mobile_stack %}
+    {% set table_classes = table_classes + ['table--mobile-stack'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set table_classes = table_classes + [class] %}
+  {% endif %}
+
+  <div class="data-table">
+    {# Table Header #}
+    {% if title or searchable or actions %}
+      <div class="data-table__header">
+        {% if title %}
+          <h3 class="data-table__title">{{ title }}</h3>
+        {% endif %}
+        
+        <div class="data-table__actions">
+          {% if searchable %}
+            <div class="data-table__search">
+              <input type="text" class="form-control" placeholder="검색..." 
+                     onkeyup="filterTable('{{ table_id }}')" />
+              <i class="fas fa-search data-table__search-icon" aria-hidden="true"></i>
+            </div>
+          {% endif %}
+          
+          {% for action in actions %}
+            {{ action | safe }}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    
+    {# Bulk Actions #}
+    {% if bulk_actions %}
+      <div class="table__bulk-actions" id="{{ table_id }}_bulk" style="display: none;">
+        <span class="table__bulk-count">
+          <span id="{{ table_id }}_count">0</span>개 선택됨
+        </span>
+        <div class="table__bulk-actions-list">
+          <button class="btn btn-sm btn-outline-danger" onclick="bulkDelete('{{ table_id }}')">
+            <i class="fas fa-trash"></i> 삭제
+          </button>
+          <button class="btn btn-sm btn-outline-primary" onclick="bulkExport('{{ table_id }}')">
+            <i class="fas fa-download"></i> 내보내기
+          </button>
+        </div>
+      </div>
+    {% endif %}
+    
+    {# Responsive Wrapper #}
+    {% if responsive %}
+      <div class="table-responsive">
+    {% endif %}
+    
+    {# Table #}
+    <table id="{{ table_id }}" class="{{ table_classes | join(' ') }}" role="table">
+      {% if title %}
+        <caption class="sr-only">{{ title }}</caption>
+      {% endif %}
+      
+      <thead>
+        <tr>
+          {% if bulk_actions %}
+            <th scope="col" class="table__cell--center" style="width: 1%;">
+              <input type="checkbox" class="table__select-all form-check-input" 
+                     onchange="toggleSelectAll('{{ table_id }}')" 
+                     aria-label="모두 선택" />
+            </th>
+          {% endif %}
+          
+          {% for header in headers %}
+            {% if header is mapping %}
+              <th scope="col" 
+                  {% if header.sortable and sortable %}class="table__header--sortable"{% endif %}
+                  {% if header.class %}class="{{ header.class }}"{% endif %}
+                  {% if header.width %}style="width: {{ header.width }};"{% endif %}
+                  {% if header.sortable and sortable %}
+                    onclick="sortTable('{{ table_id }}', {{ loop.index0 + (1 if bulk_actions else 0) }})"
+                    tabindex="0"
+                    role="button"
+                    aria-label="{{ header.label }} 정렬"
+                  {% endif %}>
+                {{ header.label }}
+              </th>
+            {% else %}
+              <th scope="col" 
+                  {% if sortable %}class="table__header--sortable"{% endif %}
+                  {% if sortable %}
+                    onclick="sortTable('{{ table_id }}', {{ loop.index0 + (1 if bulk_actions else 0) }})"
+                    tabindex="0"
+                    role="button"
+                    aria-label="{{ header }} 정렬"
+                  {% endif %}>
+                {{ header }}
+              </th>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% if rows %}
+          {% for row in rows %}
+            <tr {% if 'hover' in variant %}tabindex="0"{% endif %}>
+              {% if bulk_actions %}
+                <td class="table__cell--center">
+                  <input type="checkbox" class="table__row-checkbox form-check-input" 
+                         value="{{ row.id if row is mapping else loop.index }}"
+                         onchange="updateBulkActions('{{ table_id }}')" />
+                </td>
+              {% endif %}
+              
+              {% if row is mapping and row.cells %}
+                {% for cell in row.cells %}
+                  <td {% if cell.class %}class="{{ cell.class }}"{% endif %}
+                      {% if cell.data_label %}data-label="{{ cell.data_label }}"{% endif %}>
+                    {{ cell.content | safe }}
+                  </td>
+                {% endfor %}
+              {% else %}
+                {% for cell in row %}
+                  <td data-label="{{ headers[loop.index0].label if headers[loop.index0] is mapping else headers[loop.index0] }}">
+                    {{ cell | safe }}
+                  </td>
+                {% endfor %}
+              {% endif %}
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="{{ headers | length + (1 if bulk_actions else 0) }}" class="table__empty">
+              <div class="table__empty-icon">
+                <i class="fas fa-inbox" aria-hidden="true"></i>
+              </div>
+              <div class="table__empty-message">{{ empty_message }}</div>
+              <div class="table__empty-description">데이터를 추가하거나 필터를 조정해보세요.</div>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    
+    {% if responsive %}
+      </div>
+    {% endif %}
+    
+    {# Table Footer with Pagination #}
+    {% if paginated and rows %}
+      <div class="table__footer">
+        <div class="table__info">
+          총 {{ rows | length }}개 항목
+        </div>
+        <div class="table__pagination">
+          <a href="#" class="table__page-btn table__page-btn--disabled">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+          <a href="#" class="table__page-btn table__page-btn--active">1</a>
+          <a href="#" class="table__page-btn">2</a>
+          <a href="#" class="table__page-btn">3</a>
+          <a href="#" class="table__page-btn">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 
+  간단한 테이블 매크로
+  기본적인 테이블 구조만 제공
+#}
+{% macro simple_table(headers=[], rows=[], variant='', size='normal', 
+                     responsive=true, class='', caption='') %}
+  {% set table_classes = ['table'] %}
+  
+  {# Size classes #}
+  {% if size == 'xs' %}
+    {% set table_classes = table_classes + ['table--xs'] %}
+  {% elif size == 'sm' %}
+    {% set table_classes = table_classes + ['table--sm'] %}
+  {% elif size == 'lg' %}
+    {% set table_classes = table_classes + ['table--lg'] %}
+  {% elif size == 'xl' %}
+    {% set table_classes = table_classes + ['table--xl'] %}
+  {% endif %}
+  
+  {# Variant classes #}
+  {% if 'striped' in variant %}
+    {% set table_classes = table_classes + ['table--striped'] %}
+  {% endif %}
+  {% if 'hover' in variant %}
+    {% set table_classes = table_classes + ['table--hover'] %}
+  {% endif %}
+  {% if 'bordered' in variant %}
+    {% set table_classes = table_classes + ['table--bordered'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set table_classes = table_classes + [class] %}
+  {% endif %}
+
+  {% if responsive %}
+    <div class="table-responsive">
+  {% endif %}
+  
+  <table class="{{ table_classes | join(' ') }}">
+    {% if caption %}
+      <caption>{{ caption }}</caption>
+    {% endif %}
+    
+    {% if headers %}
+      <thead>
+        <tr>
+          {% for header in headers %}
+            <th scope="col">{{ header }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+    {% endif %}
+    
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          {% for cell in row %}
+            <td>{{ cell | safe }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  {% if responsive %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{# 
+  자산 관리 전용 테이블 매크로
+  자산 리스트 표시에 최적화
+#}
+{% macro asset_table(assets=[], show_image=true, show_tags=true, show_actions=true, 
+                    searchable=true, title='자산 목록', class='') %}
+  {% set headers = [] %}
+  
+  {% if show_image %}
+    {% set headers = headers + [{'label': '이미지', 'width': '80px', 'class': 'table__cell--center'}] %}
+  {% endif %}
+  
+  {% set headers = headers + [
+    {'label': '자산코드', 'sortable': true, 'class': 'table__cell--nowrap'},
+    {'label': '자산명', 'sortable': true},
+    {'label': '카테고리', 'sortable': true},
+    {'label': '상태', 'sortable': true, 'class': 'table__cell--center'},
+    {'label': '담당자', 'sortable': true}
+  ] %}
+  
+  {% if show_tags %}
+    {% set headers = headers + [{'label': '태그', 'class': 'table__cell--center'}] %}
+  {% endif %}
+  
+  {% if show_actions %}
+    {% set headers = headers + [{'label': '액션', 'width': '120px', 'class': 'table__cell--actions'}] %}
+  {% endif %}
+  
+  {% set rows = [] %}
+  {% for asset in assets %}
+    {% set cells = [] %}
+    
+    {# 이미지 #}
+    {% if show_image %}
+      {% set image_cell = '<img src="' + (asset.image_url or '/static/images/no-image.png') + '" class="asset-table__image" alt="' + asset.name + '">' %}
+      {% set cells = cells + [{'content': image_cell, 'class': 'table__cell--center', 'data_label': '이미지'}] %}
+    {% endif %}
+    
+    {# 자산코드 #}
+    {% set code_cell = '<span class="asset-table__code">' + asset.code + '</span>' %}
+    {% set cells = cells + [{'content': code_cell, 'class': 'table__cell--nowrap', 'data_label': '자산코드'}] %}
+    
+    {# 자산명 #}
+    {% set name_cell = '<a href="/assets/' + asset.id|string + '" class="text-decoration-none">' + asset.name + '</a>' %}
+    {% set cells = cells + [{'content': name_cell, 'data_label': '자산명'}] %}
+    
+    {# 카테고리 #}
+    {% set cells = cells + [{'content': asset.category or '-', 'data_label': '카테고리'}] %}
+    
+    {# 상태 #}
+    {% set status_class = 'table__status--active' if asset.status == 'active' else 'table__status--inactive' %}
+    {% if asset.status == 'pending' %}{% set status_class = 'table__status--pending' %}{% endif %}
+    {% if asset.status == 'error' %}{% set status_class = 'table__status--error' %}{% endif %}
+    {% set status_cell = '<span class="table__status ' + status_class + '">' + (asset.status_display or asset.status) + '</span>' %}
+    {% set cells = cells + [{'content': status_cell, 'class': 'table__cell--center', 'data_label': '상태'}] %}
+    
+    {# 담당자 #}
+    {% set cells = cells + [{'content': asset.assignee or '-', 'data_label': '담당자'}] %}
+    
+    {# 태그 #}
+    {% if show_tags %}
+      {% set tags_html = '' %}
+      {% if asset.tags %}
+        {% for tag in asset.tags %}
+          {% set tags_html = tags_html + '<span class="asset-table__tag">' + tag + '</span>' %}
+        {% endfor %}
+      {% else %}
+        {% set tags_html = '-' %}
+      {% endif %}
+      {% set cells = cells + [{'content': tags_html, 'class': 'table__cell--center', 'data_label': '태그'}] %}
+    {% endif %}
+    
+    {# 액션 #}
+    {% if show_actions %}
+      {% set actions_html = '''
+        <div class="table__actions">
+          <button class="table__action-btn table__action-btn--view" title="보기" onclick="viewAsset(''' + asset.id|string + ''')">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="table__action-btn table__action-btn--edit" title="수정" onclick="editAsset(''' + asset.id|string + ''')">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="table__action-btn table__action-btn--delete" title="삭제" onclick="deleteAsset(''' + asset.id|string + ''')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      ''' %}
+      {% set cells = cells + [{'content': actions_html, 'class': 'table__cell--actions', 'data_label': '액션'}] %}
+    {% endif %}
+    
+    {% set rows = rows + [{'id': asset.id, 'cells': cells}] %}
+  {% endfor %}
+
+  {{ data_table(
+    title=title,
+    headers=headers,
+    rows=rows,
+    searchable=searchable,
+    sortable=true,
+    paginated=true,
+    bulk_actions=true,
+    variant='hover striped',
+    responsive=true,
+    mobile_stack=true,
+    empty_message='등록된 자산이 없습니다.',
+    class=class
+  ) }}
+{% endmacro %}
+
+{# 
+  통계 테이블 매크로
+  대시보드 통계 표시용
+#}
+{% macro stats_table(stats=[], title='통계 정보', size='sm', class='') %}
+  {% set headers = ['항목', '값', '변화'] %}
+  {% set rows = [] %}
+  
+  {% for stat in stats %}
+    {% set change_class = '' %}
+    {% set change_icon = 'fa-minus' %}
+    {% if stat.change and stat.change > 0 %}
+      {% set change_class = 'text-success' %}
+      {% set change_icon = 'fa-arrow-up' %}
+    {% elif stat.change and stat.change < 0 %}
+      {% set change_class = 'text-danger' %}
+      {% set change_icon = 'fa-arrow-down' %}
+    {% endif %}
+    
+    {% set change_cell = '<span class="' + change_class + '"><i class="fas ' + change_icon + '"></i> ' + (stat.change_display or (stat.change|string + '%' if stat.change else '-')) + '</span>' %}
+    
+    {% set rows = rows + [[stat.label, stat.value, change_cell]] %}
+  {% endfor %}
+
+  {{ simple_table(
+    headers=headers,
+    rows=rows,
+    variant='striped',
+    size=size,
+    responsive=false,
+    caption=title,
+    class=class + ' stats-table'
+  ) }}
+{% endmacro %}
+
+{# 
+  로딩 테이블 매크로
+  데이터 로딩 중 표시
+#}
+{% macro loading_table(headers=[], rows_count=5, class='') %}
+  {% set table_classes = ['table', 'table--hover'] %}
+  {% if class %}
+    {% set table_classes = table_classes + [class] %}
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="{{ table_classes | join(' ') }}">
+      <thead>
+        <tr>
+          {% for header in headers %}
+            <th scope="col">{{ header }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in range(rows_count) %}
+          <tr>
+            {% for header in headers %}
+              <td>
+                <div class="placeholder-glow">
+                  <span class="placeholder col-{{ range(6, 12) | random }}"></span>
+                </div>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endmacro %}
+
+{# 
+  비교 테이블 매크로
+  before/after 비교 표시
+#}
+{% macro comparison_table(items=[], title='변경 사항 비교', class='') %}
+  {% set headers = ['항목', '이전', '이후'] %}
+  {% set rows = [] %}
+  
+  {% for item in items %}
+    {% set old_value = item.old_value if item.old_value is defined else '-' %}
+    {% set new_value = item.new_value if item.new_value is defined else '-' %}
+    
+    {% if old_value != new_value %}
+      {% set old_cell = '<span class="text-muted">' + old_value|string + '</span>' %}
+      {% set new_cell = '<span class="text-success fw-medium">' + new_value|string + '</span>' %}
+    {% else %}
+      {% set old_cell = old_value|string %}
+      {% set new_cell = new_value|string %}
+    {% endif %}
+    
+    {% set rows = rows + [[item.label, old_cell, new_cell]] %}
+  {% endfor %}
+
+  {{ simple_table(
+    headers=headers,
+    rows=rows,
+    variant='bordered',
+    size='sm',
+    caption=title,
+    class=class + ' comparison-table'
+  ) }}
+{% endmacro %}
+
+{# 
+  키-값 테이블 매크로
+  상세 정보 표시용
+#}
+{% macro key_value_table(items=[], title='', horizontal=false, class='') %}
+  {% set table_classes = ['table'] %}
+  {% if class %}
+    {% set table_classes = table_classes + [class] %}
+  {% endif %}
+
+  <table class="{{ table_classes | join(' ') }} key-value-table">
+    {% if title %}
+      <caption>{{ title }}</caption>
+    {% endif %}
+    
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <th scope="row" style="width: 30%; background-color: var(--theme-bg-secondary);">
+            {{ item.key if item is mapping else item[0] }}
+          </th>
+          <td>
+            {{ (item.value if item is mapping else item[1]) | safe }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endmacro %}
