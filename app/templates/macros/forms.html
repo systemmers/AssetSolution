@@ -3,8 +3,9 @@
   327개 폼 필드를 재사용 가능한 매크로로 통합
   
   사용법:
-  {% from 'macros/forms.html' import input_field, select_field, form_group %}
+  {% from 'macros/forms.html' import input_field, select_field, form_group, form_input, form_select, form_checkbox, form_switch %}
   {{ input_field('username', '사용자명', type='text', required=true) }}
+  {{ form_switch('notifications', '알림 활성화', checked=true) }}
 #}
 
 {# 
@@ -547,4 +548,167 @@
       {% endfor %}
     {% endif %}
   </fieldset>
+{% endmacro %}
+
+{#
+  새로운 통합 폼 매크로들
+  더 간단한 API로 일관된 폼 컴포넌트 제공
+#}
+
+{# 통합 폼 그룹 매크로 #}
+{% macro form_group(label='', control='', help='', required=false, class='') %}
+<div class="form-group{% if class %} {{ class }}{% endif %}">
+  {% if label %}
+  <label class="form-label{% if required %} form-label--required{% endif %}">
+    {{ label }}
+  </label>
+  {% endif %}
+  
+  {{ control | safe }}
+  
+  {% if help %}
+  <div class="form-text">{{ help }}</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# 통합 입력 필드 매크로 #}
+{% macro form_input(name='', type='text', value='', placeholder='', required=false, 
+                    disabled=false, readonly=false, icon='', id='', class='', 
+                    min='', max='', step='', accept='') %}
+  {% if icon %}
+  <div class="input-group">
+    <span class="input-group-text"><i class="fas {{ icon }}"></i></span>
+    <input 
+      type="{{ type }}"
+      {% if name %}name="{{ name }}"{% endif %}
+      {% if id %}id="{{ id }}"{% endif %}
+      class="form-control{% if class %} {{ class }}{% endif %}"
+      {% if value %}value="{{ value }}"{% endif %}
+      {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+      {% if required %}required{% endif %}
+      {% if disabled %}disabled{% endif %}
+      {% if readonly %}readonly{% endif %}
+      {% if min %}min="{{ min }}"{% endif %}
+      {% if max %}max="{{ max }}"{% endif %}
+      {% if step %}step="{{ step }}"{% endif %}
+      {% if accept %}accept="{{ accept }}"{% endif %}
+    />
+  </div>
+  {% else %}
+  <input 
+    type="{{ type }}"
+    {% if name %}name="{{ name }}"{% endif %}
+    {% if id %}id="{{ id }}"{% endif %}
+    class="form-control{% if class %} {{ class }}{% endif %}"
+    {% if value %}value="{{ value }}"{% endif %}
+    {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+    {% if required %}required{% endif %}
+    {% if disabled %}disabled{% endif %}
+    {% if readonly %}readonly{% endif %}
+    {% if min %}min="{{ min }}"{% endif %}
+    {% if max %}max="{{ max }}"{% endif %}
+    {% if step %}step="{{ step }}"{% endif %}
+    {% if accept %}accept="{{ accept }}"{% endif %}
+  />
+  {% endif %}
+{% endmacro %}
+
+{# 통합 선택 필드 매크로 #}
+{% macro form_select(name='', options=[], selected='', required=false, disabled=false, 
+                     id='', class='', placeholder='') %}
+<select 
+  {% if name %}name="{{ name }}"{% endif %}
+  {% if id %}id="{{ id }}"{% endif %}
+  class="form-select{% if class %} {{ class }}{% endif %}"
+  {% if required %}required{% endif %}
+  {% if disabled %}disabled{% endif %}
+>
+  {% if placeholder %}
+  <option value="" disabled{% if not selected %} selected{% endif %}>{{ placeholder }}</option>
+  {% endif %}
+  
+  {% for option in options %}
+    {% if option is mapping %}
+      {% if option.get('group') %}
+        {# 그룹화된 옵션 처리는 복잡하므로 기본 옵션으로 처리 #}
+        <option value="{{ option.value }}" 
+                {% if option.value == selected %}selected{% endif %}
+                {% if option.get('disabled') %}disabled{% endif %}>
+          {{ option.label }}
+        </option>
+      {% else %}
+        <option value="{{ option.value }}" 
+                {% if option.value == selected %}selected{% endif %}
+                {% if option.get('disabled') %}disabled{% endif %}>
+          {{ option.label }}
+        </option>
+      {% endif %}
+    {% else %}
+      <option value="{{ option }}" {% if option == selected %}selected{% endif %}>
+        {{ option }}
+      </option>
+    {% endif %}
+  {% endfor %}
+</select>
+{% endmacro %}
+
+{# 통합 체크박스 매크로 #}
+{% macro form_checkbox(name='', label='', value='1', checked=false, disabled=false, 
+                       id='', class='') %}
+<div class="form-check{% if class %} {{ class }}{% endif %}">
+  <input 
+    type="checkbox"
+    {% if name %}name="{{ name }}"{% endif %}
+    {% if id %}id="{{ id }}"{% endif %}
+    class="form-check-input"
+    value="{{ value }}"
+    {% if checked %}checked{% endif %}
+    {% if disabled %}disabled{% endif %}
+  />
+  {% if label %}
+  <label for="{{ id }}" class="form-check-label">
+    {{ label }}
+  </label>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# 통합 스위치 매크로 #}
+{% macro form_switch(name='', label='', checked=false, disabled=false, 
+                     id='', class='', help='') %}
+<div class="form-check form-switch{% if class %} {{ class }}{% endif %}">
+  <input 
+    type="checkbox"
+    {% if name %}name="{{ name }}"{% endif %}
+    {% if id %}id="{{ id }}"{% endif %}
+    class="form-check-input"
+    {% if checked %}checked{% endif %}
+    {% if disabled %}disabled{% endif %}
+  />
+  {% if label %}
+  <label for="{{ id }}" class="form-check-label">
+    {{ label }}
+  </label>
+  {% endif %}
+  
+  {% if help %}
+  <div class="form-text">{{ help }}</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# 통합 텍스트 영역 매크로 #}
+{% macro form_textarea(name='', value='', placeholder='', required=false, 
+                       disabled=false, readonly=false, rows=3, id='', class='') %}
+<textarea 
+  {% if name %}name="{{ name }}"{% endif %}
+  {% if id %}id="{{ id }}"{% endif %}
+  class="form-control{% if class %} {{ class }}{% endif %}"
+  rows="{{ rows }}"
+  {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+  {% if required %}required{% endif %}
+  {% if disabled %}disabled{% endif %}
+  {% if readonly %}readonly{% endif %}
+>{{ value }}</textarea>
 {% endmacro %}
