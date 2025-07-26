@@ -1,0 +1,285 @@
+{#
+  Button Component Macros
+  113개 버튼 패턴을 재사용 가능한 매크로로 통합
+  
+  사용법:
+  {% from 'macros/buttons.html' import btn, btn_group, action_buttons %}
+  {{ btn('저장', 'primary', url='#', icon='fa-save') }}
+#}
+
+{# 
+  기본 버튼 매크로 
+  모든 버튼 타입의 기본이 되는 매크로
+#}
+{% macro btn(text, variant='primary', size='normal', type='button', url=None, icon=None, icon_position='left', disabled=false, loading=false, attributes='', class='', id='') %}
+  {% set tag = 'a' if url else 'button' %}
+  {% set btn_classes = ['btn', 'btn-' + variant] %}
+  
+  {# Size classes #}
+  {% if size == 'xs' %}
+    {% set btn_classes = btn_classes + ['btn--xs'] %}
+  {% elif size == 'sm' %}
+    {% set btn_classes = btn_classes + ['btn-sm'] %}
+  {% elif size == 'lg' %}
+    {% set btn_classes = btn_classes + ['btn-lg'] %}
+  {% elif size == 'xl' %}
+    {% set btn_classes = btn_classes + ['btn--xl'] %}
+  {% endif %}
+  
+  {# State classes #}
+  {% if loading %}
+    {% set btn_classes = btn_classes + ['btn--loading'] %}
+  {% endif %}
+  
+  {# Custom classes #}
+  {% if class %}
+    {% set btn_classes = btn_classes + [class] %}
+  {% endif %}
+
+  <{{ tag }}
+    {% if tag == 'button' %}type="{{ type }}"{% endif %}
+    {% if url %}href="{{ url }}"{% endif %}
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if disabled %}{% if tag == 'button' %}disabled{% else %}aria-disabled="true" tabindex="-1"{% endif %}{% endif %}
+    class="{{ btn_classes | join(' ') }}"
+    {% if attributes %}{{ attributes | safe }}{% endif %}
+  >
+    {% if icon and icon_position == 'left' %}
+      <i class="fas {{ icon }}" aria-hidden="true"></i>
+    {% endif %}
+    {% if not loading %}
+      <span>{{ text }}</span>
+    {% endif %}
+    {% if icon and icon_position == 'right' %}
+      <i class="fas {{ icon }}" aria-hidden="true"></i>
+    {% endif %}
+  </{{ tag }}>
+{% endmacro %}
+
+{# 
+  아이콘 전용 버튼 매크로
+#}
+{% macro btn_icon(icon, variant='primary', size='normal', url=None, tooltip='', disabled=false, attributes='', class='', id='') %}
+  {% set tag = 'a' if url else 'button' %}
+  {% set btn_classes = ['btn', 'btn-' + variant, 'btn-icon'] %}
+  
+  {% if size == 'sm' %}
+    {% set btn_classes = btn_classes + ['btn-icon--sm'] %}
+  {% elif size == 'lg' %}
+    {% set btn_classes = btn_classes + ['btn-icon--lg'] %}
+  {% endif %}
+  
+  {% if class %}
+    {% set btn_classes = btn_classes + [class] %}
+  {% endif %}
+
+  <{{ tag }}
+    {% if tag == 'button' %}type="button"{% endif %}
+    {% if url %}href="{{ url }}"{% endif %}
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if disabled %}{% if tag == 'button' %}disabled{% else %}aria-disabled="true" tabindex="-1"{% endif %}{% endif %}
+    {% if tooltip %}title="{{ tooltip }}" data-bs-toggle="tooltip"{% endif %}
+    aria-label="{{ tooltip or '버튼' }}"
+    class="{{ btn_classes | join(' ') }}"
+    {% if attributes %}{{ attributes | safe }}{% endif %}
+  >
+    <i class="fas {{ icon }}" aria-hidden="true"></i>
+    {% if tooltip %}
+      <span class="sr-only">{{ tooltip }}</span>
+    {% endif %}
+  </{{ tag }}>
+{% endmacro %}
+
+{# 
+  버튼 그룹 매크로
+  여러 버튼을 그룹으로 배치
+#}
+{% macro btn_group(buttons, vertical=false, class='', attributes='') %}
+  <div class="btn-group{% if vertical %} btn-group-vertical{% endif %}{% if class %} {{ class }}{% endif %}" 
+       role="group" 
+       {% if attributes %}{{ attributes | safe }}{% endif %}>
+    {% for button in buttons %}
+      {{ btn(
+        text=button.text,
+        variant=button.get('variant', 'primary'),
+        size=button.get('size', 'normal'),
+        url=button.get('url'),
+        icon=button.get('icon'),
+        disabled=button.get('disabled', false),
+        attributes=button.get('attributes', ''),
+        class=button.get('class', '')
+      ) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{# 
+  액션 버튼 매크로
+  일반적인 CRUD 작업용 버튼들
+#}
+{% macro action_buttons(view_url=None, edit_url=None, delete_url=None, custom_actions=[], size='sm', class='') %}
+  <div class="btn-group{% if class %} {{ class }}{% endif %}" role="group" aria-label="액션 버튼">
+    {% if view_url %}
+      {{ btn_icon('fa-eye', 'info', size, view_url, '보기') }}
+    {% endif %}
+    {% if edit_url %}
+      {{ btn_icon('fa-edit', 'warning', size, edit_url, '수정') }}
+    {% endif %}
+    {% if delete_url %}
+      {{ btn_icon('fa-trash', 'danger', size, delete_url, '삭제', 
+                  attributes='onclick="return confirm(\'정말 삭제하시겠습니까?\')"') }}
+    {% endif %}
+    {% for action in custom_actions %}
+      {{ btn_icon(
+        icon=action.icon,
+        variant=action.get('variant', 'secondary'),
+        size=size,
+        url=action.get('url'),
+        tooltip=action.get('tooltip', ''),
+        attributes=action.get('attributes', '')
+      ) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{# 
+  폼 버튼 매크로
+  폼 제출, 취소 등의 버튼
+#}
+{% macro form_buttons(save_text='저장', cancel_url=None, save_variant='success', save_loading=false, additional_buttons=[], class='') %}
+  <div class="btn-group{% if class %} {{ class }}{% endif %}" role="group">
+    {{ btn(save_text, save_variant, type='submit', icon='fa-save', loading=save_loading) }}
+    {% if cancel_url %}
+      {{ btn('취소', 'cancel', url=cancel_url, icon='fa-times') }}
+    {% endif %}
+    {% for button in additional_buttons %}
+      {{ btn(
+        text=button.text,
+        variant=button.get('variant', 'secondary'),
+        type=button.get('type', 'button'),
+        url=button.get('url'),
+        icon=button.get('icon'),
+        attributes=button.get('attributes', '')
+      ) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{# 
+  소셜 로그인 버튼 매크로
+#}
+{% macro social_btn(provider, url, text='', icon='', class='') %}
+  {% set provider_configs = {
+    'google': {'icon': 'fab fa-google', 'text': 'Google로 로그인'},
+    'facebook': {'icon': 'fab fa-facebook-f', 'text': 'Facebook으로 로그인'},
+    'github': {'icon': 'fab fa-github', 'text': 'GitHub로 로그인'},
+    'kakao': {'icon': 'fas fa-comment', 'text': 'KakaoTalk으로 로그인'},
+    'naver': {'icon': 'fas fa-n', 'text': 'NAVER로 로그인'}
+  } %}
+  
+  {% set config = provider_configs.get(provider, {}) %}
+  {% set btn_text = text or config.get('text', provider + '로 로그인') %}
+  {% set btn_icon = icon or config.get('icon', 'fas fa-sign-in-alt') %}
+
+  <a href="{{ url }}" class="btn btn-social{% if class %} {{ class }}{% endif %}">
+    <i class="{{ btn_icon }}" aria-hidden="true"></i>
+    <span>{{ btn_text }}</span>
+  </a>
+{% endmacro %}
+
+{# 
+  로딩 버튼 매크로
+  비동기 작업 시 로딩 상태를 보여주는 버튼
+#}
+{% macro loading_btn(text, loading_text='처리 중...', variant='primary', size='normal', form_id='', class='') %}
+  <button type="submit" 
+          {% if form_id %}form="{{ form_id }}"{% endif %}
+          class="btn btn-{{ variant }}{% if size != 'normal' %} btn-{{ size }}{% endif %}{% if class %} {{ class }}{% endif %}"
+          data-loading-text="{{ loading_text }}"
+          onclick="this.classList.add('btn--loading'); this.disabled = true;">
+    <span class="btn-text">{{ text }}</span>
+  </button>
+{% endmacro %}
+
+{# 
+  확인 버튼 매크로
+  확인 대화상자가 필요한 위험한 작업용
+#}
+{% macro confirm_btn(text, message, variant='danger', url=None, size='normal', icon='fa-exclamation-triangle', class='') %}
+  {% set onclick = "return confirm('" + message + "')" %}
+  {{ btn(
+    text=text,
+    variant=variant,
+    size=size,
+    url=url,
+    icon=icon,
+    attributes='onclick="' + onclick + '"',
+    class=class
+  ) }}
+{% endmacro %}
+
+{# 
+  내보내기 버튼 매크로
+  Excel, PDF 등 파일 내보내기용
+#}
+{% macro export_btn(text='Excel 내보내기', format='excel', url='', size='sm', class='') %}
+  {% set export_configs = {
+    'excel': {'icon': 'fa-file-excel', 'variant': 'outline-success'},
+    'pdf': {'icon': 'fa-file-pdf', 'variant': 'outline-danger'},
+    'csv': {'icon': 'fa-file-csv', 'variant': 'outline-info'},
+    'print': {'icon': 'fa-print', 'variant': 'outline-secondary'}
+  } %}
+  
+  {% set config = export_configs.get(format, export_configs['excel']) %}
+  
+  {{ btn(
+    text=text,
+    variant=config.variant,
+    size=size,
+    url=url,
+    icon=config.icon,
+    class='btn-export ' + (class or '')
+  ) }}
+{% endmacro %}
+
+{# 
+  상태 토글 버튼 매크로
+  활성/비활성 상태 토글용
+#}
+{% macro toggle_btn(current_state, active_text='활성화', inactive_text='비활성화', url='', size='sm', class='') %}
+  {% if current_state %}
+    {{ btn(
+      text=inactive_text,
+      variant='outline-warning',
+      size=size,
+      url=url,
+      icon='fa-pause',
+      class=class
+    ) }}
+  {% else %}
+    {{ btn(
+      text=active_text,
+      variant='outline-success',
+      size=size,
+      url=url,
+      icon='fa-play',
+      class=class
+    ) }}
+  {% endif %}
+{% endmacro %}
+
+{# 
+  페이지네이션 버튼 매크로
+#}
+{% macro pagination_btn(text, url, is_current=false, is_disabled=false, class='') %}
+  {% if is_disabled %}
+    <span class="btn btn-outline-secondary disabled{% if class %} {{ class }}{% endif %}" 
+          aria-disabled="true">{{ text }}</span>
+  {% elif is_current %}
+    <span class="btn btn-primary{% if class %} {{ class }}{% endif %}" 
+          aria-current="page">{{ text }}</span>
+  {% else %}
+    <a href="{{ url }}" 
+       class="btn btn-outline-primary{% if class %} {{ class }}{% endif %}">{{ text }}</a>
+  {% endif %}
+{% endmacro %}
