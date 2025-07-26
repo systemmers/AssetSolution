@@ -1,0 +1,178 @@
+{#
+  Card Component Macros
+  932개 중복 카드를 5개 재사용 매크로로 통합
+  
+  사용법:
+  {% from 'macros/cards.html' import stat_card, info_card, data_card %}
+  {{ stat_card('총 자산', '1,234', 'fa-boxes', 'primary') }}
+#}
+
+{# 
+  통계 카드 매크로 
+  대시보드 통계 표시용 (가장 많이 사용됨)
+#}
+{% macro stat_card(title, value, icon='fa-chart-bar', color='primary', trend=None, trend_type='neutral', url=None, size='normal') %}
+<div class="stat-card stat-card--{{ color }}{% if size == 'compact' %} stat-card--compact{% endif %}{% if url %}" role="button" tabindex="0"{% else %}"{% endif %}>
+  <div class="stat-card__content">
+    <h6 class="stat-card__title">{{ title }}</h6>
+    <div class="stat-card__value">{{ value }}</div>
+    {% if trend %}
+    <div class="stat-card__trend stat-card__trend--{{ trend_type }}">
+      {% if trend_type == 'positive' %}
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+      {% elif trend_type == 'negative' %}
+        <i class="fas fa-arrow-down" aria-hidden="true"></i>
+      {% else %}
+        <i class="fas fa-minus" aria-hidden="true"></i>
+      {% endif %}
+      <span>{{ trend }}</span>
+    </div>
+    {% endif %}
+  </div>
+  <div class="stat-card__icon">
+    <i class="fas {{ icon }}" aria-hidden="true"></i>
+  </div>
+  {% if url %}
+  <a href="{{ url }}" class="sr-only">{{ title }} 상세보기</a>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# 
+  정보 카드 매크로
+  일반적인 정보 표시용
+#}
+{% macro info_card(title, content, header_color='primary', footer=None, elevation='normal') %}
+<div class="card{% if elevation == 'flat' %} card--flat{% elif elevation == 'elevated' %} card--elevated{% elif elevation == 'outlined' %} card--outlined{% endif %}">
+  {% if title %}
+  <div class="card__header">
+    <h6 class="mb-0 text-{{ header_color }}">{{ title }}</h6>
+  </div>
+  {% endif %}
+  <div class="card__body">
+    {{ content }}
+  </div>
+  {% if footer %}
+  <div class="card__footer">
+    {{ footer }}
+  </div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{# 
+  데이터 카드 매크로
+  테이블이나 리스트 데이터 표시용
+#}
+{% macro data_card(title, data_content, actions=None, size='normal') %}
+<div class="card{% if size == 'compact' %} card--compact{% elif size == 'comfortable' %} card--comfortable{% endif %}">
+  {% if title %}
+  <div class="card__header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h6 class="mb-0">{{ title }}</h6>
+      {% if actions %}
+      <div class="card-actions">
+        {{ actions }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  <div class="card__body">
+    {{ data_content }}
+  </div>
+</div>
+{% endmacro %}
+
+{#
+  카드 그리드 래퍼 매크로
+  여러 카드를 그리드로 배치
+#}
+{% macro card_grid(columns=4, content='') %}
+<div class="card-grid card-grid--{{ columns }}">
+  {{ content }}
+</div>
+{% endmacro %}
+
+{#
+  액션 카드 매크로
+  버튼이나 링크가 포함된 액션 카드
+#}
+{% macro action_card(title, description, button_text, button_url, icon='fa-arrow-right', color='primary') %}
+<div class="card card--elevated">
+  <div class="card__body text-center">
+    <div class="mb-3">
+      <i class="fas {{ icon }} fa-3x text-{{ color }}" aria-hidden="true"></i>
+    </div>
+    <h5 class="card-title">{{ title }}</h5>
+    <p class="card-text text-muted">{{ description }}</p>
+    <a href="{{ button_url }}" class="btn btn-{{ color }}">
+      {{ button_text }}
+      <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+    </a>
+  </div>
+</div>
+{% endmacro %}
+
+{#
+  통계 카드 그룹 매크로
+  여러 통계를 한 번에 생성
+  stats = [
+    {'title': '총 자산', 'value': '1,234', 'icon': 'fa-boxes', 'color': 'primary'},
+    {'title': '신규 등록', 'value': '56', 'icon': 'fa-plus', 'color': 'success', 'trend': '+12%', 'trend_type': 'positive'}
+  ]
+#}
+{% macro stat_card_group(stats, columns=4) %}
+<div class="card-grid card-grid--{{ columns }}">
+  {% for stat in stats %}
+    {{ stat_card(
+      title=stat.title,
+      value=stat.value,
+      icon=stat.get('icon', 'fa-chart-bar'),
+      color=stat.get('color', 'primary'),
+      trend=stat.get('trend'),
+      trend_type=stat.get('trend_type', 'neutral'),
+      url=stat.get('url'),
+      size=stat.get('size', 'normal')
+    ) }}
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{#
+  로딩 카드 매크로
+  데이터 로딩 중 플레이스홀더
+#}
+{% macro loading_card(title='로딩 중...', height='200px') %}
+<div class="card card--loading" style="min-height: {{ height }};">
+  <div class="card__body d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <div class="spinner-border text-primary mb-3" role="status">
+        <span class="sr-only">로딩 중...</span>
+      </div>
+      <p class="text-muted">{{ title }}</p>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{#
+  빈 상태 카드 매크로
+  데이터가 없을 때 표시
+#}
+{% macro empty_card(title='데이터가 없습니다', message='아직 표시할 정보가 없습니다.', icon='fa-inbox', action_text=None, action_url=None) %}
+<div class="card">
+  <div class="card__body text-center py-5">
+    <div class="mb-4">
+      <i class="fas {{ icon }} fa-3x text-muted" aria-hidden="true"></i>
+    </div>
+    <h5 class="text-muted">{{ title }}</h5>
+    <p class="text-muted mb-4">{{ message }}</p>
+    {% if action_text and action_url %}
+    <a href="{{ action_url }}" class="btn btn-primary">
+      {{ action_text }}
+    </a>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}

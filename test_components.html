@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 컴포넌트 시스템 테스트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="app/static/css/base/index.css" rel="stylesheet">
+    <link href="app/static/css/components/index.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <h1 class="mb-4">새로운 카드 컴포넌트 시스템</h1>
+        
+        <!-- 통계 카드 그리드 -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>통계 카드 예제</h2>
+                <div class="card-grid card-grid--4">
+                    <div class="stat-card stat-card--primary">
+                        <div class="stat-card__content">
+                            <h6 class="stat-card__title">총 자산</h6>
+                            <div class="stat-card__value">1,234</div>
+                            <div class="stat-card__trend stat-card__trend--positive">
+                                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                                <span>+5.2%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card__icon">
+                            <i class="fas fa-boxes" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card stat-card--success">
+                        <div class="stat-card__content">
+                            <h6 class="stat-card__title">활성 자산</h6>
+                            <div class="stat-card__value">1,180</div>
+                            <div class="stat-card__trend stat-card__trend--positive">
+                                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                                <span>+2.1%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card__icon">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card stat-card--warning">
+                        <div class="stat-card__content">
+                            <h6 class="stat-card__title">점검 필요</h6>
+                            <div class="stat-card__value">42</div>
+                            <div class="stat-card__trend stat-card__trend--negative">
+                                <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                                <span>-1.3%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card__icon">
+                            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card stat-card--danger">
+                        <div class="stat-card__content">
+                            <h6 class="stat-card__title">장애 자산</h6>
+                            <div class="stat-card__value">12</div>
+                            <div class="stat-card__trend stat-card__trend--neutral">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
+                                <span>0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card__icon">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 일반 카드 예제 -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h3>기본 카드</h3>
+                <div class="card">
+                    <div class="card__header">
+                        <h6 class="mb-0 text-primary">최근 활동</h6>
+                    </div>
+                    <div class="card__body">
+                        <p>여기에 카드 내용이 들어갑니다. 새로운 BEM 기반 클래스를 사용합니다.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i> 자산 등록 완료</li>
+                            <li><i class="fas fa-clock text-warning me-2"></i> 점검 예정</li>
+                            <li><i class="fas fa-info text-info me-2"></i> 업데이트 필요</li>
+                        </ul>
+                    </div>
+                    <div class="card__footer">
+                        마지막 업데이트: 2024년 1월 26일
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h3>액션 카드</h3>
+                <div class="card card--elevated">
+                    <div class="card__body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-plus fa-3x text-primary" aria-hidden="true"></i>
+                        </div>
+                        <h5 class="card-title">새 자산 등록</h5>
+                        <p class="card-text text-muted">새로운 자산을 시스템에 등록하고 관리를 시작하세요.</p>
+                        <a href="#" class="btn btn-primary">
+                            등록하기
+                            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 반응형 테스트 -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3>반응형 카드 그리드</h3>
+                <div class="card-grid card-grid--3">
+                    <div class="card card--flat">
+                        <div class="card__body">
+                            <h6>Flat 카드</h6>
+                            <p>그림자가 없는 평면 디자인</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card__body">
+                            <h6>기본 카드</h6>
+                            <p>기본 그림자와 호버 효과</p>
+                        </div>
+                    </div>
+                    <div class="card card--outlined">
+                        <div class="card__body">
+                            <h6>아웃라인 카드</h6>
+                            <p>테두리만 있는 투명한 배경</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 다크 모드 토글 -->
+        <div class="row">
+            <div class="col-12">
+                <button id="themeToggle" class="btn btn-outline-secondary">
+                    <i class="fas fa-moon"></i> 다크 모드 토글
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 간단한 다크 모드 토글
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? null : 'dark';
+            
+            if (newTheme) {
+                html.setAttribute('data-theme', newTheme);
+                this.innerHTML = '<i class="fas fa-sun"></i> 라이트 모드 토글';
+            } else {
+                html.removeAttribute('data-theme');
+                this.innerHTML = '<i class="fas fa-moon"></i> 다크 모드 토글';
+            }
+        });
+    </script>
+</body>
+</html>

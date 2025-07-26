@@ -1,0 +1,15 @@
+/*
+ * Component System Entry Point
+ * 모든 컴포넌트 스타일의 진입점
+ */
+
+/* 새로운 카드 컴포넌트 시스템 */
+@import './cards.new.css';
+
+/* 기존 컴포넌트들 (점진적 마이그레이션) */
+/* @import './buttons.css'; */
+/* @import './forms.css'; */
+/* @import './tables.css'; */
+
+/* 레거시 호환성 (필요시) */
+/* @import './cards.css'; */
