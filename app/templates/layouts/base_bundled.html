@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="{{ session.get('theme', 'light') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}자산 관리 시스템{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}자산관리, 재고관리, 시설관리{% endblock %}">
+    
+    <!-- Critical CSS (인라인) -->
+    {% set critical_css = get_critical_css_inline(page_name) %}
+    {% if critical_css %}
+    <style>{{ critical_css | safe }}</style>
+    {% endif %}
+    
+    <!-- CSS 번들 로드 -->
+    {{ css_links(page_name=page_name, preload_next=preload_page) | safe }}
+    
+    <!-- 폰트 프리로드 -->
+    <link rel="preload" href="{{ url_for('static', filename='fonts/NotoSansKR-Regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/NotoSansKR-Medium.woff2') }}" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    
+    <!-- 페이지별 메타 데이터 -->
+    {% block meta %}{% endblock %}
+    
+    <title>{% block title %}자산 관리 시스템{% endblock %}</title>
+    
+    <!-- 개발 모드에서만 소스맵 로드 -->
+    {% if IS_DEV %}
+    <script>
+        console.log('CSS Bundle Version: {{ CSS_VERSION }}');
+        console.log('Page Bundle: {{ page_name or "none" }}');
+    </script>
+    {% endif %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>로딩 중...</p>
+        </div>
+    </div>
+    
+    <!-- 스킵 링크 (접근성) -->
+    <a href="#main-content" class="skip-link">메인 콘텐츠로 건너뛰기</a>
+    
+    <!-- 네비게이션 -->
+    {% if not hide_navigation %}
+    {% include 'components/navigation.html' %}
+    {% endif %}
+    
+    <!-- 플래시 메시지 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages" role="alert" aria-live="polite">
+            {% for category, message in messages %}
+            <div class="alert alert--{{ category }} alert--dismissible">
+                <div class="alert__content">
+                    <i class="alert__icon fas fa-{% if category == 'error' %}exclamation-triangle{% elif category == 'success' %}check-circle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                    <span class="alert__message">{{ message }}</span>
+                </div>
+                <button type="button" class="alert__close" aria-label="닫기">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- 메인 콘텐츠 -->
+    <main id="main-content" class="main-content {% block main_class %}{% endblock %}" role="main">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- 푸터 -->
+    {% if not hide_footer %}
+    {% include 'components/footer.html' %}
+    {% endif %}
+    
+    <!-- 다크 모드 토글 (전역) -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="다크 모드 전환">
+        <i class="fas fa-moon theme-toggle__icon theme-toggle__icon--dark"></i>
+        <i class="fas fa-sun theme-toggle__icon theme-toggle__icon--light"></i>
+    </button>
+    
+    <!-- JavaScript 번들 (향후 구현) -->
+    <script src="{{ url_for('static', filename='js/core.min.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+    
+    <!-- 페이지별 JavaScript -->
+    {% if page_name %}
+    <script src="{{ url_for('static', filename='js/pages/' + page_name + '.min.js') }}" defer></script>
+    {% endif %}
+    
+    <!-- 개발 모드 디버깅 도구 -->
+    {% if IS_DEV %}
+    <div id="dev-tools" class="dev-tools">
+        <button class="dev-tools__toggle">🛠️</button>
+        <div class="dev-tools__panel">
+            <h4>Development Tools</h4>
+            <p><strong>Page:</strong> {{ page_name or 'unknown' }}</p>
+            <p><strong>Bundle Version:</strong> {{ CSS_VERSION }}</p>
+            <p><strong>Theme:</strong> {{ session.get('theme', 'light') }}</p>
+            <button onclick="location.reload()">Reload</button>
+            <button onclick="toggleTheme()">Toggle Theme</button>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- 기본 JavaScript (인라인) -->
+    <script>
+        // 테마 토글 기능
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            
+            // 서버에 테마 설정 저장
+            fetch('{{ url_for("main.set_theme") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ theme: newTheme })
+            });
+        }
+        
+        // 테마 토글 버튼 이벤트
+        document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+        
+        // 플래시 메시지 자동 닫기
+        document.querySelectorAll('.alert--dismissible .alert__close').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.alert').remove();
+            });
+        });
+        
+        // 로딩 오버레이 제어
+        window.showLoading = function() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        };
+        
+        window.hideLoading = function() {
+            document.getElementById('loading-overlay').style.display = 'none';
+        };
+        
+        // 페이지 로드 완료 후 로딩 숨김
+        window.addEventListener('load', hideLoading);
+        
+        // 개발 도구 토글 (개발 모드)
+        {% if IS_DEV %}
+        document.querySelector('.dev-tools__toggle')?.addEventListener('click', function() {
+            const panel = document.querySelector('.dev-tools__panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        });
+        {% endif %}
+        
+        // CSS 로드 최적화 - 폰트 표시 개선
+        if ('fonts' in document) {
+            document.fonts.ready.then(() => {
+                document.body.classList.add('fonts-loaded');
+            });
+        }
+        
+        // 서비스 워커 등록 (프로덕션 모드)
+        {% if not IS_DEV %}
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+            });
+        }
+        {% endif %}
+    </script>
+</body>
+</html>

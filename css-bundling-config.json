@@ -1,0 +1,136 @@
+{
+  "bundles": {
+    "core": {
+      "description": "핵심 시스템 CSS - 모든 페이지에서 필요",
+      "files": [
+        "app/static/css/base/variables.css",
+        "app/static/css/base/reset.css",
+        "app/static/css/base/typography.css",
+        "app/static/css/base/utilities.css"
+      ],
+      "output": "app/static/css/dist/core.min.css",
+      "critical": true
+    },
+    "components": {
+      "description": "재사용 가능한 컴포넌트 CSS",
+      "files": [
+        "app/static/css/components/buttons.css",
+        "app/static/css/components/forms.css",
+        "app/static/css/components/cards.css",
+        "app/static/css/components/tables.css",
+        "app/static/css/components/modals.css",
+        "app/static/css/components/alerts.css",
+        "app/static/css/components/navigation.css"
+      ],
+      "output": "app/static/css/dist/components.min.css",
+      "critical": false
+    },
+    "templates": {
+      "description": "템플릿 레이아웃 및 패턴 CSS",
+      "files": [
+        "app/static/css/templates/layouts.css",
+        "app/static/css/templates/page-patterns.css"
+      ],
+      "output": "app/static/css/dist/templates.min.css",
+      "critical": false
+    },
+    "pages": {
+      "description": "페이지별 특화 CSS (지연 로딩)",
+      "bundles": {
+        "dashboard": {
+          "files": [
+            "app/static/css/pages/main/dashboard.new.css"
+          ],
+          "output": "app/static/css/dist/pages/dashboard.min.css"
+        },
+        "users": {
+          "files": [
+            "app/static/css/pages/users/index.new.css",
+            "app/static/css/pages/users/detail.css"
+          ],
+          "output": "app/static/css/dist/pages/users.min.css"
+        },
+        "operations": {
+          "files": [
+            "app/static/css/pages/operations/index.new.css",
+            "app/static/css/pages/operations/loan_index.css",
+            "app/static/css/pages/operations/disposal_index.css"
+          ],
+          "output": "app/static/css/dist/pages/operations.min.css"
+        },
+        "auth": {
+          "files": [
+            "app/static/css/pages/auth/login.new.css"
+          ],
+          "output": "app/static/css/dist/pages/auth.min.css"
+        },
+        "settings": {
+          "files": [
+            "app/static/css/pages/settings/index.new.css",
+            "app/static/css/pages/settings/categories.css"
+          ],
+          "output": "app/static/css/dist/pages/settings.min.css"
+        },
+        "inventory": {
+          "files": [
+            "app/static/css/pages/inventory/index.new.css",
+            "app/static/css/pages/inventory/detail.css",
+            "app/static/css/pages/inventory/create.css"
+          ],
+          "output": "app/static/css/dist/pages/inventory.min.css"
+        }
+      }
+    }
+  },
+  "optimization": {
+    "minification": {
+      "enabled": true,
+      "removeComments": true,
+      "removeWhitespace": true,
+      "optimizeSelectors": true
+    },
+    "purging": {
+      "enabled": true,
+      "contentPaths": [
+        "app/templates/**/*.html",
+        "app/static/js/**/*.js"
+      ],
+      "safelist": [
+        "active",
+        "show",
+        "hidden",
+        "disabled",
+        "loading",
+        "error",
+        "success",
+        "warning",
+        "info",
+        "data-theme"
+      ]
+    },
+    "autoprefixer": {
+      "enabled": true,
+      "browsers": [
+        "> 1%",
+        "last 2 versions",
+        "not dead",
+        "not ie 11"
+      ]
+    }
+  },
+  "development": {
+    "watch": true,
+    "sourceMaps": true,
+    "hotReload": false
+  },
+  "production": {
+    "compression": {
+      "gzip": true,
+      "brotli": true
+    },
+    "caching": {
+      "enabled": true,
+      "hashFilenames": true
+    }
+  }
+}

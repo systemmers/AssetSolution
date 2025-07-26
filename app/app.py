@@ -37,6 +37,10 @@ def create_app(config_name='default'):
     from .extensions import init_extensions
     init_extensions(app)
     
+    # CSS 번들 헬퍼 등록
+    from .utils.css_bundle_helper import register_css_bundle_helpers
+    register_css_bundle_helpers(app)
+    
     # Jinja2 템플릿에서 사용할 전역 함수 등록
     app.jinja_env.globals.update(max=max, min=min)
     

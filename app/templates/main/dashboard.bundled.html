@@ -1,0 +1,316 @@
+{% extends 'layouts/base_bundled.html' %}
+{% from 'macros/cards.html' import stat_card %}
+{% from 'macros/tables.html' import simple_table %}
+{% from 'macros/buttons.html' import btn %}
+
+{% set page_name = 'dashboard' %}
+{% set preload_page = 'users' %}
+
+{% block title %}대시보드 - 자산 관리 시스템{% endblock %}
+
+{% block meta_description %}자산 관리 시스템 대시보드 - 전체 자산 현황과 주요 지표를 한눈에 확인하세요{% endblock %}
+
+{% block meta %}
+<!-- 대시보드 페이지 전용 메타 데이터 -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="자산 관리 대시보드">
+<meta property="og:type" content="website">
+{% endblock %}
+
+{% block main_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <!-- 페이지 헤더 -->
+  <div class="dashboard-layout__header">
+    <div class="content-section">
+      <div class="content-section__header">
+        <h1 class="content-section__title">
+          <i class="fas fa-tachometer-alt"></i>
+          대시보드
+        </h1>
+        <div class="content-section__actions">
+          {{ btn('새로고침', 'fa-refresh', variant='outline', size='sm', onclick='location.reload()') }}
+          {{ btn('설정', 'fa-cog', variant='ghost', size='sm', href=url_for('settings.index')) }}
+        </div>
+      </div>
+      
+      <!-- 빠른 통계 -->
+      <div class="content-section__subtitle">
+        <span class="last-updated">마지막 업데이트: {{ moment().format('YYYY-MM-DD HH:mm') }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 요약 통계 카드 -->
+  <div class="dashboard-layout__stats">
+    <div class="summary-cards">
+      {{ stat_card(
+          title='총 자산',
+          value=total_assets,
+          icon='fa-boxes',
+          color='primary',
+          trend='+5.2%',
+          trend_direction='up',
+          description='전체 등록된 자산 수'
+      ) }}
+      
+      {{ stat_card(
+          title='가용 자산',
+          value=available_assets,
+          icon='fa-check-circle',
+          color='success',
+          trend='+2.1%',
+          trend_direction='up',
+          description='사용 가능한 자산 수'
+      ) }}
+      
+      {{ stat_card(
+          title='대여 중',
+          value=borrowed_assets,
+          icon='fa-hand-holding',
+          color='warning',
+          trend='-1.3%',
+          trend_direction='down',
+          description='현재 대여 중인 자산'
+      ) }}
+      
+      {{ stat_card(
+          title='수리 중',
+          value=maintenance_assets,
+          icon='fa-tools',
+          color='danger',
+          trend='+0.5%',
+          trend_direction='up',
+          description='수리 또는 점검 중'
+      ) }}
+    </div>
+  </div>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <div class="dashboard-layout__main">
+    <!-- 차트 및 그래프 영역 -->
+    <div class="dashboard-layout__chart">
+      <div class="content-section">
+        <div class="content-section__header">
+          <h2 class="content-section__title">
+            <i class="fas fa-chart-line"></i>
+            자산 현황 차트
+          </h2>
+          <div class="content-section__actions">
+            <select class="form-select form-select--xs" id="chart-period">
+              <option value="7d">7일</option>
+              <option value="30d" selected>30일</option>
+              <option value="90d">90일</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="dashboard-chart">
+          <canvas id="assetChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 사이드바 정보 -->
+    <div class="dashboard-layout__sidebar">
+      <!-- 최근 활동 -->
+      <div class="content-section">
+        <div class="content-section__header">
+          <h3 class="content-section__title">
+            <i class="fas fa-history"></i>
+            최근 활동
+          </h3>
+          <a href="{{ url_for('main.activity_log') }}" class="btn btn--ghost btn--xs">
+            전체 보기
+          </a>
+        </div>
+        
+        <div class="activity-timeline">
+          {% for activity in recent_activities[:5] %}
+          <div class="activity-timeline__item">
+            <div class="activity-timeline__icon">
+              <i class="fas {{ activity.icon }}"></i>
+            </div>
+            <div class="activity-timeline__content">
+              <p class="activity-timeline__title">{{ activity.title }}</p>
+              <p class="activity-timeline__description">{{ activity.description }}</p>
+              <time class="activity-timeline__time">{{ activity.timestamp | timeago }}</time>
+            </div>
+          </div>
+          {% endfor %}
+          
+          {% if not recent_activities %}
+          <div class="empty-state">
+            <i class="empty-state__icon fas fa-clock"></i>
+            <p class="empty-state__message">최근 활동이 없습니다</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- 알림 -->
+      <div class="content-section">
+        <div class="content-section__header">
+          <h3 class="content-section__title">
+            <i class="fas fa-bell"></i>
+            알림
+            {% if notifications %}
+            <span class="status-badge status-badge--danger">{{ notifications | length }}</span>
+            {% endif %}
+          </h3>
+        </div>
+        
+        <div class="notification-list">
+          {% for notification in notifications[:3] %}
+          <div class="notification-item notification-item--{{ notification.priority }}">
+            <div class="notification-item__icon">
+              <i class="fas {{ notification.icon }}"></i>
+            </div>
+            <div class="notification-item__content">
+              <p class="notification-item__title">{{ notification.title }}</p>
+              <p class="notification-item__message">{{ notification.message }}</p>
+              <time class="notification-item__time">{{ notification.timestamp | timeago }}</time>
+            </div>
+          </div>
+          {% endfor %}
+          
+          {% if not notifications %}
+          <div class="empty-state">
+            <i class="empty-state__icon fas fa-bell-slash"></i>
+            <p class="empty-state__message">알림이 없습니다</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 빠른 액션 및 테이블 -->
+  <div class="dashboard-layout__actions">
+    <div class="content-section">
+      <div class="content-section__header">
+        <h2 class="content-section__title">
+          <i class="fas fa-bolt"></i>
+          빠른 작업
+        </h2>
+      </div>
+      
+      <div class="quick-actions">
+        <a href="{{ url_for('assets.create') }}" class="quick-actions__item">
+          <div class="quick-actions__icon">
+            <i class="fas fa-plus"></i>
+          </div>
+          <span class="quick-actions__label">자산 등록</span>
+        </a>
+        
+        <a href="{{ url_for('operations.loan_create') }}" class="quick-actions__item">
+          <div class="quick-actions__icon">
+            <i class="fas fa-hand-holding"></i>
+          </div>
+          <span class="quick-actions__label">대여 신청</span>
+        </a>
+        
+        <a href="{{ url_for('operations.return_create') }}" class="quick-actions__item">
+          <div class="quick-actions__icon">
+            <i class="fas fa-undo"></i>
+          </div>
+          <span class="quick-actions__label">반납 처리</span>
+        </a>
+        
+        <a href="{{ url_for('maintenance.create') }}" class="quick-actions__item">
+          <div class="quick-actions__icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <span class="quick-actions__label">수리 신청</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 최근 등록 자산 테이블 -->
+  <div class="dashboard-layout__table">
+    <div class="content-section">
+      <div class="content-section__header">
+        <h2 class="content-section__title">
+          <i class="fas fa-plus-circle"></i>
+          최근 등록 자산
+        </h2>
+        <a href="{{ url_for('assets.index') }}" class="btn btn--outline btn--sm">
+          전체 자산 보기
+        </a>
+      </div>
+      
+      {% if recent_assets %}
+      {{ simple_table(
+          headers=['자산명', '카테고리', '상태', '등록일'],
+          rows=recent_assets,
+          actions=true,
+          responsive=true,
+          hover=true
+      ) }}
+      {% else %}
+      <div class="empty-state">
+        <i class="empty-state__icon fas fa-box-open"></i>
+        <h3 class="empty-state__title">등록된 자산이 없습니다</h3>
+        <p class="empty-state__message">첫 번째 자산을 등록해보세요</p>
+        <a href="{{ url_for('assets.create') }}" class="btn btn--primary">
+          <i class="fas fa-plus"></i>
+          자산 등록하기
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js for 차트 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// 자산 현황 차트 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('assetChart').getContext('2d');
+    
+    const assetChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['가용', '대여중', '수리중', '폐기예정'],
+            datasets: [{
+                data: [{{ available_assets }}, {{ borrowed_assets }}, {{ maintenance_assets }}, {{ disposed_assets }}],
+                backgroundColor: [
+                    'var(--color-success-500)',
+                    'var(--color-warning-500)',
+                    'var(--color-danger-500)',
+                    'var(--color-gray-400)'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+    
+    // 차트 기간 변경 이벤트
+    document.getElementById('chart-period').addEventListener('change', function() {
+        // 여기에 차트 데이터 업데이트 로직 구현
+        console.log('Chart period changed to:', this.value);
+    });
+});
+
+// 알림 항목 클릭 이벤트
+document.querySelectorAll('.notification-item').forEach(item => {
+    item.addEventListener('click', function() {
+        this.classList.add('notification-item--read');
+    });
+});
+</script>
+{% endblock %}
