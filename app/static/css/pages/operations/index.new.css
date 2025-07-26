@@ -1,0 +1,413 @@
+/**
+ * Operations Index Page Styles (Refactored)
+ * 새로운 템플릿 시스템 기반으로 리팩토링
+ * dashboard-layout과 컴포넌트 시스템을 기본으로 사용
+ */
+
+/* ===== Operations Specific Styles ===== */
+/* 템플릿 시스템(.dashboard-layout, .summary-cards, .quick-actions)을 기본으로 사용하고 
+   운영 관리 페이지 고유 스타일만 정의 */
+
+/* 운영 액션 카드 */
+.operations-card {
+  background-color: var(--theme-bg-surface);
+  border: 1px solid var(--theme-border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-all);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.operations-card:hover {
+  border-color: var(--color-primary-300);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.operations-card__header {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--theme-border-secondary);
+  flex-shrink: 0;
+}
+
+.operations-card__header-link {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-colors);
+}
+
+.operations-card__header-link:hover {
+  color: var(--color-primary-600);
+}
+
+.operations-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+  transition: var(--transition-colors);
+}
+
+.operations-card--primary .operations-card__icon {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
+}
+
+.operations-card--success .operations-card__icon {
+  background-color: var(--color-success-100);
+  color: var(--color-success-600);
+}
+
+.operations-card--warning .operations-card__icon {
+  background-color: var(--color-warning-100);
+  color: var(--color-warning-600);
+}
+
+.operations-card--danger .operations-card__icon {
+  background-color: var(--color-danger-100);
+  color: var(--color-danger-600);
+}
+
+.operations-card--info .operations-card__icon {
+  background-color: var(--color-info-100);
+  color: var(--color-info-600);
+}
+
+.operations-card--secondary .operations-card__icon {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.operations-card__title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.operations-card__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--theme-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+  line-height: 1.3;
+}
+
+.operations-card__description {
+  font-size: var(--text-sm);
+  color: var(--theme-text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.operations-card__header-action {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--text-sm);
+  color: var(--theme-text-tertiary);
+  flex-shrink: 0;
+}
+
+.operations-card__body {
+  padding: 0 var(--spacing-4);
+  flex: 1;
+}
+
+.operations-card__actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.operations-card__action {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) 0;
+  color: var(--theme-text-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--theme-border-secondary);
+  transition: var(--transition-colors);
+}
+
+.operations-card__action:last-child {
+  border-bottom: none;
+}
+
+.operations-card__action:hover {
+  color: var(--color-primary-600);
+  background-color: var(--color-primary-25);
+  margin: 0 calc(var(--spacing-4) * -1);
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+.operations-card__action i:first-child {
+  width: 16px;
+  color: var(--theme-text-tertiary);
+}
+
+.operations-card__action i:last-child {
+  margin-left: auto;
+  font-size: var(--text-xs);
+}
+
+.operations-card__footer {
+  padding: var(--spacing-4);
+  border-top: 1px solid var(--theme-border-secondary);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.operations-card__primary-action {
+  width: 100%;
+  font-weight: var(--font-medium);
+}
+
+/* 통계 카드 링크 확장 */
+.stat-card__footer {
+  padding: var(--spacing-2) var(--spacing-3) 0;
+}
+
+.stat-card__link {
+  color: var(--theme-text-tertiary);
+  text-decoration: none;
+  transition: var(--transition-colors);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+}
+
+.stat-card__link:hover {
+  color: var(--color-primary-600);
+}
+
+/* 퀵 액션 그리드 레이아웃 */
+.quick-actions__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.quick-actions__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* 요약 통계 (사이드바) */
+.summary-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-3);
+}
+
+.summary-stat {
+  text-align: center;
+  padding: var(--spacing-3);
+  background-color: var(--theme-bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--theme-border-secondary);
+}
+
+.summary-stat__label {
+  font-size: var(--text-xs);
+  color: var(--theme-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-1);
+}
+
+.summary-stat__value {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--theme-text-primary);
+}
+
+/* 운영 현황 표시기 */
+.operations-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+.operations-status--active {
+  background-color: var(--color-success-100);
+  color: var(--color-success-700);
+}
+
+.operations-status--pending {
+  background-color: var(--color-warning-100);
+  color: var(--color-warning-700);
+}
+
+.operations-status--overdue {
+  background-color: var(--color-danger-100);
+  color: var(--color-danger-700);
+}
+
+.operations-status__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 운영 메트릭 표시 */
+.operations-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.operations-metric {
+  text-align: center;
+  padding: var(--spacing-3);
+  border: 1px solid var(--theme-border-secondary);
+  border-radius: var(--radius-md);
+  background-color: var(--theme-bg-surface);
+}
+
+.operations-metric__value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-primary-600);
+  display: block;
+  margin-bottom: var(--spacing-1);
+}
+
+.operations-metric__label {
+  font-size: var(--text-xs);
+  color: var(--theme-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 반응형 조정 */
+@media (max-width: 1200px) {
+  .quick-actions__grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .quick-actions__grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-3);
+  }
+  
+  .operations-card__header {
+    padding: var(--spacing-3);
+  }
+  
+  .operations-card__body {
+    padding: 0 var(--spacing-3);
+  }
+  
+  .operations-card__footer {
+    padding: var(--spacing-3);
+  }
+  
+  .operations-card__action:hover {
+    margin: 0 calc(var(--spacing-3) * -1);
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
+  }
+  
+  .summary-stats {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2);
+  }
+  
+  .operations-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-2);
+  }
+}
+
+/* 다크 모드 조정 */
+[data-theme="dark"] .operations-card:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.4);
+  background-color: rgba(var(--color-primary-rgb), 0.05);
+}
+
+[data-theme="dark"] .operations-card__action:hover {
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+[data-theme="dark"] .summary-stat {
+  background-color: var(--theme-bg-tertiary);
+}
+
+[data-theme="dark"] .operations-metric {
+  background-color: var(--theme-bg-tertiary);
+}
+
+/* 특수 운영 카드 스타일 */
+.operations-card--featured {
+  border-width: 2px;
+  border-color: var(--color-primary-300);
+}
+
+.operations-card--compact .operations-card__header {
+  padding: var(--spacing-3);
+}
+
+.operations-card--compact .operations-card__body {
+  padding: 0 var(--spacing-3);
+}
+
+.operations-card--compact .operations-card__footer {
+  padding: var(--spacing-3);
+}
+
+/* 운영 워크플로우 표시 */
+.workflow-step {
+  position: relative;
+  padding: var(--spacing-3);
+  border-left: 3px solid var(--color-primary-200);
+  margin-bottom: var(--spacing-3);
+}
+
+.workflow-step--completed {
+  border-left-color: var(--color-success-500);
+}
+
+.workflow-step--current {
+  border-left-color: var(--color-primary-500);
+  background-color: var(--color-primary-25);
+}
+
+.workflow-step--pending {
+  border-left-color: var(--color-gray-300);
+}
+
+.workflow-step__title {
+  font-weight: var(--font-medium);
+  color: var(--theme-text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.workflow-step__description {
+  font-size: var(--text-sm);
+  color: var(--theme-text-secondary);
+}

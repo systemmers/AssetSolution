@@ -11,7 +11,7 @@
   통계 카드 매크로 
   대시보드 통계 표시용 (가장 많이 사용됨)
 #}
-{% macro stat_card(title, value, icon='fa-chart-bar', color='primary', trend=None, trend_type='neutral', url=None, size='normal') %}
+{% macro stat_card(title, value, icon='fa-chart-bar', color='primary', trend=None, trend_type='neutral', url=None, size='normal', link_url=None, link_text=None) %}
 <div class="stat-card stat-card--{{ color }}{% if size == 'compact' %} stat-card--compact{% endif %}{% if url %}" role="button" tabindex="0"{% else %}"{% endif %}>
   <div class="stat-card__content">
     <h6 class="stat-card__title">{{ title }}</h6>
@@ -34,6 +34,12 @@
   </div>
   {% if url %}
   <a href="{{ url }}" class="sr-only">{{ title }} 상세보기</a>
+  {% elif link_url and link_text %}
+  <div class="stat-card__footer">
+    <a href="{{ link_url }}" class="stat-card__link">
+      <small>{{ link_text }} <i class="fas fa-arrow-right"></i></small>
+    </a>
+  </div>
   {% endif %}
 </div>
 {% endmacro %}
@@ -174,5 +180,87 @@
     </a>
     {% endif %}
   </div>
+</div>
+{% endmacro %}
+
+{#
+  운영 액션 카드 매크로
+  복잡한 기능별 작업을 그룹화하여 표시하는 카드 (운영 관리 페이지용)
+  
+  @param title: 카드 제목
+  @param description: 카드 설명
+  @param icon: FontAwesome 아이콘 클래스
+  @param color: 카드 색상 테마 (primary, success, warning, danger, info, secondary)
+  @param actions: 세부 액션 목록 [{'label': '라벨', 'url': 'URL', 'icon': '아이콘(선택)'}]
+  @param primary_action: 주요 액션 {'label': '라벨', 'url': 'URL', 'icon': '아이콘(선택)'}
+  @param header_url: 헤더 클릭시 이동할 URL (선택)
+#}
+{% macro operations_card(title, description, icon, color='primary', actions=[], primary_action=none, header_url=none) %}
+<div class="operations-card operations-card--{{ color }}">
+    <div class="operations-card__header">
+        {% if header_url %}
+        <a href="{{ header_url }}" class="operations-card__header-link">
+        {% endif %}
+            <div class="operations-card__icon">
+                <i class="fas {{ icon }}"></i>
+            </div>
+            <div class="operations-card__title-group">
+                <h4 class="operations-card__title">{{ title }}</h4>
+                {% if description %}
+                <p class="operations-card__description">{{ description }}</p>
+                {% endif %}
+            </div>
+            {% if header_url %}
+            <div class="operations-card__header-action">
+                <i class="fas fa-list"></i>
+                <span>전체 보기</span>
+            </div>
+            {% endif %}
+        {% if header_url %}
+        </a>
+        {% endif %}
+    </div>
+    
+    {% if actions %}
+    <div class="operations-card__body">
+        <div class="operations-card__actions">
+            {% for action in actions %}
+            <a href="{{ action.url }}" class="operations-card__action">
+                {% if action.icon %}
+                <i class="fas {{ action.icon }}"></i>
+                {% endif %}
+                <span>{{ action.label }}</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if primary_action %}
+    <div class="operations-card__footer">
+        <a href="{{ primary_action.url }}" class="operations-card__primary-action btn btn-outline-{{ color }}">
+            {% if primary_action.icon %}
+            <i class="fas {{ primary_action.icon }}"></i>
+            {% endif %}
+            {{ primary_action.label }}
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{#
+  요약 통계 매크로 (사이드바용)
+  간단한 키-값 통계 표시
+#}
+{% macro summary_stats(stats) %}
+<div class="summary-stats">
+    {% for stat in stats %}
+    <div class="summary-stat">
+        <div class="summary-stat__label">{{ stat.label }}</div>
+        <div class="summary-stat__value">{{ stat.value }}</div>
+    </div>
+    {% endfor %}
 </div>
 {% endmacro %}
