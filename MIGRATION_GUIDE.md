@@ -84,7 +84,7 @@ app/static/css/
 # 마이그레이션 대상 (사용 빈도 높은 페이지)
 pages/main/dashboard.css        → dashboard.new.css ✅
 pages/assets/index.css          → index.new.css ✅
-pages/inventory/index.css       → 마이그레이션 필요
+pages/inventory/index.css       → index.new.css ✅
 pages/operations/index.css      → 마이그레이션 필요
 pages/users/index.css           → 마이그레이션 필요
 ```
@@ -137,15 +137,15 @@ pages/users/index.css           → 마이그레이션 필요
 
 ## 📊 마이그레이션 진행 상황
 
-### 완료 (2/28)
+### 완료 (3/28)
 - ✅ dashboard.new.css
-- ✅ assets/index.new.css
+- ✅ assets/index.new.css  
+- ✅ inventory/index.new.css
 
 ### 진행 중 (0/28)
 - 진행 중인 파일 없음
 
-### 대기 중 (26/28)
-- inventory/index.css
+### 대기 중 (25/28)
 - operations/index.css
 - users/index.css
 - auth/login.css

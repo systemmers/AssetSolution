@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+
+{% block title %}자산 목록 - 자산관리 시스템{% endblock %}
+
+{% block page_header %}
+<div class="page__header">
+    <div>
+        <h2 class="page__title">자산 목록</h2>
+        <p class="page__subtitle">{{ assets|length }}개의 자산 중 {{ assets|length }}개 표시</p>
+    </div>
+    <div class="page__actions">
+        <button class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-desktop"></i> PC 관리
+        </button>
+        <button class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-network-wired"></i> IP 관리
+        </button>
+        <button class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-file-alt"></i> SW 라이선스
+        </button>
+        <button class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-file-import"></i> 대량 등록
+        </button>
+        <a href="{{ url_for('assets.create_form') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> 자산 등록
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 새로운 매크로 시스템 사용 -->
+{% from 'macros/forms.html' import form_group, form_select, form_input, form_checkbox %}
+{% from 'macros/buttons.html' import btn, btn_group %}
+{% from 'macros/tables.html' import data_table %}
+
+<div class="list-layout">
+    <!-- 필터 섹션 -->
+    <div class="filter-section">
+        <div class="filter-section__header">
+            <h3 class="filter-section__title">검색 및 필터</h3>
+            <div class="filter-section__actions">
+                {{ btn('초기화', variant='text', icon='fa-undo', id='resetButton') }}
+            </div>
+        </div>
+        
+        <form id="searchForm" method="GET" action="{{ url_for('assets.index') }}" class="filter-section__form">
+            <div class="filter-section__grid">
+                <!-- 검색어 입력 -->
+                {{ form_group(
+                    label='검색어',
+                    control=form_input(
+                        name='q',
+                        placeholder='자산명, 자산번호, 시리얼번호',
+                        value=request.args.get('q', ''),
+                        id='searchKeyword'
+                    )
+                ) }}
+                
+                <!-- 카테고리 선택 -->
+                {{ form_group(
+                    label='카테고리',
+                    control=form_select(
+                        name='category',
+                        options=[
+                            {'value': '', 'label': '전체'},
+                            {'value': '1', 'label': '노트북'},
+                            {'value': '2', 'label': '데스크탑'},
+                            {'value': '3', 'label': '모니터'},
+                            {'value': '4', 'label': '서버'},
+                            {'value': '5', 'label': '네트워크 장비'},
+                            {'value': '6', 'label': '주변기기'}
+                        ],
+                        selected=request.args.get('category', ''),
+                        id='categoryFilter'
+                    )
+                ) }}
+                
+                <!-- 상태 선택 -->
+                {{ form_group(
+                    label='상태',
+                    control=form_select(
+                        name='status',
+                        options=[
+                            {'value': '', 'label': '전체'},
+                            {'value': 'available', 'label': '사용가능'},
+                            {'value': 'in_use', 'label': '사용중'},
+                            {'value': 'in_repair', 'label': '수리중'},
+                            {'value': 'disposed', 'label': '폐기'},
+                            {'value': 'reserved', 'label': '예약됨'}
+                        ],
+                        selected=request.args.get('status', ''),
+                        id='statusFilter'
+                    )
+                ) }}
+                
+                <!-- 부서 선택 -->
+                {{ form_group(
+                    label='부서',
+                    control=form_select(
+                        name='department',
+                        options=[
+                            {'value': '', 'label': '전체'},
+                            {'value': '1', 'label': '개발팀'},
+                            {'value': '2', 'label': 'IT팀'},
+                            {'value': '3', 'label': '인사팀'},
+                            {'value': '4', 'label': '경영지원팀'},
+                            {'value': '5', 'label': '영업팀'},
+                            {'value': '6', 'label': '마케팅팀'}
+                        ],
+                        selected=request.args.get('department', ''),
+                        id='departmentFilter'
+                    )
+                ) }}
+                
+                <!-- 검색 버튼 -->
+                <div class="filter-section__actions-primary">
+                    {{ btn('검색', variant='primary', icon='fa-search', type='submit') }}
+                </div>
+            </div>
+            
+            <!-- 추가 필터 옵션 -->
+            <div class="filter-section__extras">
+                <div class="filter-section__checkboxes">
+                    {{ form_checkbox(
+                        name='expired',
+                        value='1',
+                        label='내용연수 만료 자산만 보기',
+                        checked=request.args.get('expired') == '1'
+                    ) }}
+                    
+                    {{ form_checkbox(
+                        name='unused',
+                        value='1',
+                        label='미사용 자산만 보기',
+                        checked=request.args.get('unused') == '1'
+                    ) }}
+                </div>
+                
+                <div class="filter-section__sorting">
+                    {{ form_select(
+                        name='sort',
+                        options=[
+                            {'value': 'recent', 'label': '최근 등록순'},
+                            {'value': 'name', 'label': '자산명순'},
+                            {'value': 'price_high', 'label': '가격 높은순'},
+                            {'value': 'price_low', 'label': '가격 낮은순'},
+                            {'value': 'purchase_old', 'label': '구매일 오래된순'}
+                        ],
+                        selected=request.args.get('sort', 'recent'),
+                        size='sm'
+                    ) }}
+                </div>
+            </div>
+            
+            <input type="hidden" name="view" id="viewMode" value="{{ request.args.get('view', 'table') }}">
+        </form>
+    </div>
+
+    <!-- 결과 요약 및 액션 -->
+    <div class="list-layout__toolbar">
+        <div class="list-layout__info">
+            <span class="text-muted">총 {{ assets|length }}개 자산</span>
+            {% if request.args.get('q') or request.args.get('category') or request.args.get('status') or request.args.get('department') %}
+            <span class="status-badge status-badge--info">필터 적용됨</span>
+            {% endif %}
+        </div>
+        
+        <div class="list-layout__actions">
+            <!-- 뷰 토글 -->
+            <div class="view-toggle">
+                <button type="button" class="view-toggle__button {% if request.args.get('view') != 'grid' %}view-toggle__button--active{% endif %}" data-view="table">
+                    <i class="fas fa-list"></i> 테이블
+                </button>
+                <button type="button" class="view-toggle__button {% if request.args.get('view') == 'grid' %}view-toggle__button--active{% endif %}" data-view="grid">
+                    <i class="fas fa-th-large"></i> 그리드
+                </button>
+            </div>
+            
+            {{ btn('엑셀 내보내기', variant='outline-primary', icon='fa-file-excel', id='btnExportExcel') }}
+        </div>
+    </div>
+
+    <!-- 컨텐츠 섹션 -->
+    <div class="content-section">
+        <!-- 테이블 뷰 -->
+        <div id="tableView" class="{% if request.args.get('view') == 'grid' %}d-none{% endif %}">
+            {% if assets %}
+                {% set headers = [
+                    {'label': '자산번호', 'sortable': true},
+                    {'label': '자산명', 'sortable': true},
+                    {'label': '카테고리'},
+                    {'label': '상태', 'class': 'table__cell--center'},
+                    {'label': '위치'},
+                    {'label': '사용자'},
+                    {'label': '취득일자', 'sortable': true},
+                    {'label': '관리', 'class': 'table__cell--center'}
+                ] %}
+                
+                {% set rows = [] %}
+                {% for asset in assets %}
+                    {% set detail_url = url_for('assets.detail', asset_id=asset.id) %}
+                    {% if asset['type']['name'] == '하드웨어' %}
+                        {% set detail_url = url_for('assets.pc_detail', asset_id=asset.id) %}
+                    {% elif asset['type']['name'] == '소프트웨어' %}
+                        {% set detail_url = url_for('assets.sw_detail', asset_id=asset.id) %}
+                    {% endif %}
+                    
+                    {% set category_badge = {
+                        1: '<span class="status-badge status-badge--primary">노트북</span>',
+                        2: '<span class="status-badge status-badge--secondary">데스크탑</span>',
+                        3: '<span class="status-badge status-badge--info">모니터</span>',
+                        4: '<span class="status-badge status-badge--dark">서버</span>',
+                        5: '<span class="status-badge status-badge--warning">네트워크 장비</span>',
+                        6: '<span class="status-badge status-badge--light">주변기기</span>'
+                    }.get(asset.category_id, '<span class="status-badge status-badge--inactive">기타</span>') %}
+                    
+                    {% set status_badge = {
+                        'available': '<span class="status-badge status-badge--success">사용가능</span>',
+                        'in_use': '<span class="status-badge status-badge--primary">사용중</span>',
+                        'in_repair': '<span class="status-badge status-badge--warning">수리중</span>',
+                        'disposed': '<span class="status-badge status-badge--danger">폐기</span>',
+                        'reserved': '<span class="status-badge status-badge--info">예약됨</span>'
+                    }.get(asset.status, '<span class="status-badge status-badge--inactive">-</span>') %}
+                    
+                    {% set action_buttons = '<div class="btn-group">' +
+                        '<a href="' + detail_url + '" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>' +
+                        '<a href="' + url_for('assets.update_form', asset_id=asset.id) + '" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>' +
+                        '</div>' %}
+                    
+                    {% set _ = rows.append([
+                        '<span class="asset-code">' + asset.asset_number + '</span>',
+                        asset.name,
+                        category_badge,
+                        status_badge,
+                        asset.location_name if asset.location_id else '-',
+                        asset.user_name if asset.user_id else '-',
+                        asset.purchase_date.strftime('%Y-%m-%d') if asset.purchase_date else '-',
+                        action_buttons
+                    ]) %}
+                {% endfor %}
+                
+                {{ data_table(
+                    headers=headers,
+                    rows=rows,
+                    variant='hover',
+                    responsive=true,
+                    clickable=true
+                ) }}
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-state__icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="empty-state__title">등록된 자산이 없습니다</div>
+                    <div class="empty-state__description">자산 등록 버튼을 클릭하여 첫 번째 자산을 등록하세요.</div>
+                    <div class="empty-state__action">
+                        {{ btn('자산 등록', variant='primary', icon='fa-plus', url=url_for('assets.create_form')) }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- 그리드 뷰 -->
+        <div id="gridView" class="{% if request.args.get('view') != 'grid' %}d-none{% endif %}">
+            {% if assets %}
+                <div class="assets-grid">
+                    {% for asset in assets %}
+                        {% set detail_url = url_for('assets.detail', asset_id=asset.id) %}
+                        {% if asset['type']['name'] == '하드웨어' %}
+                            {% set detail_url = url_for('assets.pc_detail', asset_id=asset.id) %}
+                        {% elif asset['type']['name'] == '소프트웨어' %}
+                            {% set detail_url = url_for('assets.sw_detail', asset_id=asset.id) %}
+                        {% endif %}
+                        
+                        <div class="asset-card" data-href="{{ detail_url }}">
+                            <div class="asset-card__image">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div class="asset-card__content">
+                                <div class="asset-card__header">
+                                    <h4 class="asset-card__name">{{ asset.name }}</h4>
+                                    <span class="status-badge status-badge--{{ 'success' if asset.status == 'available' else 'primary' if asset.status == 'in_use' else 'warning' if asset.status == 'in_repair' else 'danger' if asset.status == 'disposed' else 'info' }}">
+                                        {% if asset.status == 'available' %}사용가능
+                                        {% elif asset.status == 'in_use' %}사용중
+                                        {% elif asset.status == 'in_repair' %}수리중
+                                        {% elif asset.status == 'disposed' %}폐기
+                                        {% elif asset.status == 'reserved' %}예약됨
+                                        {% else %}-{% endif %}
+                                    </span>
+                                </div>
+                                
+                                <div class="asset-card__code">
+                                    <span class="asset-code">{{ asset.asset_number }}</span>
+                                </div>
+                                
+                                <div class="asset-card__meta">
+                                    <div class="asset-card__category">
+                                        {% if asset.category_id == 1 %}노트북
+                                        {% elif asset.category_id == 2 %}데스크탑
+                                        {% elif asset.category_id == 3 %}모니터
+                                        {% elif asset.category_id == 4 %}서버
+                                        {% elif asset.category_id == 5 %}네트워크 장비
+                                        {% elif asset.category_id == 6 %}주변기기
+                                        {% else %}기타{% endif %}
+                                    </div>
+                                    
+                                    {% if asset.user_name %}
+                                    <div class="asset-card__assignee">
+                                        <i class="fas fa-user"></i> {{ asset.user_name }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="asset-card__footer">
+                                    <span class="text-muted">{{ asset.purchase_date.strftime('%Y-%m-%d') if asset.purchase_date else '-' }}</span>
+                                    <div class="btn-group">
+                                        <a href="{{ detail_url }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ url_for('assets.update_form', asset_id=asset.id) }}" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-state__icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="empty-state__title">등록된 자산이 없습니다</div>
+                    <div class="empty-state__description">자산 등록 버튼을 클릭하여 첫 번째 자산을 등록하세요.</div>
+                    <div class="empty-state__action">
+                        {{ btn('자산 등록', variant='primary', icon='fa-plus', url=url_for('assets.create_form')) }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    {% if assets and assets|length > 0 %}
+    <nav class="list-layout__pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                {% set args = request.args.copy() %}
+                {% if args.get('page') %}
+                    {% set _ = args.pop('page') %}
+                {% endif %}
+                <a class="page-link" href="{{ url_for('assets.index', page=page-1, **args) if page > 1 else '#' }}">이전</a>
+            </li>
+            {% for p in range(max(1, page-2), min(total_pages+1, page+3)) %}
+            <li class="page-item {% if p == page %}active{% endif %}">
+                {% set args = request.args.copy() %}
+                {% if args.get('page') %}
+                    {% set _ = args.pop('page') %}
+                {% endif %}
+                <a class="page-link" href="{{ url_for('assets.index', page=p, **args) }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                {% set args = request.args.copy() %}
+                {% if args.get('page') %}
+                    {% set _ = args.pop('page') %}
+                {% endif %}
+                <a class="page-link" href="{{ url_for('assets.index', page=page+1, **args) if page < total_pages else '#' }}">다음</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/assets/index.new.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/assets/index.js') }}" type="module"></script>
+{% endblock %}
