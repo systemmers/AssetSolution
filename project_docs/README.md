@@ -28,7 +28,6 @@
 - `css-bundling-config.json` - CSS 번들링 설정
 - `postcss.config.js` - PostCSS 설정
 - `vite.config.js` - Vite 빌드 도구 설정
-- `asset_management.code-workspace` - VSCode 워크스페이스 설정
 
 ### 🛠️ `/scripts`
 개발 및 빌드 스크립트들
