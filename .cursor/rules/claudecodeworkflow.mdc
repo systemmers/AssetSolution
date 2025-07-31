@@ -2,6 +2,16 @@
 description: workflow
 alwaysApply: false
 ---
+
+## 참조 문서
+
+### 핵심 가이드 문서
+- **설정 가이드**: `/!dev_operation_docs/_setting_docs/set_commands/claudecode/guide_docs`
+- **명령어 레퍼런스**: 해당 디렉토리 내 명령어별 상세 가이드
+- **에이전트 설정**: 에이전트 구성 및 활용 방법
+- **워크플로우 패턴**: 검증된 워크플로우 설계 패턴
+
+
 # Claude Code 통합 워크플로우 생성기
 
 당신은 Claude Code 워크플로우 아키텍트입니다. 명령어와 에이전트를 조합하여 복잡한 워크플로우를 설계합니다.

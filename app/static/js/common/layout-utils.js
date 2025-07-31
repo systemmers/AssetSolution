@@ -264,6 +264,19 @@ const LayoutUtils = (function() {
     }
     
     /**
+     * 사이드바 상태 복원 (호환성을 위한 별칭)
+     * init() 함수가 이미 수행하므로 내부적으로 init를 호출
+     */
+    function restoreSidebarState() {
+        if (!_isInitialized) {
+            init();
+        } else {
+            // 이미 초기화된 경우 레이아웃만 재조정
+            adjustLayout();
+        }
+    }
+    
+    /**
      * 이벤트 리스너 정리
      */
     function cleanup() {
@@ -293,6 +306,7 @@ const LayoutUtils = (function() {
         init,
         adjustLayout,
         toggleSidebar,
+        restoreSidebarState,
         saveLayoutPreferences,
         toggleDarkMode,
         setFontSize,

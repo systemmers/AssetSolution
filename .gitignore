@@ -117,7 +117,7 @@ static/uploads/
 .obsidian/
 .dev_demo/
 
-_dev_operation_docs/
+!dev_operation_docs/
 
 
 

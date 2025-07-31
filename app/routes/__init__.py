@@ -9,7 +9,6 @@ from .inventory import inventory_bp
 from .contract import contract_bp
 from .main import main_bp
 from .operations import operations_bp
-from .demo import demo_bp
 from .api import api_bp
 
 def init_routes(app):
@@ -24,5 +23,4 @@ def init_routes(app):
     app.register_blueprint(inventory_bp, url_prefix='/inventory')
     app.register_blueprint(contract_bp, url_prefix='/contract')
     app.register_blueprint(operations_bp, url_prefix='/operations') 
-    app.register_blueprint(demo_bp)
     app.register_blueprint(api_bp) 

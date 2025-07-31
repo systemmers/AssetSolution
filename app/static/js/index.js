@@ -44,14 +44,13 @@ document.addEventListener('DOMContentLoaded', function() {
  * @returns {Function} 이벤트 리스너 정리 함수
  */
 function initializeUIComponents() {
-    // 토스트 메시지 초기화
-    UIUtils.initToasts();
-    
-    // 툴팁 초기화
-    UIUtils.initTooltips();
-    
-    // 모든 팝오버 초기화
-    UIUtils.initPopovers();
+    // UI 통합 초기화 (토스트, 툴팁, 팝오버 등)
+    UIUtils.init({
+        initTooltips: true,
+        initToasts: true,
+        responsiveButtons: true,
+        initTheme: true
+    });
     
     // 반응형 버튼 텍스트 관리
     UIUtils.handleResponsiveButtons();

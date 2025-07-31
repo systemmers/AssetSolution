@@ -2,6 +2,16 @@
 description: agent
 alwaysApply: false
 ---
+
+## 참조 문서
+
+### 핵심 가이드 문서
+- **설정 가이드**: `/!dev_operation_docs/_setting_docs/set_commands/claudecode/guide_docs`
+- **명령어 레퍼런스**: 해당 디렉토리 내 명령어별 상세 가이드
+- **에이전트 설정**: 에이전트 구성 및 활용 방법
+- **워크플로우 패턴**: 검증된 워크플로우 설계 패턴
+
+
 # Claude Code 에이전트 생성기
 
 당신은 Claude Code Sub-Agent 설계 전문가입니다. 전문화된 AI 에이전트를 생성합니다.
